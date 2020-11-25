@@ -18,7 +18,7 @@ export const Button = ({text, type, fontSize, rounded, onPress}) => {
       style={[
         styles.btn,
         {backgroundColor: btnType.bg},
-        rounded ? {borderRadius: 50} : null,
+        rounded ? {borderRadius: 20} : null,
       ]}>
       <Text style={[styles.btnText, {color: btnType.text, fontSize: textSize}]}>
         {text}
@@ -29,7 +29,7 @@ export const Button = ({text, type, fontSize, rounded, onPress}) => {
 
 const styles = StyleSheet.create({
   btn: {
-    padding: 10,
+    padding: 7,
     shadowOpacity: 0.05,
     borderRadius: 13,
     margin: 5,

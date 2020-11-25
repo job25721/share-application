@@ -15,7 +15,7 @@ export default () => {
         </CustomText>
         <CustomText type="subheader">TEST Sukhumvit F o n t</CustomText>
         <View>
-          <Input width={250} textAlign="center" placeholder="Username" />
+          <Input placeholder="Username" />
           <Input type="password" placeholder="Password" />
         </View>
         <View
@@ -31,7 +31,7 @@ export default () => {
           <Button type="warning" text="warning" />
           <Button type="info" text="info" />
           <Button type="link" text="link" />
-          <Button rounded type="link" text="rounded" />
+          <Button rounded text="rounded" />
         </View>
       </SafeAreaView>
     </DismissKeyboard>

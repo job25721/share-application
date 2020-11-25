@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Sukhumvit Set',
   },
   onFocus: {
-    shadowColor: Colors.info.text,
-    shadowOpacity: 0.5,
+    shadowColor: Colors.link.text,
+    shadowOpacity: 0.7,
     shadowOffset: {
       height: 0.25,
       width: 0.25,
