@@ -8,6 +8,7 @@ export const CustomText = ({
   spacing,
   textDecoration,
   type,
+  textAlign,
 }) => {
   const [size, setSize] = useState(18);
   const [letterSpacing, setSpacing] = useState(0);
@@ -30,6 +31,7 @@ export const CustomText = ({
         {textDecorationLine},
         spacing ? {letterSpacing} : null,
         lineHeight ? {lineHeight: lHeight} : null,
+        textAlign ? {textAlign} : null,
       ]}>
       {children}
     </Text>
