@@ -13,20 +13,13 @@ export default () => {
     <View style={styles.Container}>
       <Image source={require('../assets/img/logo.png')} />
       <Text style={styles.LoGo}>SHARE</Text>
-      <View style={styles.InputView}>
+      <View>
         <Text style={styles.TextLabel}>Email</Text>
-        <TextInput
-          style={styles.InputText}
-          onChangeText={(text) => this.setState({email: text})}
-        />
+        <TextInput style={styles.InputText} />
       </View>
-      <View style={styles.InputView}>
+      <View>
         <Text style={styles.TextLabel}>Password</Text>
-        <TextInput
-          secureTextEntry
-          style={styles.InputText}
-          onChangeText={(text) => this.setState({password: text})}
-        />
+        <TextInput style={styles.InputText} />
       </View>
       <TouchableOpacity style={styles.LoginBtn}>
         <Text style={styles.LoginText}>LOGIN</Text>
@@ -61,7 +54,6 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   TextLabel: {
-    marginBottom: '10%',
     fontSize: 18,
   },
   Container: {
@@ -76,20 +68,14 @@ const styles = StyleSheet.create({
     color: '#3844EE',
     marginBottom: 60,
   },
-  InputView: {
-    width: '80%',
-    backgroundColor: '#6370FF',
-    borderColor: 'black',
-    borderRadius: 25,
-    height: 50,
-    justifyContent: 'center',
-    padding: 20,
-    marginBottom: '10%',
-  },
   InputText: {
+    borderRadius: 25,
+    fontSize: 16,
     height: 50,
-    color: 'white',
-    fontSize: 22,
+    width: 250,
+    borderColor: '#E1E1E1',
+    borderWidth: 1,
+    marginBottom: '5%',
   },
   LoginBtn: {
     width: '30%',
