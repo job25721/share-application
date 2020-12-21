@@ -16,13 +16,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.tinyLogo}
-          source={{
-            uri:
-              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
-          }}
-        />
+        <Image source={require('../assets/img/logo.png')} />
         <Text style={styles.logo}>SHARE</Text>
         <View style={styles.inputView}>
           <Text style={styles.TextLabel}>Email</Text>
@@ -48,14 +42,12 @@ export default class App extends React.Component {
         <TouchableOpacity>
           <Text style={styles.Continue}>Or Continue With</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity style={styles.SubLogo}>
           <Image
-            style={styles.tinyLogo}
-            source={{
-              uri:
-                'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
-            }}
+            style={styles.CssFacebook}
+            source={require('../assets/img/facebook.png')}
           />
+          <Image source={require('../assets/img/google.png')} />
         </TouchableOpacity>
       </View>
     );
@@ -63,6 +55,13 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  SubLogo: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  CssFacebook: {
+    marginRight: 15,
+  },
   tinyLogo: {
     width: 50,
     height: 50,
