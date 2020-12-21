@@ -14,7 +14,7 @@ export default () => {
         <Stack.Screen
           name="Home"
           component={Index}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

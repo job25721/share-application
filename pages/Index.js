@@ -1,66 +1,121 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {SafeAreaView, View, StyleSheet, Alert, ScrollView} from 'react-native';
-import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-import {DismissKeyboard} from '../components/DismissKeyboard';
-import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
-import {CustomText} from '../components/CustomStyledComponent/Text';
-import {Card} from '../components/CustomStyledComponent/Card/Card';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 
-export default () => {
-  return (
-    <DismissKeyboard>
-      <ScrollView>
-        <SafeAreaView style={styles.container}>
-          <CustomText type="header" spacing={10}>
-            แชร์ SHARE
-          </CustomText>
-          <CustomText type="subheader">TEST Sukhumvit F o n t</CustomText>
-          <View>
-            <Input placeholder="Username" />
-            <Input type="password" placeholder="Password" />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-            }}>
-            <Button onPress={() => Alert.alert('hello world')} text="default" />
-            <Button type="primary" text="primary" />
-            <Button type="success" text="success" />
-            <Button type="danger" text="danger" />
-            <Button type="warning" text="warning" />
-            <Button type="info" text="info" />
-            <Button type="link" text="link" />
-            <Button rounded text="rounded" />
-          </View>
-          {[require('../assets/img/dang.jpg'), ''].map((item) => (
-            <Card key={item} img={item}>
-              <CustomText type="subheader">อาจารย์แดง กีตาร์</CustomText>
-              <CustomText spacing={10}>กูมีสองหี ดับเบิ้ลหี</CustomText>
-              <CustomText spacing={5}>
-                มึงด่ากูมึงเกลียดกู มึงเป็นอรหันต์
-              </CustomText>
-              <View style={{alignSelf: 'flex-start'}}>
-                <Button type="info" text="Like" />
-              </View>
-            </Card>
-          ))}
-        </SafeAreaView>
-      </ScrollView>
-    </DismissKeyboard>
-  );
-};
+export default class App extends React.Component {
+  state = {
+    email: '',
+    password: '',
+  };
+  render() {
+    return (
+      <View style={styles.container}>
+        <Image
+          style={styles.tinyLogo}
+          source={{
+            uri:
+              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
+          }}
+        />
+        <Text style={styles.logo}>SHARE</Text>
+        <View style={styles.inputView}>
+          <Text style={styles.TextLabel}>Email</Text>
+          <TextInput
+            style={styles.inputText}
+            onChangeText={(text) => this.setState({email: text})}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <Text style={styles.TextLabel}>Password</Text>
+          <TextInput
+            secureTextEntry
+            style={styles.inputText}
+            onChangeText={(text) => this.setState({password: text})}
+          />
+        </View>
+        <TouchableOpacity style={styles.loginBtn}>
+          <Text style={styles.loginText}>LOGIN</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.CreateAccount}>Create New Account</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.Continue}>Or Continue With</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            style={styles.tinyLogo}
+            source={{
+              uri:
+                'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
+            }}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  testText: {
-    fontFamily: 'Sukhumvit Set',
-    fontSize: 30,
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+  TextLabel: {
+    marginBottom: '10%',
+    fontSize: 18,
   },
   container: {
-    height: '100%',
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#ffffff',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    fontWeight: 'bold',
+    fontSize: 50,
+    color: '#3844EE',
+    marginBottom: 60,
+  },
+  inputView: {
+    width: '80%',
+    backgroundColor: '#6370FF',
+    borderColor: 'black',
+    borderRadius: 25,
+    height: 50,
+    justifyContent: 'center',
+    padding: 20,
+    marginBottom: '10%',
+  },
+  inputText: {
+    height: 50,
+    color: 'white',
+    fontSize: 22,
+  },
+  loginBtn: {
+    width: '30%',
+    backgroundColor: '#6370FF',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  loginText: {
+    color: 'white',
+    fontSize: 22,
+  },
+  CreateAccount: {
+    color: '#5A62D4',
+    fontSize: 16,
+  },
+  Continue: {
+    color: '#B5B5B5',
   },
 });
