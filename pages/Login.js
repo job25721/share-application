@@ -47,7 +47,7 @@ export default (props) => {
               bg={Colors._indigo_500}
               color={Colors.white}
               rounded
-              onPress={() => navigate('Home')}
+              onPress={() => navigate('Index')}
             />
           </View>
           <View
