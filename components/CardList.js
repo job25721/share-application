@@ -6,7 +6,9 @@ import {CustomText} from '../components/CustomStyledComponent/Text';
 export default () => {
   return (
     <View style={styles.container}>
-      <CustomText fontSize={12}>นายปริญญา สีตะวัน</CustomText>
+      <CustomText color={Colors.white} fontWeight="700" fontSize={14}>
+        นายปริญญา สีตะวัน
+      </CustomText>
     </View>
   );
 };
@@ -15,10 +17,11 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '40%',
-    backgroundColor: Colors._indigo_100,
+    backgroundColor: Colors._indigo_300,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     marginHorizontal: 5,
     padding: 10,
+    borderRadius: 5,
   },
 });
