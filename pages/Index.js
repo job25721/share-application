@@ -13,7 +13,7 @@ import AppABar from '../components/Appbar';
 export default (props) => {
   return (
     <DismissKeyboard>
-      <AppABar>
+      <AppABar navigate={props.navigation.navigate}>
         <ScrollView style={{padding: 20}}>
           <CustomText fontSize={30} textAlign="center">
             Icon
@@ -46,8 +46,8 @@ export default (props) => {
                 color="white"
               />
             </View>
-            {[require('../assets/img/dang.jpg'), ''].map((item) => (
-              <Card key={item} img={item}>
+            {[require('../assets/img/dang.jpg'), ''].map((item, i) => (
+              <Card key={i} img={item}>
                 <CustomText type="subheader">อาจารย์แดง กีตาร์</CustomText>
                 <CustomText spacing={10}>กูมีสองหี ดับเบิ้ลหี</CustomText>
                 <CustomText spacing={5}>
