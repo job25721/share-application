@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {SafeAreaView, View, StyleSheet, Alert, ScrollView} from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
@@ -26,7 +27,7 @@ export default (props) => {
         </Icon.Button>
         <SafeAreaView style={styles.container}>
           <View>
-            <Input placeholder="Username" />
+            <Input focus placeholder="Username" />
             <Input type="password" placeholder="Password" />
           </View>
           <View
@@ -62,55 +63,9 @@ export default (props) => {
 };
 
 const styles = StyleSheet.create({
-  SubLogo: {
-    flexDirection: 'row',
-    marginTop: 20,
-  },
-  CssFacebook: {
-    marginRight: 15,
-  },
-  TextLabel: {
-    fontSize: 18,
-  },
-  Container: {
+  container: {
     flex: 1,
-    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  LoGo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#3844EE',
-    marginBottom: 60,
-  },
-  InputText: {
-    borderRadius: 25,
-    fontSize: 16,
-    height: 50,
-    width: 250,
-    borderColor: '#E1E1E1',
-    borderWidth: 1,
-    marginBottom: '5%',
-  },
-  LoginBtn: {
-    width: '30%',
-    backgroundColor: '#6370FF',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10,
-  },
-  LoginText: {
-    color: 'white',
-    fontSize: 22,
-  },
-  CreateAccount: {
-    color: '#5A62D4',
-    fontSize: 16,
-  },
-  Continue: {
-    color: '#B5B5B5',
   },
 });

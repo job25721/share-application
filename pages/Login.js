@@ -1,15 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 
-import {StyleSheet, View, TouchableOpacity, Image, Alert} from 'react-native';
+import {StyleSheet, View, Image, Alert} from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {Colors} from '../components/CustomStyledComponent/Colors';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5Pro';
-export default () => {
+export default (props) => {
+  const {
+    navigation: {navigate},
+  } = props;
   return (
     <View style={styles.container}>
       <View
@@ -31,6 +34,7 @@ export default () => {
           bg={Colors._indigo_500}
           color={Colors.white}
           rounded
+          onPress={() => navigate('Home')}
         />
       </View>
       <View
