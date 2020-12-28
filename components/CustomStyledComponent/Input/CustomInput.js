@@ -2,7 +2,16 @@ import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 import {Colors} from '../Colors';
 
-export const Input = ({type, width, textAlign, placeholder, onChangeText}) => {
+export const Input = ({
+  type,
+  width,
+  textAlign,
+  placeholder,
+  onChangeText,
+  rounded,
+  focus,
+  backgroundColor,
+}) => {
   const [isFocus, setFocus] = React.useState(false);
   const [secure, setSecure] = React.useState(false);
   const [w, setWidth] = React.useState(200);
@@ -18,9 +27,11 @@ export const Input = ({type, width, textAlign, placeholder, onChangeText}) => {
       onBlur={() => setFocus(false)}
       style={[
         styles.input,
-        isFocus ? styles.onFocus : null,
+        isFocus && focus ? styles.onFocus : null,
         {width: w},
         {textAlign: align},
+        rounded ? {borderRadius: 50} : null,
+        backgroundColor ? {backgroundColor} : null,
       ]}
       placeholder={placeholder}
       secureTextEntry={secure}
@@ -31,13 +42,14 @@ export const Input = ({type, width, textAlign, placeholder, onChangeText}) => {
 
 const styles = StyleSheet.create({
   input: {
-    padding: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     backgroundColor: '#fff',
     borderRadius: 10,
-    borderColor: Colors._gray_400,
+    borderColor: Colors._gray_900,
     margin: 5,
     fontFamily: 'Sukhumvit Set',
-    borderWidth: 2,
+    borderWidth: 1,
   },
   onFocus: {
     borderColor: Colors._indigo_400,

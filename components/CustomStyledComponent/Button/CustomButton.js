@@ -11,17 +11,25 @@ export const Button = ({
   rounded,
   onPress,
   width,
+  mx,
+  my,
+  px,
+  py,
 }) => {
   const [btnBg, setType] = useState('transparent');
   const [textColor, setColor] = useState(Colors.black);
   const [textSize, setSize] = useState(18);
   const [btnWidth, setBtnWidth] = useState(null);
+  const [paddingX, setPx] = useState(25);
+  const [paddingY, setPy] = useState(5);
   useEffect(() => {
-    bg ? setType(Colors[`${bg}`]) : null;
+    bg ? setType(bg) : null;
     fontSize ? setSize(fontSize) : null;
-    color ? setColor(Colors[`${color}`]) : null;
+    color ? setColor(color) : null;
     width ? setBtnWidth(width) : null;
-  }, [bg, fontSize, rounded, color, width]);
+    px >= 0 ? setPx(px) : null;
+    py >= 0 ? setPy(py) : null;
+  }, [bg, fontSize, color, width, px, py]);
 
   return (
     <TouchableOpacity
@@ -31,6 +39,9 @@ export const Button = ({
         {backgroundColor: btnBg},
         rounded ? {borderRadius: 20} : null,
         width ? {width: btnWidth} : null,
+        mx ? {marginHorizontal: mx} : null,
+        my ? {marginVertical: my} : null,
+        {paddingHorizontal: paddingX, paddingVertical: paddingY},
       ]}>
       <Text
         style={[
@@ -45,12 +56,8 @@ export const Button = ({
 
 const styles = StyleSheet.create({
   btn: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
     borderRadius: 5,
     margin: 5,
-
-    width: 100,
   },
   btnText: {
     fontFamily: 'Sukhumvit Set',

@@ -81,4 +81,6 @@ export const Colors = {
   _pink_700: 'rgb(190, 24, 93)',
   _pink_800: 'rgb(157, 23, 77)',
   _pink_900: 'rgb(131, 24, 67)',
+  facebook: '#3b5998',
+  google: '#ea4335',
 };
