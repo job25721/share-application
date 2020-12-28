@@ -1,14 +1,57 @@
 import React from 'react';
-import {SafeAreaView, View, Image, StyleSheet} from 'react-native';
+import {ScrollView, View, Image, StyleSheet, Text, Alert} from 'react-native';
 import {Colors} from '../components/CustomStyledComponent/Colors';
 import AppABar from '../components/Appbar';
 import {DismissKeyboard} from '../components/DismissKeyboard';
+import {CustomText} from '../components/CustomStyledComponent/Text';
+import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
+import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+import CardList from '../components/CardList';
 export default (props) => {
   return (
     <DismissKeyboard>
       <AppABar navigate={props.navigation.navigate}>
         <View style={styles.socialLogin}>
           <Image source={require('../assets/img/logo2.png')} />
+          <View style={{flexDirection: 'row'}}>
+            <View style={{justifyContent: 'center', paddingRight: 10}}>
+              <CustomText fontSize={14}>Pathomporn Pankaew</CustomText>
+              <CustomText fontSize={14} textAlign="right">
+                @Job55140
+              </CustomText>
+            </View>
+            <Image source={require('../assets/img/profile.png')} />
+          </View>
+        </View>
+        <View style={{marginTop: '10%'}}>
+          <CustomText color={Colors._indigo_600} spacing={5} type="header">
+            SHARE
+          </CustomText>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Input focus placeholder="Search" width="70%"></Input>
+          <Button
+            onPress={() => Alert.alert('รักอาจารย์ชินค้าบบ')}
+            rounded
+            text={<FeatherIcon name="search" size={30} />}
+            bg={Colors._indigo_500}
+            color={Colors.white}
+            py={10}
+          />
+        </View>
+        <View style={{marginTop: 20, marginBottom: 10}}>
+          <CustomText fontSize={20} fontWeight={'bold'}>
+            เลือกหมวดหมู่ที่ใช่
+          </CustomText>
+          <CustomText fontSize={20} fontWeight={'bold'}>
+            สำหรับคุณ
+          </CustomText>
+        </View>
+        <View style={{flexDirection: 'row', height: '30%'}}>
+          {[1, 2, 3].map((item) => (
+            <CardList key={item} />
+          ))}
         </View>
       </AppABar>
     </DismissKeyboard>
@@ -18,13 +61,13 @@ export default (props) => {
 const styles = StyleSheet.create({
   socialLogin: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   icon: {
     // marginHorizontal: 10,
   },
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%',
+    // padding: 20,
   },
 });
