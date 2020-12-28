@@ -7,7 +7,7 @@ import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Card} from '../components/CustomStyledComponent/Card/Card';
 
-export default () => {
+export default (props) => {
   return (
     <DismissKeyboard>
       <ScrollView>
@@ -26,14 +26,13 @@ export default () => {
               justifyContent: 'center',
               flexWrap: 'wrap',
             }}>
-            <Button onPress={() => Alert.alert('hello world')} text="default" />
-            <Button type="primary" text="primary" />
-            <Button type="success" text="success" />
-            <Button type="danger" text="danger" />
-            <Button type="warning" text="warning" />
-            <Button type="info" text="info" />
-            <Button type="link" text="link" />
-            <Button rounded text="rounded" />
+            <Button
+              onPress={() => Alert.alert('hello world')}
+              bg="_indigo_600"
+              text="Login"
+              fontSize={20}
+              color="white"
+            />
           </View>
           {[require('../assets/img/dang.jpg'), ''].map((item) => (
             <Card key={item} img={item}>
@@ -43,7 +42,7 @@ export default () => {
                 มึงด่ากูมึงเกลียดกู มึงเป็นอรหันต์
               </CustomText>
               <View style={{alignSelf: 'flex-start'}}>
-                <Button type="info" text="Like" />
+                {/* <Button type="info" text="Like" /> */}
               </View>
             </Card>
           ))}

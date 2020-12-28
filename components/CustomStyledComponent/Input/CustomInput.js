@@ -34,16 +34,12 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#fff',
     borderRadius: 10,
-    shadowOpacity: 0.05,
+    borderColor: Colors._gray_400,
     margin: 5,
     fontFamily: 'Sukhumvit Set',
+    borderWidth: 2,
   },
   onFocus: {
-    shadowColor: Colors.link.text,
-    shadowOpacity: 0.7,
-    shadowOffset: {
-      height: 0.25,
-      width: 0.25,
-    },
+    borderColor: Colors._indigo_400,
   },
 });
