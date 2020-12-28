@@ -1,13 +1,62 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
+import {useState} from 'react/cjs/react.development';
+import Tag from '../../Tag';
+import {Button} from '../Button/CustomButton';
+import {Colors} from '../Colors';
+import {CustomText} from '../Text';
 
 const imgUrl = require('../../../assets/img/cat.jpg');
 
-export const Card = ({children, img}) => {
+export const Card = ({name, title, tag, img, navigate}) => {
+  const [tagArr, setTag] = useState([]);
+  useEffect(() => {
+    tag ? setTag(tag) : setTag([]);
+  }, [tag]);
   return (
     <View style={styles.card}>
       <Image style={styles.img} source={img && img !== '' ? img : imgUrl} />
-      <View style={styles.content}>{children}</View>
+      <View style={styles.content}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Image
+            style={{
+              width: 50,
+              height: 50,
+              borderRadius: 50,
+            }}
+            source={require('../../../assets/img/dang.jpg')}
+          />
+          <View style={{paddingHorizontal: 15}}>
+            <CustomText fontWeight="500" fontSize={18}>
+              {name}
+            </CustomText>
+          </View>
+        </View>
+        <CustomText fontWeight="bold" fontSize={20}>
+          {title}
+        </CustomText>
+        <View style={styles.tagContainer}>
+          {tagArr.map((item) => (
+            <Tag key={item} text={item} />
+          ))}
+        </View>
+        <View style={styles.btnView}>
+          <Button
+            rounded
+            text="ส่งคำขอ"
+            bg={Colors._indigo_500}
+            color={Colors.white}
+          />
+          <Button
+            rounded
+            text="ดูรายละเอียด"
+            bg={Colors._gray_900}
+            color={Colors.black}
+            onPress={() => navigate('Detail')}
+          />
+        </View>
+      </View>
     </View>
   );
 };
@@ -37,5 +86,13 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 15,
     paddingVertical: 10,
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  btnView: {
+    flexDirection: 'row',
+    marginVertical: 2.5,
   },
 });

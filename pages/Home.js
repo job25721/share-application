@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View, Image, StyleSheet, Text, Alert} from 'react-native';
+import {ScrollView, View, Image, StyleSheet, Alert} from 'react-native';
 import {Colors} from '../components/CustomStyledComponent/Colors';
 import AppABar from '../components/Appbar';
 import {DismissKeyboard} from '../components/DismissKeyboard';
@@ -62,22 +62,28 @@ export default (props) => {
             </CustomText>
           </View>
           <View style={{alignItems: 'center'}}>
-            {[require('../assets/img/dang.jpg'), '', '', ''].map((item, i) => (
-              <Card key={i} img={item}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Image
-                    style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: 50,
-                    }}
-                    source={require('../assets/img/dang.jpg')}
-                  />
-                  <View style={{paddingHorizontal: 10}}>
-                    <CustomText fontSize={20}>อาจารย์แดง กีตาร์</CustomText>
-                  </View>
-                </View>
-              </Card>
+            {[
+              {
+                name: 'อาจารย์แดง กีตาร์',
+                title: 'กระตุกจิต กระชากใจ',
+                img: require('../assets/img/dang.jpg'),
+                tag: ['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'],
+              },
+              {
+                name: 'อาจารย์แดง กีตาร์',
+                title: 'กระตุกจิต กระชากใจ',
+                img: '',
+                tag: ['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'],
+              },
+            ].map((item, i) => (
+              <Card
+                key={i}
+                img={item.img}
+                title={item.title}
+                name={item.name}
+                tag={item.tag}
+                navigate={props.navigation.navigate}
+              />
             ))}
           </View>
         </ScrollView>
