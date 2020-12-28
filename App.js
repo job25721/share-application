@@ -17,7 +17,11 @@ export default () => {
           component={Login}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="Home" component={Index} />
+        <Stack.Screen
+          name="Home"
+          component={Index}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

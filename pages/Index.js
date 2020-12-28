@@ -8,56 +8,59 @@ import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Card} from '../components/CustomStyledComponent/Card/Card';
 import Icon from 'react-native-vector-icons/FontAwesome5Pro';
 import {Colors} from '../components/CustomStyledComponent/Colors';
+import AppABar from '../components/Appbar';
 
 export default (props) => {
   return (
     <DismissKeyboard>
-      <ScrollView style={{padding: 20}}>
-        <CustomText fontSize={30} textAlign="center">
-          Icon
-        </CustomText>
-        <Icon.Button
-          onPress={() => Alert.alert('Login')}
-          borderRadius={10}
-          name="facebook"
-          size={35}>
-          <CustomText fontSize={25} color={Colors.white}>
-            Login with Facebook
+      <AppABar>
+        <ScrollView style={{padding: 20}}>
+          <CustomText fontSize={30} textAlign="center">
+            Icon
           </CustomText>
-        </Icon.Button>
-        <SafeAreaView style={styles.container}>
-          <View>
-            <Input focus placeholder="Username" />
-            <Input type="password" placeholder="Password" />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-            }}>
-            <Button
-              onPress={() => Alert.alert('hello world')}
-              bg="_indigo_600"
-              text="Login"
-              fontSize={20}
-              color="white"
-            />
-          </View>
-          {[require('../assets/img/dang.jpg'), ''].map((item) => (
-            <Card key={item} img={item}>
-              <CustomText type="subheader">อาจารย์แดง กีตาร์</CustomText>
-              <CustomText spacing={10}>กูมีสองหี ดับเบิ้ลหี</CustomText>
-              <CustomText spacing={5}>
-                มึงด่ากูมึงเกลียดกู มึงเป็นอรหันต์
-              </CustomText>
-              <View style={{alignSelf: 'flex-start'}}>
-                {/* <Button type="info" text="Like" /> */}
-              </View>
-            </Card>
-          ))}
-        </SafeAreaView>
-      </ScrollView>
+          <Icon.Button
+            onPress={() => Alert.alert('Login')}
+            borderRadius={10}
+            name="facebook"
+            size={35}>
+            <CustomText fontSize={25} color={Colors.white}>
+              Login with Facebook
+            </CustomText>
+          </Icon.Button>
+          <SafeAreaView style={styles.container}>
+            <View>
+              <Input focus placeholder="Username" />
+              <Input type="password" placeholder="Password" />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+              }}>
+              <Button
+                onPress={() => Alert.alert('hello world')}
+                bg="_indigo_600"
+                text="Login"
+                fontSize={20}
+                color="white"
+              />
+            </View>
+            {[require('../assets/img/dang.jpg'), ''].map((item) => (
+              <Card key={item} img={item}>
+                <CustomText type="subheader">อาจารย์แดง กีตาร์</CustomText>
+                <CustomText spacing={10}>กูมีสองหี ดับเบิ้ลหี</CustomText>
+                <CustomText spacing={5}>
+                  มึงด่ากูมึงเกลียดกู มึงเป็นอรหันต์
+                </CustomText>
+                <View style={{alignSelf: 'flex-start'}}>
+                  {/* <Button type="info" text="Like" /> */}
+                </View>
+              </Card>
+            ))}
+          </SafeAreaView>
+        </ScrollView>
+      </AppABar>
     </DismissKeyboard>
   );
 };
