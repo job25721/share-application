@@ -24,7 +24,7 @@ export default function AppABar({children, navigate}) {
 
 const styles = StyleSheet.create({
   appBar: {
-    height: '6%',
+    height: '8%',
     backgroundColor: Colors.white,
     alignItems: 'center',
     paddingHorizontal: 40,
