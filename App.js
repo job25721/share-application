@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import Index from './pages/Index';
 import Login from './pages/Login';
+import Detail from './pages/Detail';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ export default () => {
           component={Index}
           options={{headerShown: false}}
         />
+        <Stack.Screen name="Details" component={Detail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

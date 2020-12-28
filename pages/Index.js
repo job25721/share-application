@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {SafeAreaView, View, StyleSheet, Alert, ScrollView} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  Image,
+} from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {DismissKeyboard} from '../components/DismissKeyboard';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
@@ -48,14 +55,21 @@ export default (props) => {
           </View>
           {[require('../assets/img/dang.jpg'), ''].map((item, i) => (
             <Card key={i} img={item}>
-              <CustomText type="subheader">อาจารย์แดง กีตาร์</CustomText>
-              <CustomText spacing={10}>กูมีสองหี ดับเบิ้ลหี</CustomText>
-              <CustomText spacing={5}>
-                มึงด่ากูมึงเกลียดกู มึงเป็นอรหันต์
-              </CustomText>
-              <View style={{alignSelf: 'flex-start'}}>
-                {/* <Button type="info" text="Like" /> */}
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 50,
+                  }}
+                  source={require('../assets/img/dang.jpg')}
+                />
+                <View style={{paddingHorizontal: 10}}>
+                  <CustomText fontSize={20}>อาจารย์แดง กีตาร์</CustomText>
+                </View>
               </View>
+
+              <View style={{alignSelf: 'flex-start'}}></View>
             </Card>
           ))}
         </ScrollView>
