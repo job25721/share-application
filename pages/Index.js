@@ -6,16 +6,26 @@ import {DismissKeyboard} from '../components/DismissKeyboard';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Card} from '../components/CustomStyledComponent/Card/Card';
+import Icon from 'react-native-vector-icons/FontAwesome5Pro';
+import {Colors} from '../components/CustomStyledComponent/Colors';
 
 export default (props) => {
   return (
     <DismissKeyboard>
-      <ScrollView>
-        <SafeAreaView style={styles.container}>
-          <CustomText type="header" spacing={10}>
-            แชร์ SHARE
+      <ScrollView style={{padding: 20}}>
+        <CustomText fontSize={30} textAlign="center">
+          Icon
+        </CustomText>
+        <Icon.Button
+          onPress={() => Alert.alert('Login')}
+          borderRadius={10}
+          name="facebook"
+          size={35}>
+          <CustomText fontSize={25} color={Colors.white}>
+            Login with Facebook
           </CustomText>
-          <CustomText type="subheader">TEST Sukhumvit F o n t</CustomText>
+        </Icon.Button>
+        <SafeAreaView style={styles.container}>
           <View>
             <Input placeholder="Username" />
             <Input type="password" placeholder="Password" />
