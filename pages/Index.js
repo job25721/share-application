@@ -27,48 +27,39 @@ export default (props) => {
               Login with Facebook
             </CustomText>
           </Icon.Button>
-          <SafeAreaView style={styles.container}>
-            <View>
-              <Input focus placeholder="Username" />
-              <Input type="password" placeholder="Password" />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
-              }}>
-              <Button
-                onPress={() => Alert.alert('hello world')}
-                bg="_indigo_600"
-                text="Login"
-                fontSize={20}
-                color="white"
-              />
-            </View>
-            {[require('../assets/img/dang.jpg'), ''].map((item, i) => (
-              <Card key={i} img={item}>
-                <CustomText type="subheader">อาจารย์แดง กีตาร์</CustomText>
-                <CustomText spacing={10}>กูมีสองหี ดับเบิ้ลหี</CustomText>
-                <CustomText spacing={5}>
-                  มึงด่ากูมึงเกลียดกู มึงเป็นอรหันต์
-                </CustomText>
-                <View style={{alignSelf: 'flex-start'}}>
-                  {/* <Button type="info" text="Like" /> */}
-                </View>
-              </Card>
-            ))}
-          </SafeAreaView>
+
+          <View>
+            <Input focus placeholder="Username" />
+            <Input type="password" placeholder="Password" />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+            }}>
+            <Button
+              onPress={() => Alert.alert('hello world')}
+              bg="_indigo_600"
+              text="Login"
+              fontSize={20}
+              color="white"
+            />
+          </View>
+          {[require('../assets/img/dang.jpg'), ''].map((item, i) => (
+            <Card key={i} img={item}>
+              <CustomText type="subheader">อาจารย์แดง กีตาร์</CustomText>
+              <CustomText spacing={10}>กูมีสองหี ดับเบิ้ลหี</CustomText>
+              <CustomText spacing={5}>
+                มึงด่ากูมึงเกลียดกู มึงเป็นอรหันต์
+              </CustomText>
+              <View style={{alignSelf: 'flex-start'}}>
+                {/* <Button type="info" text="Like" /> */}
+              </View>
+            </Card>
+          ))}
         </ScrollView>
       </AppABar>
     </DismissKeyboard>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
