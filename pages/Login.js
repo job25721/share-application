@@ -22,7 +22,7 @@ export default (props) => {
   } = props;
   return (
     <DismissKeyboard>
-      <KeyboardAvoidingView behavior="position">
+      <KeyboardAvoidingView behavior="height">
         <View style={styles.container}>
           <View
             style={{

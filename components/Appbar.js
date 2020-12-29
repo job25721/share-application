@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   appBar: {
     height: '8%',
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     paddingHorizontal: 40,
     flexDirection: 'row',
