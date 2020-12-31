@@ -4,12 +4,14 @@ import {StyleSheet, Text} from 'react-native';
 export const CustomText = ({
   children,
   fontSize,
+  fontWeight,
   lineHeight,
   spacing,
   textDecoration,
   type,
   textAlign,
   color,
+  marginTop,
 }) => {
   const [size, setSize] = useState(18);
   const [letterSpacing, setSpacing] = useState(0);
@@ -34,6 +36,7 @@ export const CustomText = ({
         lineHeight ? {lineHeight: lHeight} : null,
         textAlign ? {textAlign} : null,
         color ? {color} : null,
+        fontWeight ? {fontWeight} : null,
       ]}>
       {children}
     </Text>

@@ -22,7 +22,7 @@ export default (props) => {
   } = props;
   return (
     <DismissKeyboard>
-      <KeyboardAvoidingView behavior="position">
+      <KeyboardAvoidingView behavior="height">
         <View style={styles.container}>
           <View
             style={{
@@ -47,7 +47,7 @@ export default (props) => {
               bg={Colors._indigo_500}
               color={Colors.white}
               rounded
-              onPress={() => navigate('Home')}
+              onPress={() => navigate('Index')}
             />
           </View>
           <View

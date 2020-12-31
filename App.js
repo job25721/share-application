@@ -5,6 +5,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import Index from './pages/Index';
 import Login from './pages/Login';
+import Detail from './pages/Detail';
+import Home from './pages/Home';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +22,12 @@ export default () => {
         <Stack.Screen
           name="Home"
           component={Index}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen name="Detail" component={Detail} />
+        <Stack.Screen
+          name="Index"
+          component={Home}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
