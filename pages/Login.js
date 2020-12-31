@@ -1,104 +1,77 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-
-import {
-  StyleSheet,
-  View,
-  Image,
-  Alert,
-  KeyboardAvoidingView,
-} from 'react-native';
+import AppABar from '../components/Appbar';
+import {CustomText} from '../components/CustomStyledComponent/Text';
+import {View, Image, StyleSheet, TextInput, Alert} from 'react-native';
+import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
+import {MultipleInput} from '../components/CustomStyledComponent/Input/CustomMultipleInput';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {Colors} from '../components/CustomStyledComponent/Colors';
-import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
-import {CustomText} from '../components/CustomStyledComponent/Text';
-
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5Pro';
-import {DismissKeyboard} from '../components/DismissKeyboard';
 export default (props) => {
-  const {
-    navigation: {navigate},
-  } = props;
   return (
-    <DismissKeyboard>
-      <KeyboardAvoidingView behavior="height">
-        <View style={styles.container}>
-          <View
-            style={{
-              height: '75%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Image source={require('../assets/img/logo.png')} />
-            <CustomText color={Colors._indigo_600} spacing={5} type="header">
-              SHARE
-            </CustomText>
-            <View>
-              <CustomText>Email</CustomText>
-              <Input focus rounded width={250} />
-            </View>
-            <View>
-              <CustomText>Password</CustomText>
-              <Input focus rounded width={250} />
-            </View>
-            <Button
-              text="Login"
-              bg={Colors._indigo_500}
-              color={Colors.white}
-              rounded
-              onPress={() => navigate('Index')}
-            />
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-            }}>
-            <Button text="Create new Account" color={Colors._indigo_500} />
-            <CustomText color="#b5b5b5" fontSize={15}>
-              Or Continue With
-            </CustomText>
-            <View style={styles.socialLogin}>
-              <Button
-                text={
-                  <FontAwesomeIcon
-                    style={[styles.icon, {color: Colors.facebook}]}
-                    name="facebook"
-                    size={30}
-                  />
-                }
-                px={0}
-                mx={10}
-                onPress={() => Alert.alert('Facebook')}
-              />
-              <Button
-                text={
-                  <FontAwesomeIcon
-                    style={[styles.icon, {color: Colors.google}]}
-                    name="google"
-                    size={30}
-                  />
-                }
-                px={0}
-                mx={10}
-                onPress={() => Alert.alert('Google')}
-              />
-            </View>
-          </View>
+    <AppABar navigate={props.navigation.navigate}>
+      <View style={style.container}>
+        <View style={{marginBottom: 10}}>
+          <Image source={require('../assets/img/upload.png')} />
+          <CustomText fontSize={16} fontWeight="bold">
+            Upload Photo
+          </CustomText>
         </View>
-      </KeyboardAvoidingView>
-    </DismissKeyboard>
+        <View>
+          <Input focus rounded width={350} placeholder="ชื่อ" />
+        </View>
+        <View>
+          <Input focus rounded width={350} placeholder="ประเเภท" />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginVertical: 10,
+            marginBottom: 50,
+          }}>
+          <FeatherIcon.Button
+            borderRadius={30}
+            bg={Colors._indigo_500}
+            name="x-circle"
+            size={30}>
+            <CustomText fontSize={18} color={Colors.white}>
+              เพิ่มเเท็ก
+            </CustomText>
+          </FeatherIcon.Button>
+          <Button
+            rounded
+            text={<FeatherIcon name="plus-circle" size={30} />}
+            color={Colors._indigo_500}
+          />
+        </View>
+        <View>
+          <Input focus rounded width={350} placeholder="เพิ่มเเท็ก" />
+        </View>
+        <View>
+          <Input focus rounded width={350} placeholder="เพิ่มสถานที่" />
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            marginTop: 20,
+          }}>
+          <Button
+            rounded
+            onPress={() => Alert.alert('hello world')}
+            bg={Colors._indigo_500}
+            text="แชร์!"
+            fontSize={24}
+            color={Colors.white}
+          />
+        </View>
+      </View>
+    </AppABar>
   );
 };
 
-const styles = StyleSheet.create({
-  socialLogin: {
-    flexDirection: 'row',
-  },
-  icon: {
-    // marginHorizontal: 10,
-  },
+const style = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
