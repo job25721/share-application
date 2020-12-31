@@ -6,7 +6,7 @@ import {CustomText} from '../components/CustomStyledComponent/Text';
 export default () => {
   return (
     <View style={styles.container}>
-      <CustomText color={Colors.white} fontWeight="700" fontSize={14}>
+      <CustomText color={Colors.white} fontWeight="700" fontSize={12}>
         นายปริญญา สีตะวัน
       </CustomText>
     </View>
