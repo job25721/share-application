@@ -47,6 +47,7 @@ export const Card = ({name, title, tag, img, navigate}) => {
             text="ส่งคำขอ"
             bg={Colors._indigo_500}
             color={Colors.white}
+            onPress={() => navigate('AddNew')}
           />
           <Button
             rounded

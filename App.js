@@ -6,6 +6,7 @@ import 'react-native-gesture-handler';
 import Index from './pages/Index';
 import Login from './pages/Login';
 import Detail from './pages/Detail';
+import AddProduct from './pages/AddProduct';
 import Home from './pages/Home';
 
 const Stack = createStackNavigator();
@@ -25,6 +26,7 @@ export default () => {
           options={{headerShown: false}}
         />
         <Stack.Screen name="Detail" component={Detail} />
+        <Stack.Screen name="AddNew" component={AddProduct} />
         <Stack.Screen
           name="Index"
           component={Home}
