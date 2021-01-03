@@ -51,11 +51,11 @@ export default (props) => {
               สำหรับคุณ
             </CustomText>
           </View>
-          <View style={{flexDirection: 'row', height: 230}}>
-            {[1, 2, 3].map((item) => (
+          <ScrollView horizontal style={{height: 230}}>
+            {[1, 2, 3, 4].map((item) => (
               <CardList key={item} />
             ))}
-          </View>
+          </ScrollView>
           <View style={{marginVertical: 20}}>
             <CustomText fontSize={22} fontWeight={'bold'}>
               Trending

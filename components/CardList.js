@@ -16,7 +16,7 @@ export default () => {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    width: '40%',
+    width: 150,
     backgroundColor: Colors._indigo_300,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',

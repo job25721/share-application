@@ -17,15 +17,6 @@ export default () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Detail"
-          component={Detail}
-          options={{
-            headerRight: () => (
-              <Button text={<FeatherIcon name="bookmark" size={20} />} />
-            ),
-          }}
-        />
-        <Stack.Screen
           name="Login"
           component={Login}
           options={{headerShown: false}}
@@ -35,7 +26,15 @@ export default () => {
           component={Index}
           options={{headerShown: false}}
         />
-
+        <Stack.Screen
+          name="Detail"
+          component={Detail}
+          options={{
+            headerRight: () => (
+              <Button text={<FeatherIcon name="bookmark" size={20} />} />
+            ),
+          }}
+        />
         <Stack.Screen
           name="Index"
           component={Home}
