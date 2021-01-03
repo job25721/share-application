@@ -48,48 +48,48 @@ export default ({navigation, route}) => {
           <Tag key={item} text={item} />
         ))}
       </View>
-      <View style={{justifyContent: 'center'}}>
-        <Image
-          style={{
-            width: '100%',
-            height: 250,
-            marginVertical: 10,
-            borderRadius: 10,
-          }}
-          source={images[currentIdx]}
-        />
-        {currentIdx > 0 ? (
-          <FeatherIcon
-            onPress={() => setCurrent(currentIdx - 1)}
-            style={{
-              position: 'absolute',
-              alignSelf: 'flex-start',
-              fontWeight: 'bold',
-              textShadowRadius: 10,
-              textShadowColor: '#000',
-            }}
-            name="arrow-left"
-            size={30}
-            color={Colors.white}
-          />
-        ) : null}
-        {currentIdx < images.length - 1 ? (
-          <FeatherIcon
-            onPress={() => setCurrent(currentIdx + 1)}
-            style={{
-              position: 'absolute',
-              alignSelf: 'flex-end',
-              fontWeight: 'bold',
-              textShadowRadius: 10,
-              textShadowColor: '#000',
-            }}
-            name="arrow-right"
-            size={30}
-            color={Colors.white}
-          />
-        ) : null}
-      </View>
       <ScrollView>
+        <View style={{justifyContent: 'center'}}>
+          <Image
+            style={{
+              width: '100%',
+              height: 250,
+              marginVertical: 10,
+              borderRadius: 10,
+            }}
+            source={images[currentIdx]}
+          />
+          {currentIdx > 0 ? (
+            <FeatherIcon
+              onPress={() => setCurrent(currentIdx - 1)}
+              style={{
+                position: 'absolute',
+                alignSelf: 'flex-start',
+                fontWeight: 'bold',
+                textShadowRadius: 10,
+                textShadowColor: '#000',
+              }}
+              name="arrow-left"
+              size={30}
+              color={Colors.white}
+            />
+          ) : null}
+          {currentIdx < images.length - 1 ? (
+            <FeatherIcon
+              onPress={() => setCurrent(currentIdx + 1)}
+              style={{
+                position: 'absolute',
+                alignSelf: 'flex-end',
+                fontWeight: 'bold',
+                textShadowRadius: 10,
+                textShadowColor: '#000',
+              }}
+              name="arrow-right"
+              size={30}
+              color={Colors.white}
+            />
+          ) : null}
+        </View>
         <CustomText>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
@@ -102,6 +102,7 @@ export default ({navigation, route}) => {
           including versions of Lorem Ipsum.{' '}
         </CustomText>
       </ScrollView>
+
       <View>
         <Button text="ส่งคำขอ" bg={Colors._indigo_600} color={Colors.white} />
       </View>
