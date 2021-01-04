@@ -9,6 +9,7 @@ import Detail from './pages/Detail';
 import Home from './pages/Home';
 import {Button} from './components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import Chat from './pages/Chat/Chat';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ export default () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen
           name="Login"
           component={Login}

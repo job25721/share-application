@@ -15,6 +15,7 @@ export const Button = ({
   my,
   px,
   py,
+  children,
 }) => {
   const [btnBg, setType] = useState('transparent');
   const [textColor, setColor] = useState(Colors.black);
@@ -43,13 +44,17 @@ export const Button = ({
         my ? {marginVertical: my} : null,
         {paddingHorizontal: paddingX, paddingVertical: paddingY},
       ]}>
-      <Text
-        style={[
-          styles.btnText,
-          {color: textColor, fontSize: textSize, textAlign: 'center'},
-        ]}>
-        {text}
-      </Text>
+      {children ? (
+        children
+      ) : (
+        <Text
+          style={[
+            styles.btnText,
+            {color: textColor, fontSize: textSize, textAlign: 'center'},
+          ]}>
+          {text}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
@@ -58,6 +63,7 @@ const styles = StyleSheet.create({
   btn: {
     borderRadius: 5,
     margin: 5,
+    justifyContent: 'center',
   },
   btnText: {
     fontFamily: 'Sukhumvit Set',
