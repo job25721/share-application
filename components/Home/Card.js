@@ -2,12 +2,12 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 import {useState} from 'react/cjs/react.development';
-import Tag from '../../Tag';
-import {Button} from '../Button/CustomButton';
-import {Colors} from '../Colors';
-import {CustomText} from '../Text';
+import Tag from './Tag';
+import {Button} from '../CustomStyledComponent/Button/CustomButton';
+import {Colors} from '../../utils/Colors';
+import {CustomText} from '../CustomStyledComponent/Text';
 
-const imgUrl = require('../../../assets/img/cat.jpg');
+const imgUrl = require('../../assets/img/cat.jpg');
 
 export const Card = ({name, title, tag, img, navigate}) => {
   const [tagArr, setTag] = useState([]);
@@ -26,7 +26,7 @@ export const Card = ({name, title, tag, img, navigate}) => {
               height: 50,
               borderRadius: 50,
             }}
-            source={require('../../../assets/img/dang.jpg')}
+            source={require('../../assets/img/dang.jpg')}
           />
           <View style={{paddingHorizontal: 15}}>
             <CustomText fontWeight="500" fontSize={18}>

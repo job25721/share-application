@@ -1,17 +1,15 @@
 import React, {createContext, useEffect, useRef, useState} from 'react';
 import {
   KeyboardAvoidingView,
-  Platform,
   SafeAreaView,
   StyleSheet,
-  View,
   Keyboard,
+  ScrollView,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+
 import ChatBubble from '../../components/Chat/ChatBubble';
 import ChatForm from '../../components/Chat/ChatForm';
-import {Button} from '../../components/CustomStyledComponent/Button/CustomButton';
-import {Colors} from '../../components/CustomStyledComponent/Colors';
+import {Colors} from '../../utils/Colors';
 
 export const ChatContext = createContext({});
 const Chat = () => {
@@ -41,6 +39,7 @@ const Chat = () => {
   };
 
   const scrollRef = useRef(null);
+
   return (
     <ChatContext.Provider value={{messages, setMessage}}>
       <KeyboardAvoidingView

@@ -9,20 +9,21 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-import {Colors} from '../components/CustomStyledComponent/Colors';
+import {Colors} from '../utils/Colors';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 
 import {CustomText} from '../components/CustomStyledComponent/Text';
 
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5Pro';
-import {DismissKeyboard} from '../components/DismissKeyboard';
+import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
+
 export default (props) => {
   const {
     navigation: {navigate},
   } = props;
   return (
     <DismissKeyboard>
-      <KeyboardAvoidingView behavior="height">
+      <KeyboardAvoidingView behavior="padding">
         <View style={styles.container}>
           <View
             style={{

@@ -1,19 +1,22 @@
 import React from 'react';
 import {ScrollView, View, Image, StyleSheet, Alert} from 'react-native';
-import {Colors} from '../components/CustomStyledComponent/Colors';
-import AppABar from '../components/Appbar';
-import {DismissKeyboard} from '../components/DismissKeyboard';
+import {Colors} from '../utils/Colors';
+import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
+import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import CardList from '../components/CardList';
-import {Card} from '../components/CustomStyledComponent/Card/Card';
+import CardList from '../components/Home/CardList';
+import {Card} from '../components/Home/Card';
 
 export default (props) => {
+  const {
+    navigation: {navigate},
+  } = props;
   return (
     <DismissKeyboard>
-      <AppABar navigate={props.navigation.navigate}>
+      <NavigationBar navigate={navigate}>
         <View style={styles.headerContainer}>
           <Image source={require('../assets/img/logo2.png')} />
           <View style={{flexDirection: 'row'}}>
@@ -87,7 +90,7 @@ export default (props) => {
             ))}
           </View>
         </ScrollView>
-      </AppABar>
+      </NavigationBar>
     </DismissKeyboard>
   );
 };

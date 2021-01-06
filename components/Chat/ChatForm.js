@@ -2,8 +2,10 @@ import React, {useContext, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {Colors} from '../CustomStyledComponent/Colors';
+
 import {ChatContext} from '../../pages/Chat/Chat';
+import {Colors} from '../../utils/Colors';
+
 export default () => {
   const [msg, setMsg] = useState('');
   const {messages, setMessage} = useContext(ChatContext);
@@ -44,6 +46,7 @@ const chatFromStyles = StyleSheet.create({
     flexDirection: 'row',
     padding: 5,
     backgroundColor: Colors.white,
+    marginLeft: 5,
   },
   chatInputView: {
     justifyContent: 'center',

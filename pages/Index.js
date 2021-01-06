@@ -9,18 +9,18 @@ import {
   Image,
 } from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-import {DismissKeyboard} from '../components/DismissKeyboard';
+import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import {Card} from '../components/CustomStyledComponent/Card/Card';
+import {Card} from '../components/Home/Card';
 import Icon from 'react-native-vector-icons/FontAwesome5Pro';
-import {Colors} from '../components/CustomStyledComponent/Colors';
-import AppABar from '../components/Appbar';
+import {Colors} from '../utils/Colors';
+import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
 
 export default (props) => {
   return (
     <DismissKeyboard>
-      <AppABar navigate={props.navigation.navigate}>
+      <NavigationBar navigate={props.navigation.navigate}>
         <ScrollView style={{padding: 20}}>
           <CustomText fontSize={30} textAlign="center">
             Icon
@@ -73,7 +73,7 @@ export default (props) => {
             </Card>
           ))}
         </ScrollView>
-      </AppABar>
+      </NavigationBar>
     </DismissKeyboard>
   );
 };

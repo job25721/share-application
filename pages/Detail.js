@@ -1,17 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import AppABar from '../components/Appbar';
+import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import {View, Image, ScrollView, Alert} from 'react-native';
-import Tag from '../components/Tag';
-import {cardStyles} from '../components/CustomStyledComponent/Card/Card';
+import {View, Image, ScrollView} from 'react-native';
+import Tag from '../components/Home/Tag';
+import {cardStyles} from '../components/Home/Card';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-import {Colors} from '../components/CustomStyledComponent/Colors';
+import {Colors} from '../utils/Colors';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
-export default ({navigation, route}) => {
+export default ({navigation: {navigate}, route}) => {
   const [images, setImages] = useState([
     require('../assets/img/dang.jpg'),
     require('../assets/img/cat.jpg'),
@@ -22,7 +21,7 @@ export default ({navigation, route}) => {
   const [currentIdx, setCurrent] = useState(0);
 
   return (
-    <AppABar navigate={navigation.navigate}>
+    <NavigationBar navigate={navigate}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image
           style={{
@@ -106,6 +105,6 @@ export default ({navigation, route}) => {
       <View>
         <Button text="ส่งคำขอ" bg={Colors._indigo_600} color={Colors.white} />
       </View>
-    </AppABar>
+    </NavigationBar>
   );
 };

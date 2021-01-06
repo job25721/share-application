@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
-import {Colors} from '../Colors';
+import {Colors} from '../../../utils/Colors';
 
 export const Button = ({
   text,

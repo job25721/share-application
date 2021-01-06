@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
-import {Colors} from '../Colors';
+import {Colors} from '../../../utils/Colors';
 
 export const Input = ({
   type,

@@ -10,6 +10,8 @@ import Home from './pages/Home';
 import {Button} from './components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Chat from './pages/Chat/Chat';
+import {Text} from 'react-native';
+import ChatIndex from './pages/Chat/Index';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +19,16 @@ export default () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Chat" component={Chat} />
+        <Stack.Screen
+          name="People"
+          component={ChatIndex}
+          options={{headerTitle: 'Chat'}}
+        />
+        <Stack.Screen
+          name="Chat"
+          component={Chat}
+          options={{headerTitle: (props) => <Text>Stamp Watcharin</Text>}}
+        />
         <Stack.Screen
           name="Login"
           component={Login}
