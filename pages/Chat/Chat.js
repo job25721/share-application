@@ -11,6 +11,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import ChatBubble from '../../components/Chat/ChatBubble';
 import ChatForm from '../../components/Chat/ChatForm';
 import {Button} from '../../components/CustomStyledComponent/Button/CustomButton';
+import {Colors} from '../../components/CustomStyledComponent/Colors';
 
 export const ChatContext = createContext({});
 const Chat = () => {
@@ -58,7 +59,6 @@ const Chat = () => {
             ))}
           </ScrollView>
           <ChatForm />
-          {/* <Button text="Click" onPress={onClick} /> */}
         </SafeAreaView>
       </KeyboardAvoidingView>
     </ChatContext.Provider>
@@ -68,9 +68,12 @@ const Chat = () => {
 const chatStyles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.white,
   },
   chatView: {
     paddingHorizontal: 10,
+
+    backgroundColor: Colors.white,
   },
 });
 

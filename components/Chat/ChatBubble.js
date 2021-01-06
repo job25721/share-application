@@ -46,14 +46,12 @@ const bubbleStyles = StyleSheet.create({
     borderRadius: 20,
   },
   msgLeft: {
-    backgroundColor: Colors.white,
-    borderColor: 'grey',
-    borderWidth: 0.25,
+    backgroundColor: Colors._gray_900,
+    // borderColor: 'grey',
+    // borderWidth: 0.25,
   },
   msgRight: {
     backgroundColor: Colors._indigo_500,
-    shadowColor: Colors.black,
-    shadowOpacity: 0.2,
   },
   left: {
     flexDirection: 'row',

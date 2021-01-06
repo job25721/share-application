@@ -9,11 +9,6 @@ export default () => {
   const {messages, setMessage} = useContext(ChatContext);
   return (
     <View style={chatFromStyles.msgBox}>
-      <View style={chatFromStyles.btnView}>
-        <Button rounded bg={Colors._indigo_500}>
-          <FeatherIcon name="plus" size={25} color={Colors.white} />
-        </Button>
-      </View>
       <View style={chatFromStyles.chatInputView}>
         <TextInput
           style={chatFromStyles.chatInput}
@@ -21,18 +16,23 @@ export default () => {
           multiline
           placeholder="Type a message..."
           value={msg}
-          onChangeText={(val) => setMsg(val)}
+          onChangeText={(val) => {
+            console.log(val);
+            setMsg(val);
+          }}
         />
       </View>
       <View style={chatFromStyles.btnView}>
         <Button
           onPress={() => {
-            setMessage([...messages, {pos: 'right', msg: msg.split('\n')}]);
-            setMsg('');
+            if (msg !== '') {
+              setMessage([...messages, {pos: 'right', msg: msg.split('\n')}]);
+              setMsg('');
+            }
           }}
-          rounded
-          bg={Colors._blue_500}>
-          <FeatherIcon name="send" color={Colors.white} size={25} />
+          py={12}
+          px={10}>
+          <FeatherIcon name="send" color={Colors._indigo_800} size={20} />
         </Button>
       </View>
     </View>
@@ -43,23 +43,23 @@ const chatFromStyles = StyleSheet.create({
   msgBox: {
     flexDirection: 'row',
     padding: 5,
-    justifyContent: 'space-between',
+    backgroundColor: Colors.white,
   },
   chatInputView: {
     justifyContent: 'center',
-    width: '50%',
+    width: '85%',
   },
   chatInput: {
     width: '100%',
-    backgroundColor: Colors.white,
+    backgroundColor: Colors._gray_900,
     paddingHorizontal: 10,
-    paddingVertical: 10,
-    paddingTop: 10,
+    paddingVertical: 12,
+    paddingTop: 12,
     borderRadius: 15,
     maxHeight: 200,
   },
   btnView: {
-    alignSelf: 'flex-end',
     width: 'auto',
+    height: '100%',
   },
 });
