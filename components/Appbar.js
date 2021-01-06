@@ -16,7 +16,11 @@ export default function AppABar({children, navigate}) {
           />
           <Button text={<Feather name="search" size={30} />} px={0} />
           <Button text={<Feather name="plus" size={30} />} px={0} />
-          <Button text={<Feather name="message-circle" size={30} />} px={0} />
+          <Button
+            onPress={() => navigate('Chat')}
+            text={<Feather name="message-circle" size={30} />}
+            px={0}
+          />
           <Button text={<Feather name="user" size={30} />} px={0} />
         </View>
       </SafeAreaView>

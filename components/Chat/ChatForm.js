@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {Colors} from '../CustomStyledComponent/Colors';
+import {ChatContext} from '../../pages/Chat/Chat';
 export default () => {
   const [msg, setMsg] = useState('');
+  const {messages, setMessage} = useContext(ChatContext);
   return (
     <View style={chatFromStyles.msgBox}>
       <View style={chatFromStyles.btnView}>
@@ -18,11 +20,18 @@ export default () => {
           focus
           multiline
           placeholder="Type a message..."
-          onChangeText={(val) => setMsg(val.split('\n'))}
+          value={msg}
+          onChangeText={(val) => setMsg(val)}
         />
       </View>
       <View style={chatFromStyles.btnView}>
-        <Button onPress={() => console.log(msg)} rounded bg={Colors._blue_500}>
+        <Button
+          onPress={() => {
+            setMessage([...messages, {pos: 'right', msg: msg.split('\n')}]);
+            setMsg('');
+          }}
+          rounded
+          bg={Colors._blue_500}>
           <FeatherIcon name="send" color={Colors.white} size={25} />
         </Button>
       </View>

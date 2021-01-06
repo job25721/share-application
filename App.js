@@ -28,6 +28,7 @@ export default () => {
           component={Index}
           options={{headerShown: false}}
         />
+
         <Stack.Screen
           name="Detail"
           component={Detail}
