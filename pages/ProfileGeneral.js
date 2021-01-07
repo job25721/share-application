@@ -1,17 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, StyleSheet, Alert, Text, ScrollView} from 'react-native';
-import {Colors} from '../utils/Colors';
-import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
-import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
+import {View, ScrollView} from 'react-native';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 import Profile from '../components/Profile/ProfileImage';
 import CardList from '../components/Home/CardList';
 export default (props) => {
-  const {
-    navigation: {navigate},
-  } = props;
   return (
     <View style={{alignItems: 'center'}}>
       <Profile />
@@ -36,10 +29,3 @@ export default (props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    flex: 1,
-  },
-});
