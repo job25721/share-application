@@ -13,6 +13,7 @@ import Chat from './pages/Chat/Chat';
 import ChatIndex from './pages/Chat/Index';
 import PersonModal from './pages/Chat/PersonModal';
 import {Colors} from './utils/Colors';
+import Search from './pages/Search';
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -20,6 +21,11 @@ const RootStack = createStackNavigator();
 const MainStackScreen = () => {
   return (
     <MainStack.Navigator mode="card">
+      <MainStack.Screen
+        name="Search"
+        component={Search}
+        options={{headerShown: false}}
+      />
       <MainStack.Screen
         name="People"
         component={ChatIndex}
