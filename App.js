@@ -14,6 +14,7 @@ import ChatIndex from './pages/Chat/Index';
 import PersonModal from './pages/Chat/PersonModal';
 import {Colors} from './utils/Colors';
 import ProfileGeneral from './pages/ProfileGeneral';
+import ProfileSend from './pages/ProfileSend';
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -21,6 +22,15 @@ const RootStack = createStackNavigator();
 const MainStackScreen = () => {
   return (
     <MainStack.Navigator mode="card">
+      <MainStack.Screen
+        name="ProfileSend"
+        component={ProfileSend}
+        options={{
+          headerRight: () => (
+            <Button text={<FeatherIcon name="more-vertical" size={20} />} />
+          ),
+        }}
+      />
       <MainStack.Screen
         name="Login"
         component={Login}
