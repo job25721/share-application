@@ -29,12 +29,12 @@ export default (props) => {
             <Image source={require('../assets/img/profile.png')} />
           </View>
         </View>
-        <View style={{paddingTop: '10%'}}>
+        <View style={{padding: 20}}>
           <CustomText color={Colors._indigo_600} spacing={5} type="header">
             SHARE
           </CustomText>
         </View>
-        <ScrollView>
+        <ScrollView style={{paddingHorizontal: 10}}>
           <View style={{flexDirection: 'row'}}>
             <Input focus placeholder="Search" width="70%"></Input>
             <Button
@@ -100,5 +100,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding: 20,
   },
 });

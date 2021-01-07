@@ -22,32 +22,34 @@ export default ({navigation: {navigate}, route}) => {
 
   return (
     <NavigationBar navigate={navigate}>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image
-          style={{
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-          }}
-          source={images[0]}
-        />
-        <View style={{paddingHorizontal: 15}}>
-          <CustomText fontWeight="500" fontSize={18}>
-            อาจารย์แดง กีตาร์
+      <View style={{padding: 10}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Image
+            style={{
+              width: 50,
+              height: 50,
+              borderRadius: 50,
+            }}
+            source={images[0]}
+          />
+          <View style={{paddingHorizontal: 15}}>
+            <CustomText fontWeight="500" fontSize={18}>
+              อาจารย์แดง กีตาร์
+            </CustomText>
+          </View>
+        </View>
+        <View style={{marginVertical: 5}}>
+          <CustomText fontWeight="bold" type="subheader">
+            {/* {route.params.title ? route.params.title : null} */}
           </CustomText>
         </View>
+        <View style={cardStyles.tagContainer}>
+          {['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'].map((item) => (
+            <Tag key={item} text={item} />
+          ))}
+        </View>
       </View>
-      <View style={{marginVertical: 5}}>
-        <CustomText fontWeight="bold" type="subheader">
-          {/* {route.params.title ? route.params.title : null} */}
-        </CustomText>
-      </View>
-      <View style={cardStyles.tagContainer}>
-        {['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'].map((item) => (
-          <Tag key={item} text={item} />
-        ))}
-      </View>
-      <ScrollView>
+      <ScrollView style={{padding: 10}}>
         <View style={{justifyContent: 'center'}}>
           <Image
             style={{

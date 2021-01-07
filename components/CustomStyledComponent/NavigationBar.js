@@ -9,7 +9,7 @@ const NavigationBar = ({children, navigate}) => {
       {children}
       <View style={styles.appBar}>
         <Button
-          onPress={() => navigate('Login')}
+          onPress={() => navigate('Index')}
           text={<Feather name="home" size={30} />}
           px={0}
         />

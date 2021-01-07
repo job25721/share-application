@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Keyboard,
   ScrollView,
+  Platform,
 } from 'react-native';
 
 import ChatBubble from '../../components/Chat/ChatBubble';
@@ -43,7 +44,7 @@ const Chat = () => {
   return (
     <ChatContext.Provider value={{messages, setMessage}}>
       <KeyboardAvoidingView
-        behavior="padding"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={90}
         style={chatStyles.container}>
         <SafeAreaView style={chatStyles.container}>

@@ -10,51 +10,83 @@ import Home from './pages/Home';
 import {Button} from './components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Chat from './pages/Chat/Chat';
-import {Text} from 'react-native';
 import ChatIndex from './pages/Chat/Index';
+import PersonModal from './pages/Chat/PersonModal';
+import {Colors} from './utils/Colors';
 
-const Stack = createStackNavigator();
+const MainStack = createStackNavigator();
+const RootStack = createStackNavigator();
 
-export default () => {
+const MainStackScreen = () => {
+  return (
+    <MainStack.Navigator mode="card">
+      <MainStack.Screen
+        name="People"
+        component={ChatIndex}
+        options={{
+          headerTitle: 'Chat',
+        }}
+      />
+      <MainStack.Screen
+        name="Chat"
+        component={Chat}
+        options={({route}) => ({
+          title: route.params.name,
+        })}
+      />
+      <MainStack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+      />
+      <MainStack.Screen
+        name="Home"
+        component={Index}
+        options={{headerShown: false}}
+      />
+
+      <MainStack.Screen
+        name="Detail"
+        component={Detail}
+        options={{
+          headerRight: () => (
+            <Button text={<FeatherIcon name="bookmark" size={20} />} />
+          ),
+        }}
+      />
+      <MainStack.Screen
+        name="Index"
+        component={Home}
+        options={{headerShown: false}}
+      />
+    </MainStack.Navigator>
+  );
+};
+
+const RootStackScreen = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="People"
-          component={ChatIndex}
-          options={{headerTitle: 'Chat'}}
-        />
-        <Stack.Screen
-          name="Chat"
-          component={Chat}
-          options={{headerTitle: (props) => <Text>Stamp Watcharin</Text>}}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
+      <RootStack.Navigator mode="modal">
+        <RootStack.Screen
+          name="Main"
+          component={MainStackScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="Home"
-          component={Index}
-          options={{headerShown: false}}
-        />
-
-        <Stack.Screen
-          name="Detail"
-          component={Detail}
-          options={{
-            headerRight: () => (
-              <Button text={<FeatherIcon name="bookmark" size={20} />} />
+        <RootStack.Screen
+          name="PersonModal"
+          component={PersonModal}
+          options={({route}) => ({
+            title: route.params.user,
+            headerLeft: ({onPress}) => (
+              <Button onPress={onPress}>
+                <FeatherIcon color={Colors._red_600} name="x" size={25} />
+              </Button>
             ),
-          }}
+          })}
         />
-        <Stack.Screen
-          name="Index"
-          component={Home}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 };
+
+export default RootStackScreen;
