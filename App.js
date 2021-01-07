@@ -6,7 +6,7 @@ import 'react-native-gesture-handler';
 import Index from './pages/Index';
 import Login from './pages/Login';
 import Detail from './pages/Detail';
-import AddProduct from './pages/AddProduct';
+import NewItem from './pages/NewItem';
 import Home from './pages/Home';
 import {Button} from './components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -21,6 +21,7 @@ const RootStack = createStackNavigator();
 const MainStackScreen = () => {
   return (
     <MainStack.Navigator mode="card">
+      <MainStack.Screen name="NewItem" component={NewItem} />
       <MainStack.Screen
         name="People"
         component={ChatIndex}

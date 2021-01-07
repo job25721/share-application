@@ -8,10 +8,10 @@ import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {Colors} from '../components/CustomStyledComponent/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-export default (props) => {
+const NewItem = (props) => {
   return (
     <AppABar navigate={props.navigation.navigate}>
-      <View style={style.container}>
+      <View style={styles.container}>
         <View style={{marginBottom: 10}}>
           <Image source={require('../assets/img/upload.png')} />
           <CustomText fontSize={16} fontWeight="bold">
@@ -71,10 +71,12 @@ export default (props) => {
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
   },
 });
+
+export default NewItem;
