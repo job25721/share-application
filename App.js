@@ -22,11 +22,6 @@ const MainStackScreen = () => {
   return (
     <MainStack.Navigator mode="card">
       <MainStack.Screen
-        name="Search"
-        component={Search}
-        options={{headerShown: false}}
-      />
-      <MainStack.Screen
         name="People"
         component={ChatIndex}
         options={{
@@ -50,7 +45,11 @@ const MainStackScreen = () => {
         component={Index}
         options={{headerShown: false}}
       />
-
+      <MainStack.Screen
+        name="Search"
+        component={Search}
+        options={{headerShown: false}}
+      />
       <MainStack.Screen
         name="Detail"
         component={Detail}

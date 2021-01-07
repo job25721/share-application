@@ -13,7 +13,11 @@ const NavigationBar = ({children, navigate}) => {
           text={<Feather name="home" size={30} />}
           px={0}
         />
-        <Button text={<Feather name="search" size={30} />} px={0} />
+        <Button
+          onPress={() => navigate('Search')}
+          text={<Feather name="search" size={30} />}
+          px={0}
+        />
         <Button text={<Feather name="plus" size={30} />} px={0} />
         <Button
           onPress={() => navigate('People')}
