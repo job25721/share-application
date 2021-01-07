@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Colors} from './CustomStyledComponent/Colors';
-import {CustomText} from './CustomStyledComponent/Text';
+import {StyleSheet, TouchableOpacity} from 'react-native';
+
+import {Colors} from '../../utils/Colors';
+import {CustomText} from '../CustomStyledComponent/Text';
+
 export default ({text, onPress}) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.tag}>

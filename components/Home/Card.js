@@ -2,12 +2,12 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 import {useState} from 'react/cjs/react.development';
-import Tag from '../../Tag';
-import {Button} from '../Button/CustomButton';
-import {Colors} from '../Colors';
-import {CustomText} from '../Text';
+import Tag from './Tag';
+import {Button} from '../CustomStyledComponent/Button/CustomButton';
+import {Colors} from '../../utils/Colors';
+import {CustomText} from '../CustomStyledComponent/Text';
 
-const imgUrl = require('../../../assets/img/cat.jpg');
+const imgUrl = require('../../assets/img/cat.jpg');
 
 export const Card = ({name, title, tag, img, navigate}) => {
   const [tagArr, setTag] = useState([]);
@@ -15,17 +15,18 @@ export const Card = ({name, title, tag, img, navigate}) => {
     tag ? setTag(tag) : setTag([]);
   }, [tag]);
   return (
-    <View style={styles.card}>
-      <Image style={styles.img} source={img && img !== '' ? img : imgUrl} />
-      <View style={styles.content}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    <View style={cardStyles.card}>
+      <Image style={cardStyles.img} source={img && img !== '' ? img : imgUrl} />
+      <View style={cardStyles.content}>
+        <View
+          style={{flexDirection: 'row', alignItems: 'center', height: '25%'}}>
           <Image
             style={{
               width: 50,
               height: 50,
               borderRadius: 50,
             }}
-            source={require('../../../assets/img/dang.jpg')}
+            source={require('../../assets/img/dang.jpg')}
           />
           <View style={{paddingHorizontal: 15}}>
             <CustomText fontWeight="500" fontSize={18}>
@@ -33,15 +34,17 @@ export const Card = ({name, title, tag, img, navigate}) => {
             </CustomText>
           </View>
         </View>
-        <CustomText fontWeight="bold" fontSize={20}>
-          {title}
-        </CustomText>
-        <View style={styles.tagContainer}>
+        <View>
+          <CustomText fontWeight="bold" fontSize={20}>
+            {title}
+          </CustomText>
+        </View>
+        <View style={cardStyles.tagContainer}>
           {tagArr.map((item) => (
             <Tag key={item} text={item} />
           ))}
         </View>
-        <View style={styles.btnView}>
+        <View style={cardStyles.btnView}>
           <Button
             rounded
             text="ส่งคำขอ"
@@ -54,7 +57,7 @@ export const Card = ({name, title, tag, img, navigate}) => {
             text="ดูรายละเอียด"
             bg={Colors._gray_900}
             color={Colors.black}
-            onPress={() => navigate('Detail')}
+            onPress={() => navigate('Detail', {title: title})}
           />
         </View>
       </View>
@@ -62,9 +65,9 @@ export const Card = ({name, title, tag, img, navigate}) => {
   );
 };
 
-const styles = StyleSheet.create({
+export const cardStyles = StyleSheet.create({
   card: {
-    width: 350,
+    width: '94%',
     height: 400,
     shadowColor: '#000',
     shadowOffset: {
@@ -87,6 +90,8 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 15,
     paddingVertical: 10,
+    height: '55%',
+    justifyContent: 'space-evenly',
   },
   tagContainer: {
     flexDirection: 'row',

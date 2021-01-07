@@ -1,6 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
-import {Colors} from '../Colors';
+import {Colors} from '../../../utils/Colors';
 
 export const Input = ({
   type,
@@ -11,6 +12,8 @@ export const Input = ({
   rounded,
   focus,
   backgroundColor,
+  multiline,
+  height,
 }) => {
   const [isFocus, setFocus] = React.useState(false);
   const [secure, setSecure] = React.useState(false);
@@ -25,10 +28,12 @@ export const Input = ({
     <TextInput
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
+      multiline={multiline ? true : false}
       style={[
         styles.input,
         isFocus && focus ? styles.onFocus : null,
         {width: w},
+        height ? {height} : null,
         {textAlign: align},
         rounded ? {borderRadius: 50} : null,
         backgroundColor ? {backgroundColor} : null,

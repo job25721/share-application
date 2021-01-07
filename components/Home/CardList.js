@@ -1,7 +1,7 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-import {Colors} from '../components/CustomStyledComponent/Colors';
-import {CustomText} from '../components/CustomStyledComponent/Text';
+import {View, StyleSheet} from 'react-native';
+import {Colors} from '../../utils/Colors';
+import {CustomText} from '../CustomStyledComponent/Text';
 
 export default () => {
   return (
@@ -16,7 +16,7 @@ export default () => {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    width: '40%',
+    width: 150,
     backgroundColor: Colors._indigo_300,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
