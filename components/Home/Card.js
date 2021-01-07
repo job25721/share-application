@@ -90,6 +90,7 @@ export const cardStyles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     height: '55%',
+    justifyContent: 'space-evenly',
   },
   tagContainer: {
     flexDirection: 'row',
