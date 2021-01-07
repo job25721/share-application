@@ -28,7 +28,14 @@ export default () => {
         <Button
           onPress={() => {
             if (msg !== '') {
-              setMessage([...messages, {pos: 'right', msg: msg.split('\n')}]);
+              setMessage([
+                ...messages,
+                {
+                  pos: 'right',
+                  msg: msg.split('\n'),
+                  time: `${new Date().getHours()}:${new Date().getMinutes()} PM`,
+                },
+              ]);
               setMsg('');
             }
           }}

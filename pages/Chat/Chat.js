@@ -14,10 +14,23 @@ import {Colors} from '../../utils/Colors';
 
 export const ChatContext = createContext({});
 const Chat = () => {
+  const now = new Date();
   const [messages, setMessage] = useState([
-    {pos: 'left', msg: ['ผมจะบริจาคให้ 1000 บาท']},
-    {pos: 'right', msg: ['แต่...', 'แต่ว่า']},
-    {pos: 'right', msg: ['ผมจะให้คุณ']},
+    {
+      pos: 'left',
+      msg: ['ผมจะบริจาคให้ 1000 บาท'],
+      time: now.getHours() + ':' + now.getMinutes() + ' PM',
+    },
+    {
+      pos: 'right',
+      msg: ['แต่...', 'แต่ว่า'],
+      time: now.getHours() + ':' + now.getMinutes() + ' PM',
+    },
+    {
+      pos: 'right',
+      msg: ['ผมจะให้คุณ'],
+      time: now.getHours() + ':' + now.getMinutes() + ' PM',
+    },
   ]);
 
   useEffect(() => {
@@ -55,7 +68,12 @@ const Chat = () => {
             ref={scrollRef}
             style={chatStyles.chatView}>
             {messages.map((data, i) => (
-              <ChatBubble key={i} pos={data.pos} msg={data.msg} />
+              <ChatBubble
+                key={i}
+                time={data.time}
+                pos={data.pos}
+                msg={data.msg}
+              />
             ))}
           </ScrollView>
           <ChatForm />

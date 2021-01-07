@@ -28,7 +28,7 @@ export default ({msg, pos, time}) => {
       </View>
       <View style={{paddingHorizontal: 5}}>
         <CustomText fontSize={12} textAlign={pos === 'left' ? 'right' : 'left'}>
-          {new Date().getHours() + ':' + new Date().getMinutes() + ' PM'}
+          {time}
         </CustomText>
       </View>
     </View>
