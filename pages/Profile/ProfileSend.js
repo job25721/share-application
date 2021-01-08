@@ -24,15 +24,15 @@ export default (props) => {
           {[
             {
               title: 'กระเป๋า anello (เจ้าของ Stamp)',
-              img: require('../assets/img/bag.jpg'),
+              img: require('../../assets/img/bag.jpg'),
             },
             {
               title: 'อาจารย์แดง (เจ้าของ Job)',
-              img: require('../assets/img/dang.jpg'),
+              img: require('../../assets/img/dang.jpg'),
             },
             {
               title: 'น้องแมว (เจ้าของ Job)',
-              img: require('../assets/img/cat.jpg'),
+              img: require('../../assets/img/cat.jpg'),
             },
           ].map((item, i) => (
             <ItemChatCard

@@ -9,7 +9,7 @@ import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Tag from '../components/Home/Tag';
-import Card from '../components/Search/column';
+import Column from '../components/Search/column';
 import {ScrollView} from 'react-native-gesture-handler';
 
 export default (props) => {
@@ -38,13 +38,17 @@ export default (props) => {
             <View style={{marginBottom: 10}}>
               <CustomText type="subheader">Trending</CustomText>
             </View>
-            <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+              }}>
               {[
-                'เบื้มๆ',
-                'คือลือน่ะ',
-                'ผมจะบริจาคให้คุณ 1000',
-                'แต่ว่า',
-                'ให้คุณอมของลับให้ผม',
+                'หนังสือ',
+                'อุปกรณ์การเรียน',
+                'เสื้อผ้า',
+                'สิ่งของเครื่องใช้',
+                'ของกิน',
               ].map((item) => (
                 <Tag text={item} />
               ))}
@@ -54,7 +58,7 @@ export default (props) => {
           <CustomText type="subheader">Result</CustomText>
           <ScrollView>
             {[1, 2, 3, 4, 5].map((item) => (
-              <Card key={item} />
+              <Column key={item} />
             ))}
           </ScrollView>
         </View>

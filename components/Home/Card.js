@@ -26,7 +26,7 @@ export const Card = ({name, title, tag, img, navigate}) => {
               height: 50,
               borderRadius: 50,
             }}
-            source={require('../../assets/img/dang.jpg')}
+            source={require('../../assets/img/stamp.png')}
           />
           <View style={{paddingHorizontal: 15}}>
             <CustomText fontWeight="500" fontSize={18}>

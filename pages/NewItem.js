@@ -1,16 +1,16 @@
 import React from 'react';
-import AppABar from '../components/Appbar';
+import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {View, Image, StyleSheet, TextInput, Alert} from 'react-native';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 import {MultipleInput} from '../components/CustomStyledComponent/Input/CustomMultipleInput';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-import {Colors} from '../components/CustomStyledComponent/Colors';
+import {Colors} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const NewItem = (props) => {
   return (
-    <AppABar navigate={props.navigation.navigate}>
+    <NavigationBar navigate={props.navigation.navigate}>
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
           <Image source={require('../assets/img/upload.png')} />
@@ -67,7 +67,7 @@ const NewItem = (props) => {
           />
         </View>
       </View>
-    </AppABar>
+    </NavigationBar>
   );
 };
 

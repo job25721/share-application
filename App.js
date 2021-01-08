@@ -15,25 +15,15 @@ import ChatIndex from './pages/Chat/Index';
 import PersonModal from './pages/Chat/PersonModal';
 import {Colors} from './utils/Colors';
 import ProfileGeneral from './pages/Profile/ProfileGeneral';
-// import ProfileSend from './pages/Profile/ProfileSend';
+import ProfileSending from './pages/Profile/ProfileSend';
 import Search from './pages/Search';
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
 
-const MainStackScreen = () => {
+const MainStackScreen = (navigate) => {
   return (
     <MainStack.Navigator mode="card">
-      <MainStack.Screen name="NewItem" component={NewItem} />
-      <MainStack.Screen
-        name="ProfileGeneral"
-        component={ProfileGeneral}
-        options={{
-          headerRight: () => (
-            <Button text={<FeatherIcon name="more-vertical" size={20} />} />
-          ),
-        }}
-      />
       <MainStack.Screen
         name="Login"
         component={Login}
@@ -53,7 +43,7 @@ const MainStackScreen = () => {
           title: route.params.name,
         })}
       />
-
+      <MainStack.Screen name="NewItem" component={NewItem} />
       <MainStack.Screen
         name="Home"
         component={Index}
@@ -62,6 +52,15 @@ const MainStackScreen = () => {
       <MainStack.Screen
         name="ProfileGeneral"
         component={ProfileGeneral}
+        options={{
+          headerRight: () => (
+            <Button text={<FeatherIcon name="more-vertical" size={20} />} />
+          ),
+        }}
+      />
+      <MainStack.Screen
+        name="ProfileSending"
+        component={ProfileSending}
         options={{
           headerRight: () => (
             <Button text={<FeatherIcon name="more-vertical" size={20} />} />
