@@ -18,11 +18,12 @@ import ProfileGeneral from './pages/Profile/ProfileGeneral';
 import ProfileSending from './pages/Profile/ProfileSend';
 import Search from './pages/Search';
 import Test from './pages/Test';
+import {Alert} from 'react-native';
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
 
-const MainStackScreen = (navigate) => {
+const MainStackScreen = () => {
   return (
     <MainStack.Navigator mode="card">
       <MainStack.Screen
@@ -30,7 +31,12 @@ const MainStackScreen = (navigate) => {
         component={Login}
         options={{headerShown: false}}
       />
-      <MainStack.Screen name="NewItem" component={NewItem} />
+      <MainStack.Screen
+        name="Home"
+        component={Index}
+        options={{headerShown: false}}
+      />
+
       <MainStack.Screen name="test" component={Test} />
       <MainStack.Screen
         name="People"
@@ -46,11 +52,7 @@ const MainStackScreen = (navigate) => {
           title: route.params.name,
         })}
       />
-      <MainStack.Screen
-        name="Home"
-        component={Index}
-        options={{headerShown: false}}
-      />
+
       <MainStack.Screen
         name="ProfileGeneral"
         component={ProfileGeneral}
@@ -112,6 +114,23 @@ const RootStackScreen = () => {
               </Button>
             ),
           })}
+        />
+        <RootStack.Screen
+          name="NewItem"
+          component={NewItem}
+          options={{
+            headerLeft: ({onPress}) => (
+              <Button
+                onPress={() => {
+                  Alert.alert('ต้องการยกเลิก ? ', 'ข้อมูลที่คุณกรอกจะหายไป', [
+                    {text: 'OK', onPress},
+                    {text: 'cancel'},
+                  ]);
+                }}>
+                <FeatherIcon color={Colors._red_600} name="x" size={25} />
+              </Button>
+            ),
+          }}
         />
       </RootStack.Navigator>
     </NavigationContainer>

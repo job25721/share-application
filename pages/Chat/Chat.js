@@ -19,17 +19,17 @@ const Chat = () => {
     {
       pos: 'left',
       msg: ['ผมจะบริจาคให้ 1000 บาท'],
-      time: now.getHours() + ':' + now.getMinutes() + ' PM',
+      time: now.getHours() + ':' + now.getMinutes(),
     },
     {
       pos: 'right',
       msg: ['แต่...', 'แต่ว่า'],
-      time: now.getHours() + ':' + now.getMinutes() + ' PM',
+      time: now.getHours() + ':' + now.getMinutes(),
     },
     {
       pos: 'right',
       msg: ['ผมจะให้คุณ'],
-      time: now.getHours() + ':' + now.getMinutes() + ' PM',
+      time: now.getHours() + ':' + now.getMinutes(),
     },
   ]);
 

@@ -16,11 +16,6 @@ export default ({text, onPress}) => {
 
 const styles = StyleSheet.create({
   tag: {
-    shadowOpacity: 0.2,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
     width: 80,
     shadowColor: Colors._indigo_400,
     backgroundColor: Colors._indigo_100,

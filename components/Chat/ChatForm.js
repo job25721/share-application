@@ -33,7 +33,7 @@ export default () => {
                 {
                   pos: 'right',
                   msg: msg.split('\n'),
-                  time: `${new Date().getHours()}:${new Date().getMinutes()} PM`,
+                  time: `${new Date().getHours()}:${new Date().getMinutes()}`,
                 },
               ]);
               setMsg('');
