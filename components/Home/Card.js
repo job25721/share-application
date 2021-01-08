@@ -50,13 +50,14 @@ export const Card = ({name, title, tag, img, navigate}) => {
             text="ส่งคำขอ"
             bg={Colors._indigo_500}
             color={Colors.white}
+            onPress={() => navigate('Chat', {name})}
           />
           <Button
             rounded
             text="ดูรายละเอียด"
             bg={Colors._gray_900}
             color={Colors.black}
-            onPress={() => navigate('Detail', {title: title})}
+            onPress={() => navigate('Detail', {title, img})}
           />
         </View>
       </View>

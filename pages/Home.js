@@ -67,15 +67,15 @@ export default (props) => {
           <View style={{alignItems: 'center'}}>
             {[
               {
-                name: 'อาจารย์แดง กีตาร์',
-                title: 'กระตุกจิต กระชากใจ',
-                img: require('../assets/img/dang.jpg'),
-                tag: ['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'],
+                name: 'Stamp Watcharin',
+                title: 'หาคนเลี้ยงแมวต่อครับ',
+                img: '',
+                tag: ['สัตว์เลี้ยง', 'แมว', 'น้อนนน'],
               },
               {
                 name: 'อาจารย์แดง กีตาร์',
-                title: 'แมว',
-                img: '',
+                title: 'คู่มือห้ามฝึกจิต',
+                img: {uri: 'https://fq.lnwfile.com/zp2qee.jpg'},
                 tag: ['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'],
               },
             ].map((item, i) => (

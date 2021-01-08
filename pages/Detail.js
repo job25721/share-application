@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {View, Image, ScrollView} from 'react-native';
@@ -19,6 +19,9 @@ export default ({navigation: {navigate}, route}) => {
   ]);
 
   const [currentIdx, setCurrent] = useState(0);
+  useEffect(() => {
+    route.params.img ? setImages([route.params.img]) : null;
+  }, [route.params.img]);
 
   return (
     <NavigationBar navigate={navigate}>
