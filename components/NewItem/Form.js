@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {createContext, useState} from 'react';
-import {FlatList, ScrollView, StyleSheet, TextInput, View} from 'react-native';
+import {
+  FlatList,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
 
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import {Input} from '../CustomStyledComponent/Input/CustomInput';
@@ -11,10 +18,17 @@ import FormTag from './Tag';
 import TypePicer from './TypePicker';
 import {CustomText} from '../CustomStyledComponent/Text';
 import ImgPreview from './ImgPreview';
-
+import {KeyboardAvoidingView} from 'react-native';
+import {SliderBox} from 'react-native-image-slider-box';
+import ImagePicker from 'react-native-image-crop-picker';
+import CameraBtn from './CameraBtn';
 export const TagContext = createContext({});
 
 const NewItemfForm = () => {
+  const [images, setImages] = useState([
+    require('../../assets/img/cat.jpg'),
+    require('../../assets/img/bag.jpg'),
+  ]);
   const [tags, setTag] = useState([]);
   const [tagInput, setTagInput] = useState('');
 
@@ -24,64 +38,102 @@ const NewItemfForm = () => {
       setTagInput('');
     }
   };
+
+  const uploadPhoto = async () => {
+    try {
+      const uploaded = await ImagePicker.openPicker({
+        multiple: true,
+      });
+      const mapImages = uploaded.map((img) => img.path);
+      setImages([...images, ...mapImages]);
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+  };
+
+  const openCamera = async () => {
+    try {
+      const snap = await ImagePicker.openCamera({
+        cropping: true,
+      });
+      setImages([...images, snap.path]);
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+  };
   return (
-    <ScrollView style={styles.container}>
-      <ImgPreview />
-      <View style={styles.uploadSection}>
-        <UploadBtn />
-      </View>
-
-      <View style={{paddingHorizontal: 20}}>
-        <Input shadow="sm" focus rounded placeholder="ชื่อ" />
-
-        <TypePicer />
-
-        <TagContext.Provider value={{tags, setTag}}>
-          <View style={styles.tagSection}>
-            {tags.map((item) => (
-              <FormTag name={item.name} id={item.id} key={item.id} />
-            ))}
-            {tags.length < 5 ? (
-              <View style={{flexDirection: 'row'}}>
-                <Button px={0}>
-                  <FeatherIcon name="plus" color={Colors.black} size={15} />
-                </Button>
-                <TextInput
-                  onChangeText={(val) => setTagInput(val)}
-                  maxLength={10}
-                  value={tagInput}
-                  onSubmitEditing={addTag}
-                  placeholder="เพิ่มแท้กใหม่"
-                />
-              </View>
-            ) : null}
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+      <ScrollView>
+        {images.length > 0 ? (
+          <SliderBox
+            onCurrentImagePressed={(idx) => {
+              // const img = images.filter((_, i) => i !== idx);
+              // setImages(img);
+            }}
+            on
+            sliderBoxHeight={400}
+            images={images}
+          />
+        ) : null}
+        {/* <ScrollView style={{flex: 1}}> */}
+        {images.length < 6 ? (
+          <View style={styles.uploadSection}>
+            <UploadBtn onPress={uploadPhoto} />
+            <CameraBtn onPress={openCamera} />
           </View>
-        </TagContext.Provider>
+        ) : null}
 
-        <Input
-          textAlignVertical="top"
-          placeholder="รายละเอียด"
-          height="20%"
-          shadow="md"
-          multiline
-        />
-      </View>
+        <View style={{paddingHorizontal: 20}}>
+          <Input shadow="sm" focus rounded placeholder="ชื่อ" />
 
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'flex-end',
-        }}>
-        <Button
-          rounded
-          onPress={() => alert('hello world')}
-          bg={Colors._indigo_500}
-          text="แชร์!"
-          fontSize={24}
-          color={Colors.white}
-        />
-      </View>
-    </ScrollView>
+          <TypePicer />
+
+          <TagContext.Provider value={{tags, setTag}}>
+            <View style={styles.tagSection}>
+              {tags.map((item) => (
+                <FormTag name={item.name} id={item.id} key={item.id} />
+              ))}
+              {tags.length < 4 ? (
+                <View style={{flexDirection: 'row'}}>
+                  <Button px={0}>
+                    <FeatherIcon name="plus" color={Colors.black} size={15} />
+                  </Button>
+                  <TextInput
+                    onChangeText={(val) => setTagInput(val)}
+                    maxLength={10}
+                    value={tagInput}
+                    onSubmitEditing={addTag}
+                    blurOnSubmit={false}
+                    placeholder="เพิ่มแท้กใหม่"
+                  />
+                </View>
+              ) : null}
+            </View>
+          </TagContext.Provider>
+
+          <Input
+            textAlignVertical="top"
+            placeholder="รายละเอียด"
+            height={150}
+            shadow="md"
+            multiline
+          />
+          <Button
+            rounded
+            onPress={() => alert('hello world')}
+            bg={Colors._indigo_500}
+            text="แชร์!"
+            fontSize={24}
+            color={Colors.white}
+          />
+        </View>
+        {/* </ScrollView> */}
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -92,12 +144,13 @@ const styles = StyleSheet.create({
     // padding: 10,
   },
   uploadSection: {
-    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
   tagSection: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   item: {
     backgroundColor: '#f9c2ff',

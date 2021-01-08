@@ -5,13 +5,13 @@ import {Colors} from '../../utils/Colors';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import {CustomText} from '../CustomStyledComponent/Text';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-const UploadBtn = ({onPress}) => {
+const CameraBtn = ({onPress}) => {
   return (
     <Button onPress={onPress} rounded bg={Colors._gray_900} py={20} px={10}>
       <View style={btnStyles.btnFlex}>
-        <FeatherIcon name="upload" size={45} />
+        <FeatherIcon name="camera" size={45} />
         <CustomText fontSize={16} fontWeight="bold">
-          Upload Photo
+          Open camera
         </CustomText>
       </View>
     </Button>
@@ -24,4 +24,4 @@ const btnStyles = StyleSheet.create({
   },
 });
 
-export default UploadBtn;
+export default CameraBtn;

@@ -10,7 +10,6 @@ const TypePicer = () => {
   const items = [
     {label: 'สวัสดีค้าบบ', value: 1, key: 1},
     {label: 'ท่านสมาชิก', value: 2, key: 2},
-    {label: 'ชมรมคนชอบ หี', value: 3, key: 3},
   ];
 
   const [selectedType, setSelected] = useState(null);
