@@ -5,7 +5,7 @@ import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import {Colors} from '../../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-export default () => {
+export default ({navigate}) => {
   return (
     <View
       style={{
@@ -32,7 +32,7 @@ export default () => {
             height={40}
             px={10}
             py={10}
-            onPress={() => Alert.alert('รักอาจารย์ชินค้าบบ')}
+            onPress={() => navigate('Chat', {name: 'Pathomporn Pankaew'})}
             rounded
             bg={Colors._indigo_500}>
             <FeatherIcon
@@ -59,7 +59,7 @@ export default () => {
             height={40}
             px={10}
             py={10}
-            onPress={() => Alert.alert('รักอาจารย์ชินค้าบบ')}
+            onPress={() => navigate('NewItem')}
             rounded
             bg={Colors._indigo_500}>
             <FeatherIcon

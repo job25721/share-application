@@ -7,7 +7,7 @@ import CardList from '../../components/Home/CardList';
 export default (props) => {
   return (
     <View style={{alignItems: 'center'}}>
-      <Profile />
+      <Profile navigate={props.navigation.navigate} />
       <CustomText fontSize={24}>Pathomporn Pankaew</CustomText>
       <View style={{marginVertical: 5}}>
         <CustomText color="#C7C7C7">@job25721</CustomText>
