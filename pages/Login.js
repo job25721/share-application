@@ -7,6 +7,8 @@ import {
   Image,
   Alert,
   KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
 } from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {Colors} from '../utils/Colors';
@@ -23,13 +25,14 @@ export default (props) => {
   } = props;
   return (
     <DismissKeyboard>
-      <KeyboardAvoidingView behavior="padding">
-        <View style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+        <SafeAreaView>
           <View
             style={{
-              height: '75%',
-              justifyContent: 'center',
               alignItems: 'center',
+              // backgroundColor: 'red',
             }}>
             <Image source={require('../assets/img/logo.png')} />
             <CustomText color={Colors._indigo_600} spacing={5} type="header">
@@ -55,6 +58,8 @@ export default (props) => {
             style={{
               alignItems: 'center',
               justifyContent: 'flex-end',
+              // flex: 1,
+              // backgroundColor: 'blue',
             }}>
             <Button text="Create new Account" color={Colors._indigo_500} />
             <CustomText color="#b5b5b5" fontSize={15}>
@@ -87,7 +92,7 @@ export default (props) => {
               />
             </View>
           </View>
-        </View>
+        </SafeAreaView>
       </KeyboardAvoidingView>
     </DismissKeyboard>
   );
@@ -103,6 +108,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100%',
+    flex: 1,
   },
 });
