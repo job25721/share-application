@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
 import {Colors} from '../../../utils/Colors';
 
-export const Input = ({
+export const CustomPicker = ({
   type,
   width,
   textAlign,
@@ -15,7 +16,7 @@ export const Input = ({
   multiline,
   height,
   shadow,
-  textAlignVertical,
+  children,
 }) => {
   const [isFocus, setFocus] = useState(false);
   const [secure, setSecure] = useState(false);
@@ -47,12 +48,12 @@ export const Input = ({
         {textAlign: align},
         rounded ? {borderRadius: 50} : null,
         backgroundColor ? {backgroundColor} : null,
-        textAlignVertical ? {textAlignVertical} : null,
       ]}
       placeholder={placeholder}
       secureTextEntry={secure}
-      onChangeText={onChangeText}
-    />
+      onChangeText={onChangeText}>
+      {children}
+    </TextInput>
   );
 };
 
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     borderColor: Colors._gray_900,
-    marginVertical: 5,
+    margin: 5,
     fontFamily: 'Sukhumvit Set',
     borderWidth: 1,
     shadowColor: Colors.black,

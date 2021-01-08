@@ -17,6 +17,7 @@ import {Colors} from './utils/Colors';
 import ProfileGeneral from './pages/Profile/ProfileGeneral';
 import ProfileSending from './pages/Profile/ProfileSend';
 import Search from './pages/Search';
+import Test from './pages/Test';
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -29,6 +30,8 @@ const MainStackScreen = (navigate) => {
         component={Login}
         options={{headerShown: false}}
       />
+      <MainStack.Screen name="NewItem" component={NewItem} />
+      <MainStack.Screen name="test" component={Test} />
       <MainStack.Screen
         name="People"
         component={ChatIndex}
@@ -43,7 +46,6 @@ const MainStackScreen = (navigate) => {
           title: route.params.name,
         })}
       />
-      <MainStack.Screen name="NewItem" component={NewItem} />
       <MainStack.Screen
         name="Home"
         component={Index}
