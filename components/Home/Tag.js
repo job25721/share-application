@@ -16,17 +16,13 @@ export default ({text, onPress}) => {
 
 const styles = StyleSheet.create({
   tag: {
-    shadowOpacity: 0.2,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
     width: 80,
-    shadowColor: Colors._indigo_400,
+    borderColor: Colors._indigo_300,
+    borderWidth: 1,
+
     backgroundColor: Colors.white,
-    borderRadius: 8,
-    paddingHorizontal: 5,
-    paddingVertical: 3,
+    borderRadius: 30,
+    padding: 5,
     marginHorizontal: 1,
     marginVertical: 3,
   },
