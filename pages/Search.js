@@ -49,8 +49,8 @@ export default (props) => {
                 'เสื้อผ้า',
                 'สิ่งของเครื่องใช้',
                 'ของกิน',
-              ].map((item) => (
-                <Tag text={item} />
+              ].map((item, i) => (
+                <Tag key={i} text={item} />
               ))}
             </View>
           </View>
