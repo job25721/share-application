@@ -16,6 +16,7 @@ export const Button = ({
   px,
   py,
   children,
+  shadow,
 }) => {
   const [btnBg, setType] = useState('transparent');
   const [textColor, setColor] = useState(Colors.black);
@@ -42,6 +43,7 @@ export const Button = ({
         width ? {width: btnWidth} : null,
         mx ? {marginHorizontal: mx} : null,
         my ? {marginVertical: my} : null,
+        shadow ? {shadowOpacity: shadow} : null,
         {paddingHorizontal: paddingX, paddingVertical: paddingY},
       ]}>
       {children ? (
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 5,
     justifyContent: 'center',
+    shadowColor: Colors.black,
   },
   btnText: {
     fontFamily: 'Sukhumvit Set',

@@ -14,6 +14,7 @@ import Chat from './pages/Chat/Chat';
 import ChatIndex from './pages/Chat/Index';
 import PersonModal from './pages/Chat/PersonModal';
 import {Colors} from './utils/Colors';
+import Test from './pages/Test';
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -22,6 +23,7 @@ const MainStackScreen = () => {
   return (
     <MainStack.Navigator mode="card">
       <MainStack.Screen name="NewItem" component={NewItem} />
+      <MainStack.Screen name="test" component={Test} />
       <MainStack.Screen
         name="People"
         component={ChatIndex}
