@@ -9,13 +9,13 @@ import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {Colors} from '../utils/Colors';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import {SliderBox} from 'react-native-image-slider-box';
 
 export default ({navigation: {navigate}, route}) => {
   const [images, setImages] = useState([
-    require('../assets/img/dang.jpg'),
     require('../assets/img/cat.jpg'),
-    require('../assets/img/logo.png'),
-    require('../assets/img/logo2.png'),
+    require('../assets/img/bag.jpg'),
+    require('../assets/img/dang.jpg'),
   ]);
 
   const [currentIdx, setCurrent] = useState(0);
@@ -40,7 +40,7 @@ export default ({navigation: {navigate}, route}) => {
         </View>
         <View style={{marginVertical: 5}}>
           <CustomText fontWeight="bold" type="subheader">
-            {/* {route.params.title ? route.params.title : null} */}
+            {route.params.title ? route.params.title : null}
           </CustomText>
         </View>
         <View style={cardStyles.tagContainer}>
@@ -49,8 +49,19 @@ export default ({navigation: {navigate}, route}) => {
           ))}
         </View>
       </View>
+      {images.length > 0 ? (
+        <SliderBox
+          onCurrentImagePressed={(idx) => {
+            // const img = images.filter((_, i) => i !== idx);
+            // setImages(img);
+          }}
+          on
+          sliderBoxHeight={250}
+          images={images}
+        />
+      ) : null}
       <ScrollView style={{padding: 10}}>
-        <View style={{justifyContent: 'center'}}>
+        {/* <View style={{justifyContent: 'center'}}>
           <Image
             style={{
               width: '100%',
@@ -90,7 +101,7 @@ export default ({navigation: {navigate}, route}) => {
               color={Colors.white}
             />
           ) : null}
-        </View>
+        </View> */}
         <CustomText>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
