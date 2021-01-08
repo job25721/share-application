@@ -24,7 +24,11 @@ const NavigationBar = ({children, navigate}) => {
           text={<Feather name="message-circle" size={30} />}
           px={0}
         />
-        <Button text={<Feather name="user" size={30} />} px={0} />
+        <Button
+          onPress={() => navigate('ProfileGeneral')}
+          text={<Feather name="user" size={30} />}
+          px={0}
+        />
       </View>
     </SafeAreaView>
   );

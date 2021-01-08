@@ -13,6 +13,8 @@ import Chat from './pages/Chat/Chat';
 import ChatIndex from './pages/Chat/Index';
 import PersonModal from './pages/Chat/PersonModal';
 import {Colors} from './utils/Colors';
+import ProfileGeneral from './pages/Profile/ProfileGeneral';
+// import ProfileSend from './pages/Profile/ProfileSend';
 import Search from './pages/Search';
 
 const MainStack = createStackNavigator();
@@ -21,6 +23,20 @@ const RootStack = createStackNavigator();
 const MainStackScreen = () => {
   return (
     <MainStack.Navigator mode="card">
+      <MainStack.Screen
+        name="ProfileGeneral"
+        component={ProfileGeneral}
+        options={{
+          headerRight: () => (
+            <Button text={<FeatherIcon name="more-vertical" size={20} />} />
+          ),
+        }}
+      />
+      <MainStack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+      />
       <MainStack.Screen
         name="People"
         component={ChatIndex}
@@ -35,20 +51,20 @@ const MainStackScreen = () => {
           title: route.params.name,
         })}
       />
-      <MainStack.Screen
-        name="Login"
-        component={Login}
-        options={{headerShown: false}}
-      />
+
       <MainStack.Screen
         name="Home"
         component={Index}
         options={{headerShown: false}}
       />
       <MainStack.Screen
-        name="Search"
-        component={Search}
-        options={{headerShown: false}}
+        name="ProfileGeneral"
+        component={ProfileGeneral}
+        options={{
+          headerRight: () => (
+            <Button text={<FeatherIcon name="more-vertical" size={20} />} />
+          ),
+        }}
       />
       <MainStack.Screen
         name="Detail"
@@ -58,6 +74,11 @@ const MainStackScreen = () => {
             <Button text={<FeatherIcon name="bookmark" size={20} />} />
           ),
         }}
+      />
+      <MainStack.Screen
+        name="Search"
+        component={Search}
+        options={{headerShown: false}}
       />
       <MainStack.Screen
         name="Index"
