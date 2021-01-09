@@ -13,7 +13,7 @@ const PersonModal = ({navigation, requests, route}) => {
               imgSrc={require('../../assets/img/bag.jpg')}
               notification={item}
               onPress={() =>
-                navigation.navigate('Chat', {name: route.params.user})
+                navigation.navigate('ChatRoom', {name: route.params.user})
               }
               key={item}
             />

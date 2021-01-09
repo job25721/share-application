@@ -1,35 +1,39 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, SafeAreaView, ScrollView} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {Button} from './Button/CustomButton';
 
-const NavigationBar = ({children, navigate}) => {
+const NavigationBar = ({state, descriptors, navigation}) => {
+  const focusedOptions = descriptors[state.routes[state.index].key].options;
+
   return (
-    <SafeAreaView style={styles.container}>
-      {children}
+    <SafeAreaView>
       <View style={styles.appBar}>
         <Button
-          onPress={() => navigate('Index')}
+          onPress={() => navigation.navigate('Index')}
           text={<Feather name="home" size={30} />}
           px={0}
         />
         <Button
-          onPress={() => navigate('Search')}
+          onPress={() => navigation.navigate('Search')}
           text={<Feather name="search" size={30} />}
           px={0}
         />
         <Button
-          onPress={() => navigate('NewItem')}
+          onPress={() => {
+            navigation.navigate('SHARE');
+            focusedOptions.tabBarVisible = true;
+          }}
           text={<Feather name="plus" size={30} />}
           px={0}
         />
         <Button
-          onPress={() => navigate('People')}
+          onPress={() => navigation.navigate('Chat')}
           text={<Feather name="message-circle" size={30} />}
           px={0}
         />
         <Button
-          onPress={() => navigate('ProfileGeneral')}
+          onPress={() => navigation.navigate('Profile')}
           text={<Feather name="user" size={30} />}
           px={0}
         />
@@ -40,7 +44,7 @@ const NavigationBar = ({children, navigate}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
   },
   appBar: {
     backgroundColor: '#fff',

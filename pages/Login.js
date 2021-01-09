@@ -51,7 +51,7 @@ export default (props) => {
               bg={Colors._indigo_500}
               color={Colors.white}
               rounded
-              onPress={() => navigate('Index')}
+              onPress={() => navigate('Tab')}
             />
           </View>
           <View

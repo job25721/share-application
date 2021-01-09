@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import {View, Image, ScrollView} from 'react-native';
+import {View, Image, ScrollView, SafeAreaView} from 'react-native';
 import Tag from '../components/Home/Tag';
 import {cardStyles} from '../components/Home/Card';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
@@ -24,8 +24,8 @@ export default ({navigation: {navigate}, route}) => {
   }, [route.params.img]);
 
   return (
-    <NavigationBar navigate={navigate}>
-      <View style={{padding: 10}}>
+    <SafeAreaView>
+      <ScrollView>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Image
             style={{
@@ -51,19 +51,18 @@ export default ({navigation: {navigate}, route}) => {
             <Tag key={item} text={item} />
           ))}
         </View>
-      </View>
-      {images.length > 0 ? (
-        <SliderBox
-          onCurrentImagePressed={(idx) => {
-            // const img = images.filter((_, i) => i !== idx);
-            // setImages(img);
-          }}
-          on
-          sliderBoxHeight={250}
-          images={images}
-        />
-      ) : null}
-      <ScrollView style={{padding: 10}}>
+
+        {images.length > 0 ? (
+          <SliderBox
+            onCurrentImagePressed={(idx) => {
+              // const img = images.filter((_, i) => i !== idx);
+              // setImages(img);
+            }}
+            on
+            sliderBoxHeight={250}
+            images={images}
+          />
+        ) : null}
         {/* <View style={{justifyContent: 'center'}}>
           <Image
             style={{
@@ -116,11 +115,11 @@ export default ({navigation: {navigate}, route}) => {
           more recently with desktop publishing software like Aldus PageMaker
           including versions of Lorem Ipsum.{' '}
         </CustomText>
-      </ScrollView>
 
-      <View>
-        <Button text="ส่งคำขอ" bg={Colors._indigo_600} color={Colors.white} />
-      </View>
-    </NavigationBar>
+        <View>
+          <Button text="ส่งคำขอ" bg={Colors._indigo_600} color={Colors.white} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };

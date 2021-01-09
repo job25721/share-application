@@ -1,74 +1,91 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {SafeAreaView, View, StyleSheet, Alert, ScrollView} from 'react-native';
+
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Home from './Home';
+
+import ChatIndex from './Chat/Index';
+
+import Search from './Search';
+
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
-import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
-import {CustomText} from '../components/CustomStyledComponent/Text';
-import {Card} from '../components/Home/Card';
-import Icon from 'react-native-vector-icons/FontAwesome5Pro';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+import {createStackNavigator} from '@react-navigation/stack';
+import Chat from './Chat/Chat';
+import ProfileGeneral from './Profile/ProfileGeneral';
+import ProfileSend from './Profile/ProfileSend';
+import {Alert} from 'react-native';
+import NewItem from './NewItem';
 import {Colors} from '../utils/Colors';
 import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
 
-export default (props) => {
+const Tab = createBottomTabNavigator();
+
+const ChatStack = createStackNavigator();
+const ChatStackScreen = () => (
+  <ChatStack.Navigator>
+    <ChatStack.Screen
+      name="Messages"
+      component={ChatIndex}
+      options={{headerLeft: () => null}}
+    />
+    <ChatStack.Screen
+      name="ChatRoom"
+      component={Chat}
+      options={({route}) => ({
+        title: route.params.name,
+      })}
+    />
+  </ChatStack.Navigator>
+);
+
+const ProfileStack = createStackNavigator();
+const ProfileStackScreen = () => (
+  <ProfileStack.Navigator>
+    <ProfileStack.Screen
+      name="Posts"
+      component={ProfileGeneral}
+      options={{headerLeft: () => null}}
+    />
+    <ProfileStack.Screen
+      name="ProfileSend"
+      component={ProfileSend}
+      options={{
+        headerRight: () => (
+          <Button text={<FeatherIcon name="more-vertical" size={20} />} />
+        ),
+      }}
+    />
+  </ProfileStack.Navigator>
+);
+
+const TabScreen = () => {
   return (
-    <DismissKeyboard>
-      <NavigationBar navigate={props.navigation.navigate}>
-        <ScrollView style={{padding: 20}}>
-          <CustomText fontSize={30} textAlign="center">
-            Icon
-          </CustomText>
-          <Icon.Button
-            onPress={() => Alert.alert('Login')}
-            borderRadius={10}
-            name="facebook"
-            size={35}>
-            <CustomText fontSize={25} color={Colors.white}>
-              Login with Facebook
-            </CustomText>
-          </Icon.Button>
-          <SafeAreaView style={styles.container}>
-            <View>
-              <Input focus placeholder="Username" />
-              <Input type="password" placeholder="Password" />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
+    <Tab.Navigator tabBar={(props) => <NavigationBar {...props} />}>
+      <Tab.Screen name="Index" component={Home} />
+      <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen
+        name="SHARE"
+        component={NewItem}
+        options={{
+          headerLeft: ({onPress}) => (
+            <Button
+              onPress={() => {
+                Alert.alert('ต้องการยกเลิก ? ', 'ข้อมูลที่คุณกรอกจะหายไป', [
+                  {text: 'OK', onPress},
+                  {text: 'cancel'},
+                ]);
               }}>
-              <Button
-                onPress={() => Alert.alert('hello world')}
-                bg="_indigo_600"
-                text="Login"
-                fontSize={20}
-                color="white"
-              />
-            </View>
-            {[require('../assets/img/dang.jpg'), ''].map((item, i) => (
-              <Card key={i} img={item}>
-                <CustomText type="subheader">อาจารย์แดง กีตาร์</CustomText>
-                <CustomText spacing={10}>กูมีสองหี ดับเบิ้ลหี</CustomText>
-                <CustomText spacing={5}>
-                  มึงด่ากูมึงเกลียดกู มึงเป็นอรหันต์
-                </CustomText>
-                <View style={{alignSelf: 'flex-start'}}>
-                  {/* <Button type="info" text="Like" /> */}
-                </View>
-              </Card>
-            ))}
-          </SafeAreaView>
-        </ScrollView>
-      </NavigationBar>
-    </DismissKeyboard>
+              <FeatherIcon color={Colors._red_600} name="x" size={25} />
+            </Button>
+          ),
+          tabBarVisible: true,
+        }}
+      />
+
+      <Tab.Screen name="Chat" component={ChatStackScreen} />
+      <Tab.Screen name="Profile" component={ProfileStackScreen} />
+    </Tab.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default TabScreen;

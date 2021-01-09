@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
-      height: 0,
+      height: 2,
     },
   },
   onFocus: {

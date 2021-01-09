@@ -24,5 +24,6 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     marginHorizontal: 1,
     marginVertical: 3,
+    justifyContent: 'center',
   },
 });

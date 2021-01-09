@@ -9,7 +9,7 @@ import {ItemChatCard} from '../../components/Chat/ChatCard';
 export default (props) => {
   const {navigation} = props;
   return (
-    <NavigationBar navigate={navigation.navigate}>
+    <>
       <View style={{alignItems: 'center', flex: 1}}>
         <Profile />
         <CustomText fontSize={24}>Pathomporn Pankaew</CustomText>
@@ -47,6 +47,6 @@ export default (props) => {
           ))}
         </ScrollView>
       </View>
-    </NavigationBar>
+    </>
   );
 };
