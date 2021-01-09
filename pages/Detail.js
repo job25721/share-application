@@ -25,8 +25,13 @@ export default ({navigation: {navigate}, route}) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <ScrollView style={{paddingHorizontal: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: 10,
+          }}>
           <Image
             style={{
               width: 50,

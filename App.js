@@ -41,6 +41,7 @@ const RootStackScreen = () => {
             headerRight: () => (
               <Button text={<FeatherIcon name="bookmark" size={20} />} />
             ),
+            headerBackTitle: null,
           }}
         />
         <RootStack.Screen

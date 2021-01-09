@@ -45,7 +45,12 @@ const ProfileStackScreen = () => (
     <ProfileStack.Screen
       name="Posts"
       component={ProfileGeneral}
-      options={{headerLeft: () => null}}
+      options={{
+        headerLeft: () => null,
+        headerRight: () => (
+          <Button text={<FeatherIcon name="more-vertical" size={20} />} />
+        ),
+      }}
     />
     <ProfileStack.Screen
       name="ProfileSend"
