@@ -32,7 +32,7 @@ export default ({navigate}) => {
             height={40}
             px={10}
             py={10}
-            onPress={() => navigate('Chat', {name: 'Pathomporn Pankaew'})}
+            onPress={() => navigate('ChatRoom', {name: 'Pathomporn Pankaew'})}
             rounded
             bg={Colors._indigo_500}>
             <FeatherIcon
@@ -59,7 +59,7 @@ export default ({navigate}) => {
             height={40}
             px={10}
             py={10}
-            onPress={() => navigate('NewItem')}
+            onPress={() => navigate('SHARE')}
             rounded
             bg={Colors._indigo_500}>
             <FeatherIcon

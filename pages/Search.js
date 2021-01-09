@@ -1,8 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, StyleSheet, Alert, Text, SafeAreaView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {Colors} from '../utils/Colors';
-import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
@@ -10,13 +16,10 @@ import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Tag from '../components/Home/Tag';
 import Column from '../components/Search/column';
-import {ScrollView} from 'react-native-gesture-handler';
 
 export default (props) => {
-  const {
-    navigation: {navigate},
-  } = props;
   return (
+    // <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
     <DismissKeyboard>
       <>
         <SafeAreaView style={{flex: 1}}>
@@ -66,12 +69,14 @@ export default (props) => {
         </SafeAreaView>
       </>
     </DismissKeyboard>
+    // </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
     flex: 1,
   },
 });

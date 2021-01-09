@@ -57,7 +57,7 @@ const Chat = () => {
   return (
     <ChatContext.Provider value={{messages, setMessage}}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}
         keyboardVerticalOffset={90}
         style={chatStyles.container}>
         <SafeAreaView style={chatStyles.container}>

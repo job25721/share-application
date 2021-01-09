@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {Colors} from '../utils/Colors';
-import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
+
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
@@ -19,9 +19,6 @@ import CardList from '../components/Home/CardList';
 import {Card} from '../components/Home/Card';
 
 export default (props) => {
-  const {
-    navigation: {navigate},
-  } = props;
   return (
     <DismissKeyboard>
       <>

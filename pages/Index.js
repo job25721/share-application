@@ -33,6 +33,7 @@ const ChatStackScreen = () => (
       component={Chat}
       options={({route}) => ({
         title: route.params.name,
+        headerBackTitle: 'Messages',
       })}
     />
   </ChatStack.Navigator>
@@ -78,7 +79,6 @@ const TabScreen = () => {
               <FeatherIcon color={Colors._red_600} name="x" size={25} />
             </Button>
           ),
-          tabBarVisible: true,
         }}
       />
 
