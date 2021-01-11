@@ -16,18 +16,25 @@ const ChatIndex = (props) => {
   return (
     <ScrollView style={styles.container}>
       <PersonChatCard
+        name="Pathomporn Pankaew"
         onPress={() =>
           navigation.navigate('PersonModal', {user: 'Pathomporn Pankaew'})
         }
       />
-      <ItemChatCard
+      <PersonChatCard
+        name="แสตมป์ ขุนแผน"
+        onPress={() =>
+          navigation.navigate('PersonModal', {user: 'แสตมปื ขุนแผน'})
+        }
+      />
+      {/* <ItemChatCard
         title="กระเป๋า anello (เจ้าของ Stamp)"
         imgSrc={require('../../assets/img/bag.jpg')}
         notification={2}
         onPress={() =>
           navigation.navigate('ChatRoom', {name: 'Stamp Watcharin'})
         }
-      />
+      /> */}
     </ScrollView>
   );
 };

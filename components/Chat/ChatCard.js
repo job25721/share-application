@@ -48,12 +48,12 @@ const ItemChatCard = ({onPress, title, notification, lastedMsg, imgSrc}) => {
   );
 };
 
-const PersonChatCard = ({onPress}) => {
+const PersonChatCard = ({onPress, name}) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.chatListCard}>
       <Image style={styles.img} source={require('../../assets/img/cat.jpg')} />
       <View style={{width: '60%'}}>
-        <CustomText fontWeight="500">Pathomporn Pankaew</CustomText>
+        <CustomText fontWeight="500">{name}</CustomText>
       </View>
       <View style={styles.notiBadge}>
         <CustomText textAlign="center" color={Colors.white}>
