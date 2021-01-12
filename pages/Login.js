@@ -11,7 +11,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-import {Colors} from '../utils/Colors';
+import {Colors, PantoneColor} from '../utils/Colors';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 
 import {CustomText} from '../components/CustomStyledComponent/Text';
@@ -32,23 +32,26 @@ export default (props) => {
           <View
             style={{
               alignItems: 'center',
-              // backgroundColor: 'red',
             }}>
-            <Image source={require('../assets/img/logo.png')} />
-            <CustomText color={Colors._indigo_600} spacing={5} type="header">
+            <Image
+              style={{height: 150, width: 150, borderRadius: 50}}
+              source={require('../assets/img/realLogo.png')}
+            />
+            <CustomText
+              color={PantoneColor.livingCoral}
+              spacing={5}
+              type="header">
               SHARE
             </CustomText>
-            <View>
+            <View style={{marginVertical: 10}}>
               <CustomText>Email</CustomText>
               <Input focus rounded width={250} />
-            </View>
-            <View>
               <CustomText>Password</CustomText>
               <Input focus rounded width={250} />
             </View>
             <Button
               text="Login"
-              bg={Colors._indigo_500}
+              bg={PantoneColor.turkishSea}
               color={Colors.white}
               rounded
               onPress={() => navigate('Tab')}
@@ -58,8 +61,6 @@ export default (props) => {
             style={{
               alignItems: 'center',
               justifyContent: 'flex-end',
-              // flex: 1,
-              // backgroundColor: 'blue',
             }}>
             <Button text="Create new Account" color={Colors._indigo_500} />
             <CustomText color="#b5b5b5" fontSize={15}>
@@ -101,9 +102,6 @@ export default (props) => {
 const styles = StyleSheet.create({
   socialLogin: {
     flexDirection: 'row',
-  },
-  icon: {
-    // marginHorizontal: 10,
   },
   container: {
     alignItems: 'center',
