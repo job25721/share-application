@@ -3,7 +3,7 @@ import React from 'react';
 import {View, ScrollView} from 'react-native';
 import {CustomText} from '../../components/CustomStyledComponent/Text';
 import Profile from '../../components/Profile/ProfileImage';
-import CardList from '../../components/Home/CardList';
+import CardList from '../../components/Profile/ProfileImage';
 export default (props) => {
   return (
     <ScrollView style={{flex: 1}}>
