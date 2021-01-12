@@ -33,7 +33,6 @@ const RootStackScreen = () => {
           component={TabScreen}
           options={{headerShown: false}}
         />
-
         <RootStack.Screen
           name="Detail"
           component={Detail}

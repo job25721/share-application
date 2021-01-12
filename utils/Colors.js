@@ -59,7 +59,7 @@ export const Colors = {
   _indigo_500: 'rgb(99, 102, 241)',
   _indigo_600: 'rgb(79, 70, 229)',
   _indigo_700: 'rgb(67, 56, 202)',
-  _indigo_800: 'rgb(55, 48, 163)',
+  _indigo_800: 'rgb(55,48,163)',
   _indigo_900: 'rgb(49, 46, 129)',
   _purple_50: 'rgb(245, 243, 255)',
   _purple_100: 'rgb(237, 233, 254)',
@@ -84,4 +84,15 @@ export const Colors = {
   facebook: '#3b5998',
   google: '#ea4335',
   grey: 'rgb(156, 163, 175)',
+};
+
+export const PantoneColor = {
+  livingCoral: '#EF6E62',
+  blueDepths: '#243057',
+  turkishSea: '#175393',
+  viridianGreen: '#3E959C',
+  turtleGreen: '#818A50',
+  seaPink: '#E099AA',
+  vibrantYellow: '#FADA4B',
+  limpetShell: '#9CD9DA',
 };

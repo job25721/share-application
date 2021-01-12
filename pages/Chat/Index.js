@@ -1,13 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-  Alert,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import NavigationBar from '../../components/CustomStyledComponent/NavigationBar';
 import {ItemChatCard, PersonChatCard} from '../../components/Chat/ChatCard';
 
