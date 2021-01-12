@@ -11,7 +11,6 @@ export const CustomText = ({
   type,
   textAlign,
   color,
-  marginTop,
 }) => {
   const [size, setSize] = useState(18);
   const [letterSpacing, setSpacing] = useState(0);
