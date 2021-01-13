@@ -88,6 +88,7 @@ export const Colors = {
 
 export const PantoneColor = {
   livingCoral: '#EF6E62',
+  veryLivingCoral: '#FFE6E3',
   blueDepths: '#243057',
   turkishSea: '#175393',
   viridianGreen: '#3E959C',

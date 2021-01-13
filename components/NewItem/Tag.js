@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
-import {Colors} from '../../utils/Colors';
+import {PantoneColor} from '../../utils/Colors';
 import {CustomText} from '../CustomStyledComponent/Text';
 import {TagContext} from './Form';
 const FormTag = ({id, name}) => {
@@ -17,7 +17,10 @@ const FormTag = ({id, name}) => {
         ])
       }
       style={styles.tag}>
-      <CustomText fontSize={13} fontWeight="bold" color={Colors.white}>
+      <CustomText
+        fontSize={13}
+        fontWeight="bold"
+        color={PantoneColor.livingCoral}>
         {name}
       </CustomText>
     </TouchableOpacity>
@@ -26,7 +29,7 @@ const FormTag = ({id, name}) => {
 
 const styles = StyleSheet.create({
   tag: {
-    backgroundColor: Colors._indigo_500,
+    backgroundColor: PantoneColor.veryLivingCoral,
     borderRadius: 20,
     justifyContent: 'center',
     paddingHorizontal: 10,
@@ -34,7 +37,6 @@ const styles = StyleSheet.create({
     margin: 2,
     padding: 10,
     height: 35,
-    // marginVertical: 10,
   },
 });
 
