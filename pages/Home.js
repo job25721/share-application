@@ -9,7 +9,7 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import {Card} from '../components/Home/Card';
 import {Icon} from '../components/Home/IconList';
 
-export default (props) => {
+export default (props, navigate) => {
   return (
     <DismissKeyboard>
       <>
@@ -28,7 +28,13 @@ export default (props) => {
               </View>
             </View>
             <View>
-              <FeatherIcon name="message-circle" size={40} />
+              <FeatherIcon
+                onPress={() =>
+                  navigate('ChatRoom', {name: 'Pathomporn Pankaew'})
+                }
+                name="message-circle"
+                size={40}
+              />
             </View>
           </View>
           <View style={{padding: 10}}>
