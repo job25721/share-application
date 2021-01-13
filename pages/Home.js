@@ -1,20 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-  ScrollView,
-  View,
-  Image,
-  StyleSheet,
-  Alert,
-  SafeAreaView,
-} from 'react-native';
-import {Colors} from '../utils/Colors';
-
+import {ScrollView, View, Image, StyleSheet, SafeAreaView} from 'react-native';
+import {Colors, PantoneColor} from '../utils/Colors';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
-import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import CardList from '../components/Home/CardList';
 import {Card} from '../components/Home/Card';
 
@@ -24,41 +15,34 @@ export default (props) => {
       <>
         <SafeAreaView style={{flex: 1}}>
           <View style={styles.headerContainer}>
-            <Image source={require('../assets/img/logo2.png')} />
             <View style={{flexDirection: 'row'}}>
+              <Image
+                style={{marginRight: 10}}
+                source={require('../assets/img/profile.png')}
+              />
               <View style={{justifyContent: 'center', paddingRight: 10}}>
                 <CustomText fontSize={14}>Pathomporn Pankaew</CustomText>
-                <CustomText fontSize={14} textAlign="right">
+                <CustomText fontSize={14} textAlign="left">
                   @Job55140
                 </CustomText>
               </View>
-              <Image source={require('../assets/img/profile.png')} />
+            </View>
+            <View>
+              <FeatherIcon name="message-circle" size={40} />
             </View>
           </View>
-          <View style={{padding: 20}}>
-            <CustomText color={Colors._indigo_600} spacing={5} type="header">
+          <View style={{padding: 10}}>
+            <CustomText
+              color={PantoneColor.livingCoral}
+              spacing={5}
+              type="header">
               SHARE
             </CustomText>
           </View>
           <ScrollView style={{paddingHorizontal: 10}}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-              <Input focus placeholder="Search" shadow="md" width="70%" />
-              <Button
-                onPress={() => Alert.alert('รักอาจารย์ชินค้าบบ')}
-                rounded
-                text={<FeatherIcon name="search" size={30} />}
-                bg={Colors._indigo_500}
-                color={Colors.white}
-                py={10}
-              />
-            </View>
             <View style={{marginTop: 20, marginBottom: 10}}>
               <CustomText fontSize={20} fontWeight={'bold'}>
-                เลือกหมวดหมู่ที่ใช่
-              </CustomText>
-              <CustomText fontSize={20} fontWeight={'bold'}>
-                สำหรับคุณ
+                เลือกหมวดหมู่ที่ใช่สำหรับคุณ
               </CustomText>
             </View>
             <ScrollView horizontal style={{height: 230}}>
@@ -66,9 +50,14 @@ export default (props) => {
                 <CardList key={item} />
               ))}
             </ScrollView>
-            <View style={{marginVertical: 20}}>
+            <View style={{marginVertical: 20, flexDirection: 'row'}}>
+              <AwesomeIcon
+                style={{marginRight: 8, color: PantoneColor.livingCoral}}
+                size={25}
+                name="fire-alt"
+              />
               <CustomText fontSize={22} fontWeight={'bold'}>
-                Trending
+                กำลังมาแรง
               </CustomText>
             </View>
             <View style={{alignItems: 'center'}}>

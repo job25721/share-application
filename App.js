@@ -24,15 +24,16 @@ const RootStackScreen = () => {
     <NavigationContainer>
       <RootStack.Navigator mode="modal">
         <RootStack.Screen
-          name="Login"
-          component={Login}
-          options={{headerShown: false}}
-        />
-        <RootStack.Screen
           name="Tab"
           component={TabScreen}
           options={{headerShown: false}}
         />
+        <RootStack.Screen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
+
         <RootStack.Screen
           name="Detail"
           component={Detail}
