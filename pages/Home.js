@@ -6,8 +6,8 @@ import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboa
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
-import CardList from '../components/Home/CardList';
 import {Card} from '../components/Home/Card';
+import {Icon} from '../components/Home/IconList';
 
 export default (props) => {
   return (
@@ -45,9 +45,34 @@ export default (props) => {
                 เลือกหมวดหมู่ที่ใช่สำหรับคุณ
               </CustomText>
             </View>
-            <ScrollView horizontal style={{height: 230}}>
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <CardList key={item} />
+            <ScrollView horizontal>
+              {[
+                {
+                  nameIcon: 'tshirt',
+                  text: 'เสื้อผ้า',
+                },
+                {
+                  nameIcon: 'chair',
+                  text: 'เฟอร์นิเจอร์',
+                },
+                {
+                  nameIcon: 'book',
+                  text: 'หนังสือ',
+                },
+                {
+                  nameIcon: 'pen',
+                  text: 'อุปกรณ์การเรียน',
+                },
+                {
+                  nameIcon: 'hamburger',
+                  text: 'อาหาร',
+                },
+                {
+                  nameIcon: 'paw',
+                  text: 'สัตว์เลี้ยง',
+                },
+              ].map((item, i) => (
+                <Icon key={i} text={item.text} nameIcon={item.nameIcon} />
               ))}
             </ScrollView>
             <View style={{marginVertical: 20, flexDirection: 'row'}}>

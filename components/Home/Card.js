@@ -99,6 +99,7 @@ export const cardStyles = StyleSheet.create({
   },
   btnView: {
     flexDirection: 'row',
-    marginVertical: 2.5,
+    marginVertical: 10,
+    justifyContent: 'center',
   },
 });
