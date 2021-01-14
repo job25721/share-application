@@ -13,10 +13,10 @@ import PersonModal from './pages/Chat/PersonModal';
 import {Colors} from './utils/Colors';
 
 import Detail from './pages/Detail';
-import {Alert} from 'react-native';
 import TabScreen from './pages/Index';
 import Chat from './pages/Chat/Chat';
-import Pro from './pages/Profile/ProfileComplete';
+
+import ChatIndex from './pages/Chat/Index';
 
 const RootStack = createStackNavigator();
 
@@ -25,8 +25,8 @@ const RootStackScreen = () => {
     <NavigationContainer>
       <RootStack.Navigator mode="modal">
         <RootStack.Screen
-          name="Pro"
-          component={Pro}
+          name="Login"
+          component={Login}
           options={{headerShown: false}}
         />
         <RootStack.Screen
@@ -34,13 +34,6 @@ const RootStackScreen = () => {
           component={TabScreen}
           options={{headerShown: false}}
         />
-
-        <RootStack.Screen
-          name="Login"
-          component={Login}
-          options={{headerShown: false}}
-        />
-
         <RootStack.Screen
           name="Detail"
           component={Detail}
@@ -48,6 +41,26 @@ const RootStackScreen = () => {
             headerRight: () => (
               <Button text={<FeatherIcon name="bookmark" size={20} />} />
             ),
+            headerLeft: ({onPress}) => (
+              <Button onPress={onPress}>
+                <FeatherIcon color={Colors._red_600} name="x" size={25} />
+              </Button>
+            ),
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="Chat"
+          component={ChatStackScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="SHARE"
+          component={NewItem}
+          options={{
+            headerShown: false,
           }}
         />
         <RootStack.Screen
@@ -66,5 +79,26 @@ const RootStackScreen = () => {
     </NavigationContainer>
   );
 };
+
+const ChatStack = createStackNavigator();
+const ChatStackScreen = () => (
+  <ChatStack.Navigator>
+    <ChatStack.Screen
+      name="Messages"
+      component={ChatIndex}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <ChatStack.Screen
+      name="ChatRoom"
+      component={Chat}
+      options={({route}) => ({
+        title: route.params.name,
+        headerBackTitle: 'Messages',
+      })}
+    />
+  </ChatStack.Navigator>
+);
 
 export default RootStackScreen;

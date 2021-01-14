@@ -20,25 +20,6 @@ import NavigationBar from '../components/CustomStyledComponent/NavigationBar';
 
 const Tab = createBottomTabNavigator();
 
-const ChatStack = createStackNavigator();
-const ChatStackScreen = () => (
-  <ChatStack.Navigator>
-    <ChatStack.Screen
-      name="Messages"
-      component={ChatIndex}
-      options={{headerLeft: () => null}}
-    />
-    <ChatStack.Screen
-      name="ChatRoom"
-      component={Chat}
-      options={({route}) => ({
-        title: route.params.name,
-        headerBackTitle: 'Messages',
-      })}
-    />
-  </ChatStack.Navigator>
-);
-
 const ProfileStack = createStackNavigator();
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
@@ -69,25 +50,6 @@ const TabScreen = () => {
     <Tab.Navigator tabBar={(props) => <NavigationBar {...props} />}>
       <Tab.Screen name="Index" component={Home} />
       <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen
-        name="SHARE"
-        component={NewItem}
-        options={{
-          headerLeft: ({onPress}) => (
-            <Button
-              onPress={() => {
-                Alert.alert('ต้องการยกเลิก ? ', 'ข้อมูลที่คุณกรอกจะหายไป', [
-                  {text: 'OK', onPress},
-                  {text: 'cancel'},
-                ]);
-              }}>
-              <FeatherIcon color={Colors._red_600} name="x" size={25} />
-            </Button>
-          ),
-        }}
-      />
-
-      <Tab.Screen name="Chat" component={ChatStackScreen} />
       <Tab.Screen name="Profile" component={ProfileStackScreen} />
     </Tab.Navigator>
   );

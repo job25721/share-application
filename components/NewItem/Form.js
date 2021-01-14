@@ -18,7 +18,7 @@ import FormTag from './Tag';
 import TypePicer from './TypePicker';
 import {CustomText} from '../CustomStyledComponent/Text';
 import ImgPreview from './ImgPreview';
-import {KeyboardAvoidingView} from 'react-native';
+import {KeyboardAvoidingView, Alert} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 import ImagePicker from 'react-native-image-crop-picker';
 import CameraBtn from './CameraBtn';
@@ -71,10 +71,19 @@ const NewItemfForm = () => {
         {images.length > 0 ? (
           <SliderBox
             onCurrentImagePressed={(idx) => {
-              // const img = images.filter((_, i) => i !== idx);
-              // setImages(img);
+              Alert.alert('Remove photo', 'ค้องการลบรูปนี้', [
+                {
+                  text: 'OK',
+                  onPress: () => {
+                    const img = images.filter((_, i) => i !== idx);
+                    setImages(img);
+                  },
+                },
+                {
+                  text: 'Cancel',
+                },
+              ]);
             }}
-            on
             sliderBoxHeight={400}
             images={images}
           />
@@ -141,7 +150,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    // padding: 10,
+    padding: 10,
   },
   uploadSection: {
     justifyContent: 'center',

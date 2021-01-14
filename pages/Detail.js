@@ -9,20 +9,25 @@ import {Colors, PantoneColor} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {SliderBox} from 'react-native-image-slider-box';
 
-export default ({navigation: {navigate}, route}) => {
+export default ({navigation, route}) => {
   const [images, setImages] = useState([
     require('../assets/img/cat.jpg'),
     require('../assets/img/bag.jpg'),
     require('../assets/img/dang.jpg'),
   ]);
 
-  const [currentIdx, setCurrent] = useState(0);
   useEffect(() => {
     route.params.img ? setImages([route.params.img]) : null;
   }, [route.params.img]);
 
   return (
     <SafeAreaView>
+      <Button onPress={() => navigation.goBack()}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <FeatherIcon style={{paddingRight: 10}} name="arrow-left" size={30} />
+          <CustomText>Back</CustomText>
+        </View>
+      </Button>
       <ScrollView style={{paddingHorizontal: 20}}>
         <View
           style={{

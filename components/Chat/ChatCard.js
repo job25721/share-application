@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     width: 50,
   },
   chatListCard: {
-    backgroundColor: PantoneColor.limpetShell,
+    backgroundColor: Colors._gray_900,
     borderRadius: 25,
     padding: 10,
     paddingVertical: 20,
