@@ -10,12 +10,7 @@ const PersonModal = ({navigation, requests, route}) => {
   return (
     <View style={{backgroundColor: Colors.white}}>
       <SafeAreaView>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 10,
-          }}>
+        <View style={styles.header}>
           <Button onPress={() => navigation.goBack()}>
             <Feather name="arrow-left" size={25} />
           </Button>
@@ -48,6 +43,11 @@ const PersonModal = ({navigation, requests, route}) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
   },
 });
 

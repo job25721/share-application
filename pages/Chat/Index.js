@@ -15,7 +15,7 @@ const ChatIndex = (props) => {
   const [activeIndex, setActive] = useState(0);
   return (
     <SafeAreaView style={{backgroundColor: Colors.white, flex: 1}}>
-      <View style={{flexDirection: 'row', marginTop: 20}}>
+      <View style={styles.header}>
         <Button onPress={() => navigation.goBack()}>
           <Feather name="arrow-left" size={30} />
         </Button>
@@ -23,12 +23,7 @@ const ChatIndex = (props) => {
           Chat
         </CustomText>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          margin: 10,
-        }}>
+      <View style={styles.chatTab}>
         <Button
           onPress={() => setActive(0)}
           bg={activeIndex === 0 ? PantoneColor.livingCoral : 'transparent'}>
@@ -54,6 +49,12 @@ const ChatIndex = (props) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
+  },
+  header: {flexDirection: 'row', marginTop: 20},
+  chatTab: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    margin: 10,
   },
 });
 

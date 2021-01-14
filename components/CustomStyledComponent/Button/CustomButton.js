@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text, StyleSheet, Platform} from 'react-native';
 import {Colors} from '../../../utils/Colors';
 
 export const Button = ({
@@ -23,7 +23,7 @@ export const Button = ({
   const [textSize, setSize] = useState(18);
   const [btnWidth, setBtnWidth] = useState(null);
   const [paddingX, setPx] = useState(25);
-  const [paddingY, setPy] = useState(5);
+  const [paddingY, setPy] = useState(Platform.OS === 'ios' ? 5 : 10);
   useEffect(() => {
     bg ? setType(bg) : null;
     fontSize ? setSize(fontSize) : null;

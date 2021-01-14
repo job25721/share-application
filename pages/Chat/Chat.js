@@ -66,22 +66,12 @@ const Chat = ({route, navigation}) => {
         // keyboardVerticalOffset={90}
         style={chatStyles.container}>
         <SafeAreaView style={chatStyles.container}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: 10,
-            }}>
+          <View style={chatStyles.header}>
             <Button px={15} onPress={() => navigation.goBack()}>
               <Feather size={25} name="arrow-left" />
             </Button>
             <Image
-              style={{
-                height: 40,
-                width: 40,
-                borderRadius: 50,
-                marginRight: 10,
-              }}
+              style={chatStyles.userImg}
               source={require('../../assets/img/stamp.png')}
             />
             <CustomText fontSize={20}>{route.params.name}</CustomText>
@@ -117,6 +107,17 @@ const chatStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 5,
     backgroundColor: Colors.white,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  userImg: {
+    height: 40,
+    width: 40,
+    borderRadius: 50,
+    marginRight: 10,
   },
 });
 

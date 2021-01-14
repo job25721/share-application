@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import {View, Image, ScrollView, SafeAreaView} from 'react-native';
+import {View, Image, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 import Tag from '../components/Home/Tag';
-import {cardStyles} from '../components/Home/Card';
+
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {Colors, PantoneColor} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -22,9 +22,9 @@ export default ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={{paddingLeft: 10, marginTop: 10}}>
+      <View style={styles.header}>
         <Button px={0} onPress={() => navigation.goBack()}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={styles.backBtnView}>
             <FeatherIcon
               style={{paddingRight: 10}}
               name="arrow-left"
@@ -35,49 +35,36 @@ export default ({navigation, route}) => {
         </Button>
       </View>
       <ScrollView>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-          }}>
-          <Image
-            style={{
-              width: 50,
-              height: 50,
-              borderRadius: 50,
-            }}
-            source={require('../assets/img/stamp.png')}
-          />
-          <View style={{paddingHorizontal: 15}}>
-            <CustomText fontWeight="500" fontSize={18}>
-              Stamp Watcharin
-            </CustomText>
-            <CustomText
-              fontWeight="500"
-              fontSize={14}
-              color={PantoneColor.blueDepths}>
-              <FeatherIcon color={Colors._red_500} name="map-pin" size={18} />
-              Chiang Mai University
+        {/*to photo*/}
+        <View style={{paddingHorizontal: 20}}>
+          <View style={styles.userDetailView}>
+            <Image
+              style={styles.userImg}
+              source={require('../assets/img/stamp.png')}
+            />
+            <View style={{paddingHorizontal: 15}}>
+              <CustomText fontWeight="500" fontSize={18}>
+                Stamp Watcharin
+              </CustomText>
+              <CustomText
+                fontWeight="500"
+                fontSize={14}
+                color={PantoneColor.blueDepths}>
+                <FeatherIcon color={Colors._red_500} name="map-pin" size={18} />
+                Chiang Mai University
+              </CustomText>
+            </View>
+          </View>
+          <View style={{marginVertical: 5}}>
+            <CustomText fontWeight="bold" fontSize={23}>
+              {route.params.title ? route.params.title : null}
             </CustomText>
           </View>
-        </View>
-        <View style={{marginVertical: 5, paddingHorizontal: 20}}>
-          <CustomText fontWeight="bold" fontSize={23}>
-            {route.params.title ? route.params.title : null}
-          </CustomText>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            marginBottom: 10,
-            paddingHorizontal: 20,
-          }}>
-          {['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'].map((item) => (
-            <Tag key={item} text={item} />
-          ))}
+          <View style={styles.tagView}>
+            {['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'].map((item) => (
+              <Tag key={item} text={item} />
+            ))}
+          </View>
         </View>
 
         {images.length > 0 ? (
@@ -88,13 +75,7 @@ export default ({navigation, route}) => {
             images={images}
           />
         ) : null}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            paddingHorizontal: 25,
-          }}>
+        <View style={styles.optionsView}>
           <Button color={Colors.black} px={0}>
             <FeatherIcon size={30} name="bookmark" />
           </Button>
@@ -118,3 +99,29 @@ export default ({navigation, route}) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  header: {paddingLeft: 10, marginTop: 10},
+  backBtnView: {flexDirection: 'row', alignItems: 'center'},
+  userDetailView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  userImg: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+  },
+  tagView: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 10,
+  },
+  optionsView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 25,
+  },
+});
