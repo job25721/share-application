@@ -23,7 +23,7 @@ const RootStack = createStackNavigator();
 const RootStackScreen = () => {
   return (
     <NavigationContainer>
-      <RootStack.Navigator mode="modal">
+      <RootStack.Navigator mode="card">
         <RootStack.Screen
           name="Login"
           component={Login}
