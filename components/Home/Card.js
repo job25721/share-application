@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import {useState} from 'react/cjs/react.development';
 import Tag from './Tag';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
@@ -16,60 +16,67 @@ export const Card = ({name, title, tag, img, navigate}) => {
     tag ? setTag(tag) : setTag([]);
   }, [tag]);
   return (
-    <View style={cardStyles.card}>
-      <Image style={cardStyles.img} source={img && img !== '' ? img : imgUrl} />
-      <View style={cardStyles.content}>
-        <View
-          style={{flexDirection: 'row', alignItems: 'center', height: '25%'}}>
-          <Image
-            style={{
-              width: 50,
-              height: 50,
-              borderRadius: 50,
-            }}
-            source={require('../../assets/img/stamp.png')}
-          />
-          <View style={{paddingHorizontal: 15}}>
-            <CustomText fontWeight="500" fontSize={18}>
-              {name}
-            </CustomText>
-            <CustomText
-              fontWeight="500"
-              fontSize={12}
-              color={PantoneColor.blueDepths}>
-              <FeatherIcon color={Colors._red_500} name="map-pin" size={16} />
-              Chiang Mai University
+    <>
+      <TouchableOpacity
+        style={cardStyles.card}
+        onPress={() => navigate('Detail', {title, img})}>
+        <Image
+          style={cardStyles.img}
+          source={img && img !== '' ? img : imgUrl}
+        />
+        <View style={cardStyles.content}>
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', height: '25%'}}>
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50,
+              }}
+              source={require('../../assets/img/stamp.png')}
+            />
+            <View style={{paddingHorizontal: 15}}>
+              <CustomText fontWeight="500" fontSize={18}>
+                {name}
+              </CustomText>
+              <CustomText
+                fontWeight="500"
+                fontSize={12}
+                color={PantoneColor.blueDepths}>
+                <FeatherIcon color={Colors._red_500} name="map-pin" size={16} />
+                Chiang Mai University
+              </CustomText>
+            </View>
+          </View>
+          <View>
+            <CustomText fontWeight="bold" fontSize={20}>
+              {title}
             </CustomText>
           </View>
+          <View style={cardStyles.tagContainer}>
+            {tagArr.map((item) => (
+              <Tag key={item} text={item} />
+            ))}
+          </View>
         </View>
-        <View style={{marginVertical: 5}}>
-          <CustomText fontWeight="bold" fontSize={20}>
-            {title}
-          </CustomText>
-        </View>
-        <View style={cardStyles.tagContainer}>
-          {tagArr.map((item) => (
-            <Tag key={item} text={item} />
-          ))}
-        </View>
-        <View style={cardStyles.btnView}>
-          <Button
-            rounded
-            text="ส่งคำขอ"
-            bg={Colors._indigo_500}
-            color={Colors.white}
-            onPress={() => navigate('Chat', {name})}
-          />
-          <Button
-            rounded
-            text="ดูรายละเอียด"
-            bg={Colors._gray_900}
-            color={Colors.black}
-            onPress={() => navigate('Detail', {title, img})}
-          />
-        </View>
-      </View>
-    </View>
+      </TouchableOpacity>
+      {/*<View style={cardStyles.btnView}>*/}
+      {/*  <Button*/}
+      {/*    rounded*/}
+      {/*    text="ส่งคำขอ"*/}
+      {/*    bg={Colors._indigo_500}*/}
+      {/*    color={Colors.white}*/}
+      {/*    onPress={() => navigate('Chat', {name})}*/}
+      {/*  />*/}
+      {/*  <Button*/}
+      {/*    rounded*/}
+      {/*    text="ดูรายละเอียด"*/}
+      {/*    bg={Colors._gray_900}*/}
+      {/*    color={Colors.black}*/}
+      {/*    onPress={() => navigate('Detail', {title, img})}*/}
+      {/*  />*/}
+      {/*</View>*/}
+    </>
   );
 };
 
