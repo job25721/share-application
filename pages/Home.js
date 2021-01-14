@@ -8,8 +8,9 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import {Card} from '../components/Home/Card';
 import {Icon} from '../components/Home/IconList';
+import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 
-export default (props, navigate) => {
+export default (props) => {
   return (
     <DismissKeyboard>
       <>
@@ -27,15 +28,9 @@ export default (props, navigate) => {
                 </CustomText>
               </View>
             </View>
-            <View>
-              <FeatherIcon
-                onPress={() =>
-                  navigate('ChatRoom', {name: 'Pathomporn Pankaew'})
-                }
-                name="message-circle"
-                size={40}
-              />
-            </View>
+            <Button onPress={() => props.navigation.navigate('Chat')} px={0}>
+              <FeatherIcon name="message-circle" size={40} />
+            </Button>
           </View>
           <View style={{padding: 10}}>
             <CustomText
