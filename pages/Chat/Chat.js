@@ -6,14 +6,19 @@ import {
   Keyboard,
   ScrollView,
   Platform,
+  View,
+  Image,
 } from 'react-native';
 
 import ChatBubble from '../../components/Chat/ChatBubble';
 import ChatForm from '../../components/Chat/ChatForm';
-import {Colors} from '../../utils/Colors';
+import {Colors, PantoneColor} from '../../utils/Colors';
+import {CustomText} from '../../components/CustomStyledComponent/Text';
+import {Button} from '../../components/CustomStyledComponent/Button/CustomButton';
+import Feather from 'react-native-vector-icons/Feather';
 
 export const ChatContext = createContext({});
-const Chat = () => {
+const Chat = ({route, navigation}) => {
   const now = new Date();
   const [messages, setMessage] = useState([
     {
@@ -58,9 +63,28 @@ const Chat = () => {
     <ChatContext.Provider value={{messages, setMessage}}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : ''}
-        keyboardVerticalOffset={90}
+        // keyboardVerticalOffset={90}
         style={chatStyles.container}>
         <SafeAreaView style={chatStyles.container}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Button px={15} onPress={() => navigation.goBack()}>
+              <Feather size={25} name="arrow-left" />
+            </Button>
+            <Image
+              style={{
+                height: 40,
+                width: 40,
+                borderRadius: 50,
+                marginRight: 10,
+              }}
+              source={require('../../assets/img/stamp.png')}
+            />
+            <CustomText fontSize={20}>{route.params.name}</CustomText>
+          </View>
           <ScrollView
             onContentSizeChange={() =>
               scrollRef.current.scrollToEnd({animate: true})
@@ -90,7 +114,7 @@ const chatStyles = StyleSheet.create({
   },
   chatView: {
     paddingHorizontal: 10,
-
+    paddingTop: 5,
     backgroundColor: Colors.white,
   },
 });

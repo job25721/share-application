@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, SafeAreaView} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {Colors} from '../../utils/Colors';
+import {Colors, PantoneColor} from '../../utils/Colors';
 import {Button} from './Button/CustomButton';
 
 const Routes = {
@@ -102,19 +102,11 @@ const styles = StyleSheet.create({
   appBar: {
     backgroundColor: Colors.white,
     alignItems: 'center',
-    paddingHorizontal: 40,
-
+    paddingHorizontal: '7%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    // shadowColor: '#000',
-    // shadowOpacity: 0.2,
-
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 0,
-    // },
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
 });
 

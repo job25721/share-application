@@ -96,10 +96,13 @@ const ChatStackScreen = () => (
     <ChatStack.Screen
       name="ChatRoom"
       component={Chat}
-      options={({route}) => ({
-        title: route.params.name,
-        headerBackTitle: 'Messages',
-      })}
+      options={{
+        headerShown: false,
+      }}
+      // options={({route}) => ({
+      //   title: route.params.name,
+      //   headerBackTitle: 'Messages',
+      // })}
     />
   </ChatStack.Navigator>
 );

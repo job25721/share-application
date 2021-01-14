@@ -33,7 +33,7 @@ const ChatIndex = (props) => {
           onPress={() => setActive(0)}
           bg={activeIndex === 0 ? PantoneColor.livingCoral : 'transparent'}>
           <CustomText color={activeIndex === 0 ? Colors.white : Colors.black}>
-            ของที่กำลังรับ
+            ของที่กำลังขอรับ
           </CustomText>
         </Button>
         <Button
