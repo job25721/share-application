@@ -4,21 +4,24 @@ import {View, StyleSheet} from 'react-native';
 import {PantoneColor} from '../../utils/Colors';
 import {CustomText} from '../CustomStyledComponent/Text';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import {Button} from '../CustomStyledComponent/Button/CustomButton';
 
-export const Icon = ({nameIcon, text}) => {
+export const IconList = ({nameIcon, text}) => {
   return (
-    <View style={{alignItems: 'center'}}>
-      <View style={styles.container}>
-        <AwesomeIcon
-          style={{color: PantoneColor.livingCoral}}
-          name={nameIcon}
-          size={35}
-        />
+    <Button px={0} mx={0}>
+      <View style={{alignItems: 'center'}}>
+        <View style={styles.container}>
+          <AwesomeIcon
+            style={{color: PantoneColor.livingCoral}}
+            name={nameIcon}
+            size={35}
+          />
+        </View>
+        <CustomText fontSize={16} color={PantoneColor.livingCoral}>
+          {text}
+        </CustomText>
       </View>
-      <CustomText fontSize={16} color={PantoneColor.livingCoral}>
-        {text}
-      </CustomText>
-    </View>
+    </Button>
   );
 };
 
