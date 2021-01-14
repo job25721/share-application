@@ -66,14 +66,17 @@ const RootStackScreen = () => {
         <RootStack.Screen
           name="PersonModal"
           component={PersonModal}
-          options={({route}) => ({
-            title: route.params.user,
-            headerLeft: ({onPress}) => (
-              <Button onPress={onPress}>
-                <FeatherIcon color={Colors._red_600} name="x" size={25} />
-              </Button>
-            ),
-          })}
+          options={{
+            headerShown: false,
+          }}
+          // options={({route}) => ({
+          //   title: route.params.user,
+          //   headerLeft: ({onPress}) => (
+          //     <Button onPress={onPress}>
+          //       <FeatherIcon color={Colors._red_600} name="x" size={25} />
+          //     </Button>
+          //   ),
+          // })}
         />
       </RootStack.Navigator>
     </NavigationContainer>

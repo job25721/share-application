@@ -1,11 +1,24 @@
 import React from 'react';
 import {View, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 import {ItemChatCard} from '../../components/Chat/ChatCard';
+import {Colors, PantoneColor} from '../../utils/Colors';
+import {CustomText} from '../../components/CustomStyledComponent/Text';
+import {Button} from '../../components/CustomStyledComponent/Button/CustomButton';
+import Feather from 'react-native-vector-icons/Feather';
 
 const PersonModal = ({navigation, requests, route}) => {
   return (
-    <View>
+    <View style={{backgroundColor: Colors.white}}>
       <SafeAreaView>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Button onPress={() => navigation.goBack()}>
+            <Feather name="arrow-left" size={25} />
+          </Button>
+          <CustomText color={PantoneColor.livingCoral} fontSize={18}>
+            {route.params.user}
+          </CustomText>
+        </View>
+
         <ScrollView style={styles.container}>
           {[1, 2, 0, 3, 6, 9, 21, 5, 7].map((item) => (
             <ItemChatCard
