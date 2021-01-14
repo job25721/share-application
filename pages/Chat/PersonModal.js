@@ -14,9 +14,12 @@ const PersonModal = ({navigation, requests, route}) => {
           <Button onPress={() => navigation.goBack()}>
             <Feather name="arrow-left" size={25} />
           </Button>
-          <CustomText color={PantoneColor.livingCoral} fontSize={18}>
-            {route.params.user}
-          </CustomText>
+          <View>
+            <CustomText color={PantoneColor.livingCoral}>
+              ของกำลังส่งต่อให้
+            </CustomText>
+            <CustomText>{route.params.user}</CustomText>
+          </View>
         </View>
 
         <ScrollView style={styles.container}>
