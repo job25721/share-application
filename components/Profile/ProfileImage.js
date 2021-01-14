@@ -21,7 +21,7 @@ export default ({navigate}) => {
           height: 130,
           padding: 20,
         }}>
-        <View
+        {/* <View
           style={{
             position: 'absolute',
             zIndex: 1,
@@ -42,7 +42,7 @@ export default ({navigate}) => {
               size={20}
             />
           </Button>
-        </View>
+        </View> */}
         <Image
           style={{height: 100, width: 100, borderRadius: 50}}
           source={require('../../assets/img/stamp.png')}
