@@ -16,7 +16,7 @@ import Detail from './pages/Detail';
 import {Alert} from 'react-native';
 import TabScreen from './pages/Index';
 import Chat from './pages/Chat/Chat';
-import Pro from './pages/Profile/ProfileRecive';
+import Pro from './pages/Profile/ProfileComplete';
 
 const RootStack = createStackNavigator();
 
