@@ -22,12 +22,18 @@ export default ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Button onPress={() => navigation.goBack()}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <FeatherIcon style={{paddingRight: 10}} name="arrow-left" size={30} />
-          <CustomText>Back</CustomText>
-        </View>
-      </Button>
+      <View style={{paddingLeft: 10, marginTop: 10}}>
+        <Button px={0} onPress={() => navigation.goBack()}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <FeatherIcon
+              style={{paddingRight: 10}}
+              name="arrow-left"
+              size={30}
+            />
+            <CustomText>Back</CustomText>
+          </View>
+        </Button>
+      </View>
       <ScrollView>
         <View
           style={{

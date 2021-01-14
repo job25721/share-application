@@ -15,7 +15,7 @@ const SendingItemChat = () => {
       <PersonChatCard
         name="แสตมป์ ขุนแผน"
         onPress={() =>
-          navigation.navigate('PersonModal', {user: 'แสตมปื ขุนแผน'})
+          navigation.navigate('PersonModal', {user: 'แสตมป์ ขุนแผน'})
         }
       />
     </>

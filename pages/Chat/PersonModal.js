@@ -21,7 +21,7 @@ const PersonModal = ({navigation, requests, route}) => {
           </Button>
           <View>
             <CustomText color={PantoneColor.livingCoral}>
-              ของกำลังส่งต่อให้
+              ของที่กำลังส่งต่อให้
             </CustomText>
             <CustomText>{route.params.user}</CustomText>
           </View>
