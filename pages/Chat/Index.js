@@ -15,7 +15,7 @@ const ChatIndex = (props) => {
   const [activeIndex, setActive] = useState(0);
   return (
     <SafeAreaView style={{backgroundColor: Colors.white, flex: 1}}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', marginTop: 20}}>
         <Button onPress={() => navigation.goBack()}>
           <Feather name="arrow-left" size={30} />
         </Button>

@@ -10,7 +10,12 @@ const PersonModal = ({navigation, requests, route}) => {
   return (
     <View style={{backgroundColor: Colors.white}}>
       <SafeAreaView>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: 10,
+          }}>
           <Button onPress={() => navigation.goBack()}>
             <Feather name="arrow-left" size={25} />
           </Button>

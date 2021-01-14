@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Platform} from 'react-native';
 import {Colors} from '../../utils/Colors';
 
 import {CustomText} from '../CustomStyledComponent/Text';
@@ -42,14 +42,12 @@ const bubbleStyles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   msgContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 5,
+    paddingHorizontal: 15,
+    paddingVertical: Platform.OS === 'ios' ? 5 : 10,
     borderRadius: 20,
   },
   msgLeft: {
     backgroundColor: Colors._gray_900,
-    // borderColor: 'grey',
-    // borderWidth: 0.25,
   },
   msgRight: {
     backgroundColor: Colors._indigo_500,

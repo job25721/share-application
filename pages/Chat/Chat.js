@@ -70,6 +70,7 @@ const Chat = ({route, navigation}) => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
+              marginVertical: 10,
             }}>
             <Button px={15} onPress={() => navigation.goBack()}>
               <Feather size={25} name="arrow-left" />

@@ -21,19 +21,20 @@ export default ({navigation, route}) => {
   }, [route.params.img]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <Button onPress={() => navigation.goBack()}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <FeatherIcon style={{paddingRight: 10}} name="arrow-left" size={30} />
           <CustomText>Back</CustomText>
         </View>
       </Button>
-      <ScrollView style={{paddingHorizontal: 20}}>
+      <ScrollView>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             paddingVertical: 10,
+            paddingHorizontal: 20,
           }}>
           <Image
             style={{
@@ -56,13 +57,18 @@ export default ({navigation, route}) => {
             </CustomText>
           </View>
         </View>
-        <View style={{marginVertical: 5}}>
+        <View style={{marginVertical: 5, paddingHorizontal: 20}}>
           <CustomText fontWeight="bold" fontSize={23}>
             {route.params.title ? route.params.title : null}
           </CustomText>
         </View>
         <View
-          style={{flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10}}>
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            marginBottom: 10,
+            paddingHorizontal: 20,
+          }}>
           {['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'].map((item) => (
             <Tag key={item} text={item} />
           ))}
@@ -76,23 +82,33 @@ export default ({navigation, route}) => {
             images={images}
           />
         ) : null}
-        <View style={{marginVertical: 20, height: 200}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            paddingHorizontal: 25,
+          }}>
+          <Button color={Colors.black} px={0}>
+            <FeatherIcon size={30} name="bookmark" />
+          </Button>
+          <CustomText>Wishlist</CustomText>
+        </View>
+        <View style={{height: 200, paddingHorizontal: 20}}>
           <CustomText fontSize={16}>
             ต้องการส่งต่อให้คนที่กำลังเรียนครับ พอดีผมเรียน จบแล้ว
             ไม่รู้จะเอาไว้ที่ไหน อยากรับต่อกดรับเลยครับ แล้ว นัดรับแถวหลังมอ
             ในมอเรื่องเวลาค่อยคุยกัน หลังไมค์ครับ
           </CustomText>
         </View>
-
-        <View>
-          <Button
-            py={15}
-            text="ส่งคำขอ"
-            bg={PantoneColor.turkishSea}
-            color={Colors.white}
-          />
-        </View>
       </ScrollView>
+      <View>
+        <Button
+          text="ส่งคำขอ"
+          bg={PantoneColor.turkishSea}
+          color={Colors.white}
+        />
+      </View>
     </SafeAreaView>
   );
 };
