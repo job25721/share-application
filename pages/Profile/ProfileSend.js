@@ -3,7 +3,8 @@ import React from 'react';
 import {View, ScrollView} from 'react-native';
 import {CustomText} from '../../components/CustomStyledComponent/Text';
 import Profile from '../../components/Profile/ProfileImage';
-import NavigationBar from '../../components/CustomStyledComponent/NavigationBar';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import {PantoneColor} from '../../utils/Colors';
 import {ItemChatCard} from '../../components/Chat/ChatCard';
 
 export default (props) => {
@@ -17,8 +18,30 @@ export default (props) => {
           <CustomText color="#C7C7C7">@job25721</CustomText>
         </View>
         <CustomText color="#C7C7C7">Chiang Mai University</CustomText>
-        <View style={{alignItems: 'center', marginVertical: 30}}>
-          <CustomText fontSize={22}>ของที่กำลังงส่งต่อ</CustomText>
+        <View style={{flexDirection: 'row'}}>
+          <AwesomeIcon
+            style={{
+              color: PantoneColor.livingCoral,
+              position: 'absolute',
+              right: 180,
+              alignSelf: 'center',
+            }}
+            name="chevron-circle-left"
+            size={35}
+          />
+          <View style={{alignItems: 'center', marginVertical: 30}}>
+            <CustomText fontSize={22}>ของที่กำลังส่งต่อ</CustomText>
+          </View>
+          <AwesomeIcon
+            style={{
+              color: PantoneColor.livingCoral,
+              position: 'absolute',
+              left: 180,
+              alignSelf: 'center',
+            }}
+            name="chevron-circle-right"
+            size={35}
+          />
         </View>
         <ScrollView style={{width: 350, marginBottom: 40}}>
           {[
