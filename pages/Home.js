@@ -28,14 +28,19 @@ export default (props) => {
                 </CustomText>
               </View>
             </View>
-            <Button onPress={() => props.navigation.navigate('Chat')} px={0}>
-              <FeatherIcon name="message-circle" size={40} />
-            </Button>
+            <View style={{flexDirection: 'row'}}>
+              <Button onPress={() => null} px={5}>
+                <FeatherIcon name="bell" size={35} />
+              </Button>
+              <Button onPress={() => props.navigation.navigate('Chat')} px={5}>
+                <FeatherIcon name="message-circle" size={35} />
+              </Button>
+            </View>
           </View>
-          <View style={{padding: 10}}>
+          <View style={{paddingLeft: 10}}>
             <CustomText
               color={PantoneColor.livingCoral}
-              spacing={5}
+              spacing={10}
               type="header">
               SHARE
             </CustomText>

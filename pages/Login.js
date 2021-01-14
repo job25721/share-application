@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   StyleSheet,
@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  Keyboard,
 } from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {Colors, PantoneColor} from '../utils/Colors';
@@ -23,40 +24,60 @@ export default (props) => {
   const {
     navigation: {navigate},
   } = props;
+  const [keyBoardShow, setShow] = useState(false);
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', onKeyboardShow);
+    Keyboard.addListener('keyboardDidHide', onKeyboardHide);
+
+    // cleanup function
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', onKeyboardShow);
+      Keyboard.removeListener('keyboardDidHide', onKeyboardHide);
+    };
+  }, []);
+
+  const onKeyboardShow = () => setShow(true);
+
+  const onKeyboardHide = () => setShow(false);
   return (
     <DismissKeyboard>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : ''}>
-        <SafeAreaView>
+        <SafeAreaView
+          style={
+            !keyBoardShow ? {flex: 1, justifyContent: 'space-evenly'} : null
+          }>
           <View
             style={{
               alignItems: 'center',
             }}>
             <Image
-              style={{height: 150, width: 150, borderRadius: 50}}
+              style={{height: 100, width: 100, borderRadius: 50}}
               source={require('../assets/img/realLogo.png')}
             />
             <CustomText
+              spacing={10}
               color={PantoneColor.livingCoral}
-              spacing={5}
               type="header">
               SHARE
             </CustomText>
-            <View style={{marginVertical: 10}}>
-              <CustomText>Email</CustomText>
-              <Input focus rounded width={250} />
-              <CustomText>Password</CustomText>
-              <Input focus rounded width={250} />
-            </View>
+          </View>
+          <View style={{marginVertical: 0}}>
+            <CustomText>Email</CustomText>
+            <Input focus rounded width={250} />
+            <CustomText>Password</CustomText>
+            <Input focus rounded width={250} />
             <Button
               text="Login"
               bg={PantoneColor.turkishSea}
               color={Colors.white}
               rounded
+              my={10}
               onPress={() => navigate('Tab')}
             />
           </View>
+
           <View
             style={{
               alignItems: 'center',

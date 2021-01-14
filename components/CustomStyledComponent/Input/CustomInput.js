@@ -16,6 +16,7 @@ export const Input = ({
   height,
   shadow,
   textAlignVertical,
+  maxLength,
 }) => {
   const [isFocus, setFocus] = useState(false);
   const [secure, setSecure] = useState(false);
@@ -32,7 +33,7 @@ export const Input = ({
       ? setShadow(0.1)
       : shadow === 'lg'
       ? setShadow(0.2)
-      : null;
+      : setShadow(0);
   }, [type, width, textAlign, shadow]);
   return (
     <TextInput
@@ -52,6 +53,7 @@ export const Input = ({
       placeholder={placeholder}
       secureTextEntry={secure}
       onChangeText={onChangeText}
+      maxLength={maxLength}
     />
   );
 };

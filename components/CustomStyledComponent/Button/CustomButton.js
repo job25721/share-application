@@ -25,9 +25,9 @@ export const Button = ({
   const [paddingX, setPx] = useState(25);
   const [paddingY, setPy] = useState(Platform.OS === 'ios' ? 5 : 10);
   useEffect(() => {
-    bg ? setType(bg) : null;
+    bg ? setType(bg) : setType('transparent');
     fontSize ? setSize(fontSize) : null;
-    color ? setColor(color) : null;
+    color ? setColor(color) : setColor('transparent');
     width ? setBtnWidth(width) : null;
     px >= 0 ? setPx(px) : null;
     py >= 0 ? setPy(py) : null;

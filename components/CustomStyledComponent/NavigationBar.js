@@ -42,19 +42,6 @@ const NavigationBar = ({state, descriptors, navigation}) => {
           px={0}
         />
         <Button
-          onPress={() => navigation.navigate(Routes.search)}
-          text={
-            <Feather
-              color={
-                current === Routes.search ? Colors._indigo_500 : Colors.black
-              }
-              size={current === Routes.search ? 35 : 30}
-              name="search"
-            />
-          }
-          px={0}
-        />
-        <Button
           onPress={() => navigation.navigate(Routes.addItem)}
           text={
             <Feather
@@ -68,31 +55,32 @@ const NavigationBar = ({state, descriptors, navigation}) => {
           px={0}
         />
         <Button
-          onPress={() => navigation.navigate(Routes.chat)}
+          onPress={() => navigation.navigate(Routes.search)}
           text={
             <Feather
-              name="message-circle"
               color={
-                current === Routes.chat ? Colors._indigo_500 : Colors.black
+                current === Routes.search ? Colors._indigo_500 : Colors.black
               }
-              size={current === Routes.chat ? 35 : 30}
+              size={current === Routes.search ? 35 : 30}
+              name="search"
             />
           }
           px={0}
         />
-        <Button
-          onPress={() => navigation.navigate(Routes.profile)}
-          text={
-            <Feather
-              name="user"
-              color={
-                current === Routes.profile ? Colors._indigo_500 : Colors.black
-              }
-              size={current === Routes.profile ? 35 : 30}
-            />
-          }
-          px={0}
-        />
+
+        {/*<Button*/}
+        {/*  onPress={() => navigation.navigate(Routes.profile)}*/}
+        {/*  text={*/}
+        {/*    <Feather*/}
+        {/*      name="user"*/}
+        {/*      color={*/}
+        {/*        current === Routes.profile ? Colors._indigo_500 : Colors.black*/}
+        {/*      }*/}
+        {/*      size={current === Routes.profile ? 35 : 30}*/}
+        {/*    />*/}
+        {/*  }*/}
+        {/*  px={0}*/}
+        {/*/>*/}
       </View>
     </SafeAreaView>
   );
@@ -104,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: '7%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
   },

@@ -2,7 +2,7 @@ import React from 'react';
 
 import NewItemfForm from '../components/NewItem/Form';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, View, Alert} from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {CustomText} from '../components/CustomStyledComponent/Text';
@@ -12,25 +12,31 @@ const NewItem = ({navigation}) => {
   return (
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
-        <Button onPress={() => navigation.goBack()}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <FeatherIcon
-              color={Colors._red_500}
-              style={{paddingRight: 10}}
-              name="x"
-              size={30}
-            />
-            <CustomText>Cancel</CustomText>
-          </View>
-        </Button>
-        <CustomText
-          fontSize={35}
-          color={PantoneColor.livingCoral}
-          textAlign="center"
-          fontWeight="bold"
-          spacing={5}>
-          LET'S SHARE
-        </CustomText>
+        <View
+          style={{
+            marginLeft: 10,
+            marginTop: 10,
+          }}>
+          <Button
+            px={0}
+            onPress={() => {
+              Alert.alert('Warning', 'ข้อมูลที่คุณกรอกจะหายไปทั้งหมด', [
+                {text: 'ตกลง', onPress: () => navigation.goBack()},
+                {text: 'ยกเลิก'},
+              ]);
+            }}>
+            <View style={{flexDirection: 'row'}}>
+              <FeatherIcon
+                color={Colors._red_500}
+                style={{paddingRight: 10}}
+                name="arrow-left"
+                size={30}
+              />
+              <CustomText fontSize={20}>Cancel</CustomText>
+            </View>
+          </Button>
+        </View>
+
         <NewItemfForm />
       </SafeAreaView>
     </DismissKeyboard>

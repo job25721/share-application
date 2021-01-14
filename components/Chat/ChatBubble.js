@@ -1,27 +1,41 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {StyleSheet, View, Platform} from 'react-native';
-import {Colors} from '../../utils/Colors';
+import {
+  StyleSheet,
+  View,
+  Platform,
+  TouchableOpacity,
+  Clipboard,
+} from 'react-native';
+import {Colors, PantoneColor} from '../../utils/Colors';
 
 import {CustomText} from '../CustomStyledComponent/Text';
 
-export default ({msg, pos, time}) => {
+export default (props) => {
+  const {msg, pos, time} = props;
+  const copy = async () => {
+    var str = '';
+    msg.forEach((m, i) => {
+      str += m;
+      if (i !== msg.length - 1) str += '\n';
+    });
+    await Clipboard.setString(str);
+    alert('คัดลอกสำเร็จ');
+  };
   return msg ? (
-    <View
+    <TouchableOpacity
       style={[
         bubbleStyles.container,
         pos === 'left' ? bubbleStyles.left : bubbleStyles.right,
-      ]}>
+      ]}
+      onLongPress={(e) => copy()}>
       <View
         style={[
           pos === 'left' ? bubbleStyles.msgLeft : bubbleStyles.msgRight,
           bubbleStyles.msgContainer,
         ]}>
         {msg.map((m, i) => (
-          <CustomText
-            fontSize={17}
-            color={pos === 'left' ? Colors.black : Colors.white}
-            key={i}>
+          <CustomText fontSize={17} color={Colors.white} key={i}>
             {m}
           </CustomText>
         ))}
@@ -31,7 +45,7 @@ export default ({msg, pos, time}) => {
           {time}
         </CustomText>
       </View>
-    </View>
+    </TouchableOpacity>
   ) : null;
 };
 
@@ -47,10 +61,10 @@ const bubbleStyles = StyleSheet.create({
     borderRadius: 20,
   },
   msgLeft: {
-    backgroundColor: Colors._gray_900,
+    backgroundColor: PantoneColor.livingCoral,
   },
   msgRight: {
-    backgroundColor: Colors._indigo_500,
+    backgroundColor: PantoneColor.blueDepths,
   },
   left: {
     flexDirection: 'row',
