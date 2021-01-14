@@ -11,8 +11,7 @@ import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {createStackNavigator} from '@react-navigation/stack';
 import Chat from './Chat/Chat';
-import ProfileGeneral from './Profile/ProfileGeneral';
-import ProfileSend from './Profile/ProfileSend';
+import ProfileGeneral from './ProfileGeneral';
 import {Alert} from 'react-native';
 import NewItem from './NewItem';
 import {Colors} from '../utils/Colors';
@@ -47,15 +46,6 @@ const ProfileStackScreen = () => (
       component={ProfileGeneral}
       options={{
         headerLeft: () => null,
-        headerRight: () => (
-          <Button text={<FeatherIcon name="more-vertical" size={20} />} />
-        ),
-      }}
-    />
-    <ProfileStack.Screen
-      name="ProfileSend"
-      component={ProfileSend}
-      options={{
         headerRight: () => (
           <Button text={<FeatherIcon name="more-vertical" size={20} />} />
         ),

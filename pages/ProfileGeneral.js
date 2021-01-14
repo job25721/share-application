@@ -1,10 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, ScrollView} from 'react-native';
-import Profile from '../../components/Profile/ProfileImage';
-import IconList from '../../components/Profile/IconList';
-import CardList from '../../components/Home/CardList';
-import {CustomText} from '../../components/CustomStyledComponent/Text';
+import Profile from '../components/Profile/ProfileImage';
+import IconList from '../components/Profile/IconList';
+import CardList from '../components/Home/CardList';
+import {CustomText} from '../components/CustomStyledComponent/Text';
 export default (props) => {
   return (
     <ScrollView style={{flex: 1}}>
