@@ -7,7 +7,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 
 export default ({nameIcon, text}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <FeatherIcon
         style={{color: PantoneColor.livingCoral}}
         name={nameIcon}

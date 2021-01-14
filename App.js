@@ -16,7 +16,7 @@ import Detail from './pages/Detail';
 import {Alert} from 'react-native';
 import TabScreen from './pages/Index';
 import Chat from './pages/Chat/Chat';
-import Pro from './pages/Profile/ProfileGeneral';
+import Profile from './pages/Profile/ProfileGeneral';
 
 const RootStack = createStackNavigator();
 
@@ -25,18 +25,19 @@ const RootStackScreen = () => {
     <NavigationContainer>
       <RootStack.Navigator mode="modal">
         <RootStack.Screen
-          name="Pro"
-          component={Pro}
-          options={{headerShown: false}}
-        />
-        <RootStack.Screen
-          name="Tab"
-          component={TabScreen}
+          name="Profile"
+          component={Profile}
           options={{headerShown: false}}
         />
         <RootStack.Screen
           name="Login"
           component={Login}
+          options={{headerShown: false}}
+        />
+
+        <RootStack.Screen
+          name="Tab"
+          component={TabScreen}
           options={{headerShown: false}}
         />
 
