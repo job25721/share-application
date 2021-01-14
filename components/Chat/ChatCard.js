@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {Image, View, TouchableOpacity, StyleSheet} from 'react-native';
-import {Colors} from '../../utils/Colors';
+import {Colors, PantoneColor} from '../../utils/Colors';
 
 import {CustomText} from '../CustomStyledComponent/Text';
 
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     width: 50,
   },
   chatListCard: {
-    backgroundColor: Colors.white,
+    backgroundColor: PantoneColor.limpetShell,
     borderRadius: 25,
     padding: 10,
     paddingVertical: 20,

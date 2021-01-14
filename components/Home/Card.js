@@ -4,8 +4,9 @@ import {StyleSheet, View, Image} from 'react-native';
 import {useState} from 'react/cjs/react.development';
 import Tag from './Tag';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
-import {Colors} from '../../utils/Colors';
+import {Colors, PantoneColor} from '../../utils/Colors';
 import {CustomText} from '../CustomStyledComponent/Text';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const imgUrl = require('../../assets/img/cat.jpg');
 
@@ -32,9 +33,16 @@ export const Card = ({name, title, tag, img, navigate}) => {
             <CustomText fontWeight="500" fontSize={18}>
               {name}
             </CustomText>
+            <CustomText
+              fontWeight="500"
+              fontSize={12}
+              color={PantoneColor.blueDepths}>
+              <FeatherIcon color={Colors._red_500} name="map-pin" size={16} />
+              Chiang Mai University
+            </CustomText>
           </View>
         </View>
-        <View>
+        <View style={{marginVertical: 5}}>
           <CustomText fontWeight="bold" fontSize={20}>
             {title}
           </CustomText>
@@ -99,6 +107,7 @@ export const cardStyles = StyleSheet.create({
   },
   btnView: {
     flexDirection: 'row',
-    marginVertical: 2.5,
+    marginVertical: 10,
+    justifyContent: 'center',
   },
 });
