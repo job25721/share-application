@@ -13,22 +13,13 @@ import {CustomText} from '../CustomStyledComponent/Text';
 
 export default (props) => {
   const {msg, pos, time} = props;
-  const copy = async () => {
-    var str = '';
-    msg.forEach((m, i) => {
-      str += m;
-      if (i !== msg.length - 1) str += '\n';
-    });
-    await Clipboard.setString(str);
-    alert('คัดลอกสำเร็จ');
-  };
+
   return msg ? (
     <TouchableOpacity
       style={[
         bubbleStyles.container,
         pos === 'left' ? bubbleStyles.left : bubbleStyles.right,
-      ]}
-      onLongPress={() => copy()}>
+      ]}>
       <View
         style={[
           pos === 'left' ? bubbleStyles.msgLeft : bubbleStyles.msgRight,

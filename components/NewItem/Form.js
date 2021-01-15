@@ -47,14 +47,14 @@ const NewItemForm = () => {
             }}>
             <CustomText>ชื่อสิ่งของ</CustomText>
             <Input
-              maxLength={20}
+              maxLength={40}
               focus
               value={itemName}
               onChangeText={(val) =>
                 dispatch({type: SET_ITEM_NAME, payload: val})
               }
               rounded
-              placeholder="สูงสุด 20 ตัวอักษร"
+              placeholder="สูงสุด 40 ตัวอักษร"
             />
 
             <CustomText>ประเภท</CustomText>

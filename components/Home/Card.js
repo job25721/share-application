@@ -4,14 +4,17 @@ import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import {useState} from 'react/cjs/react.development';
 import Tag from './Tag';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
-import {Colors, PantoneColor} from '../../utils/Colors';
 import {CustomText} from '../CustomStyledComponent/Text';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import {useNavigation} from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const imgUrl = require('../../assets/img/cat.jpg');
 
-export const Card = ({name, title, tag, img, navigate}) => {
+export const Card = ({name, title, tag, img}) => {
+  const {navigate} = useNavigation();
   const [tagArr, setTag] = useState([]);
+  const [saved, setSaved] = useState(false);
   useEffect(() => {
     tag ? setTag(tag) : setTag([]);
   }, [tag]);
@@ -39,13 +42,13 @@ export const Card = ({name, title, tag, img, navigate}) => {
               <CustomText fontWeight="500" fontSize={18}>
                 {name}
               </CustomText>
-              <CustomText
+              {/* <CustomText
                 fontWeight="500"
                 fontSize={12}
                 color={PantoneColor.blueDepths}>
                 <FeatherIcon color={Colors._red_500} name="map-pin" size={16} />
                 Chiang Mai University
-              </CustomText>
+              </CustomText> */}
             </View>
           </View>
           <View>
@@ -58,24 +61,32 @@ export const Card = ({name, title, tag, img, navigate}) => {
               <Tag key={item} text={item} />
             ))}
           </View>
+          <View style={{alignItems: 'flex-end'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <CustomText>{!saved ? 'Whishlist' : 'บันทึกแล้ว'}</CustomText>
+              <Button px={0}>
+                {!saved ? (
+                  <FeatherIcon
+                    onPress={() => setSaved(true)}
+                    name="bookmark"
+                    size={30}
+                  />
+                ) : (
+                  <MaterialCommunityIcons
+                    onPress={() => setSaved(false)}
+                    name="bookmark"
+                    size={31}
+                  />
+                )}
+              </Button>
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
-      {/*<View style={cardStyles.btnView}>*/}
-      {/*  <Button*/}
-      {/*    rounded*/}
-      {/*    text="ส่งคำขอ"*/}
-      {/*    bg={Colors._indigo_500}*/}
-      {/*    color={Colors.white}*/}
-      {/*    onPress={() => navigate('Chat', {name})}*/}
-      {/*  />*/}
-      {/*  <Button*/}
-      {/*    rounded*/}
-      {/*    text="ดูรายละเอียด"*/}
-      {/*    bg={Colors._gray_900}*/}
-      {/*    color={Colors.black}*/}
-      {/*    onPress={() => navigate('Detail', {title, img})}*/}
-      {/*  />*/}
-      {/*</View>*/}
     </>
   );
 };
