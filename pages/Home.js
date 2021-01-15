@@ -9,7 +9,7 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import {Card} from '../components/Home/Card';
 import {IconList} from '../components/Home/IconList';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-
+import Modal from 'react-native-modalbox';
 export default (props) => {
   return (
     <DismissKeyboard>
@@ -28,6 +28,7 @@ export default (props) => {
                 </CustomText>
               </View>
             </View>
+
             <View style={{flexDirection: 'row'}}>
               <Button onPress={() => null} px={5}>
                 <FeatherIcon name="bell" size={35} />

@@ -1,13 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {createContext, useState} from 'react';
+import React, {createContext, useContext, useState, useReducer} from 'react';
 import {
-  FlatList,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   TextInput,
   View,
+  TouchableOpacity,
 } from 'react-native';
 
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
@@ -18,21 +17,24 @@ import UploadBtn from './UploadBtn';
 import FormTag from './Tag';
 import TypePicker from './TypePicker';
 import {CustomText} from '../CustomStyledComponent/Text';
-import ImgPreview from './ImgPreview';
 import {KeyboardAvoidingView, Alert} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 import ImagePicker from 'react-native-image-crop-picker';
 import CameraBtn from './CameraBtn';
-export const TagContext = createContext({});
+import {ModalContext} from '../../pages/NewItem';
 
-const NewItemfForm = () => {
+export const TagContext = createContext({});
+export const PickerContext = createContext({});
+const NewItemForm = () => {
+  const [selectedType, setSelected] = useState(null);
+
   const [images, setImages] = useState([
     // require('../../assets/img/cat.jpg'),
     // require('../../assets/img/bag.jpg'),
   ]);
   const [tags, setTag] = useState([]);
   const [tagInput, setTagInput] = useState('');
-
+  const {setModalOpen} = useContext(ModalContext);
   const addTag = () => {
     if (tagInput !== '') {
       setTag([...tags, {name: tagInput, id: Date.now()}]);
@@ -123,8 +125,34 @@ const NewItemfForm = () => {
               rounded
               placeholder="สูงสุด 20 ตัวอักษร"
             />
-            <CustomText>ประเภท</CustomText>
-            <TypePicker />
+            <PickerContext.Provider value={{selectedType, setSelected}}>
+              <CustomText>ประเภท</CustomText>
+              {Platform.OS === 'ios' ? (
+                <>
+                  <View
+                    style={{
+                      padding: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <CustomText>
+                      {selectedType === null ? 'เลือกประเภท' : selectedType}
+                    </CustomText>
+                    <View
+                      style={{
+                        position: 'absolute',
+                        right: 0,
+                      }}>
+                      <Button onPress={() => setModalOpen(true)}>
+                        <FeatherIcon name="chevron-down" size={20} />
+                      </Button>
+                    </View>
+                  </View>
+                </>
+              ) : (
+                <TypePicker />
+              )}
+            </PickerContext.Provider>
             <CustomText>รายละเอียด</CustomText>
             <Input
               textAlignVertical="top"
@@ -197,4 +225,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewItemfForm;
+export default NewItemForm;

@@ -28,7 +28,7 @@ export default (props) => {
         bubbleStyles.container,
         pos === 'left' ? bubbleStyles.left : bubbleStyles.right,
       ]}
-      onLongPress={(e) => copy()}>
+      onLongPress={() => copy()}>
       <View
         style={[
           pos === 'left' ? bubbleStyles.msgLeft : bubbleStyles.msgRight,
