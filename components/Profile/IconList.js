@@ -1,13 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {PantoneColor} from '../../utils/Colors';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Colors, PantoneColor} from '../../utils/Colors';
 import {CustomText} from '../CustomStyledComponent/Text';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-export default ({nameIcon, text}) => {
+export default ({nameIcon, text, active, onPress}) => {
   return (
-    <View style={[styles.container]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[
+        styles.container,
+        active ? {backgroundColor: PantoneColor.veryLivingCoral} : null,
+      ]}>
       <FeatherIcon
         style={{color: PantoneColor.livingCoral}}
         name={nameIcon}
@@ -18,7 +23,7 @@ export default ({nameIcon, text}) => {
           {text}
         </CustomText>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -26,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     margin: 5,
     borderRadius: 20,
-    backgroundColor: PantoneColor.veryLivingCoral,
+    backgroundColor: 'whitesmoke',
     justifyContent: 'center',
     alignItems: 'center',
     height: 80,

@@ -1,13 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState} from 'react';
 import {View, ScrollView} from 'react-native';
 import Profile from '../components/Profile/ProfileImage';
 import IconList from '../components/Profile/IconList';
 import CardList from '../components/Home/CardList';
 import {CustomText} from '../components/CustomStyledComponent/Text';
+import {Colors} from '../utils/Colors';
 export default (props) => {
+  const [active, setActive] = useState(0);
   return (
-    <ScrollView style={{flex: 1}}>
+    <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
       <View>
         <Profile navigate={props.navigation.navigate} />
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -29,9 +31,21 @@ export default (props) => {
               text: 'ส่งต่อแล้ว',
             },
           ].map((item, i) => (
-            <IconList key={i} text={item.text} nameIcon={item.nameIcon} />
+            <IconList
+              active={active === i ? true : false}
+              key={i}
+              onPress={() => setActive(i)}
+              text={item.text}
+              nameIcon={item.nameIcon}
+            />
           ))}
         </View>
+        {active === 0 ? (
+          <CustomText>1</CustomText>
+        ) : active === 1 ? (
+          <CustomText>2</CustomText>
+        ) : null}
+
         <View
           style={{
             alignItems: 'center',
