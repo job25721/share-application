@@ -61,6 +61,7 @@ const RootStackScreen = () => {
           component={NewItem}
           options={{
             headerShown: false,
+            gestureEnabled: false,
           }}
         />
         <RootStack.Screen

@@ -17,7 +17,7 @@ const NewItem = ({navigation}) => {
   return (
     <FormContext.Provider value={{state, dispatch}}>
       <DismissKeyboard>
-        <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
+        <SafeAreaView style={styles.container}>
           {Platform.OS === 'ios' ? <TypePickerModal /> : null}
           <View style={styles.backBtnView}>
             <Button
@@ -28,16 +28,9 @@ const NewItem = ({navigation}) => {
                   {text: 'ยกเลิก'},
                 ]);
               }}>
-              <View style={{flexDirection: 'row'}}>
-                <FeatherIcon
-                  color={Colors._red_500}
-                  style={{paddingRight: 10}}
-                  name="arrow-left"
-                  size={30}
-                />
-                <CustomText fontSize={20}>Cancel</CustomText>
-              </View>
+              <FeatherIcon color={Colors._red_600} name="x" size={30} />
             </Button>
+            <CustomText fontSize={20}>Cancel</CustomText>
           </View>
           <NewItemfForm />
         </SafeAreaView>
@@ -50,7 +43,10 @@ const styles = StyleSheet.create({
   backBtnView: {
     marginLeft: 10,
     marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
+  container: {flex: 1, backgroundColor: Colors.white},
 });
 
 export default NewItem;

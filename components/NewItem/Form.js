@@ -31,7 +31,7 @@ const NewItemForm = () => {
         fontSize={40}>
         เพิ่มของชิ้นใหม่
       </CustomText>
-      <ScrollView>
+      <ScrollView style={{flex: 1}}>
         <ImgUpload />
         <View style={{paddingHorizontal: 20, marginTop: 10}}>
           <CustomText fontSize={20} fontWeight="bold">
