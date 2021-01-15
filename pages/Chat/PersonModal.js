@@ -8,40 +8,46 @@ import Feather from 'react-native-vector-icons/Feather';
 
 const PersonModal = ({navigation, requests, route}) => {
   return (
-    <View style={{backgroundColor: Colors.white}}>
-      <SafeAreaView>
+    <>
+      <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Button onPress={() => navigation.goBack()}>
             <Feather name="arrow-left" size={25} />
           </Button>
           <View>
             <CustomText color={PantoneColor.livingCoral}>
-              ของที่กำลังส่งต่อให้
+              คนที่กำลังขอรับ
             </CustomText>
-            <CustomText>{route.params.user}</CustomText>
+            <CustomText>
+              <CustomText fontWeight="bold">{route.params.itemName}</CustomText>
+              <CustomText> ของคุณ</CustomText>
+            </CustomText>
           </View>
         </View>
 
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.scrollContainer}>
           {[1, 2, 0, 3, 6, 9, 21, 5, 7].map((item) => (
             <ItemChatCard
-              title="กระเป๋า anello"
-              imgSrc={require('../../assets/img/bag.jpg')}
+              key={item.toString()}
+              title="Stamp Watcharin"
+              type="Person"
               notification={item}
+              imgSrc={require('../../assets/img/stamp.png')}
+              lastestMsg={{from: 'Stamp', msg: 'ผมจะบริจาคให้ 1000 บาท'}}
               onPress={() =>
-                navigation.navigate('ChatRoom', {name: route.params.user})
+                navigation.navigate('ChatRoom', {name: 'Stamp Watcharin'})
               }
-              key={item}
             />
           ))}
         </ScrollView>
       </SafeAreaView>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container: {backgroundColor: Colors.white, flex: 1},
+  scrollContainer: {
     paddingHorizontal: 15,
   },
   header: {

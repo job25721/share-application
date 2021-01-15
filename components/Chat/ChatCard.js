@@ -1,12 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {Image, View, TouchableOpacity, StyleSheet} from 'react-native';
-import {Colors, PantoneColor} from '../../utils/Colors';
+import {Colors} from '../../utils/Colors';
 
 import {CustomText} from '../CustomStyledComponent/Text';
 
-const ItemChatCard = ({onPress, title, notification, lastedMsg, imgSrc}) => {
+const ItemChatCard = ({
+  onPress,
+  title,
+  notification,
+  lastestMsg,
+  imgSrc,
+  owner,
+  type,
+}) => {
   const [isNoti, setNoti] = useState(false);
+  const [lastest, setLastest] = useState({from: '', msg: ''});
   useEffect(() => {
     if (notification && notification > 0) {
       setNoti(true);
@@ -14,12 +23,17 @@ const ItemChatCard = ({onPress, title, notification, lastedMsg, imgSrc}) => {
       setNoti(false);
     }
   }, [notification]);
+
+  useEffect(() => {
+    setLastest(lastestMsg);
+  }, [lastestMsg]);
+
   return (
     <TouchableOpacity onPress={onPress} style={[styles.chatListCard]}>
       <Image style={styles.img} source={imgSrc} />
       <View style={{width: '60%'}}>
         <CustomText fontWeight="500">{title}</CustomText>
-        <CustomText>เจ้าของ Pathomporn</CustomText>
+        {type === 'Person' ? null : <CustomText>เจ้าของ {owner}</CustomText>}
         <View>
           <CustomText
             fontWeight={isNoti ? 'bold' : 'normal'}
@@ -29,7 +43,10 @@ const ItemChatCard = ({onPress, title, notification, lastedMsg, imgSrc}) => {
                 ? Colors.black
                 : 'rgb(75, 85, 99)'
             }>
-            Stamp : ได้ครับ
+            {lastest.from} :{' '}
+            {lastest.msg.length > 14
+              ? lastest.msg.substr(0, 14) + '....'
+              : lastest.msg}
           </CustomText>
         </View>
       </View>
@@ -48,17 +65,33 @@ const ItemChatCard = ({onPress, title, notification, lastedMsg, imgSrc}) => {
   );
 };
 
-const PersonChatCard = ({onPress, name}) => {
+const ItemCardAbstract = ({onPress, title, notification, imgSrc}) => {
+  const [isNoti, setNoti] = useState(false);
+
+  useEffect(() => {
+    if (notification && notification > 0) {
+      setNoti(true);
+    } else {
+      setNoti(false);
+    }
+  }, [notification]);
+
   return (
-    <TouchableOpacity onPress={onPress} style={styles.chatListCard}>
-      <Image style={styles.img} source={require('../../assets/img/cat.jpg')} />
+    <TouchableOpacity onPress={onPress} style={[styles.chatListCard]}>
+      <Image style={styles.img} source={imgSrc} />
       <View style={{width: '60%'}}>
-        <CustomText fontWeight="500">{name}</CustomText>
+        <CustomText fontWeight="500">{title}</CustomText>
       </View>
-      <View style={styles.notiBadge}>
-        <CustomText textAlign="center" color={Colors.white}>
-          10
-        </CustomText>
+      <View
+        style={[
+          styles.notiBadge,
+          !isNoti ? {backgroundColor: 'transparent'} : null,
+        ]}>
+        {isNoti ? (
+          <CustomText textAlign="center" color={Colors.white}>
+            {notification}
+          </CustomText>
+        ) : null}
       </View>
     </TouchableOpacity>
   );
@@ -91,4 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {ItemChatCard, PersonChatCard};
+export {ItemChatCard, ItemCardAbstract};

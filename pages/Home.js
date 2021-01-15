@@ -38,6 +38,13 @@ const categories = [
 
 const items = [
   {
+    owner: 'ปริญญา สัตะวัน',
+    name: 'น้ำยาสรรพรส',
+    img: require('../assets/img/drink2.jpg'),
+    tags: ['จ๊วดๆ', 'เมาฟรี', 'ลูกหมาป่า', 'ยาวิเศษ', 'Magic'],
+    category: 'เครื่องดื่มเพื่อสุขภาพ',
+  },
+  {
     owner: 'Stamp Watcharin',
     name: 'กระเป๋าหนังแท้มือสอง ยี่ห้อ Chanel',
     img: require('../assets/img/bag.jpg'),

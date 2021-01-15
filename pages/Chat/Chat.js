@@ -16,14 +16,35 @@ import {Colors, PantoneColor} from '../../utils/Colors';
 import {CustomText} from '../../components/CustomStyledComponent/Text';
 import {Button} from '../../components/CustomStyledComponent/Button/CustomButton';
 import Feather from 'react-native-vector-icons/Feather';
+import {useNavigation} from '@react-navigation/native';
 
 export const ChatContext = createContext({});
 const Chat = ({route, navigation}) => {
   const now = new Date();
   const [messages, setMessage] = useState([
     {
-      pos: 'left',
+      pos: 'right',
       msg: ['ผมจะบริจาคให้ 1000 บาท'],
+      time: now.getHours() + ':' + now.getMinutes(),
+    },
+    {
+      pos: 'right',
+      msg: ['ประมาณ วันพรุ่งนี้ ตอนเที่ยง'],
+      time: now.getHours() + ':' + now.getMinutes(),
+    },
+    {
+      pos: 'left',
+      msg: ['คุณพี่จะเอาชื่อขึ้นหน้าจอไหมค้า'],
+      time: now.getHours() + ':' + now.getMinutes(),
+    },
+    {
+      pos: 'right',
+      msg: ['ไม่ต้องครับ ไม่จำเป็น...'],
+      time: now.getHours() + ':' + now.getMinutes(),
+    },
+    {
+      pos: 'left',
+      msg: ['ขอบพระคุณค่ะ ขอให้คุณพี่มีแต่ความสุขความเจริญ'],
       time: now.getHours() + ':' + now.getMinutes(),
     },
     {
@@ -33,7 +54,7 @@ const Chat = ({route, navigation}) => {
     },
     {
       pos: 'right',
-      msg: ['ผมจะให้คุณ'],
+      msg: ['ผมจะให้คุณ...'],
       time: now.getHours() + ':' + now.getMinutes(),
     },
   ]);
@@ -57,7 +78,7 @@ const Chat = ({route, navigation}) => {
     scrollRef.current.scrollToEnd({animate: true});
   };
 
-  const scrollRef = useRef(null);
+  const scrollRef = useRef();
 
   return (
     <ChatContext.Provider value={{messages, setMessage}}>
