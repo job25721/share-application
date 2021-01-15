@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useReducer} from 'react';
 
 import NewItemfForm from '../components/NewItem/Form';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
@@ -7,16 +7,17 @@ import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Colors} from '../utils/Colors';
-import TypePickerModal from '../components/NewItem/TypePickerModal';
+import TypePickerModal from '../components/NewItem/TypePickerIOS/TypePickerModal';
+import {formReducer, initialState} from '../utils/form/form-reducer';
 
-export const ModalContext = createContext({});
+export const FormContext = createContext({});
 
 const NewItem = ({navigation}) => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [state, dispatch] = useReducer(formReducer, initialState);
   return (
-    <DismissKeyboard>
-      <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
-        <ModalContext.Provider value={{modalOpen, setModalOpen}}>
+    <FormContext.Provider value={{state, dispatch}}>
+      <DismissKeyboard>
+        <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
           {Platform.OS === 'ios' ? <TypePickerModal /> : null}
           <View style={styles.backBtnView}>
             <Button
@@ -39,9 +40,9 @@ const NewItem = ({navigation}) => {
             </Button>
           </View>
           <NewItemfForm />
-        </ModalContext.Provider>
-      </SafeAreaView>
-    </DismissKeyboard>
+        </SafeAreaView>
+      </DismissKeyboard>
+    </FormContext.Provider>
   );
 };
 

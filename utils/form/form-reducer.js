@@ -1,18 +1,29 @@
 import {
   ADD_IMAGE,
+  REMOVE_IMAGE,
   ADD_TAG,
   REMOVE_TAG,
   SET_DESCRIPTION,
   SET_ITEM_NAME,
   SET_PICKER_TYPE,
+  SET_MODAL,
+  CLEAR_FORM,
 } from './form-action-type';
 
 export const initialState = {
-  images: [],
+  images: [
+    // require('../../assets/img/cat.jpg'),
+    // require('../../assets/img/bag.jpg'),
+  ],
   itemName: '',
   selectedType: null,
   description: '',
   tags: [],
+  pickerModalOpen: false,
+  pickerItems: [
+    {label: 'สวัสดีค้าบบ', value: 'สวัสดีค้าบบ', key: 1},
+    {label: 'ท่านสมาชิก', value: 'ท่านสมาชิก', key: 2},
+  ],
 };
 
 export function formReducer(state, action) {
@@ -20,7 +31,7 @@ export function formReducer(state, action) {
     case ADD_IMAGE:
       return {
         ...state,
-        images: [...state.images, action.payload],
+        images: [...state.images, ...action.payload],
       };
     case SET_ITEM_NAME:
       return {
@@ -30,12 +41,12 @@ export function formReducer(state, action) {
     case SET_PICKER_TYPE:
       return {
         ...state,
-        selectedType: action.type,
+        selectedType: action.payload,
       };
     case SET_DESCRIPTION:
       return {
         ...state,
-        description: action.type,
+        description: action.payload,
       };
     case ADD_TAG:
       return {
@@ -47,6 +58,18 @@ export function formReducer(state, action) {
         ...state,
         tags: state.tags.filter((tag) => tag.id !== action.payload),
       };
+    case REMOVE_IMAGE:
+      return {
+        ...state,
+        images: state.images.filter((_, i) => i !== action.payload),
+      };
+    case SET_MODAL:
+      return {
+        ...state,
+        pickerModalOpen: action.payload,
+      };
+    case CLEAR_FORM:
+      return initialState;
     default:
       throw new Error();
   }

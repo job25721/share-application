@@ -5,3 +5,5 @@ export const SET_DESCRIPTION = 'SET_DESCRIPTION';
 export const ADD_TAG = 'ADD_TAG';
 export const REMOVE_TAG = 'REMOVE_TAG';
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
+export const SET_MODAL = 'SET_MODAL';
+export const CLEAR_FORM = 'CLEAR_FORM';

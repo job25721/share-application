@@ -1,17 +1,19 @@
 import React, {useContext} from 'react';
 import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
-import {PantoneColor} from '../../utils/Colors';
-import {CustomText} from '../CustomStyledComponent/Text';
-import {TagContext} from './Form';
-const FormTag = ({id, name}) => {
-  const {tags, setTag} = useContext(TagContext);
+import {FormContext} from '../../../pages/NewItem';
+import {PantoneColor} from '../../../utils/Colors';
+import {REMOVE_TAG} from '../../../utils/form/form-action-type';
+import {CustomText} from '../../CustomStyledComponent/Text';
+
+const Tag = ({id, name}) => {
+  const {dispatch} = useContext(FormContext);
   return (
     <TouchableOpacity
       onPress={() =>
         Alert.alert('Remove', name, [
           {
             text: 'OK',
-            onPress: () => setTag(tags.filter((tag) => tag.id !== id)),
+            onPress: () => dispatch({type: REMOVE_TAG, payload: id}),
           },
           {text: 'Cancel'},
         ])
@@ -40,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FormTag;
+export default Tag;

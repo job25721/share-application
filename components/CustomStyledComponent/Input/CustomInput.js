@@ -17,6 +17,7 @@ export const Input = ({
   shadow,
   textAlignVertical,
   maxLength,
+  value,
 }) => {
   const [isFocus, setFocus] = useState(false);
   const [secure, setSecure] = useState(false);
@@ -54,6 +55,7 @@ export const Input = ({
       secureTextEntry={secure}
       onChangeText={onChangeText}
       maxLength={maxLength}
+      value={value}
     />
   );
 };
