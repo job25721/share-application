@@ -9,64 +9,48 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const imgUrl = require('../../assets/img/cat.jpg');
+const defaultImg = require('../../assets/img/cat.jpg');
 
-export const Card = ({name, title, tag, img}) => {
+export const Card = ({name, owner, tags, img, category}) => {
   const {navigate} = useNavigation();
   const [tagArr, setTag] = useState([]);
   const [saved, setSaved] = useState(false);
   useEffect(() => {
-    tag ? setTag(tag) : setTag([]);
-  }, [tag]);
+    tags ? setTag(tags) : setTag([]);
+  }, [tags]);
   return (
     <>
       <TouchableOpacity
         style={cardStyles.card}
-        onPress={() => navigate('Detail', {title, img})}>
+        onPress={() => navigate('Detail', {name, img, bookmarked: saved})}>
         <Image
           style={cardStyles.img}
-          source={img && img !== '' ? img : imgUrl}
+          source={img && img !== '' ? img : defaultImg}
         />
         <View style={cardStyles.content}>
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', height: '25%'}}>
+          <View style={cardStyles.userInfo}>
             <Image
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 50,
-              }}
+              style={cardStyles.userImg}
               source={require('../../assets/img/stamp.png')}
             />
             <View style={{paddingHorizontal: 15}}>
-              <CustomText fontWeight="500" fontSize={18}>
-                {name}
-              </CustomText>
-              {/* <CustomText
-                fontWeight="500"
-                fontSize={12}
-                color={PantoneColor.blueDepths}>
-                <FeatherIcon color={Colors._red_500} name="map-pin" size={16} />
-                Chiang Mai University
-              </CustomText> */}
+              <CustomText fontWeight="500">{owner}</CustomText>
             </View>
           </View>
           <View>
             <CustomText fontWeight="bold" fontSize={20}>
-              {title}
+              {name}
             </CustomText>
           </View>
+          <CustomText>ประเภท : {category}</CustomText>
           <View style={cardStyles.tagContainer}>
             {tagArr.map((item) => (
               <Tag key={item} text={item} />
             ))}
           </View>
-          <View style={{alignItems: 'flex-end'}}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
+
+          <View style={cardStyles.userOptions}>
+            <View style={cardStyles.btnOptionsView}>
               <CustomText>{!saved ? 'Whishlist' : 'บันทึกแล้ว'}</CustomText>
               <Button px={0}>
                 {!saved ? (
@@ -94,7 +78,7 @@ export const Card = ({name, title, tag, img}) => {
 export const cardStyles = StyleSheet.create({
   card: {
     width: '94%',
-    height: 400,
+    height: 450,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -113,6 +97,16 @@ export const cardStyles = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
+  userImg: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+  },
+  userInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: '30%',
+  },
   content: {
     paddingHorizontal: 15,
     paddingVertical: 10,
@@ -122,10 +116,12 @@ export const cardStyles = StyleSheet.create({
   tagContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginVertical: 5,
   },
-  btnView: {
+  userOptions: {
     flexDirection: 'row',
-    marginVertical: 10,
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
+  btnOptionsView: {flexDirection: 'row', alignItems: 'center'},
 });

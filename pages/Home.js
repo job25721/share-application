@@ -35,6 +35,23 @@ const categories = [
     text: 'สัตว์เลี้ยง',
   },
 ];
+
+const items = [
+  {
+    owner: 'Stamp Watcharin',
+    name: 'กระเป๋าหนังแท้มือสอง ยี่ห้อ Chanel',
+    img: require('../assets/img/bag.jpg'),
+    tags: ['เครื่องใช้', 'เสื้อผ้า', 'สิ่งของทั่วไป'],
+    category: 'ของใช้',
+  },
+  {
+    owner: 'Stamp Watcharin',
+    name: 'แมวมือสองพันธ์ไซบีเรียนฮักนะ 🧡',
+    img: '',
+    tags: ['ของมือสอง', 'สัตว์เลี้ยง', 'แมวสุดน่ารัก', 'น้อนนนน', 'น้อนน'],
+    category: 'สัตว์เลี้ยง',
+  },
+];
 export default (props) => {
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -81,49 +98,15 @@ export default (props) => {
             />
           ))}
         </ScrollView>
-        {/* <View
-          style={{
-            marginVertical: 20,
-            paddingHorizontal: 10,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <AwesomeIcon
-            style={{marginRight: 8, color: PantoneColor.livingCoral}}
-            size={25}
-            name="fire-alt"
-          />
-          <CustomText fontSize={25} fontWeight={'bold'}>
-            ล่าสุด
-          </CustomText>
-        </View> */}
         <View style={{alignItems: 'center'}}>
-          {[
-            {
-              name: 'Stamp Watcharin',
-              title: 'กระเป๋าหนังแท้มือสอง ยี่ห้อ Chanel',
-              img: require('../assets/img/bag.jpg'),
-              tag: ['เครื่องใช้', 'เสื้อผ้า', 'สิ่งของทั่วไป'],
-            },
-            {
-              name: 'Stamp Watcharin',
-              title: 'แมวมือสองพันธ์ไซบีเรียนฮักนะ 🧡',
-              img: '',
-              tag: [
-                'ของมือสอง',
-                'สัตว์เลี้ยง',
-                'แมวสุดน่ารัก',
-                'น้อนนนน',
-                'น้อนน',
-              ],
-            },
-          ].map((item, i) => (
+          {items.map((item, i) => (
             <Card
               key={i}
               img={item.img}
-              title={item.title}
+              owner={item.owner}
               name={item.name}
-              tag={item.tag}
+              tags={item.tags}
+              category={item.category}
             />
           ))}
         </View>

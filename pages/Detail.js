@@ -7,6 +7,7 @@ import Tag from '../components/Home/Tag';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {Colors, PantoneColor} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {SliderBox} from 'react-native-image-slider-box';
 
 export default ({navigation, route}) => {
@@ -35,7 +36,6 @@ export default ({navigation, route}) => {
         </Button>
       </View>
       <ScrollView>
-        {/*to photo*/}
         <View style={{paddingHorizontal: 20}}>
           <View style={styles.userDetailView}>
             <Image
@@ -46,20 +46,22 @@ export default ({navigation, route}) => {
               <CustomText fontWeight="500" fontSize={18}>
                 Stamp Watcharin
               </CustomText>
-              <CustomText
-                fontWeight="500"
-                fontSize={14}
-                color={PantoneColor.blueDepths}>
-                <FeatherIcon color={Colors._red_500} name="map-pin" size={18} />
-                Chiang Mai University
-              </CustomText>
+            </View>
+            <View style={styles.optionsView}>
+              <Button color={Colors.black} px={0}>
+                {route.params.bookmarked ? (
+                  <MaterialCommunityIcons size={30} name="bookmark" />
+                ) : (
+                  <FeatherIcon size={30} name="bookmark" />
+                )}
+              </Button>
             </View>
           </View>
-          <View style={{marginVertical: 5}}>
-            <CustomText fontWeight="bold" fontSize={23}>
-              {route.params.title ? route.params.title : null}
-            </CustomText>
-          </View>
+
+          <CustomText fontWeight="bold" fontSize={23}>
+            {route.params.name ? route.params.name : null}
+          </CustomText>
+
           <View style={styles.tagView}>
             {['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'].map((item) => (
               <Tag key={item} text={item} />
@@ -71,17 +73,12 @@ export default ({navigation, route}) => {
           <SliderBox
             onCurrentImagePressed={(idx) => {}}
             on
-            sliderBoxHeight={250}
+            sliderBoxHeight={400}
             images={images}
           />
         ) : null}
-        <View style={styles.optionsView}>
-          <Button color={Colors.black} px={0}>
-            <FeatherIcon size={30} name="bookmark" />
-          </Button>
-          <CustomText>Wishlist</CustomText>
-        </View>
-        <View style={{height: 200, paddingHorizontal: 20}}>
+
+        <View style={{padding: 20}}>
           <CustomText fontSize={16}>
             ต้องการส่งต่อให้คนที่กำลังเรียนครับ พอดีผมเรียน จบแล้ว
             ไม่รู้จะเอาไว้ที่ไหน อยากรับต่อกดรับเลยครับ แล้ว นัดรับแถวหลังมอ
@@ -92,7 +89,7 @@ export default ({navigation, route}) => {
       <View>
         <Button
           text="ส่งคำขอ"
-          bg={PantoneColor.turkishSea}
+          bg={PantoneColor.blueDepths}
           color={Colors.white}
         />
       </View>
@@ -119,9 +116,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   optionsView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingHorizontal: 25,
+    position: 'absolute',
+    right: 0,
   },
 });
