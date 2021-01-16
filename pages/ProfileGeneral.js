@@ -4,6 +4,7 @@ import {View, ScrollView} from 'react-native';
 import Profile from '../components/Profile/ProfileImage';
 import IconList from '../components/Profile/IconList';
 import CardList from '../components/Home/CardList';
+import ListCrad from '../components/Profile/ListCard';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Colors} from '../utils/Colors';
 export default (props) => {
@@ -41,30 +42,46 @@ export default (props) => {
           ))}
         </View>
         {active === 0 ? (
-          <CustomText>1</CustomText>
+          <>
+            <View
+              style={{
+                alignItems: 'center',
+                marginVertical: 30,
+              }}>
+              <CustomText fontSize={22} fontWeight="bold">
+                48
+              </CustomText>
+              <CustomText fontSize={22} fontWeight="bold">
+                POST
+              </CustomText>
+            </View>
+            <ScrollView
+              horizontal
+              style={{height: 230, width: '95%', alignSelf: 'center'}}>
+              {[1, 2, 3, 4].map((item) => (
+                <CardList key={item} />
+              ))}
+            </ScrollView>
+          </>
         ) : active === 1 ? (
-          <CustomText>2</CustomText>
+          <>
+            <ScrollView style={{width: '95%', alignSelf: 'center'}}>
+              <ListCrad />
+            </ScrollView>
+          </>
+        ) : active === 2 ? (
+          <>
+            <ScrollView style={{width: '95%', alignSelf: 'center'}}>
+              <ListCrad />
+            </ScrollView>
+          </>
+        ) : active === 3 ? (
+          <>
+            <ScrollView style={{width: '95%', alignSelf: 'center'}}>
+              <ListCrad />
+            </ScrollView>
+          </>
         ) : null}
-
-        <View
-          style={{
-            alignItems: 'center',
-            marginVertical: 30,
-          }}>
-          <CustomText fontSize={22} fontWeight="bold">
-            48
-          </CustomText>
-          <CustomText fontSize={22} fontWeight="bold">
-            POST
-          </CustomText>
-        </View>
-        <ScrollView
-          horizontal
-          style={{height: 230, width: '95%', alignSelf: 'center'}}>
-          {[1, 2, 3, 4].map((item) => (
-            <CardList key={item} />
-          ))}
-        </ScrollView>
       </View>
     </ScrollView>
   );
