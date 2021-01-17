@@ -77,7 +77,9 @@ export default (props) => {
         </View>
 
         <View style={{flexDirection: 'row'}}>
-          <Button onPress={() => null} px={5}>
+          <Button
+            onPress={() => props.navigation.navigate('Notification')}
+            px={5}>
             <FeatherIcon name="bell" size={35} />
           </Button>
           <Button onPress={() => props.navigation.navigate('Chat')} px={5}>

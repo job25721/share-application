@@ -29,17 +29,6 @@ const RootStackScreen = () => {
     <NavigationContainer>
       <RootStack.Navigator mode="card">
         <RootStack.Screen
-          name="Notification"
-          component={Noti}
-          options={{
-            headerRight: () => (
-              <Button
-                text={<FeatherIcon color="black" name="bell" size={30} />}
-              />
-            ),
-          }}
-        />
-        <RootStack.Screen
           name="Login"
           component={Login}
           options={{headerShown: false}}
@@ -69,6 +58,13 @@ const RootStackScreen = () => {
         <RootStack.Screen
           name="Chat"
           component={ChatStackScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="Notification"
+          component={Noti}
           options={{
             headerShown: false,
           }}
