@@ -41,69 +41,71 @@ export default (props) => {
   };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
-      <View style={styles.container}>
-        {onSearch ? null : (
-          <View>
-            <CustomText type="header">Search</CustomText>
-          </View>
-        )}
+      <DismissKeyboard>
+        <View style={styles.container}>
+          {onSearch ? null : (
+            <View>
+              <CustomText type="header">Search</CustomText>
+            </View>
+          )}
 
-        <View
-          style={{
-            alignSelf: 'center',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            marginVertical: 10,
-          }}>
-          <Input
-            backgroundColor={Colors._gray_500}
-            placeholder="ค้นหา..."
-            width="80%"
-          />
-          <Button onPress={() => Keyboard.dismiss()}>
-            <FeatherIcon
-              style={{alignSelf: 'center'}}
-              name="search"
-              size={40}
+          <View
+            style={{
+              alignSelf: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              marginVertical: 10,
+            }}>
+            <Input
+              backgroundColor={Colors._gray_500}
+              placeholder="ค้นหา..."
+              width="80%"
             />
-          </Button>
-        </View>
-
-        {onSearch ? null : (
-          <View style={{marginBottom: 10}}>
-            <View style={{marginBottom: 10}}>
-              <CustomText type="subheader">Trending</CustomText>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-              }}>
-              {[
-                'หนังสือ',
-                'อุปกรณ์การเรียน',
-                'เสื้อผ้า',
-                'สิ่งของเครื่องใช้',
-                'ของกิน',
-              ].map((item, i) => (
-                <Tag key={i} text={item} />
-              ))}
-            </View>
+            <Button onPress={() => Keyboard.dismiss()}>
+              <FeatherIcon
+                style={{alignSelf: 'center'}}
+                name="search"
+                size={40}
+              />
+            </Button>
           </View>
-        )}
 
-        {onSearch ? (
-          <>
-            <CustomText type="subheader">Result</CustomText>
+          {onSearch ? null : (
+            <View style={{marginBottom: 10}}>
+              <View style={{marginBottom: 10}}>
+                <CustomText type="subheader">Trending</CustomText>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                }}>
+                {[
+                  'หนังสือ',
+                  'อุปกรณ์การเรียน',
+                  'เสื้อผ้า',
+                  'สิ่งของเครื่องใช้',
+                  'ของกิน',
+                ].map((item, i) => (
+                  <Tag key={i} text={item} />
+                ))}
+              </View>
+            </View>
+          )}
 
-            <ScrollView>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                <Column key={item} />
-              ))}
-            </ScrollView>
-          </>
-        ) : null}
-      </View>
+          {onSearch ? (
+            <>
+              <CustomText type="subheader">Result</CustomText>
+
+              <ScrollView>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                  <Column key={item} />
+                ))}
+              </ScrollView>
+            </>
+          ) : null}
+        </View>
+      </DismissKeyboard>
     </SafeAreaView>
   );
 };
