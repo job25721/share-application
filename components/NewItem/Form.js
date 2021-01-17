@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Platform, ScrollView, StyleSheet, View} from 'react-native';
 
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
@@ -17,13 +17,23 @@ import {
   SET_DESCRIPTION,
   SET_ITEM_NAME,
 } from '../../utils/form/form-action-type';
+import AlertDialog from '../AlertDialog';
 const NewItemForm = () => {
   const {state, dispatch} = useContext(FormContext);
+  const [alertMsg, setAlert] = useState(false);
   const {itemName, description} = state;
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+      <AlertDialog
+        open={alertMsg}
+        onClosePress={() => setAlert(false)}
+        title="ยืนยันข้อมูล"
+        content="ข้อมูลถูกต้องครบถ้วนแล้วใช่หรือไม่"
+        confirmText="ใช่"
+        cancelText="ไม่ใช่"
+      />
       <CustomText
         color={PantoneColor.blueDepths}
         textAlign="center"
@@ -77,7 +87,7 @@ const NewItemForm = () => {
 
           <Button
             rounded
-            onPress={() => alert('hello world')}
+            onPress={() => setAlert(true)}
             bg={PantoneColor.livingCoral}
             text="แชร์!"
             fontSize={24}

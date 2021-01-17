@@ -19,10 +19,13 @@ import Chat from './pages/Chat/Chat';
 import ChatIndex from './pages/Chat/Index';
 import Profile from './pages/ProfileGeneral';
 
+// import store from './store';
+import {Provider} from 'react-redux';
 const RootStack = createStackNavigator();
 
 const RootStackScreen = () => {
   return (
+    // <Provider store={store}>
     <NavigationContainer>
       <RootStack.Navigator mode="card">
         <RootStack.Screen
@@ -89,6 +92,7 @@ const RootStackScreen = () => {
         />
       </RootStack.Navigator>
     </NavigationContainer>
+    // </Provider>
   );
 };
 
