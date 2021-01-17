@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import List from '../components/Noti/imageList';
+import List from '../components/Noti/ImageList';
 
 export default () => {
   return (
