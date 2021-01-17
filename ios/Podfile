@@ -10,6 +10,8 @@ target 'SHARE' do
 
 
 
+  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
+
   target 'SHARETests' do
     inherit! :complete
     # Pods for testing

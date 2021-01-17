@@ -15,7 +15,7 @@ import Noti from './pages/Notification';
 import Detail from './pages/Detail';
 import TabScreen from './pages/Index';
 import Chat from './pages/Chat/Chat';
-
+import Register from './pages/Register';
 import ChatIndex from './pages/Chat/Index';
 
 const RootStack = createStackNavigator();
@@ -24,6 +24,11 @@ const RootStackScreen = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator mode="card">
+        <RootStack.Screen
+          name="Register"
+          component={Register}
+          options={{headerShown: false}}
+        />
         <RootStack.Screen
           name="Notification"
           component={Noti}
