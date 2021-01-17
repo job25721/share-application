@@ -18,6 +18,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {SliderBox} from 'react-native-image-slider-box';
 import RequestModal from '../components/RequestModal';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
+import AlertDialog from '../components/AlertDialog';
+
 export const ModalContext = createContext({});
 export default ({navigation, route}) => {
   const [images, setImages] = useState([
@@ -27,7 +29,7 @@ export default ({navigation, route}) => {
   ]);
 
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const [isAlert, setAlert] = useState(false);
   useEffect(() => {
     route.params.img ? setImages([route.params.img]) : null;
   }, [route.params.img]);
@@ -35,9 +37,24 @@ export default ({navigation, route}) => {
   return (
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
-        <ModalContext.Provider value={{isModalOpen, setModalOpen}}>
-          <RequestModal name={route.params.name} isOpen={isModalOpen} />
-        </ModalContext.Provider>
+        <AlertDialog
+          open={isAlert}
+          onClosePress={() => setAlert(false)}
+          onConfirm={() => {
+            navigation.navigate('Chat');
+            setAlert(false);
+            setModalOpen(false);
+          }}
+          title="ยืนยันคำขอ"
+          content="คำขอจะถูกส่งไปหาเจ้าของ และจะทำการสร้างห้องแชทอัตโนมัติ"
+        />
+        <RequestModal
+          name={route.params.name}
+          isOpen={isModalOpen}
+          onClosePress={() => setModalOpen(false)}
+          onSubmit={() => setAlert(true)}
+          navigation={navigation}
+        />
 
         <View style={styles.header}>
           <Button px={0} onPress={() => navigation.goBack()}>
