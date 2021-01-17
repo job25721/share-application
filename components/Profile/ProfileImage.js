@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Image, Alert} from 'react-native';
+import {View, Image} from 'react-native';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
-import {Colors, PantoneColor} from '../../utils/Colors';
+import {Colors} from '../../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {CustomText} from '../../components/CustomStyledComponent/Text';
 
@@ -50,16 +50,12 @@ export default ({navigate}) => {
         </View>
       </View>
       <View style={{top: '18%'}}>
-        <CustomText fontSize={16}>Pathomporn Pankaew</CustomText>
+        <CustomText fontSize={18}>Pathomporn Pankaew</CustomText>
         <View style={{marginVertical: 5}}>
-          <CustomText fontSize={14} color="#C7C7C7">
+          <CustomText fontSize={16} color="#C7C7C7">
             @job25721
           </CustomText>
         </View>
-        <CustomText color={Colors.black} fontWeight="500" fontSize={13}>
-          <FeatherIcon color={Colors._red_500} name="map-pin" size={16} />
-          Chiang Mai University
-        </CustomText>
       </View>
     </View>
   );
