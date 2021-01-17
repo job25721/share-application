@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {createContext, useEffect, useState} from 'react';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {View, Image, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 import Tag from '../components/Home/Tag';
@@ -9,7 +9,9 @@ import {Colors, PantoneColor} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {SliderBox} from 'react-native-image-slider-box';
-
+import RequestModal from '../components/RequestModal';
+import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
+export const ModalContext = createContext({});
 export default ({navigation, route}) => {
   const [images, setImages] = useState([
     require('../assets/img/cat.jpg'),
@@ -17,83 +19,93 @@ export default ({navigation, route}) => {
     require('../assets/img/dang.jpg'),
   ]);
 
+  const [isModalOpen, setModalOpen] = useState(false);
+
   useEffect(() => {
     route.params.img ? setImages([route.params.img]) : null;
   }, [route.params.img]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={styles.header}>
-        <Button px={0} onPress={() => navigation.goBack()}>
-          <View style={styles.backBtnView}>
-            <FeatherIcon
-              style={{paddingRight: 10}}
-              name="arrow-left"
-              size={30}
-            />
-            <CustomText>Back</CustomText>
-          </View>
-        </Button>
-      </View>
-      <ScrollView>
-        <View style={{paddingHorizontal: 20}}>
-          <View style={styles.userDetailView}>
-            <Image
-              style={styles.userImg}
-              source={require('../assets/img/stamp.png')}
-            />
-            <View style={{paddingHorizontal: 15}}>
-              <CustomText fontWeight="500" fontSize={18}>
-                Stamp Watcharin
-              </CustomText>
+    <DismissKeyboard>
+      <SafeAreaView style={{flex: 1}}>
+        <ModalContext.Provider value={{isModalOpen, setModalOpen}}>
+          <RequestModal name={route.params.name} isOpen={isModalOpen} />
+        </ModalContext.Provider>
+        <View style={styles.header}>
+          <Button px={0} onPress={() => navigation.goBack()}>
+            <View style={styles.backBtnView}>
+              <FeatherIcon
+                style={{paddingRight: 10}}
+                name="arrow-left"
+                size={30}
+              />
+              <CustomText>Back</CustomText>
             </View>
-            <View style={styles.optionsView}>
-              <Button color={Colors.black} px={0}>
-                {route.params.bookmarked ? (
-                  <MaterialCommunityIcons size={30} name="bookmark" />
-                ) : (
-                  <FeatherIcon size={30} name="bookmark" />
-                )}
-              </Button>
-            </View>
-          </View>
-
-          <CustomText fontWeight="bold" fontSize={23}>
-            {route.params.name ? route.params.name : null}
-          </CustomText>
-
-          <View style={styles.tagView}>
-            {['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'].map((item) => (
-              <Tag key={item} text={item} />
-            ))}
-          </View>
+          </Button>
         </View>
+        <ScrollView>
+          <View style={{paddingHorizontal: 20}}>
+            <View style={styles.userDetailView}>
+              <Image
+                style={styles.userImg}
+                source={require('../assets/img/stamp.png')}
+              />
+              <View style={{paddingHorizontal: 15}}>
+                <CustomText fontWeight="500" fontSize={18}>
+                  Stamp Watcharin
+                </CustomText>
+              </View>
+              <View style={styles.optionsView}>
+                <Button color={Colors.black} px={0}>
+                  {route.params.bookmarked ? (
+                    <MaterialCommunityIcons size={30} name="bookmark" />
+                  ) : (
+                    <FeatherIcon size={30} name="bookmark" />
+                  )}
+                </Button>
+              </View>
+            </View>
 
-        {images.length > 0 ? (
-          <SliderBox
-            onCurrentImagePressed={(idx) => {}}
-            on
-            sliderBoxHeight={400}
-            images={images}
+            <CustomText fontWeight="bold" fontSize={23}>
+              {route.params.name ? route.params.name : null}
+            </CustomText>
+
+            <View style={styles.tagView}>
+              {['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'].map(
+                (item) => (
+                  <Tag key={item} text={item} />
+                ),
+              )}
+            </View>
+          </View>
+
+          {images.length > 0 ? (
+            <SliderBox
+              onCurrentImagePressed={(idx) => {}}
+              on
+              sliderBoxHeight={400}
+              images={images}
+            />
+          ) : null}
+
+          <View style={{padding: 20}}>
+            <CustomText fontSize={16}>
+              ต้องการส่งต่อให้คนที่กำลังเรียนครับ พอดีผมเรียน จบแล้ว
+              ไม่รู้จะเอาไว้ที่ไหน อยากรับต่อกดรับเลยครับ แล้ว นัดรับแถวหลังมอ
+              ในมอเรื่องเวลาค่อยคุยกัน หลังไมค์ครับ
+            </CustomText>
+          </View>
+        </ScrollView>
+        <View>
+          <Button
+            text="ส่งคำขอ"
+            onPress={() => setModalOpen(true)}
+            bg={PantoneColor.blueDepths}
+            color={Colors.white}
           />
-        ) : null}
-
-        <View style={{padding: 20}}>
-          <CustomText fontSize={16}>
-            ต้องการส่งต่อให้คนที่กำลังเรียนครับ พอดีผมเรียน จบแล้ว
-            ไม่รู้จะเอาไว้ที่ไหน อยากรับต่อกดรับเลยครับ แล้ว นัดรับแถวหลังมอ
-            ในมอเรื่องเวลาค่อยคุยกัน หลังไมค์ครับ
-          </CustomText>
         </View>
-      </ScrollView>
-      <View>
-        <Button
-          text="ส่งคำขอ"
-          bg={PantoneColor.blueDepths}
-          color={Colors.white}
-        />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </DismissKeyboard>
   );
 };
 
