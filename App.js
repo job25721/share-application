@@ -11,7 +11,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import Login from './pages/Login';
 import PersonModal from './pages/Chat/PersonModal';
 import {Colors} from './utils/Colors';
-
+import Noti from './pages/Notification';
 import Detail from './pages/Detail';
 import TabScreen from './pages/Index';
 import Chat from './pages/Chat/Chat';
@@ -24,6 +24,17 @@ const RootStackScreen = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator mode="card">
+        <RootStack.Screen
+          name="Notification"
+          component={Noti}
+          options={{
+            headerRight: () => (
+              <Button
+                text={<FeatherIcon color="black" name="bell" size={30} />}
+              />
+            ),
+          }}
+        />
         <RootStack.Screen
           name="Login"
           component={Login}
