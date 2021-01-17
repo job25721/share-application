@@ -17,6 +17,7 @@ import TabScreen from './pages/Index';
 import Chat from './pages/Chat/Chat';
 
 import ChatIndex from './pages/Chat/Index';
+import Profile from './pages/ProfileGeneral';
 
 const RootStack = createStackNavigator();
 
@@ -29,11 +30,13 @@ const RootStackScreen = () => {
           component={Login}
           options={{headerShown: false}}
         />
+
         <RootStack.Screen
           name="Tab"
           component={TabScreen}
           options={{headerShown: false}}
         />
+
         <RootStack.Screen
           name="Detail"
           component={Detail}
@@ -63,6 +66,11 @@ const RootStackScreen = () => {
             headerShown: false,
             gestureEnabled: false,
           }}
+        />
+        <RootStack.Screen
+          name="Profile"
+          component={Profile}
+          options={{headerShown: false}}
         />
         <RootStack.Screen
           name="PersonModal"

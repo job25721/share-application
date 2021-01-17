@@ -5,7 +5,7 @@ import {PantoneColor} from '../utils/Colors';
 
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+
 import {Card} from '../components/Home/Card';
 import {IconList} from '../components/Home/IconList';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
