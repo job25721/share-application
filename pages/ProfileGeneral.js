@@ -65,19 +65,37 @@ export default (props) => {
           </>
         ) : active === 1 ? (
           <>
-            <ScrollView style={{width: '95%', alignSelf: 'center'}}>
+            <ScrollView
+              style={{
+                width: '95%',
+                alignSelf: 'center',
+                height: 400,
+                marginTop: 15,
+              }}>
               <ListCrad />
             </ScrollView>
           </>
         ) : active === 2 ? (
           <>
-            <ScrollView style={{width: '95%', alignSelf: 'center'}}>
+            <ScrollView
+              style={{
+                width: '95%',
+                alignSelf: 'center',
+                height: 400,
+                marginTop: 15,
+              }}>
               <ListCrad />
             </ScrollView>
           </>
         ) : active === 3 ? (
           <>
-            <ScrollView style={{width: '95%', alignSelf: 'center'}}>
+            <ScrollView
+              style={{
+                width: '95%',
+                alignSelf: 'center',
+                height: 400,
+                marginTop: 15,
+              }}>
               <ListCrad />
             </ScrollView>
           </>
