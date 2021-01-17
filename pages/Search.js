@@ -71,22 +71,18 @@ export default (props) => {
           {onSearch ? null : (
             <View style={{marginBottom: 10}}>
               <View style={{marginBottom: 10}}>
-                <CustomText type="subheader">Trending</CustomText>
+                <CustomText type="subheader">Trending tags</CustomText>
               </View>
               <View
                 style={{
                   flexDirection: 'row',
                   flexWrap: 'wrap',
                 }}>
-                {[
-                  'หนังสือ',
-                  'อุปกรณ์การเรียน',
-                  'เสื้อผ้า',
-                  'สิ่งของเครื่องใช้',
-                  'ของกิน',
-                ].map((item, i) => (
-                  <Tag key={i} text={item} />
-                ))}
+                {['หนังสือ', 'การเรียน', 'เสื้อผ้า', 'ของใช้', 'ของกิน'].map(
+                  (item, i) => (
+                    <Tag key={i} text={item} />
+                  ),
+                )}
               </View>
             </View>
           )}
