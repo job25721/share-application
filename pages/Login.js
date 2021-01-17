@@ -50,6 +50,15 @@ export default (props) => {
           }>
           <View
             style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              top: -40,
+            }}>
+            <CustomText fontSize={22}>Login</CustomText>
+            <CustomText fontSize={22}>Register</CustomText>
+          </View>
+          <View
+            style={{
               alignItems: 'center',
             }}>
             <Image
