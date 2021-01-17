@@ -29,13 +29,5 @@ export default ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 15,
-  },
   header: {flexDirection: 'row', marginTop: 20},
-  chatTab: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    margin: 10,
-  },
 });
