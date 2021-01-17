@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {CustomText} from '../../CustomStyledComponent/Text';
 import Feather from 'react-native-vector-icons/Feather';
 import {FormContext} from '../../../pages/NewItem';
@@ -9,31 +9,30 @@ const PickerInput = () => {
   const {state, dispatch} = useContext(FormContext);
   const {selectedType} = state;
   return (
-    <View
+    <TouchableOpacity
       style={{
         padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
+      }}
+      onPress={() => {
+        dispatch({
+          type: SET_MODAL,
+          payload: true,
+        });
       }}>
-      <CustomText>
+      <CustomText color={selectedType === null ? '#858283' : '#000'}>
         {selectedType === null ? 'เลือกประเภท' : selectedType}
       </CustomText>
       <View
         style={{
           position: 'absolute',
           right: 0,
+          paddingHorizontal: 20,
         }}>
-        <Button
-          onPress={() => {
-            dispatch({
-              type: SET_MODAL,
-              payload: true,
-            });
-          }}>
-          <Feather name="chevron-down" size={20} />
-        </Button>
+        <Feather name="chevron-down" size={20} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

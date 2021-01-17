@@ -66,6 +66,7 @@ const NewItemForm = () => {
               placeholder="รายละเอียด"
               height={150}
               value={description}
+              focus
               onChangeText={(val) =>
                 dispatch({type: SET_DESCRIPTION, payload: val})
               }

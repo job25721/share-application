@@ -1,21 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
-  Alert,
   SafeAreaView,
   ScrollView,
   Keyboard,
-  Animated,
 } from 'react-native';
-import {Colors, PantoneColor} from '../utils/Colors';
+import {Colors} from '../utils/Colors';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Input} from '../components/CustomStyledComponent/Input/CustomInput';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Tag from '../components/Home/Tag';
-import Column from '../components/Search/column';
+import SearchResultCard from '../components/Search/SearchResultCard';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 
 export default (props) => {
@@ -99,7 +97,12 @@ export default (props) => {
 
               <ScrollView>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                  <Column key={item} />
+                  <SearchResultCard
+                    name="หนังสือแคล 3"
+                    category="หนังสือ"
+                    tags={['คือลือ', 'เบิ้มๆหน่ะ']}
+                    key={item}
+                  />
                 ))}
               </ScrollView>
             </>
