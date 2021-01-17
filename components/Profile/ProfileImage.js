@@ -43,7 +43,7 @@ export default ({navigate}) => {
             <FeatherIcon
               style={{alignSelf: 'center'}}
               color={Colors.white}
-              name="camera"
+              name="edit-2"
               size={20}
             />
           </Button>
