@@ -1,7 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {createContext, useEffect, useState} from 'react';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import {View, Image, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  View,
+  Image,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from 'react-native';
 import Tag from '../components/Home/Tag';
 
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
@@ -31,6 +38,7 @@ export default ({navigation, route}) => {
         <ModalContext.Provider value={{isModalOpen, setModalOpen}}>
           <RequestModal name={route.params.name} isOpen={isModalOpen} />
         </ModalContext.Provider>
+
         <View style={styles.header}>
           <Button px={0} onPress={() => navigation.goBack()}>
             <View style={styles.backBtnView}>
