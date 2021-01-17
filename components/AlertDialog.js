@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modalbox';
 
@@ -6,11 +6,16 @@ import {Colors, PantoneColor} from '../utils/Colors';
 import {Button} from './CustomStyledComponent/Button/CustomButton';
 import {CustomText} from './CustomStyledComponent/Text';
 
-const AlertDialog = ({title, content, onConfirm, open, onClosePress}) => {
-  useEffect(() => {
-    console.log(open);
-  }, [open]);
-
+const AlertDialog = ({
+  title,
+  content,
+  onConfirm,
+  open,
+  onClosePress,
+  confirmText,
+  cancelText,
+  hasCancel,
+}) => {
   return (
     <Modal
       backdropPressToClose={false}
@@ -21,23 +26,25 @@ const AlertDialog = ({title, content, onConfirm, open, onClosePress}) => {
       <CustomText fontWeight="bold" textAlign="center" fontSize={25}>
         {title}
       </CustomText>
-      <View style={{justifyContent: 'center', flex: 1}}>
+      <View style={styles.contentView}>
         <CustomText textAlign="center">{content}</CustomText>
       </View>
 
       <View style={styles.btnView}>
         <Button
-          text="ตกลง"
+          text={confirmText ? confirmText : 'ตกลง'}
           onPress={onConfirm}
           color={Colors.white}
           bg={PantoneColor.livingCoral}
         />
-        <Button
-          text="ยกเลิก"
-          onPress={onClosePress}
-          color={Colors.white}
-          bg={PantoneColor.blueDepths}
-        />
+        {hasCancel === false ? null : (
+          <Button
+            text={cancelText ? cancelText : 'ยกเลิก'}
+            onPress={onClosePress}
+            color={Colors.white}
+            bg={PantoneColor.blueDepths}
+          />
+        )}
       </View>
     </Modal>
   );
@@ -50,6 +57,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
   },
+  contentView: {justifyContent: 'center', flex: 1},
   btnView: {
     flexDirection: 'row',
     justifyContent: 'center',

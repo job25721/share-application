@@ -8,16 +8,13 @@ import {
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import Modal from 'react-native-modalbox';
-import {ModalContext} from '../pages/Detail';
+
 import {Colors, PantoneColor} from '../utils/Colors';
 import {Button} from './CustomStyledComponent/Button/CustomButton';
-import Feather from 'react-native-vector-icons/Feather';
+
 import {Input} from './CustomStyledComponent/Input/CustomInput';
 import {CustomText} from './CustomStyledComponent/Text';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
-import AlertDialog from './AlertDialog';
-
-import {useNavigation} from '@react-navigation/native';
 
 const RequestModal = ({name, isOpen, onClosePress, onSubmit}) => {
   const [wantedRate, setRate] = useState(0);

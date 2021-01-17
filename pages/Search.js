@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   Keyboard,
+  Platform,
 } from 'react-native';
 import {Colors} from '../utils/Colors';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
