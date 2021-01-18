@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
-import {Platform, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import {Input} from '../CustomStyledComponent/Input/CustomInput';
@@ -22,7 +28,9 @@ const NewItemForm = () => {
   const [alertMsg, setAlert] = useState(false);
   const {itemName, description} = state;
   return (
-    <>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : ''}
+      style={{flex: 1}}>
       <AlertDialog
         open={alertMsg}
         onClosePress={() => setAlert(false)}
@@ -31,6 +39,7 @@ const NewItemForm = () => {
         confirmText="ใช่"
         cancelText="ไม่ใช่"
       />
+
       <CustomText
         color={PantoneColor.blueDepths}
         textAlign="center"
@@ -85,7 +94,7 @@ const NewItemForm = () => {
           />
         </View>
       </ScrollView>
-    </>
+    </KeyboardAvoidingView>
   );
 };
 

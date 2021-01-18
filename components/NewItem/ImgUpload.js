@@ -1,15 +1,26 @@
-import React, {useContext} from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {Alert, Image, StyleSheet, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {SliderBox} from 'react-native-image-slider-box';
 import {FormContext} from '../../pages/NewItem';
-import {ADD_IMAGE, REMOVE_IMAGE} from '../../utils/form/form-action-type';
+import {
+  ADD_IMAGE,
+  REMOVE_IMAGE,
+  SET_IMAGE_PREVIEW,
+} from '../../utils/form/form-action-type';
+import {Button} from '../CustomStyledComponent/Button/CustomButton';
+import ImagePreviewModal from '../ImagePreviewModal';
 import CameraBtn from './CameraBtn';
 import UploadBtn from './UploadBtn';
-
+import Feather from 'react-native-vector-icons/Feather';
+import {Colors} from '../../utils/Colors';
+import AlertDialog from '../AlertDialog';
 const ImgUpload = () => {
   const {state, dispatch} = useContext(FormContext);
   const {images} = state;
+  const [alert, setAlert] = useState(false);
+  const [onRemove, setRemove] = useState(null);
   const uploadPhoto = async () => {
     try {
       const uploaded = await ImageCropPicker.openPicker({
@@ -37,29 +48,63 @@ const ImgUpload = () => {
       console.log(error);
     }
   };
+  const removeImage = () => {
+    if (onRemove !== null) {
+      dispatch({
+        type: REMOVE_IMAGE,
+        payload: onRemove,
+      });
+    }
+  };
   return (
     <>
+      <AlertDialog
+        title="ต้องการลบรูบภาพนี้"
+        content="จะลบจริงๆเหรอ ??"
+        open={alert}
+        onConfirm={() => {
+          removeImage();
+          setAlert(false);
+        }}
+        onClosePress={() => {
+          setAlert(false);
+          setRemove(null);
+        }}
+      />
       {images.length > 0 ? (
-        <SliderBox
-          onCurrentImagePressed={(idx) => {
-            Alert.alert('Remove photo', 'ต้องการลบรูปนี้', [
-              {
-                text: 'OK',
-                onPress: () => {
-                  dispatch({
-                    type: REMOVE_IMAGE,
-                    payload: idx,
-                  });
-                },
-              },
-              {
-                text: 'Cancel',
-              },
-            ]);
-          }}
-          sliderBoxHeight={300}
-          images={images}
-        />
+        <ScrollView horizontal>
+          {images.map((img, i) => (
+            <View key={i.toString()}>
+              <View
+                style={{position: 'absolute', zIndex: 1, right: -5, top: -5}}>
+                <Button
+                  onPress={() => {
+                    setAlert(true);
+                    setRemove(img);
+                  }}
+                  px={5}
+                  rounded
+                  bg="rgba(0,0,0,0.3)">
+                  <Feather color={Colors.white} name="x" size={25} />
+                </Button>
+              </View>
+              <Image
+                source={{uri: img}}
+                style={{height: 150, width: 150, margin: 10}}
+              />
+            </View>
+          ))}
+          {/* <SliderBox
+            onCurrentImagePressed={() =>
+              dispatch({
+                type: SET_IMAGE_PREVIEW,
+                payload: true,
+              })
+            }
+            sliderBoxHeight={300}
+            images={images}
+          /> */}
+        </ScrollView>
       ) : null}
 
       {images.length < 6 ? (

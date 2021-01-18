@@ -8,6 +8,7 @@ import {
   SET_PICKER_TYPE,
   SET_MODAL,
   CLEAR_FORM,
+  SET_IMAGE_PREVIEW,
 } from './form-action-type';
 
 export const initialState = {
@@ -20,6 +21,7 @@ export const initialState = {
   description: '',
   tags: [],
   pickerModalOpen: false,
+  imagePreviewOpen: false,
   pickerItems: [
     {label: 'สวัสดีค้าบบ', value: 'สวัสดีค้าบบ', key: 1},
     {label: 'ท่านสมาชิก', value: 'ท่านสมาชิก', key: 2},
@@ -61,12 +63,17 @@ export function formReducer(state, action) {
     case REMOVE_IMAGE:
       return {
         ...state,
-        images: state.images.filter((_, i) => i !== action.payload),
+        images: state.images.filter((uri) => uri !== action.payload),
       };
     case SET_MODAL:
       return {
         ...state,
         pickerModalOpen: action.payload,
+      };
+    case SET_IMAGE_PREVIEW:
+      return {
+        ...state,
+        imagePreviewOpen: action.payload,
       };
     case CLEAR_FORM:
       return initialState;

@@ -7,3 +7,4 @@ export const REMOVE_TAG = 'REMOVE_TAG';
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 export const SET_MODAL = 'SET_MODAL';
 export const CLEAR_FORM = 'CLEAR_FORM';
+export const SET_IMAGE_PREVIEW = 'SET_IMAGE_PREVIEW';
