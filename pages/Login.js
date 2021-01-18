@@ -54,8 +54,12 @@ export default (props) => {
               justifyContent: 'space-between',
               top: -40,
             }}>
-            <CustomText fontSize={22}>Login</CustomText>
-            <CustomText fontSize={22}>Register</CustomText>
+            <Button px={0}>
+              <CustomText fontSize={30}>Login</CustomText>
+            </Button>
+            <Button onPress={() => navigate('Register')} px={0}>
+              <CustomText fontSize={22}>Register</CustomText>
+            </Button>
           </View>
           <View
             style={{

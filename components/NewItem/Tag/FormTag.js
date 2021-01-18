@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {Button} from '../../CustomStyledComponent/Button/CustomButton';
