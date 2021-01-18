@@ -64,10 +64,12 @@ export default (props) => {
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.headerContainer}>
         <View style={{flexDirection: 'row'}}>
-          <Image
-            style={{marginRight: 10}}
-            source={require('../assets/img/profile.png')}
-          />
+          <Button px={0} onPress={() => props.navigation.navigate('Profile')}>
+            <Image
+              style={{marginRight: 10}}
+              source={require('../assets/img/profile.png')}
+            />
+          </Button>
           <View style={{justifyContent: 'center', paddingRight: 10}}>
             <CustomText fontSize={14}>Pathomporn Pankaew</CustomText>
             <CustomText fontSize={14} textAlign="left">
