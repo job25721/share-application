@@ -33,7 +33,9 @@ const NavigationBar = ({state, descriptors, navigation}) => {
           text={
             <Feather
               color={
-                current === Routes.home ? Colors._indigo_500 : Colors.black
+                current === Routes.home
+                  ? PantoneColor.livingCoral
+                  : Colors.black
               }
               size={current === Routes.home ? 35 : 30}
               name="home"
@@ -47,7 +49,9 @@ const NavigationBar = ({state, descriptors, navigation}) => {
             <Feather
               name="plus"
               color={
-                current === Routes.addItem ? Colors._indigo_500 : Colors.black
+                current === Routes.addItem
+                  ? PantoneColor.livingCoral
+                  : Colors.black
               }
               size={current === Routes.addItem ? 35 : 30}
             />
@@ -59,7 +63,9 @@ const NavigationBar = ({state, descriptors, navigation}) => {
           text={
             <Feather
               color={
-                current === Routes.search ? Colors._indigo_500 : Colors.black
+                current === Routes.search
+                  ? PantoneColor.livingCoral
+                  : Colors.black
               }
               size={current === Routes.search ? 35 : 30}
               name="search"

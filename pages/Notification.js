@@ -9,7 +9,7 @@ import Feather from 'react-native-vector-icons/Feather';
 
 export default ({navigation}) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <View style={styles.header}>
         <Button onPress={() => navigation.goBack()}>
           <Feather name="arrow-left" size={30} />
