@@ -1,14 +1,9 @@
 import React, {useContext, useState} from 'react';
-import {Alert, Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import {SliderBox} from 'react-native-image-slider-box';
 import {FormContext} from '../../pages/NewItem';
-import {
-  ADD_IMAGE,
-  REMOVE_IMAGE,
-  SET_IMAGE_PREVIEW,
-} from '../../utils/form/form-action-type';
+import {ADD_IMAGE, REMOVE_IMAGE} from '../../utils/form/form-action-type';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import ImagePreviewModal from '../ImagePreviewModal';
 import CameraBtn from './CameraBtn';
@@ -21,6 +16,7 @@ const ImgUpload = () => {
   const {images} = state;
   const [alert, setAlert] = useState(false);
   const [onRemove, setRemove] = useState(null);
+  const [previewUri, setPreview] = useState(null);
   const uploadPhoto = async () => {
     try {
       const uploaded = await ImageCropPicker.openPicker({
@@ -58,9 +54,9 @@ const ImgUpload = () => {
   };
   return (
     <>
+      <ImagePreviewModal onClosed={() => setPreview(null)} uri={previewUri} />
       <AlertDialog
         title="ต้องการลบรูบภาพนี้"
-        content="จะลบจริงๆเหรอ ??"
         open={alert}
         onConfirm={() => {
           removeImage();
@@ -88,22 +84,11 @@ const ImgUpload = () => {
                   <Feather color={Colors.white} name="x" size={25} />
                 </Button>
               </View>
-              <Image
-                source={{uri: img}}
-                style={{height: 150, width: 150, margin: 10}}
-              />
+              <TouchableOpacity onPress={() => setPreview(img)}>
+                <Image source={{uri: img}} style={styles.img} />
+              </TouchableOpacity>
             </View>
           ))}
-          {/* <SliderBox
-            onCurrentImagePressed={() =>
-              dispatch({
-                type: SET_IMAGE_PREVIEW,
-                payload: true,
-              })
-            }
-            sliderBoxHeight={300}
-            images={images}
-          /> */}
         </ScrollView>
       ) : null}
 
@@ -121,6 +106,12 @@ const styles = StyleSheet.create({
   uploadSection: {
     justifyContent: 'center',
     flexDirection: 'row',
+  },
+  img: {
+    height: 150,
+    width: 150,
+    margin: 10,
+    borderRadius: 15,
   },
 });
 export default ImgUpload;

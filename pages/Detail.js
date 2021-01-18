@@ -19,6 +19,7 @@ import {SliderBox} from 'react-native-image-slider-box';
 import RequestModal from '../components/RequestModal';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import AlertDialog from '../components/AlertDialog';
+import ShareModal from '../components/ShareModal';
 
 export const ModalContext = createContext({});
 export default ({navigation, route}) => {
@@ -30,6 +31,7 @@ export default ({navigation, route}) => {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [isAlert, setAlert] = useState(false);
+  const [shareOpen, setShare] = useState(false);
   useEffect(() => {
     route.params.img ? setImages([route.params.img]) : null;
   }, [route.params.img]);
@@ -37,6 +39,7 @@ export default ({navigation, route}) => {
   return (
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
+        <ShareModal isOpen={shareOpen} onClosed={() => setShare(false)} />
         <AlertDialog
           open={isAlert}
           onClosePress={() => setAlert(false)}
@@ -81,7 +84,7 @@ export default ({navigation, route}) => {
                 </CustomText>
               </View>
               <View style={styles.optionsView}>
-                <Button px={0}>
+                <Button onPress={() => setShare(true)} px={0}>
                   <MaterialCommunityIcons size={30} name="share" />
                 </Button>
                 <Button color={Colors.black} px={0}>
@@ -110,7 +113,23 @@ export default ({navigation, route}) => {
           {images.length > 0 ? (
             <SliderBox
               onCurrentImagePressed={(idx) => {}}
-              on
+              dotColor="#FFEE58"
+              ImageComponentStyle={{
+                borderRadius: 15,
+                width: '97%',
+                marginTop: 5,
+              }}
+              inactiveDotColor="#90A4AE"
+              dotStyle={{
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                marginHorizontal: 0,
+                padding: 0,
+                margin: 0,
+                backgroundColor: 'rgba(128, 128, 128, 0.92)',
+              }}
+              imageLoadingColor="#2196F3"
               sliderBoxHeight={400}
               images={images}
             />

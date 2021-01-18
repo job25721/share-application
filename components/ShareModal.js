@@ -1,0 +1,65 @@
+import React from 'react';
+import Modal from 'react-native-modalbox';
+import {Button} from './CustomStyledComponent/Button/CustomButton';
+import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import {StyleSheet, View} from 'react-native';
+import {CustomText} from './CustomStyledComponent/Text';
+import {Colors} from '../utils/Colors';
+const ShareModal = ({isOpen, onClosed}) => {
+  return (
+    <Modal
+      position="bottom"
+      style={styles.container}
+      isOpen={isOpen}
+      onClosed={onClosed}>
+      <CustomText type="subheader" textAlign="center">
+        แชร์ให้เพื่อนๆของคุณ
+      </CustomText>
+      <View style={styles.btnView}>
+        <Button rounded px={0} py={10} bg={Colors.facebook}>
+          <View style={styles.rowBtntext}>
+            <FontAwesome
+              style={{paddingHorizontal: 10}}
+              color={Colors.white}
+              size={35}
+              name="facebook"
+            />
+            <CustomText color={Colors.white}>แชร์ไปที่ Facebook</CustomText>
+          </View>
+        </Button>
+
+        <Button rounded px={0} py={10} bg="#262626">
+          <View style={styles.rowBtntext}>
+            <FontAwesome
+              style={{paddingHorizontal: 10}}
+              color={Colors.white}
+              size={35}
+              name="instagram"
+            />
+            <CustomText color={Colors.white}>แชร์ไปที่ Instagram</CustomText>
+          </View>
+        </Button>
+      </View>
+    </Modal>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    height: '30%',
+    borderRadius: 30,
+    padding: 20,
+  },
+  btnView: {
+    marginVertical: 10,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  rowBtntext: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default ShareModal;

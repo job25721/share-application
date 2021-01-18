@@ -36,11 +36,11 @@ const RequestModal = ({name, isOpen, onClosePress, onSubmit}) => {
           Platform.OS === 'android' ? {marginTop: '15%'} : null,
         ]}
         isOpen={isOpen}
-        //   backdropPressToClose={false}
+        backdropPressToClose={false}
         backdropColor={PantoneColor.blueDepths}
         swipeToClose={false}
         position={Platform.OS === 'ios' ? 'center' : 'top'}>
-        <CustomText textAlign="center" fontSize={25}>
+        <CustomText textAlign="center" fontSize={22}>
           {name}
         </CustomText>
 
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
   submitBtnView: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-end',
     flex: 1,
   },
 });

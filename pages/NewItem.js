@@ -42,10 +42,6 @@ const NewItem = ({navigation}) => {
           <Button
             px={0}
             onPress={() => {
-              // Alert.alert('Warning', 'ข้อมูลที่คุณกรอกจะหายไปทั้งหมด', [
-              //   {text: 'ตกลง', onPress: () => navigation.goBack()},
-              //   {text: 'ยกเลิก'},
-              // ]);
               setCancelAlert(true);
             }}>
             <FeatherIcon color={Colors._red_600} name="x" size={30} />

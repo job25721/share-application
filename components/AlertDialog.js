@@ -22,13 +22,18 @@ const AlertDialog = ({
       swipeToClose={false}
       coverScreen={true}
       isOpen={open}
-      style={styles.container}>
+      style={[
+        styles.container,
+        content ? null : {height: '18%', justifyContent: 'space-evenly'},
+      ]}>
       <CustomText fontWeight="bold" textAlign="center" fontSize={25}>
         {title}
       </CustomText>
-      <View style={styles.contentView}>
-        <CustomText textAlign="center">{content}</CustomText>
-      </View>
+      {content ? (
+        <View style={styles.contentView}>
+          <CustomText textAlign="center">{content}</CustomText>
+        </View>
+      ) : null}
 
       <View style={styles.btnView}>
         <Button
@@ -55,6 +60,7 @@ const styles = StyleSheet.create({
     height: '25%',
     width: '90%',
     borderRadius: 20,
+
     padding: 20,
   },
   contentView: {justifyContent: 'center', flex: 1},
