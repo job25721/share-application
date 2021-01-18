@@ -12,7 +12,8 @@ import Feather from 'react-native-vector-icons/Feather';
 export default (props) => {
   const [active, setActive] = useState(0);
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
+    <SafeAreaView
+      style={{flex: 1, backgroundColor: Colors.white, paddingVertical: 10}}>
       <View style={styles.header}>
         <Button onPress={() => props.navigation.goBack()}>
           <Feather name="arrow-left" size={30} />
@@ -27,19 +28,20 @@ export default (props) => {
         {[
           {
             nameIcon: 'user',
-            text: 'เสื้อผ้า',
+            text: 'ทั่วไป',
           },
+
           {
-            nameIcon: 'arrow-down-left',
-            text: 'กำลังส่ง',
+            nameIcon: 'box',
+            text: 'ของของฉัน',
           },
           {
             nameIcon: 'arrow-up-right',
             text: 'รับต่อมา',
           },
           {
-            nameIcon: 'user-check',
-            text: 'ส่งต่อแล้ว',
+            nameIcon: 'bookmark',
+            text: 'ที่บันทึกไว้',
           },
         ].map((item, i) => (
           <IconList
@@ -56,7 +58,7 @@ export default (props) => {
           <View
             style={{
               alignItems: 'center',
-              marginVertical: 30,
+              marginTop: 20,
             }}>
             <CustomText fontSize={22} fontWeight="bold">
               48
@@ -67,7 +69,7 @@ export default (props) => {
           </View>
           <ScrollView
             horizontal
-            style={{height: 230, width: '95%', alignSelf: 'center'}}>
+            style={{marginVertical: 20, marginHorizontal: 10}}>
             {[1, 2, 3, 4].map((item) => (
               <CardList key={item} />
             ))}
