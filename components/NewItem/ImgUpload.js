@@ -79,6 +79,7 @@ const ImgUpload = () => {
                     setRemove(img);
                   }}
                   px={5}
+                  py={5}
                   rounded
                   bg="rgba(0,0,0,0.3)">
                   <Feather color={Colors.white} name="x" size={25} />

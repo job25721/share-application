@@ -22,6 +22,18 @@ export default (props) => {
         <CustomText color={PantoneColor.livingCoral} fontSize={35}>
           Profile
         </CustomText>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            position: 'absolute',
+            right: 20,
+          }}>
+          <CustomText>Logout</CustomText>
+          <Button onPress={() => props.navigation.navigate('Auth')} px={0}>
+            <Feather color={Colors._red_500} name="log-out" size={25} />
+          </Button>
+        </View>
       </View>
       <Profile navigate={props.navigation.navigate} />
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>

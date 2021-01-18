@@ -18,16 +18,16 @@ const Register = () => {
         <UploadPhoto />
       </View>
       <View>
-        <CustomText>FirstName</CustomText>
+        <CustomText>ชื่อ</CustomText>
         <Input focus rounded width={250} />
-        <CustomText>LastName</CustomText>
+        <CustomText>นามสกุล</CustomText>
         <Input focus rounded width={250} />
-        <CustomText>Email</CustomText>
+        <CustomText>อีเมล</CustomText>
         <Input focus rounded width={250} />
-        <CustomText>Password</CustomText>
-        <Input focus rounded width={250} />
-        <CustomText>Confirm Password</CustomText>
-        <Input focus rounded width={250} />
+        <CustomText>รหัสผ่าน</CustomText>
+        <Input focus type="password" rounded width={250} />
+        <CustomText>ยืนยันรหัสผ่าน</CustomText>
+        <Input focus type="password" rounded width={250} />
       </View>
       <View style={styles.checkboxContainer}>
         <CheckBox
