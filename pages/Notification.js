@@ -3,7 +3,7 @@ import React from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import NotificationList from '../components/Noti/ImageList';
+import NotificationList from '../components/Noti/NotificationList';
 import {PantoneColor} from '../utils/Colors';
 import Feather from 'react-native-vector-icons/Feather';
 
