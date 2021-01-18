@@ -1,12 +1,11 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import {ItemChatCard} from '../../components/Chat/ChatCard';
-
-export default (props) => {
-  const {navigation} = props;
+import {useNavigation} from '@react-navigation/native';
+export default () => {
+  const navigation = useNavigation();
   return (
-    <>
+    <ScrollView style={{paddingHorizontal: 20}}>
       {[
         {
           title: 'กระเป๋า anello (เจ้าของ Stamp)',
@@ -41,8 +40,7 @@ export default (props) => {
           notification={2}
           onPress={() => navigation.navigate('Chat', {name: 'Stamp Watcharin'})}
         />
-        // <CustomText>hello</CustomText>
       ))}
-    </>
+    </ScrollView>
   );
 };

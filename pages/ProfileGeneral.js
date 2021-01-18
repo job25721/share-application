@@ -1,16 +1,27 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {View, ScrollView, SafeAreaView} from 'react-native';
+import {View, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 import Profile from '../components/Profile/ProfileImage';
 import IconList from '../components/Profile/IconList';
 import CardList from '../components/Home/CardList';
 import ListCrad from '../components/Profile/ListCard';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import {Colors} from '../utils/Colors';
+import {Colors, PantoneColor} from '../utils/Colors';
+import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
+import Feather from 'react-native-vector-icons/Feather';
 export default (props) => {
   const [active, setActive] = useState(0);
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
+      <View style={styles.header}>
+        <Button onPress={() => props.navigation.goBack()}>
+          <Feather name="arrow-left" size={30} />
+        </Button>
+        <Feather name="user" size={35} style={{paddingRight: 10}} />
+        <CustomText color={PantoneColor.livingCoral} fontSize={35}>
+          Profile
+        </CustomText>
+      </View>
       <Profile navigate={props.navigation.navigate} />
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         {[
@@ -63,39 +74,16 @@ export default (props) => {
           </ScrollView>
         </>
       ) : active === 1 ? (
-        <>
-          <ScrollView
-            style={{
-              alignSelf: 'center',
-              flex: 1,
-              marginTop: 15,
-            }}>
-            <ListCrad />
-          </ScrollView>
-        </>
+        <ListCrad />
       ) : active === 2 ? (
-        <>
-          <ScrollView
-            style={{
-              alignSelf: 'center',
-              flex: 1,
-              marginTop: 15,
-            }}>
-            <ListCrad />
-          </ScrollView>
-        </>
+        <ListCrad />
       ) : active === 3 ? (
-        <>
-          <ScrollView
-            style={{
-              alignSelf: 'center',
-              flex: 1,
-              marginTop: 15,
-            }}>
-            <ListCrad />
-          </ScrollView>
-        </>
+        <ListCrad />
       ) : null}
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  header: {flexDirection: 'row', marginTop: 20},
+});

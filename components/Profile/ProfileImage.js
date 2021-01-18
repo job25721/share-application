@@ -11,14 +11,10 @@ export default ({navigate}) => {
     <View
       style={{
         flexDirection: 'row',
-        padding: 20,
-        position: 'relative',
-        alignItems: 'flex-start',
+        padding: 10,
       }}>
       <View
         style={{
-          position: 'relative',
-          alignItems: 'center',
           padding: 20,
         }}>
         <Image
@@ -28,34 +24,24 @@ export default ({navigate}) => {
         <View
           style={{
             position: 'absolute',
-            zIndex: 1,
             bottom: 0,
             right: 0,
           }}>
           <Button
             width={40}
             height={40}
-            px={10}
-            py={10}
             onPress={() => navigate('SHARE')}
             rounded
             bg={Colors._indigo_500}>
-            <FeatherIcon
-              style={{alignSelf: 'center'}}
-              color={Colors.white}
-              name="edit-2"
-              size={20}
-            />
+            <FeatherIcon color={Colors.white} name="edit-2" size={20} />
           </Button>
         </View>
       </View>
-      <View style={{top: '18%'}}>
-        <CustomText fontSize={18}>Pathomporn Pankaew</CustomText>
-        <View style={{marginVertical: 5}}>
-          <CustomText fontSize={16} color="#C7C7C7">
-            @job25721
-          </CustomText>
-        </View>
+      <View style={{justifyContent: 'center'}}>
+        <CustomText>Pathomporn Pankaew</CustomText>
+        <CustomText fontSize={16} color="#C7C7C7">
+          @job25721
+        </CustomText>
       </View>
     </View>
   );
