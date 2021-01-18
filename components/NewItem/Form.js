@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -23,10 +24,17 @@ import {
   SET_ITEM_NAME,
 } from '../../utils/form/form-action-type';
 import AlertDialog from '../AlertDialog';
+import {useDispatch} from 'react-redux';
+import {addNewItem} from '../../store/actions/item';
+import {useNavigation} from '@react-navigation/native';
+
 const NewItemForm = () => {
   const {state, dispatch} = useContext(FormContext);
+  const uDispatch = useDispatch();
   const [alertMsg, setAlert] = useState(false);
   const {itemName, description} = state;
+
+  const {navigate} = useNavigation();
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : ''}
@@ -34,6 +42,27 @@ const NewItemForm = () => {
       <AlertDialog
         open={alertMsg}
         onClosePress={() => setAlert(false)}
+        onConfirm={() => {
+          const {images, itemName, selectedType, description, tags} = state;
+          if (
+            images.length <= 0 ||
+            itemName === '' ||
+            selectedType === null ||
+            description === ''
+          ) {
+            Alert.alert('กรุณากรอกข้อมูลให้ครบ');
+          } else {
+            addNewItem({
+              owner: 'Pathomporn Pankaew',
+              images,
+              name: itemName,
+              category: selectedType,
+              description,
+              tags,
+            })(uDispatch);
+            navigate('Tab');
+          }
+        }}
         title="ยืนยันข้อมูล"
         content="ข้อมูลถูกต้องครบถ้วนแล้วใช่หรือไม่"
         confirmText="ใช่"

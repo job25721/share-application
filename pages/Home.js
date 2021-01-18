@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ScrollView, View, Image, StyleSheet, SafeAreaView} from 'react-native';
 import {PantoneColor} from '../utils/Colors';
 
@@ -9,6 +9,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {Card} from '../components/Home/Card';
 import {IconList} from '../components/Home/IconList';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
+import {useSelector} from 'react-redux';
 const categories = [
   {
     nameIcon: 'tshirt',
@@ -36,32 +37,14 @@ const categories = [
   },
 ];
 
-const items = [
-  {
-    owner: 'ปริญญา สัตะวัน',
-    name: 'น้ำยาสรรพรส',
-    img: require('../assets/img/drink2.jpg'),
-    tags: ['จ๊วดๆ', 'เมาฟรี', 'ลูกหมาป่า', 'ยาวิเศษ', 'Magic'],
-    category: 'เครื่องดื่มเพื่อสุขภาพ',
-  },
-  {
-    owner: 'Stamp Watcharin',
-    name: 'กระเป๋าหนังแท้มือสอง ยี่ห้อ Chanel',
-    img: require('../assets/img/bag.jpg'),
-    tags: ['เครื่องใช้', 'เสื้อผ้า', 'สิ่งของทั่วไป'],
-    category: 'ของใช้',
-  },
-  {
-    owner: 'Stamp Watcharin',
-    name: 'แมวมือสองพันธ์ไซบีเรียนฮักนะ 🧡',
-    img: '',
-    tags: ['ของมือสอง', 'สัตว์เลี้ยง', 'แมวสุดน่ารัก', 'น้อนนนน', 'น้อนน'],
-    category: 'สัตว์เลี้ยง',
-  },
-];
-export default (props) => {
+const Home = (props) => {
+  const items = useSelector((state) => state.item.feedItems);
+  useEffect(() => {
+    console.log('in home');
+    console.log(items);
+  }, [items]);
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <View style={styles.headerContainer}>
         <View style={{flexDirection: 'row'}}>
           <Button px={0} onPress={() => props.navigation.navigate('Profile')}>
@@ -113,11 +96,12 @@ export default (props) => {
           {items.map((item, i) => (
             <Card
               key={i}
-              img={item.img}
+              images={item.images.map((img) => img)}
               owner={item.owner}
               name={item.name}
               tags={item.tags}
               category={item.category}
+              description={item.description}
             />
           ))}
         </View>
@@ -134,3 +118,5 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 });
+
+export default Home;

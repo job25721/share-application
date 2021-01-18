@@ -11,7 +11,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const defaultImg = require('../../assets/img/cat.jpg');
 
-export const Card = ({name, owner, tags, img, category}) => {
+export const Card = ({name, owner, tags, images, category, description}) => {
   const {navigate} = useNavigation();
   const [tagArr, setTag] = useState([]);
   const [saved, setSaved] = useState(false);
@@ -22,10 +22,23 @@ export const Card = ({name, owner, tags, img, category}) => {
     <>
       <TouchableOpacity
         style={cardStyles.card}
-        onPress={() => navigate('Detail', {name, img, bookmarked: saved})}>
+        onPress={() => {
+          const itemData = {
+            name,
+            owner,
+            tags,
+            category,
+            description,
+            images,
+            bookmarked: saved,
+          };
+          navigate('Detail', itemData);
+        }}>
         <Image
           style={cardStyles.img}
-          source={img && img !== '' ? img : defaultImg}
+          resizeMethod="scale"
+          resizeMode="cover"
+          source={images && images[0] !== '' ? {uri: images[0]} : defaultImg}
         />
         <View style={cardStyles.content}>
           <View style={cardStyles.userInfo}>
@@ -44,8 +57,8 @@ export const Card = ({name, owner, tags, img, category}) => {
           </View>
           <CustomText>ประเภท : {category}</CustomText>
           <View style={cardStyles.tagContainer}>
-            {tagArr.map((item) => (
-              <Tag key={item} text={item} />
+            {tagArr.map((tag) => (
+              <Tag key={tag.id} text={tag.name} />
             ))}
           </View>
 

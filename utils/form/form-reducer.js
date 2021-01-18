@@ -12,10 +12,7 @@ import {
 } from './form-action-type';
 
 export const initialState = {
-  images: [
-    // require('../../assets/img/cat.jpg'),
-    // require('../../assets/img/bag.jpg'),
-  ],
+  images: [],
   itemName: '',
   selectedType: null,
   description: '',

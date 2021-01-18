@@ -1,14 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {createContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import {
-  View,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {View, Image, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 import Tag from '../components/Home/Tag';
 
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
@@ -21,20 +14,10 @@ import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboa
 import AlertDialog from '../components/AlertDialog';
 import ShareModal from '../components/ShareModal';
 
-export const ModalContext = createContext({});
-export default ({navigation, route}) => {
-  const [images, setImages] = useState([
-    require('../assets/img/cat.jpg'),
-    require('../assets/img/bag.jpg'),
-    require('../assets/img/dang.jpg'),
-  ]);
-
+const Detail = ({navigation, route}) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isAlert, setAlert] = useState(false);
   const [shareOpen, setShare] = useState(false);
-  useEffect(() => {
-    route.params.img ? setImages([route.params.img]) : null;
-  }, [route.params.img]);
 
   return (
     <DismissKeyboard>
@@ -80,7 +63,7 @@ export default ({navigation, route}) => {
               />
               <View style={{paddingHorizontal: 15}}>
                 <CustomText fontWeight="500" fontSize={18}>
-                  Stamp Watcharin
+                  {route.params.owner}
                 </CustomText>
               </View>
               <View style={styles.optionsView}>
@@ -100,17 +83,16 @@ export default ({navigation, route}) => {
             <CustomText fontWeight="bold" fontSize={23}>
               {route.params.name ? route.params.name : null}
             </CustomText>
+            <CustomText>ประเภท : {route.params.category}</CustomText>
 
             <View style={styles.tagView}>
-              {['วันพระใหญ่', 'เบิ้มๆ', 'คือลือ', 'บรรลุอรหันต์'].map(
-                (item) => (
-                  <Tag key={item} text={item} />
-                ),
-              )}
+              {route.params.tags.map((tag) => (
+                <Tag key={tag.id} text={tag.name} />
+              ))}
             </View>
           </View>
 
-          {images.length > 0 ? (
+          {route.params.images.length > 0 && route.params.images[0] !== '' ? (
             <SliderBox
               onCurrentImagePressed={(idx) => {}}
               dotColor="#FFEE58"
@@ -131,16 +113,12 @@ export default ({navigation, route}) => {
               }}
               imageLoadingColor="#2196F3"
               sliderBoxHeight={400}
-              images={images}
+              images={route.params.images}
             />
           ) : null}
 
           <View style={{padding: 20}}>
-            <CustomText fontSize={16}>
-              ต้องการส่งต่อให้คนที่กำลังเรียนครับ พอดีผมเรียน จบแล้ว
-              ไม่รู้จะเอาไว้ที่ไหน อยากรับต่อกดรับเลยครับ แล้ว นัดรับแถวหลังมอ
-              ในมอเรื่องเวลาค่อยคุยกัน หลังไมค์ครับ
-            </CustomText>
+            <CustomText fontSize={16}>{route.params.description}</CustomText>
           </View>
         </ScrollView>
         <View>
@@ -180,3 +158,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+export default Detail;
