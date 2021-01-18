@@ -20,7 +20,11 @@ const TypePicker = () => {
           payload: val,
         });
       }}
-      style={Platform.OS === 'ios' ? {height: 150} : null}
+      style={[
+        Platform.OS === 'ios'
+          ? {height: 150}
+          : {fontFamily: 'SukhumvitSet-Medium'},
+      ]}
       mode="dropdown">
       <Picker.Item label="เลือกประเภท" value={null} color={Colors.grey} />
       {pickerItems.map((item) => (

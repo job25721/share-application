@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {Platform, StyleSheet, Text} from 'react-native';
 
 export const CustomText = ({
   children,
@@ -35,7 +35,9 @@ export const CustomText = ({
         lineHeight ? {lineHeight: lHeight} : null,
         textAlign ? {textAlign} : null,
         color ? {color} : null,
-        fontWeight ? {fontWeight} : null,
+        fontWeight && fontWeight === 'bold' && Platform.OS === 'android'
+          ? {fontFamily: 'SukhumvitSet-Bold'}
+          : {fontWeight},
       ]}>
       {children}
     </Text>
@@ -44,6 +46,6 @@ export const CustomText = ({
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: 'Sukhumvit Set',
+    fontFamily: Platform.OS === 'ios' ? 'Sukhumvit Set' : 'SukhumvitSet-Medium',
   },
 });

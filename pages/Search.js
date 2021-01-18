@@ -44,7 +44,7 @@ export default (props) => {
         <View style={styles.container}>
           {onSearch ? null : (
             <View>
-              <CustomText type="header">Search</CustomText>
+              <CustomText type="header">ค้นหา</CustomText>
             </View>
           )}
 
@@ -72,7 +72,7 @@ export default (props) => {
           {onSearch ? null : (
             <View style={{marginBottom: 10}}>
               <View style={{marginBottom: 10}}>
-                <CustomText type="subheader">Trending tags</CustomText>
+                <CustomText type="subheader">แท็กที่กำลังมาแรง</CustomText>
               </View>
               <View
                 style={{
@@ -90,7 +90,7 @@ export default (props) => {
 
           {onSearch ? (
             <>
-              <CustomText type="subheader">Result</CustomText>
+              <CustomText type="subheader">ผลลัพธ์</CustomText>
 
               <ScrollView>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (

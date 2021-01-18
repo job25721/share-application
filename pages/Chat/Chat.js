@@ -84,7 +84,6 @@ const Chat = ({route, navigation}) => {
     <ChatContext.Provider value={{messages, setMessage}}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : ''}
-        // keyboardVerticalOffset={90}
         style={chatStyles.container}>
         <SafeAreaView style={chatStyles.container}>
           <View style={chatStyles.header}>

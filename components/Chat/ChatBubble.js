@@ -48,7 +48,7 @@ const bubbleStyles = StyleSheet.create({
   },
   msgContainer: {
     paddingHorizontal: 15,
-    paddingVertical: Platform.OS === 'ios' ? 5 : 10,
+    paddingVertical: Platform.OS === 'ios' ? 5 : 7,
     borderRadius: 20,
   },
   msgLeft: {

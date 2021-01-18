@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {Platform, StyleSheet, TextInput} from 'react-native';
 import {Colors} from '../../../utils/Colors';
 
 export const Input = ({
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: Colors._gray_900,
     marginVertical: 5,
-    fontFamily: 'Sukhumvit Set',
+    fontFamily: Platform.OS === 'ios' ? 'Sukhumvit Set' : 'SukhumvitSet-Medium',
     borderWidth: 1,
     shadowColor: Colors.black,
     shadowOffset: {
