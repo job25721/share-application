@@ -35,6 +35,7 @@ const Register = () => {
           onValueChange={setSelection}
           style={styles.checkbox}
           boxType="circle"
+          siz
         />
         <View style={{margin: 8}}>
           <CustomText>I agree with terms and conditions</CustomText>

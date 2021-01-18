@@ -13,8 +13,9 @@ const ImagePreviewModal = ({open, onClosed, uri}) => {
         coverScreen={true}
         isOpen={uri ? true : false}>
         <Image
+          resizeMode="contain"
           source={{uri}}
-          style={{height: '100%', width: '100%', borderRadius: 20}}
+          style={{borderRadius: 20, height: '100%', width: '100%'}}
         />
       </Modal>
     </>
@@ -23,8 +24,8 @@ const ImagePreviewModal = ({open, onClosed, uri}) => {
 
 const styles = StyleSheet.create({
   previewModal: {
-    height: '50%',
-    width: '95%',
+    height: '70%',
+    width: '90%',
     borderRadius: 20,
     alignItems: 'center',
   },

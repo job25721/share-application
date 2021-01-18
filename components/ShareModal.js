@@ -47,7 +47,8 @@ const ShareModal = ({isOpen, onClosed}) => {
 const styles = StyleSheet.create({
   container: {
     height: '30%',
-    borderRadius: 30,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     padding: 20,
   },
   btnView: {

@@ -14,8 +14,8 @@ const CameraBtn = () => {
         cropping: true,
         cropperCircleOverlay: true,
       });
-      setUserImg(res.sourceURL);
-      await ImageCropPicker.clean();
+      console.log(res);
+      setUserImg(res.path);
     } catch (error) {
       console.log(error);
     }
@@ -27,8 +27,7 @@ const CameraBtn = () => {
         cropping: true,
         cropperCircleOverlay: true,
       });
-      setUserImg(res.sourceURL);
-      await ImageCropPicker.clean();
+      setUserImg(res.path);
     } catch (error) {
       console.log(error);
     }

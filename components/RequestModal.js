@@ -3,6 +3,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
@@ -40,15 +41,17 @@ const RequestModal = ({name, isOpen, onClosePress, onSubmit}) => {
         backdropColor={PantoneColor.blueDepths}
         swipeToClose={false}
         position={Platform.OS === 'ios' ? 'center' : 'top'}>
-        <CustomText textAlign="center" fontSize={22}>
+        <CustomText textAlign="center" fontSize={20}>
           {name}
         </CustomText>
 
         <View style={styles.form}>
           <View style={{flexDirection: 'row'}}>
-            <CustomText>ระบุเหตุผลที่ต้องการของชิ้นนี้</CustomText>
+            <CustomText fontSize={16}>
+              ระบุเหตุผลที่ต้องการของชิ้นนี้
+            </CustomText>
             <View>
-              <CustomText color={Colors._red_500} fontSize={15}>
+              <CustomText color={Colors._red_500} fontSize={13}>
                 {' '}
                 *จำเป็น
               </CustomText>
@@ -63,17 +66,26 @@ const RequestModal = ({name, isOpen, onClosePress, onSubmit}) => {
           />
           <View style={{marginTop: 10}}>
             <CustomText>ความต้องการ</CustomText>
-            <Slider
-              minimumValue={0}
-              maximumValue={10}
-              step={1}
-              minimumTrackTintColor={PantoneColor.livingCoral}
-              thumbTintColor={PantoneColor.blueDepths}
-              value={wantedRate}
-              onValueChange={(val) => setRate(val)}
-            />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <Slider
+                minimumValue={0}
+                maximumValue={10}
+                step={1}
+                minimumTrackTintColor={PantoneColor.livingCoral}
+                thumbTintColor={PantoneColor.blueDepths}
+                value={wantedRate}
+                style={{width: '90%'}}
+                onValueChange={setRate}
+              />
+              <CustomText>{wantedRate}</CustomText>
+            </View>
           </View>
-          <View style={{flexDirection: 'row'}}>
+          {/* <View style={{flexDirection: 'row'}}>
             <View>
               <CustomText>0</CustomText>
             </View>
@@ -83,7 +95,7 @@ const RequestModal = ({name, isOpen, onClosePress, onSubmit}) => {
             <View style={{position: 'absolute', right: 0}}>
               <CustomText>10</CustomText>
             </View>
-          </View>
+          </View> */}
         </View>
         <View style={styles.submitBtnView}>
           <Button
@@ -113,11 +125,11 @@ const styles = StyleSheet.create({
   },
   form: {
     marginVertical: 10,
+    flex: 1,
   },
   submitBtnView: {
     flexDirection: 'row',
     justifyContent: 'center',
-    flex: 1,
   },
 });
 
