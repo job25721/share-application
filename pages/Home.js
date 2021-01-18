@@ -61,7 +61,7 @@ const items = [
 ];
 export default (props) => {
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView>
       <View style={styles.headerContainer}>
         <View style={{flexDirection: 'row'}}>
           <Button px={0} onPress={() => props.navigation.navigate('Profile')}>
@@ -94,7 +94,7 @@ export default (props) => {
           SHARE
         </CustomText>
       </View>
-      <ScrollView style={{paddingHorizontal: 10}}>
+      <ScrollView style={{marginHorizontal: 10}}>
         <View style={{marginTop: 20, marginBottom: 10}}>
           <CustomText fontSize={20} fontWeight={'bold'}>
             เลือกหมวดหมู่ที่ใช่สำหรับคุณ

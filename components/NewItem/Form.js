@@ -8,7 +8,6 @@ import {Colors, PantoneColor} from '../../utils/Colors';
 import FormTag from './Tag/FormTag';
 import TypePicker from './TypePicker';
 import {CustomText} from '../CustomStyledComponent/Text';
-import {KeyboardAvoidingView} from 'react-native';
 
 import ImgUpload from './ImgUpload';
 import PickerInput from './TypePickerIOS/PickerInput';
@@ -23,9 +22,7 @@ const NewItemForm = () => {
   const [alertMsg, setAlert] = useState(false);
   const {itemName, description} = state;
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+    <>
       <AlertDialog
         open={alertMsg}
         onClosePress={() => setAlert(false)}
@@ -41,20 +38,13 @@ const NewItemForm = () => {
         fontSize={40}>
         เพิ่มของชิ้นใหม่
       </CustomText>
-      <ScrollView style={{flex: 1}}>
+      <ScrollView>
         <ImgUpload />
-        <View style={{paddingHorizontal: 20, marginTop: 10}}>
+        <View style={styles.form}>
           <CustomText fontSize={20} fontWeight="bold">
             รายละเอียดทั่วไป <CustomText color={Colors._red_500}>*</CustomText>
           </CustomText>
-          <View
-            style={{
-              padding: 20,
-              backgroundColor: Colors._gray_500,
-              borderRadius: 20,
-              shadowColor: Colors.black,
-              shadowOpacity: 0.1,
-            }}>
+          <View style={styles.inputSection}>
             <CustomText>ชื่อสิ่งของ</CustomText>
             <Input
               maxLength={40}
@@ -95,28 +85,18 @@ const NewItemForm = () => {
           />
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
-  uploadSection: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-
-  item: {
-    backgroundColor: '#f9c2ff',
+  form: {paddingHorizontal: 20, marginTop: 10},
+  inputSection: {
     padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 32,
+    backgroundColor: Colors._gray_500,
+    borderRadius: 20,
+    shadowColor: Colors.black,
+    shadowOpacity: 0.1,
   },
 });
 

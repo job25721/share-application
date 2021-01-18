@@ -81,6 +81,9 @@ export default ({navigation, route}) => {
                 </CustomText>
               </View>
               <View style={styles.optionsView}>
+                <Button px={0}>
+                  <MaterialCommunityIcons size={30} name="share" />
+                </Button>
                 <Button color={Colors.black} px={0}>
                   {route.params.bookmarked ? (
                     <MaterialCommunityIcons size={30} name="bookmark" />
@@ -155,5 +158,6 @@ const styles = StyleSheet.create({
   optionsView: {
     position: 'absolute',
     right: 0,
+    flexDirection: 'row',
   },
 });

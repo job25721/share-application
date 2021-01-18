@@ -17,7 +17,7 @@ import TabScreen from './pages/Index';
 import Chat from './pages/Chat/Chat';
 
 import ChatIndex from './pages/Chat/Index';
-import Profile from './pages/ProfileGeneral';
+import Profile from './pages/Profile';
 
 // import store from './store';
 import {Provider} from 'react-redux';
