@@ -8,19 +8,20 @@ import NewItem from './pages/NewItem';
 
 import {Button} from './components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import Login from './pages/Login';
+
 import PersonModal from './pages/Chat/PersonModal';
 import {Colors} from './utils/Colors';
 import Noti from './pages/Notification';
 import Detail from './pages/Detail';
 import TabScreen from './pages/Index';
 import Chat from './pages/Chat/Chat';
-import Register from './pages/Register';
+
 import ChatIndex from './pages/Chat/Index';
 import Profile from './pages/ProfileGeneral';
 
 // import store from './store';
 import {Provider} from 'react-redux';
+import Auth from './pages/Auth';
 const RootStack = createStackNavigator();
 
 const RootStackScreen = () => {
@@ -29,13 +30,8 @@ const RootStackScreen = () => {
     <NavigationContainer>
       <RootStack.Navigator mode="card">
         <RootStack.Screen
-          name="Login"
-          component={Login}
-          options={{headerShown: false}}
-        />
-        <RootStack.Screen
-          name="Register"
-          component={Register}
+          name="Auth"
+          component={Auth}
           options={{headerShown: false}}
         />
 
