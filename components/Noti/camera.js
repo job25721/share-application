@@ -7,13 +7,7 @@ import {CustomText} from '../CustomStyledComponent/Text';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 const CameraBtn = ({onPress}) => {
   return (
-    <Button
-      onPress={onPress}
-      shadow={10}
-      rounded
-      bg={Colors._gray_900}
-      py={20}
-      px={30}>
+    <Button onPress={onPress} rounded bg={Colors.white} py={20} px={30}>
       <View style={btnStyles.btnFlex}>
         <FeatherIcon name="camera" size={70} />
       </View>
