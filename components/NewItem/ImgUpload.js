@@ -11,21 +11,29 @@ import UploadBtn from './UploadBtn';
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors} from '../../utils/Colors';
 import AlertDialog from '../AlertDialog';
+import {utils} from '@react-native-firebase/app';
+import storage from '@react-native-firebase/storage';
 const ImgUpload = () => {
   const {state, dispatch} = useContext(FormContext);
   const {images} = state;
   const [alert, setAlert] = useState(false);
   const [onRemove, setRemove] = useState(null);
   const [previewUri, setPreview] = useState(null);
+
   const uploadPhoto = async () => {
     try {
       const uploaded = await ImageCropPicker.openPicker({
-        multiple: true,
+        // multiple: true,
       });
-      dispatch({
-        type: ADD_IMAGE,
-        payload: uploaded.map((img) => img.path),
-      });
+      // dispatch({
+      //   type: ADD_IMAGE,
+      //   payload: uploaded.map((img) => img.path),
+      // });
+      const filename = uploaded.path.substr(
+        uploaded.path.lastIndexOf('/') + 1,
+        uploaded.path.length,
+      );
+      await storage().ref(filename).putFile(uploaded.path);
     } catch (error) {
       console.log(error);
     }
@@ -36,10 +44,17 @@ const ImgUpload = () => {
       const snap = await ImageCropPicker.openCamera({
         cropping: true,
       });
-      dispatch({
-        type: ADD_IMAGE,
-        payload: [snap.path],
-      });
+      console.log();
+      const filename = snap.path.substr(
+        snap.path.lastIndexOf('/') + 1,
+        snap.path.length,
+      );
+
+      await storage().ref(filename).putFile(snap.path);
+      // dispatch({
+      //   type: ADD_IMAGE,
+      //   payload: [snap.path],
+      // });
     } catch (error) {
       console.log(error);
     }

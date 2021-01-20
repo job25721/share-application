@@ -17,7 +17,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* SHARETests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SHARETests.m */; };
-		3B50097225B83BC200971D6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B50097125B83BC200971D6E /* GoogleService-Info.plist */; };
+		3B500A1D25B85EB800971D6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B500A1C25B85EB800971D6E /* GoogleService-Info.plist */; };
 		3E9ACC3E0C46D65C8CFD7823 /* libPods-SHARE-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96E4D4A4A2E6B598DA2E8E08 /* libPods-SHARE-tvOS.a */; };
 		4F259DF6359742438D02F1AC /* SukhumvitSet-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A2F8C81C909437BA04EC9C5 /* SukhumvitSet-Medium.ttf */; };
 		647DE53A247240F7AD6102AB /* SukhumvitSet-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1522AAF9F0B4B6EA8DF8FEC /* SukhumvitSet-Light.ttf */; };
@@ -63,7 +63,8 @@
 		1FD6219DF19F2B546E980417 /* Pods-SHARE-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SHARE-tvOS.release.xcconfig"; path = "Target Support Files/Pods-SHARE-tvOS/Pods-SHARE-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* SHARE-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SHARE-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* SHARE-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SHARE-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B50097125B83BC200971D6E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3B500A1C25B85EB800971D6E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3B500A2225B85F8400971D6E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41FE99EAB1A7439A82B6F380 /* SukhumvitSet-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SukhumvitSet-SemiBold.ttf"; path = "../assets/fonts/SukhumvitSet-SemiBold.ttf"; sourceTree = "<group>"; };
 		55E20BBD76ED4DD8B4A92F2D /* SukhumvitSet-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SukhumvitSet-Thin.ttf"; path = "../assets/fonts/SukhumvitSet-Thin.ttf"; sourceTree = "<group>"; };
 		6F6D23B4707DE10B65852DDE /* Pods-SHARE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SHARE.release.xcconfig"; path = "Target Support Files/Pods-SHARE/Pods-SHARE.release.xcconfig"; sourceTree = "<group>"; };
@@ -146,7 +147,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				3B50097125B83BC200971D6E /* GoogleService-Info.plist */,
+				3B500A2225B85F8400971D6E /* GoogleService-Info.plist */,
 			);
 			name = SHARE;
 			sourceTree = "<group>";
@@ -187,6 +188,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3B500A1C25B85EB800971D6E /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* SHARE */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* SHARETests */,
@@ -372,7 +374,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				3B50097225B83BC200971D6E /* GoogleService-Info.plist in Resources */,
+				3B500A1D25B85EB800971D6E /* GoogleService-Info.plist in Resources */,
 				16674BC77FA040FFAFF5563B /* SukhumvitSet-Bold.ttf in Resources */,
 				647DE53A247240F7AD6102AB /* SukhumvitSet-Light.ttf in Resources */,
 				4F259DF6359742438D02F1AC /* SukhumvitSet-Medium.ttf in Resources */,
