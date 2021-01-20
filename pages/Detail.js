@@ -94,12 +94,11 @@ const Detail = ({navigation, route}) => {
 
           {route.params.images.length > 0 && route.params.images[0] !== '' ? (
             <SliderBox
-              onCurrentImagePressed={(idx) => {}}
-              dotColor="#FFEE58"
+              // onCurrentImagePressed={(idx) => {}}
+              dotColor={PantoneColor.livingCoral}
               ImageComponentStyle={{
                 borderRadius: 15,
                 width: '97%',
-                marginTop: 5,
               }}
               inactiveDotColor="#90A4AE"
               dotStyle={{
