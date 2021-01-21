@@ -24,6 +24,8 @@ import {useMutation} from '@apollo/client';
 import {userLogin} from '../../graphql/mutation/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AlertDialog from '../AlertDialog';
+import {useDispatch} from 'react-redux';
+import {SET_TOKEN} from '../../store/actions/user';
 export default () => {
   const {navigate} = useNavigation();
 
@@ -31,7 +33,7 @@ export default () => {
   const [password, setPassword] = useState('1234');
   const [loading, setLoading] = useState(false);
   const [login] = useMutation(userLogin);
-
+  const dispatch = useDispatch();
   const Login = async () => {
     if (username !== '' && password !== '') {
       try {
@@ -45,10 +47,9 @@ export default () => {
         if (data.login === 'Login Failed') {
           throw new Error(data.login);
         }
+        dispatch({type: SET_TOKEN, paylaod: data.login});
         await AsyncStorage.setItem('userToken', data.login);
-        setTimeout(() => {
-          navigate('Tab');
-        }, 1000);
+        navigate('Tab');
       } catch (error) {
         Alert.alert(error.message);
       }

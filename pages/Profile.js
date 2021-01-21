@@ -10,8 +10,11 @@ import {Colors, PantoneColor} from '../utils/Colors';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import Feather from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {SET_TOKEN, SET_USER_DATA} from '../store/actions/user';
 export default (props) => {
   const [active, setActive] = useState(0);
+  const dispatch = useDispatch();
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: Colors.white, paddingVertical: 10}}>
@@ -33,8 +36,10 @@ export default (props) => {
           <CustomText>Logout</CustomText>
           <Button
             onPress={async () => {
-              await AsyncStorage.removeItem('userToken');
-              props.navigation.navigate('Auth');
+              const token = await AsyncStorage.removeItem('userToken');
+              dispatch({type: SET_TOKEN, payload: token});
+              dispatch({type: SET_USER_DATA, payload: null});
+              props.navigation.navigate('Tab');
             }}
             px={0}>
             <Feather color={Colors._red_500} name="log-out" size={25} />

@@ -51,7 +51,7 @@ const Home = (props) => {
       console.log(error);
     }
     if (data) {
-      console.log(data.getAllItem);
+      // console.log(data.getAllItem);
 
       dispatch({type: SET_FEED_ITEMS, payload: data.getAllItem});
     }
