@@ -25,7 +25,7 @@ export const Card = ({name, owner, tags, images, category, description}) => {
         onPress={() => {
           const itemData = {
             name,
-            owner,
+            owner: owner.info,
             tags,
             category,
             description,
@@ -47,7 +47,9 @@ export const Card = ({name, owner, tags, images, category, description}) => {
               source={require('../../assets/img/stamp.png')}
             />
             <View style={{paddingHorizontal: 15}}>
-              <CustomText fontWeight="500">{owner}</CustomText>
+              <CustomText fontWeight="500">
+                {owner.info.firstName} {owner.info.lastName}
+              </CustomText>
             </View>
           </View>
           <View>
@@ -57,8 +59,8 @@ export const Card = ({name, owner, tags, images, category, description}) => {
           </View>
           <CustomText>ประเภท : {category}</CustomText>
           <View style={cardStyles.tagContainer}>
-            {tagArr.map((tag) => (
-              <Tag key={tag.id} text={tag.name} />
+            {tagArr.map((tag, i) => (
+              <Tag key={i} text={tag} />
             ))}
           </View>
 

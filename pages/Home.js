@@ -9,7 +9,10 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {Card} from '../components/Home/Card';
 import {IconList} from '../components/Home/IconList';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getAllItem} from '../graphql/query/item';
+import {useQuery} from '@apollo/client';
+import {SET_FEED_ITEMS} from '../store/types/item';
 const categories = [
   {
     nameIcon: 'tshirt',
@@ -39,10 +42,17 @@ const categories = [
 
 const Home = (props) => {
   const items = useSelector((state) => state.item.feedItems);
-  // useEffect(() => {
-  //   // console.log('in home');
-  //   // console.log(items);
-  // }, [items]);
+  const {data} = useQuery(getAllItem);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (data) {
+      console.log(data.getAllItem);
+
+      dispatch({type: SET_FEED_ITEMS, payload: data.getAllItem});
+    }
+    // console.log('in home');
+    // console.log(items);
+  }, [data, dispatch]);
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.headerContainer}>
@@ -96,7 +106,7 @@ const Home = (props) => {
           {items.map((item, i) => (
             <Card
               key={i}
-              images={item.images.map((img) => img)}
+              // images={item.images.map((img) => img)}
               owner={item.owner}
               name={item.name}
               tags={item.tags}

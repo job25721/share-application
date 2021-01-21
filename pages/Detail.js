@@ -67,7 +67,7 @@ const Detail = ({navigation, route}) => {
               />
               <View style={{paddingHorizontal: 15}}>
                 <CustomText fontWeight="500" fontSize={18}>
-                  {route.params.owner}
+                  {route.params.owner.firstName} {route.params.owner.lastName}
                 </CustomText>
               </View>
               <View style={styles.optionsView}>
@@ -90,13 +90,13 @@ const Detail = ({navigation, route}) => {
             <CustomText>ประเภท : {route.params.category}</CustomText>
 
             <View style={styles.tagView}>
-              {route.params.tags.map((tag) => (
-                <Tag key={tag.id} text={tag.name} />
+              {route.params.tags.map((tag, i) => (
+                <Tag key={i} text={tag} />
               ))}
             </View>
           </View>
 
-          {route.params.images.length > 0 && route.params.images[0] !== '' ? (
+          {/* {route.params.images.length > 0 && route.params.images[0] !== '' ? (
             <SliderBox
               onCurrentImagePressed={(idx) => {}}
               dotColor={PantoneColor.livingCoral}
@@ -123,7 +123,7 @@ const Detail = ({navigation, route}) => {
               sliderBoxHeight={400}
               images={route.params.images}
             />
-          ) : null}
+          ) : null} */}
 
           <View style={{padding: 20}}>
             <CustomText fontSize={16}>{route.params.description}</CustomText>
