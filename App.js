@@ -22,84 +22,88 @@ import Profile from './pages/Profile';
 import store from './store';
 import {Provider} from 'react-redux';
 import Auth from './pages/Auth';
+import {ApolloProvider} from '@apollo/client';
+import {client} from './graphql/client';
 const RootStack = createStackNavigator();
 
 const RootStackScreen = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <RootStack.Navigator mode="card">
-          <RootStack.Screen
-            name="Auth"
-            component={Auth}
-            options={{headerShown: false}}
-          />
+      <ApolloProvider client={client}>
+        <NavigationContainer>
+          <RootStack.Navigator mode="card">
+            <RootStack.Screen
+              name="Auth"
+              component={Auth}
+              options={{headerShown: false}}
+            />
 
-          <RootStack.Screen
-            name="Tab"
-            component={TabScreen}
-            options={{headerShown: false}}
-          />
+            <RootStack.Screen
+              name="Tab"
+              component={TabScreen}
+              options={{headerShown: false}}
+            />
 
-          <RootStack.Screen
-            name="Detail"
-            component={Detail}
-            options={{
-              headerRight: () => (
-                <Button text={<FeatherIcon name="bookmark" size={20} />} />
-              ),
-              headerLeft: ({onPress}) => (
-                <Button onPress={onPress}>
-                  <FeatherIcon color={Colors._red_600} name="x" size={25} />
-                </Button>
-              ),
-              headerShown: false,
-            }}
-          />
-          <RootStack.Screen
-            name="Chat"
-            component={ChatStackScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <RootStack.Screen
-            name="Notification"
-            component={Noti}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <RootStack.Screen
-            name="SHARE"
-            component={NewItem}
-            options={{
-              headerShown: false,
-              gestureEnabled: false,
-            }}
-          />
-          <RootStack.Screen
-            name="Profile"
-            component={Profile}
-            options={{headerShown: false}}
-          />
-          <RootStack.Screen
-            name="PersonModal"
-            component={PersonModal}
-            options={{
-              headerShown: false,
-            }}
-            // options={({route}) => ({
-            //   title: route.params.user,
-            //   headerLeft: ({onPress}) => (
-            //     <Button onPress={onPress}>
-            //       <FeatherIcon color={Colors._red_600} name="x" size={25} />
-            //     </Button>
-            //   ),
-            // })}
-          />
-        </RootStack.Navigator>
-      </NavigationContainer>
+            <RootStack.Screen
+              name="Detail"
+              component={Detail}
+              options={{
+                headerRight: () => (
+                  <Button text={<FeatherIcon name="bookmark" size={20} />} />
+                ),
+                headerLeft: ({onPress}) => (
+                  <Button onPress={onPress}>
+                    <FeatherIcon color={Colors._red_600} name="x" size={25} />
+                  </Button>
+                ),
+                headerShown: false,
+              }}
+            />
+            <RootStack.Screen
+              name="Chat"
+              component={ChatStackScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <RootStack.Screen
+              name="Notification"
+              component={Noti}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <RootStack.Screen
+              name="SHARE"
+              component={NewItem}
+              options={{
+                headerShown: false,
+                gestureEnabled: false,
+              }}
+            />
+            <RootStack.Screen
+              name="Profile"
+              component={Profile}
+              options={{headerShown: false}}
+            />
+            <RootStack.Screen
+              name="PersonModal"
+              component={PersonModal}
+              options={{
+                headerShown: false,
+              }}
+              // options={({route}) => ({
+              //   title: route.params.user,
+              //   headerLeft: ({onPress}) => (
+              //     <Button onPress={onPress}>
+              //       <FeatherIcon color={Colors._red_600} name="x" size={25} />
+              //     </Button>
+              //   ),
+              // })}
+            />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </ApolloProvider>
     </Provider>
   );
 };
