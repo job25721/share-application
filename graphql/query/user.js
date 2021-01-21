@@ -14,3 +14,14 @@ export const getMyInfo = gql`
     }
   }
 `;
+
+export const getMyItem = gql`
+  query {
+    getMyItem {
+      name
+      category
+      images
+      tags
+    }
+  }
+`;

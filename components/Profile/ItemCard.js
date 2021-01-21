@@ -4,22 +4,26 @@ import {Image, View, TouchableOpacity, StyleSheet} from 'react-native';
 import {Colors} from '../../utils/Colors';
 import Tag from '../Home/Tag';
 import {CustomText} from '../CustomStyledComponent/Text';
-import {useSelector} from 'react-redux';
+// import {useSelector} from 'react-redux';
 
-const ItemChatCard = ({onPress, title, imgSrc}) => {
-  const items = useSelector((state) => state.item.feedItems);
+const ItemChatCard = ({onPress, titleImg, imgSrc, category, tags}) => {
+  // const items = useSelector((state) => state.item.feedItems);
   return (
     <TouchableOpacity onPress={onPress} style={[styles.chatListCard]}>
-      <Image style={styles.img} source={imgSrc} />
+      <Image style={styles.img} source={{uri: imgSrc}} />
       <View style={{width: '60%'}}>
-        <CustomText fontWeight="500">{title}</CustomText>
-        <CustomText>ประเภท: ของใช้</CustomText>
+        <CustomText fontWeight="bold" fontSize={20}>
+          {titleImg}
+        </CustomText>
+        <CustomText>ประเภท: {category}</CustomText>
         <View style={{flexDirection: 'row', marginTop: 5}}>
-          {[{text: 'จั ก ร ก ล'}, {text: 'ใ จ เ ก เ ร'}].map((item, i) => (
-            <>
-              <Tag key={item} text={item.text} />
-            </>
-          ))}
+          {tags
+            ? tags.map((tag, i) => (
+                <>
+                  <Tag key={i} text={tag} />
+                </>
+              ))
+            : null}
         </View>
       </View>
     </TouchableOpacity>

@@ -13,6 +13,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {SET_TOKEN, SET_USER_DATA} from '../store/actions/user';
 import {ItemChatCard} from '../components/Profile/ItemCard';
+import {useNavigation} from '@react-navigation/native';
+import {getMyItem} from '../graphql/query/user';
 export default (props) => {
   const {
     route: {
@@ -21,10 +23,17 @@ export default (props) => {
   } = props;
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
-  // const {data, error, loading, refetch} = useQuery(getAllItem);
-  // useEffect(() => {
-  //   console.log(props.route.params);
-  // }, []);
+  const navigation = useNavigation();
+  const {data, error, loading, refetch} = useQuery(getMyItem);
+  useEffect(() => {
+    console.log(props.route.params);
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: Colors.white, paddingVertical: 10}}>
@@ -110,19 +119,47 @@ export default (props) => {
             <CustomText fontSize={20}>อายุ: {getMyInfo.info.age} ปี</CustomText>
             <CustomText fontSize={20}>
               วัน/เดือน/ปีเกิด:{' '}
-              {getMyInfo.info.birthDate.substr(
+              {/* {getMyInfo.info.birthDate.substr(
                 0,
                 getMyInfo.info.birthDate.lastIndexOf('T'),
-              )}
+              )} */}
             </CustomText>
           </View>
         </View>
       ) : active === 1 ? (
-        <ItemChatCard />
+        <ScrollView style={{paddingHorizontal: 20}}>
+          {data ? (
+            data.getMyItem.map((item) => (
+              <ItemChatCard
+                titleImg={item.name}
+                imgSrc={item.images[0]}
+                category={item.category}
+                tags={item.tags}
+                onPress={() =>
+                  navigation.navigate('Chat', {name: 'Stamp Watcharin'})
+                }
+              />
+            ))
+          ) : (
+            <CustomText>Hello</CustomText>
+          )}
+        </ScrollView>
       ) : active === 2 ? (
-        <ItemChatCard />
+        <ScrollView style={{paddingHorizontal: 20}}>
+          <ItemChatCard
+            onPress={() =>
+              navigation.navigate('Chat', {name: 'Stamp Watcharin'})
+            }
+          />
+        </ScrollView>
       ) : active === 3 ? (
-        <ItemChatCard />
+        <ScrollView style={{paddingHorizontal: 20}}>
+          <ItemChatCard
+            onPress={() =>
+              navigation.navigate('Chat', {name: 'Stamp Watcharin'})
+            }
+          />
+        </ScrollView>
       ) : null}
     </SafeAreaView>
   );

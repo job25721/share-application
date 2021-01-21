@@ -3,6 +3,7 @@ import {SET_TOKEN, SET_USER_DATA} from '../actions/user';
 const initialState = {
   token: null,
   userData: null,
+  MyItem: [],
 };
 
 export default function userReducer(state = initialState, action) {
