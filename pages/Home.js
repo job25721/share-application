@@ -1,15 +1,26 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
-import {ScrollView, View, Image, StyleSheet, SafeAreaView} from 'react-native';
+import React, {useState, useCallback, useEffect} from 'react';
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Button,
+  RefreshControl,
+} from 'react-native';
 import {PantoneColor} from '../utils/Colors';
 
 import {CustomText} from '../components/CustomStyledComponent/Text';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import {Card} from '../components/Home/Card';
 import {IconList} from '../components/Home/IconList';
-import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
-import {useSelector} from 'react-redux';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {getAllItem} from '../graphql/query/item';
+import {useQuery} from '@apollo/client';
+import {SET_FEED_ITEMS} from '../store/types/item';
+import HomeHeader from '../components/Home/HomeHeader';
+import AlertDialog from '../components/AlertDialog';
 const categories = [
   {
     nameIcon: 'tshirt',
@@ -39,45 +50,64 @@ const categories = [
 
 const Home = (props) => {
   const items = useSelector((state) => state.item.feedItems);
-  // useEffect(() => {
-  //   // console.log('in home');
-  //   // console.log(items);
-  // }, [items]);
+  const {data, error, loading, refetch} = useQuery(getAllItem);
+  const [refreshing, setRefreshing] = useState(false);
+  const dispatch = useDispatch();
+
+  const refetchItem = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await refetch();
+      if (data) {
+        dispatch({
+          type: SET_FEED_ITEMS,
+          payload: data.getAllItem.filter(({status}) => status === 'available'),
+        });
+      }
+      setRefreshing(false);
+    } catch (err) {}
+  }, [refetch, data, dispatch]);
+
+  useEffect(() => {
+    if (data) {
+      dispatch({
+        type: SET_FEED_ITEMS,
+        payload: data.getAllItem.filter(({status}) => status === 'available'),
+      });
+    }
+  }, [data, dispatch]);
+
+  if (loading) {
+    return (
+      <SafeAreaView
+        style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <CustomText>Loading..</CustomText>
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView
+        style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <CustomText>{error.message}</CustomText>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={styles.headerContainer}>
-        <View style={{flexDirection: 'row'}}>
-          <Button px={0} onPress={() => props.navigation.navigate('Profile')}>
-            <Image
-              style={{marginRight: 10}}
-              source={require('../assets/img/profile.png')}
-            />
-          </Button>
-          <View style={{justifyContent: 'center', paddingRight: 10}}>
-            <CustomText fontSize={14}>Pathomporn Pankaew</CustomText>
-            <CustomText fontSize={14} textAlign="left">
-              @Job25721
-            </CustomText>
-          </View>
-        </View>
-
-        <View style={{flexDirection: 'row'}}>
-          <Button
-            onPress={() => props.navigation.navigate('Notification')}
-            px={5}>
-            <FeatherIcon name="bell" size={35} />
-          </Button>
-          <Button onPress={() => props.navigation.navigate('Chat')} px={5}>
-            <FeatherIcon name="message-circle" size={35} />
-          </Button>
-        </View>
-      </View>
+      <HomeHeader />
       <View style={{paddingLeft: 10}}>
         <CustomText color={PantoneColor.livingCoral} spacing={10} type="header">
           SHARE
         </CustomText>
       </View>
-      <ScrollView style={{marginHorizontal: 10}}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refetchItem} />
+        }
+        style={{marginHorizontal: 10}}>
         <View style={{marginTop: 20, marginBottom: 10}}>
           <CustomText fontSize={20} fontWeight={'bold'}>
             เลือกหมวดหมู่ที่ใช่สำหรับคุณ
@@ -93,9 +123,9 @@ const Home = (props) => {
           ))}
         </ScrollView>
         <View style={{alignItems: 'center'}}>
-          {items.map((item, i) => (
+          {items.map((item) => (
             <Card
-              key={i}
+              key={item.id}
               images={item.images.map((img) => img)}
               owner={item.owner}
               name={item.name}
@@ -109,14 +139,5 @@ const Home = (props) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-  },
-});
 
 export default Home;

@@ -9,8 +9,12 @@ import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Colors, PantoneColor} from '../utils/Colors';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import Feather from 'react-native-vector-icons/Feather';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {SET_TOKEN, SET_USER_DATA} from '../store/actions/user';
 export default (props) => {
   const [active, setActive] = useState(0);
+  const dispatch = useDispatch();
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: Colors.white, paddingVertical: 10}}>
@@ -30,7 +34,14 @@ export default (props) => {
             right: 20,
           }}>
           <CustomText>Logout</CustomText>
-          <Button onPress={() => props.navigation.navigate('Auth')} px={0}>
+          <Button
+            onPress={async () => {
+              const token = await AsyncStorage.removeItem('userToken');
+              dispatch({type: SET_TOKEN, payload: token});
+              dispatch({type: SET_USER_DATA, payload: null});
+              props.navigation.navigate('Tab');
+            }}
+            px={0}>
             <Feather color={Colors._red_500} name="log-out" size={25} />
           </Button>
         </View>
@@ -66,27 +77,25 @@ export default (props) => {
         ))}
       </View>
       {active === 0 ? (
-        <>
+        <View
+          style={{
+            alignSelf: 'center',
+            marginTop: 30,
+            borderRadius: 15,
+            flex: 1,
+            backgroundColor: Colors._gray_900,
+            width: 320,
+            alignItems: 'center',
+          }}>
           <View
-            style={{
-              alignItems: 'center',
-              marginTop: 20,
-            }}>
-            <CustomText fontSize={22} fontWeight="bold">
-              48
+            style={{margin: '10%', justifyContent: 'space-evenly', flex: 1}}>
+            <CustomText fontSize={20}>
+              ชื่อ-สกุล: นาย วัชรินทร์ ราชาเดช
             </CustomText>
-            <CustomText fontSize={22} fontWeight="bold">
-              POST
-            </CustomText>
+            <CustomText fontSize={20}>อายุ: 16 ปี</CustomText>
+            <CustomText fontSize={20}>วัน/เดือน/ปีเกิด: 02/06/1998 </CustomText>
           </View>
-          <ScrollView
-            horizontal
-            style={{marginVertical: 20, marginHorizontal: 10}}>
-            {[1, 2, 3, 4].map((item) => (
-              <CardList key={item} />
-            ))}
-          </ScrollView>
-        </>
+        </View>
       ) : active === 1 ? (
         <ListCrad />
       ) : active === 2 ? (

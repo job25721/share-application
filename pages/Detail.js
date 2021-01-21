@@ -13,10 +13,6 @@ import RequestModal from '../components/RequestModal';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import AlertDialog from '../components/AlertDialog';
 import ShareModal from '../components/ShareModal';
-import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
 
 const Detail = ({navigation, route}) => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -67,7 +63,7 @@ const Detail = ({navigation, route}) => {
               />
               <View style={{paddingHorizontal: 15}}>
                 <CustomText fontWeight="500" fontSize={18}>
-                  {route.params.owner}
+                  {route.params.owner.firstName} {route.params.owner.lastName}
                 </CustomText>
               </View>
               <View style={styles.optionsView}>
@@ -90,8 +86,8 @@ const Detail = ({navigation, route}) => {
             <CustomText>ประเภท : {route.params.category}</CustomText>
 
             <View style={styles.tagView}>
-              {route.params.tags.map((tag) => (
-                <Tag key={tag.id} text={tag.name} />
+              {route.params.tags.map((tag, i) => (
+                <Tag key={i} text={tag} />
               ))}
             </View>
           </View>

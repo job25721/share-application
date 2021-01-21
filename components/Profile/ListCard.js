@@ -1,6 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {ScrollView} from 'react-native';
-import {ItemChatCard} from '../../components/Chat/ChatCard';
+import {ItemChatCard} from '../../components/Profile/ItemCard';
 import {useNavigation} from '@react-navigation/native';
 export default () => {
   const navigation = useNavigation();
