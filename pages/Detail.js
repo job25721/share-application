@@ -13,10 +13,6 @@ import RequestModal from '../components/RequestModal';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import AlertDialog from '../components/AlertDialog';
 import ShareModal from '../components/ShareModal';
-import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
 
 const Detail = ({navigation, route}) => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -96,7 +92,7 @@ const Detail = ({navigation, route}) => {
             </View>
           </View>
 
-          {/* {route.params.images.length > 0 && route.params.images[0] !== '' ? (
+          {route.params.images.length > 0 && route.params.images[0] !== '' ? (
             <SliderBox
               onCurrentImagePressed={(idx) => {}}
               dotColor={PantoneColor.livingCoral}
@@ -123,7 +119,7 @@ const Detail = ({navigation, route}) => {
               sliderBoxHeight={400}
               images={route.params.images}
             />
-          ) : null} */}
+          ) : null}
 
           <View style={{padding: 20}}>
             <CustomText fontSize={16}>{route.params.description}</CustomText>

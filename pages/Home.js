@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
-import {ScrollView, View, StyleSheet, SafeAreaView, Button} from 'react-native';
+import React, {useState, useCallback, useEffect} from 'react';
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Button,
+  RefreshControl,
+} from 'react-native';
 import {PantoneColor} from '../utils/Colors';
 
 import {CustomText} from '../components/CustomStyledComponent/Text';
@@ -13,7 +20,7 @@ import {getAllItem} from '../graphql/query/item';
 import {useQuery} from '@apollo/client';
 import {SET_FEED_ITEMS} from '../store/types/item';
 import HomeHeader from '../components/Home/HomeHeader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AlertDialog from '../components/AlertDialog';
 const categories = [
   {
     nameIcon: 'tshirt',
@@ -43,21 +50,32 @@ const categories = [
 
 const Home = (props) => {
   const items = useSelector((state) => state.item.feedItems);
-  const {data, error, loading} = useQuery(getAllItem);
+  const {data, error, loading, refetch} = useQuery(getAllItem);
+  const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (error) {
-      console.log(error);
-    }
-    if (data) {
-      // console.log(data.getAllItem);
+  const refetchItem = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await refetch();
+      if (data) {
+        dispatch({
+          type: SET_FEED_ITEMS,
+          payload: data.getAllItem.filter(({status}) => status === 'available'),
+        });
+      }
+      setRefreshing(false);
+    } catch (err) {}
+  }, [refetch, data, dispatch]);
 
-      dispatch({type: SET_FEED_ITEMS, payload: data.getAllItem});
+  useEffect(() => {
+    if (data) {
+      dispatch({
+        type: SET_FEED_ITEMS,
+        payload: data.getAllItem.filter(({status}) => status === 'available'),
+      });
     }
-    // console.log('in home');
-    // console.log(items);
-  }, [data, dispatch, error]);
+  }, [data, dispatch]);
 
   if (loading) {
     return (
@@ -85,7 +103,11 @@ const Home = (props) => {
           SHARE
         </CustomText>
       </View>
-      <ScrollView style={{marginHorizontal: 10}}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refetchItem} />
+        }
+        style={{marginHorizontal: 10}}>
         <View style={{marginTop: 20, marginBottom: 10}}>
           <CustomText fontSize={20} fontWeight={'bold'}>
             เลือกหมวดหมู่ที่ใช่สำหรับคุณ
@@ -117,14 +139,5 @@ const Home = (props) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-  },
-});
 
 export default Home;

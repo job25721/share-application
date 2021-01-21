@@ -8,7 +8,7 @@ import {
 // import {setContext} from '@apollo/client/link/context';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const httpLink = new HttpLink({uri: 'http://localhost:4001/graphql'});
+const httpLink = new HttpLink({uri: 'http://18.216.73.101/graphql'});
 
 const authMiddleware = new ApolloLink(async (operation, forward) => {
   // add the authorization to the headers
