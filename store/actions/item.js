@@ -25,26 +25,26 @@ export const addNewItem = ({
   ) {
     Alert.alert('กรอกข้อมูลให้ครบ');
   } else {
-    formDispatch({type: SET_SUBMIT_LOADING, payload: true});
-    for (let i = 0; i < images.length; i++) {
-      const imgPath = images[i];
-      const filename = imgPath.substr(
-        imgPath.lastIndexOf('/') + 1,
-        imgPath.length,
-      );
-      const imgRef = storage().ref(`${owner.split(' ')[0]}/images/${filename}`);
-      await imgRef.putFile(imgPath);
-      formDispatch({type: SET_UPLOAD_STATE, payload: i + 1});
-      console.log(await imgRef.getDownloadURL());
-    }
+    // formDispatch({type: SET_SUBMIT_LOADING, payload: true});
+    // for (let i = 0; i < images.length; i++) {
+    //   const imgPath = images[i];
+    //   const filename = imgPath.substr(
+    //     imgPath.lastIndexOf('/') + 1,
+    //     imgPath.length,
+    //   );
+    //   const imgRef = storage().ref(`${owner.split(' ')[0]}/images/${filename}`);
+    //   await imgRef.putFile(imgPath);
+    //   formDispatch({type: SET_UPLOAD_STATE, payload: i + 1});
+    //   console.log(await imgRef.getDownloadURL());
+    // }
 
     dispatch({
       type: ADD_ITEM,
       payload: {name, owner, images, tags, category, description},
     });
-    formDispatch({type: SET_SUBMIT_LOADING, payload: false});
-    dispatch({type: SET_UPLOAD_STATE, payload: 0});
-    dispatch({type: CLEAR_FORM});
+    // formDispatch({type: SET_SUBMIT_LOADING, payload: false});
+    // formDispatch({type: SET_UPLOAD_STATE, payload: 0});
+    // formDispatch({type: CLEAR_FORM});
     navigate('Tab');
   }
 };
