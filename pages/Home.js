@@ -39,10 +39,10 @@ const categories = [
 
 const Home = (props) => {
   const items = useSelector((state) => state.item.feedItems);
-  useEffect(() => {
-    console.log('in home');
-    console.log(items);
-  }, [items]);
+  // useEffect(() => {
+  //   // console.log('in home');
+  //   // console.log(items);
+  // }, [items]);
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.headerContainer}>

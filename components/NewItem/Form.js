@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
 import {
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -28,40 +27,46 @@ import {useDispatch} from 'react-redux';
 import {addNewItem} from '../../store/actions/item';
 import {useNavigation} from '@react-navigation/native';
 
+import Modal from 'react-native-modalbox';
+
 const NewItemForm = () => {
   const {state, dispatch} = useContext(FormContext);
+
   const uDispatch = useDispatch();
   const [alertMsg, setAlert] = useState(false);
-  const {itemName, description} = state;
 
   const {navigate} = useNavigation();
+  const Share = () => {
+    const {itemName, selectedType, description, tags, images} = state;
+    addNewItem({
+      owner: 'Pathomporn Pankaew',
+      images,
+      name: itemName,
+      category: selectedType,
+      description,
+      tags,
+      navigate,
+      formDispatch: dispatch,
+    })(uDispatch);
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : ''}
       style={{flex: 1}}>
+      <Modal
+        isOpen={state.onSubmitLoading}
+        style={{padding: 10, alignItems: 'center', justifyContent: 'center'}}>
+        <CustomText>Loading...</CustomText>
+        <CustomText>
+          Uploaded {state.uploadedState}/{state.images.length}
+        </CustomText>
+      </Modal>
       <AlertDialog
         open={alertMsg}
         onClosePress={() => setAlert(false)}
         onConfirm={() => {
-          const {images, itemName, selectedType, description, tags} = state;
-          if (
-            images.length <= 0 ||
-            itemName === '' ||
-            selectedType === null ||
-            description === ''
-          ) {
-            Alert.alert('กรุณากรอกข้อมูลให้ครบ');
-          } else {
-            addNewItem({
-              owner: 'Pathomporn Pankaew',
-              images,
-              name: itemName,
-              category: selectedType,
-              description,
-              tags,
-            })(uDispatch);
-            navigate('Tab');
-          }
+          setAlert(false);
+          Share();
         }}
         title="ยืนยันข้อมูล"
         content="ข้อมูลถูกต้องครบถ้วนแล้วใช่หรือไม่"
@@ -87,7 +92,7 @@ const NewItemForm = () => {
             <Input
               maxLength={40}
               focus
-              value={itemName}
+              value={state.itemName}
               onChangeText={(val) =>
                 dispatch({type: SET_ITEM_NAME, payload: val})
               }
@@ -103,7 +108,7 @@ const NewItemForm = () => {
               textAlignVertical="top"
               placeholder="รายละเอียด"
               height={150}
-              value={description}
+              value={state.description}
               focus
               onChangeText={(val) =>
                 dispatch({type: SET_DESCRIPTION, payload: val})

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modalbox';
 
@@ -15,6 +15,7 @@ const AlertDialog = ({
   confirmText,
   cancelText,
   hasCancel,
+  disabledBtn,
 }) => {
   return (
     <Modal
@@ -34,23 +35,24 @@ const AlertDialog = ({
           <CustomText textAlign="center">{content}</CustomText>
         </View>
       ) : null}
-
-      <View style={styles.btnView}>
-        <Button
-          text={confirmText ? confirmText : 'ตกลง'}
-          onPress={onConfirm}
-          color={Colors.white}
-          bg={PantoneColor.livingCoral}
-        />
-        {hasCancel === false ? null : (
+      {disabledBtn ? null : (
+        <View style={styles.btnView}>
           <Button
-            text={cancelText ? cancelText : 'ยกเลิก'}
-            onPress={onClosePress}
+            text={confirmText ? confirmText : 'ตกลง'}
+            onPress={onConfirm}
             color={Colors.white}
-            bg={PantoneColor.blueDepths}
+            bg={PantoneColor.livingCoral}
           />
-        )}
-      </View>
+          {hasCancel === false ? null : (
+            <Button
+              text={cancelText ? cancelText : 'ยกเลิก'}
+              onPress={onClosePress}
+              color={Colors.white}
+              bg={PantoneColor.blueDepths}
+            />
+          )}
+        </View>
+      )}
     </Modal>
   );
 };

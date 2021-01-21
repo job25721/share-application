@@ -9,6 +9,8 @@ import {
   SET_MODAL,
   CLEAR_FORM,
   SET_IMAGE_PREVIEW,
+  SET_SUBMIT_LOADING,
+  SET_UPLOAD_STATE,
 } from './form-action-type';
 
 export const initialState = {
@@ -19,6 +21,8 @@ export const initialState = {
   tags: [],
   pickerModalOpen: false,
   imagePreviewOpen: false,
+  onSubmitLoading: false,
+  uploadedState: 0,
   pickerItems: [
     {label: 'สวัสดีค้าบบ', value: 'สวัสดีค้าบบ', key: 1},
     {label: 'ท่านสมาชิก', value: 'ท่านสมาชิก', key: 2},
@@ -74,6 +78,16 @@ export function formReducer(state, action) {
       };
     case CLEAR_FORM:
       return initialState;
+    case SET_SUBMIT_LOADING:
+      return {
+        ...state,
+        onSubmitLoading: action.payload,
+      };
+    case SET_UPLOAD_STATE:
+      return {
+        ...state,
+        uploadedState: action.payload,
+      };
     default:
       throw new Error();
   }
