@@ -25,15 +25,15 @@ export default (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {data, error, loading, refetch} = useQuery(getMyItem);
-  useEffect(() => {
-    console.log(props.route.params);
-  }, []);
+  // useEffect(() => {
+  //   console.log(props.route.params);
+  // }, []);
 
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log(data);
+  //   }
+  // }, [data]);
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: Colors.white, paddingVertical: 10}}>
