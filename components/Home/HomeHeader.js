@@ -68,7 +68,9 @@ const HomeHeader = (props) => {
     return (
       <View style={styles.headerContainer}>
         <View style={{flexDirection: 'row'}}>
-          <Button px={0} onPress={() => navigation.navigate('Profile')}>
+          <Button
+            px={0}
+            onPress={() => navigation.navigate('Profile', props.userData)}>
             <Image
               style={{
                 height: 60,

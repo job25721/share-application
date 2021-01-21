@@ -6,7 +6,7 @@ import {Colors} from '../../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {CustomText} from '../../components/CustomStyledComponent/Text';
 
-export default ({navigate}) => {
+export default ({navigate, name, username}) => {
   return (
     <View
       style={{
@@ -40,9 +40,9 @@ export default ({navigate}) => {
         </View>
       </View>
       <View style={{justifyContent: 'center'}}>
-        <CustomText>Pathomporn Pankaew</CustomText>
+        <CustomText>{name}</CustomText>
         <CustomText fontSize={16} color="#C7C7C7">
-          @job25721
+          @{username}
         </CustomText>
       </View>
     </View>

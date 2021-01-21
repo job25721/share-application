@@ -8,6 +8,8 @@ export const getMyInfo = gql`
       info {
         firstName
         lastName
+        birthDate
+        age
       }
     }
   }
