@@ -31,8 +31,7 @@ local.properties
 
 # node.js
 #
-node_modules/*
-!node_modules/react-native-image-slider-box
+node_modules
 npm-debug.log
 yarn-error.log
 
