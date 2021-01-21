@@ -119,10 +119,10 @@ export default (props) => {
             <CustomText fontSize={20}>อายุ: {getMyInfo.info.age} ปี</CustomText>
             <CustomText fontSize={20}>
               วัน/เดือน/ปีเกิด:{' '}
-              {/* {getMyInfo.info.birthDate.substr(
+              {getMyInfo.info.birthDate.substr(
                 0,
                 getMyInfo.info.birthDate.lastIndexOf('T'),
-              )} */}
+              )}
             </CustomText>
           </View>
         </View>
