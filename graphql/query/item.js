@@ -3,8 +3,9 @@ import gql from 'graphql-tag';
 export const getAllItem = gql`
   query {
     getAllItem {
-      name
+      id
       owner {
+        avatar
         info {
           firstName
           lastName
@@ -12,6 +13,7 @@ export const getAllItem = gql`
       }
       tags
       category
+      images
     }
   }
 `;

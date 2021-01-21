@@ -42,10 +42,7 @@ export const Card = ({name, owner, tags, images, category, description}) => {
         />
         <View style={cardStyles.content}>
           <View style={cardStyles.userInfo}>
-            <Image
-              style={cardStyles.userImg}
-              source={require('../../assets/img/stamp.png')}
-            />
+            <Image style={cardStyles.userImg} source={{uri: owner.avatar}} />
             <View style={{paddingHorizontal: 15}}>
               <CustomText fontWeight="500">
                 {owner.info.firstName} {owner.info.lastName}

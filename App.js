@@ -33,17 +33,15 @@ const RootStackScreen = () => {
         <NavigationContainer>
           <RootStack.Navigator mode="card">
             <RootStack.Screen
-              name="Auth"
-              component={Auth}
-              options={{headerShown: false}}
-            />
-
-            <RootStack.Screen
               name="Tab"
               component={TabScreen}
               options={{headerShown: false}}
             />
-
+            <RootStack.Screen
+              name="Auth"
+              component={Auth}
+              options={{headerShown: false}}
+            />
             <RootStack.Screen
               name="Detail"
               component={Detail}

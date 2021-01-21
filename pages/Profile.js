@@ -9,6 +9,7 @@ import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Colors, PantoneColor} from '../utils/Colors';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import Feather from 'react-native-vector-icons/Feather';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default (props) => {
   const [active, setActive] = useState(0);
   return (
@@ -30,7 +31,12 @@ export default (props) => {
             right: 20,
           }}>
           <CustomText>Logout</CustomText>
-          <Button onPress={() => props.navigation.navigate('Auth')} px={0}>
+          <Button
+            onPress={async () => {
+              await AsyncStorage.removeItem('userToken');
+              props.navigation.navigate('Auth');
+            }}
+            px={0}>
             <Feather color={Colors._red_500} name="log-out" size={25} />
           </Button>
         </View>

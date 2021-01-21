@@ -20,12 +20,46 @@ import {CustomText} from '../CustomStyledComponent/Text';
 
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5Pro';
 import {useNavigation} from '@react-navigation/native';
-
+import {useMutation} from '@apollo/client';
+import {userLogin} from '../../graphql/mutation/user';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AlertDialog from '../AlertDialog';
 export default () => {
   const {navigate} = useNavigation();
 
+  const [username, setUsername] = useState('guy');
+  const [password, setPassword] = useState('1234');
+  const [loading, setLoading] = useState(false);
+  const [login] = useMutation(userLogin);
+
+  const Login = async () => {
+    if (username !== '' && password !== '') {
+      try {
+        setLoading(true);
+        const {data} = await login({
+          variables: {
+            username,
+            password,
+          },
+        });
+        if (data.login === 'Login Failed') {
+          throw new Error(data.login);
+        }
+        await AsyncStorage.setItem('userToken', data.login);
+        setTimeout(() => {
+          navigate('Tab');
+        }, 1000);
+      } catch (error) {
+        Alert.alert(error.message);
+      }
+    } else {
+      Alert.alert('Please fill');
+    }
+  };
+
   return (
     <>
+      <AlertDialog open={loading} disabledBtn title="กรุณารอสักครู่...." />
       <View
         style={{
           alignItems: 'center',
@@ -94,15 +128,29 @@ export default () => {
       </View> */}
       <View
         style={{marginVertical: 0, paddingHorizontal: 50, paddingVertical: 25}}>
-        <Input placeholder="Username" focus rounded width="100%" />
-        <Input placeholder="Password" focus rounded width="100%" />
+        <Input
+          value={username}
+          onChangeText={setUsername}
+          placeholder="Username"
+          focus
+          rounded
+          width="100%"
+        />
+        <Input
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Password"
+          focus
+          rounded
+          width="100%"
+        />
         <Button
           text="Login"
           bg={PantoneColor.turkishSea}
           color={Colors.white}
           rounded
           my={10}
-          onPress={() => navigate('Tab')}
+          onPress={Login}
         />
       </View>
       {/* 
