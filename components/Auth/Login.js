@@ -41,7 +41,7 @@ export default () => {
         </CustomText>
       </View>
 
-      <View style={styles.btnView}>
+      {/* <View style={styles.btnView}>
         <Button
           rounded
           px={0}
@@ -91,9 +91,9 @@ export default () => {
             <CustomText color={Colors.white}>ล็อกอินผ่าน Google</CustomText>
           </View>
         </Button>
-      </View>
-      {/* <View
-        style={{marginVertical: 0, paddingHorizontal: 50, paddingVertical: 25}}>  
+      </View> */}
+      <View
+        style={{marginVertical: 0, paddingHorizontal: 50, paddingVertical: 25}}>
         <Input placeholder="Username" focus rounded width="100%" />
         <Input placeholder="Password" focus rounded width="100%" />
         <Button
@@ -104,7 +104,7 @@ export default () => {
           my={10}
           onPress={() => navigate('Tab')}
         />
-      </View> */}
+      </View>
       {/* 
       <View
         style={{
