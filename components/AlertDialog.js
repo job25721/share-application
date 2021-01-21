@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modalbox';
@@ -16,6 +17,7 @@ const AlertDialog = ({
   cancelText,
   hasCancel,
   disabledBtn,
+  bindColor,
 }) => {
   return (
     <Modal
@@ -41,14 +43,18 @@ const AlertDialog = ({
             text={confirmText ? confirmText : 'ตกลง'}
             onPress={onConfirm}
             color={Colors.white}
-            bg={PantoneColor.livingCoral}
+            bg={
+              bindColor === true ? Colors._green_500 : PantoneColor.livingCoral
+            }
           />
           {hasCancel === false ? null : (
             <Button
               text={cancelText ? cancelText : 'ยกเลิก'}
               onPress={onClosePress}
               color={Colors.white}
-              bg={PantoneColor.blueDepths}
+              bg={
+                bindColor === true ? Colors._red_500 : PantoneColor.blueDepths
+              }
             />
           )}
         </View>

@@ -2,15 +2,41 @@ import React, {useContext, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-
 import {ChatContext} from '../../pages/Chat/Chat';
 import {Colors} from '../../utils/Colors';
+import ChatModal from '../AlertDialog';
 
 export default () => {
   const [msg, setMsg] = useState('');
   const {messages, setMessage} = useContext(ChatContext);
+  const [alertMsg, setAlert] = useState(false);
+
   return (
     <View style={chatFromStyles.msgBox}>
+      <ChatModal
+        open={alertMsg}
+        onClosePress={() => setAlert(false)}
+        onConfirm={() => {
+          setAlert(false);
+        }}
+        title="ยืนยันการส่งต่อ"
+        bindColor={true}
+        content="ท่านได้ทำการส่งต่อสิ่งของแล้วใช่หรือไม่"
+        confirmText="ยืนยัน"
+        cancelText="ไม่ยืนยัน"
+      />
+      {/* <ChatModal
+        hasCancel={false}
+        open={alertMsg}
+        onClosePress={() => setAlert(false)}
+        onConfirm={() => {
+          setAlert(false);
+        }}
+        title="ยืนยันการส่งต่อ"
+        content="ท่านได้ทำการส่งต่อสิ่งของแล้วใช่หรือไม่"
+        confirmText="ยืนยัน"
+        cancelText="ไม่ยืนยัน"
+      /> */}
       <View style={chatFromStyles.chatInputView}>
         <TextInput
           style={chatFromStyles.chatInput}
@@ -25,6 +51,13 @@ export default () => {
         />
       </View>
       <View style={chatFromStyles.btnView}>
+        <Button onPress={() => setAlert(true)}>
+          <FeatherIcon
+            name="check-square"
+            color={Colors._indigo_800}
+            size={20}
+          />
+        </Button>
         <Button
           onPress={() => {
             if (msg !== '') {
@@ -57,7 +90,7 @@ const chatFromStyles = StyleSheet.create({
   },
   chatInputView: {
     justifyContent: 'center',
-    width: '85%',
+    width: '65%',
   },
   chatInput: {
     width: '100%',
@@ -71,5 +104,6 @@ const chatFromStyles = StyleSheet.create({
   btnView: {
     width: 'auto',
     height: '100%',
+    flexDirection: 'row',
   },
 });

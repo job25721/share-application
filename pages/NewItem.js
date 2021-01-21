@@ -3,7 +3,6 @@ import {SafeAreaView, View, StyleSheet, Platform} from 'react-native';
 
 import NewItemfForm from '../components/NewItem/Form';
 import TypePickerModal from '../components/NewItem/TypePickerIOS/TypePickerModal';
-import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {CustomText} from '../components/CustomStyledComponent/Text';
