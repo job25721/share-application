@@ -13,11 +13,14 @@ import RequestModal from '../components/RequestModal';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import AlertDialog from '../components/AlertDialog';
 import ShareModal from '../components/ShareModal';
+import {useSelector} from 'react-redux';
 
 const Detail = ({navigation, route}) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isAlert, setAlert] = useState(false);
   const [shareOpen, setShare] = useState(false);
+  const {owner} = route.params;
+  const userData = useSelector((state) => state.user.userData);
 
   return (
     <DismissKeyboard>
@@ -57,13 +60,10 @@ const Detail = ({navigation, route}) => {
         <ScrollView>
           <View style={{paddingHorizontal: 20}}>
             <View style={styles.userDetailView}>
-              <Image
-                style={styles.userImg}
-                source={require('../assets/img/stamp.png')}
-              />
+              <Image style={styles.userImg} source={{uri: owner.avatar}} />
               <View style={{paddingHorizontal: 15}}>
                 <CustomText fontWeight="500" fontSize={18}>
-                  {route.params.owner.firstName} {route.params.owner.lastName}
+                  {owner.info.firstName} {owner.info.lastName}
                 </CustomText>
               </View>
               <View style={styles.optionsView}>
@@ -125,14 +125,16 @@ const Detail = ({navigation, route}) => {
             <CustomText fontSize={16}>{route.params.description}</CustomText>
           </View>
         </ScrollView>
-        <View>
-          <Button
-            text="ส่งคำขอ"
-            onPress={() => setModalOpen(true)}
-            bg={PantoneColor.blueDepths}
-            color={Colors.white}
-          />
-        </View>
+        {userData && userData.getMyInfo.id !== owner.id ? (
+          <View>
+            <Button
+              text="ส่งคำขอ"
+              onPress={() => setModalOpen(true)}
+              bg={PantoneColor.blueDepths}
+              color={Colors.white}
+            />
+          </View>
+        ) : null}
       </SafeAreaView>
     </DismissKeyboard>
   );

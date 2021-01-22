@@ -15,6 +15,7 @@ export const Card = ({name, owner, tags, images, category, description}) => {
   const {navigate} = useNavigation();
   const [tagArr, setTag] = useState([]);
   const [saved, setSaved] = useState(false);
+
   useEffect(() => {
     tags ? setTag(tags) : setTag([]);
   }, [tags]);
@@ -25,7 +26,7 @@ export const Card = ({name, owner, tags, images, category, description}) => {
         onPress={() => {
           const itemData = {
             name,
-            owner: owner.info,
+            owner,
             tags,
             category,
             description,

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import {CustomText} from '../CustomStyledComponent/Text';
@@ -12,6 +12,7 @@ import {Colors, PantoneColor} from '../../utils/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect, useDispatch} from 'react-redux';
 import {SET_USER_DATA} from '../../store/actions/user';
+import AlertDialog from '../AlertDialog';
 
 const updateUser = (userData) => (dispatch) => {
   dispatch({type: SET_USER_DATA, payload: userData});
@@ -25,41 +26,29 @@ const connector = connect(mapStateToProps, {updateUser});
 
 const HomeHeader = (props) => {
   const navigation = useNavigation();
-  const {data, loading, error, refetch} = useQuery(getMyInfo);
+  const {data, loading, refetch} = useQuery(getMyInfo);
 
   useEffect(() => {
     const refetchUserData = async () => {
       try {
-        await refetch();
+        const refetchRes = await refetch();
+        if (refetchRes.data) {
+          props.updateUser(data);
+        }
+        if (refetchRes.error) {
+          props.updateUser(null);
+        }
       } catch (err) {
         console.log(err);
       }
     };
     refetchUserData();
-    if (data) {
-      props.updateUser(data);
-    }
   }, [data, props, refetch]);
 
   if (loading) {
     return (
       <View style={styles.headerContainer}>
         <CustomText>Loading..</CustomText>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={[styles.headerContainer, {justifyContent: 'flex-end'}]}>
-        <Button
-          text="Login"
-          bg={PantoneColor.livingCoral}
-          color={Colors.white}
-          onPress={() => {
-            navigation.navigate('Auth');
-          }}
-        />
       </View>
     );
   }
@@ -108,7 +97,18 @@ const HomeHeader = (props) => {
     );
   }
 
-  return null;
+  return (
+    <View style={[styles.headerContainer, {justifyContent: 'flex-end'}]}>
+      <Button
+        text="Login"
+        bg={PantoneColor.livingCoral}
+        color={Colors.white}
+        onPress={() => {
+          navigation.navigate('Auth');
+        }}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

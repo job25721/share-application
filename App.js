@@ -33,12 +33,16 @@ const ReduxScreenProvider = () => {
   const token = useSelector((state) => state.user.token);
   useEffect(() => {
     const getToken = async () => {
-      const asyncToekn = await AsyncStorage.getItem('userToken');
-      dispatch({type: SET_TOKEN, payload: asyncToekn});
-      dispatch({type: SET_USER_DATA, payload: null});
+      const asyncToken = await AsyncStorage.getItem('userToken');
+      if (asyncToken) {
+        dispatch({type: SET_TOKEN, payload: asyncToken});
+      }
+      if (asyncToken === null) {
+        dispatch({type: SET_USER_DATA, payload: null});
+      }
     };
     getToken();
-  }, []);
+  }, [dispatch]);
   return (
     <NavigationContainer>
       <RootStack.Navigator mode="card">

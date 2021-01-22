@@ -47,8 +47,9 @@ export default () => {
         if (data.login === 'Login Failed') {
           throw new Error(data.login);
         }
-        dispatch({type: SET_TOKEN, paylaod: data.login});
+        dispatch({type: SET_TOKEN, payload: data.login});
         await AsyncStorage.setItem('userToken', data.login);
+
         navigate('Tab');
       } catch (error) {
         Alert.alert(error.message);
