@@ -26,7 +26,7 @@ import {
   SET_UPLOAD_STATE,
 } from '../../utils/form/form-action-type';
 import AlertDialog from '../AlertDialog';
-import {useDispatch, useSelector} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 
 import {useNavigation} from '@react-navigation/native';
 
@@ -34,100 +34,24 @@ import Modal from 'react-native-modalbox';
 import {useMutation} from '@apollo/client';
 import {ADD_NEW_ITEM} from '../../graphql/mutation/item';
 
-import {ADD_ITEM} from '../../store/types/item';
-
-const NewItemForm = () => {
+import {addItemAction} from '../../store/actions/item';
+const connector = connect(() => ({}), {addItemAction});
+const NewItemForm = (props) => {
   const {state, dispatch} = useContext(FormContext);
-  const userData = useSelector((state) => state.user.userData);
+  const {itemName, selectedType, description, tags, images} = state;
+  const userData = useSelector(({user}) => user.userData);
   const [addNewItem] = useMutation(ADD_NEW_ITEM);
-  const reduxDispatch = useDispatch();
   const [alertMsg, setAlert] = useState(false);
 
   const {navigate} = useNavigation();
 
-  const Share = async () => {
-    const {itemName, selectedType, description, tags, images} = state;
-    console.log(tags);
-    const {name, category, owner} = {
-      owner: userData.getMyInfo,
-      name: itemName,
-      category: selectedType,
-    };
-    if (
-      // images.length > 0 &&
-      name !== '' &&
-      category !== null &&
-      description !== ''
-    ) {
-      console.log(owner);
-      dispatch({type: SET_SUBMIT_LOADING, payload: true});
-      const fireBaseImgURL = [];
-      for (let i = 0; i < images.length; i++) {
-        const imgPath = images[i];
-        const filename = imgPath.substr(
-          imgPath.lastIndexOf('/') + 1,
-          imgPath.length,
-        );
-        const imgRef = storage().ref(
-          `${owner.info.firstName}/images/${filename}`,
-        );
-        await imgRef.putFile(imgPath);
-        const imgURL = await imgRef.getDownloadURL();
-        fireBaseImgURL.push(imgURL);
-        dispatch({type: SET_UPLOAD_STATE, payload: i + 1});
-      }
-
-      try {
-        const {data} = await addNewItem({
-          variables: {
-            name,
-            tags: tags.map((tag) => tag.name),
-            category,
-            description,
-            images: fireBaseImgURL,
-          },
-        });
-        console.log(data);
-        // reduxDispatch({
-        //   type: ADD_ITEM,
-        //   payload: {
-        //     id: data.id,
-        //     name,
-        //     owner,
-        //     images: fireBaseImgURL,
-        //     tags: tags.map((tag) => tag.name),
-        //     category,
-        //     description,
-        //   },
-        // });
-        dispatch({type: SET_SUBMIT_LOADING, payload: false});
-        dispatch({type: SET_UPLOAD_STATE, payload: 0});
-        dispatch({type: CLEAR_FORM});
-      } catch (err) {
-        console.log(err);
-      }
-
-      // navigate('Tab');
-    }
-
-    // addNewItemForm({
-    //   owner: userData.getMyInfo,
-    //   images,
-    //   name: itemName,
-    //   category: selectedType,
-    //   description,
-    //   tags,
-    //   navigate,
-    //   formDispatch: dispatch,
-    //   addItemMutation: addNewItem,
-    // })(uDispatch);
-  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : ''}
       style={{flex: 1}}>
       <Modal
         isOpen={state.onSubmitLoading}
+        swipeToClose={false}
         style={{padding: 10, alignItems: 'center', justifyContent: 'center'}}>
         <CustomText>Loading...</CustomText>
         <CustomText>
@@ -139,7 +63,20 @@ const NewItemForm = () => {
         onClosePress={() => setAlert(false)}
         onConfirm={() => {
           setAlert(false);
-          Share();
+
+          props.addItemAction(
+            {
+              name: itemName,
+              description,
+              category: selectedType,
+              tags,
+              images,
+              owner: userData.getMyInfo,
+            },
+            dispatch,
+            navigate,
+            addNewItem,
+          );
         }}
         title="ยืนยันข้อมูล"
         content="ข้อมูลถูกต้องครบถ้วนแล้วใช่หรือไม่"
@@ -193,8 +130,22 @@ const NewItemForm = () => {
 
           <Button
             rounded
-            onPress={() => setAlert(true)}
-            bg={PantoneColor.livingCoral}
+            onPress={() =>
+              itemName !== '' &&
+              description !== '' &&
+              selectedType !== null &&
+              images.length > 0
+                ? setAlert(true)
+                : null
+            }
+            bg={
+              itemName !== '' &&
+              description !== '' &&
+              selectedType !== null &&
+              images.length > 0
+                ? PantoneColor.livingCoral
+                : PantoneColor.veryLivingCoral
+            }
             text="แชร์!"
             fontSize={24}
             color={Colors.white}
@@ -216,4 +167,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewItemForm;
+export default connector(NewItemForm);

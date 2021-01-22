@@ -6,25 +6,21 @@ import {
 } from '../../utils/form/form-action-type';
 import {ADD_ITEM} from '../types/item';
 import storage from '@react-native-firebase/storage';
-export const addNewItemForm = ({
-  name,
-  owner,
-  images,
-  tags,
-  category,
-  description,
+
+export const addItemAction = (
+  itemData,
+  formContextDispatch,
   navigate,
-  formDispatch,
   addItemMutation,
-}) => async (dispatch) => {
+) => async (dispatch) => {
+  const {name, category, description, tags, images, owner} = itemData;
   if (
-    images.length > 0 &&
+    // images.length > 0 &&
     name !== '' &&
     category !== null &&
     description !== ''
   ) {
-    console.log(owner);
-    formDispatch({type: SET_SUBMIT_LOADING, payload: true});
+    formContextDispatch({type: SET_SUBMIT_LOADING, payload: true});
     const fireBaseImgURL = [];
     for (let i = 0; i < images.length; i++) {
       const imgPath = images[i];
@@ -38,11 +34,10 @@ export const addNewItemForm = ({
       await imgRef.putFile(imgPath);
       const imgURL = await imgRef.getDownloadURL();
       fireBaseImgURL.push(imgURL);
-      formDispatch({type: SET_UPLOAD_STATE, payload: i + 1});
+      formContextDispatch({type: SET_UPLOAD_STATE, payload: i + 1});
     }
-
     try {
-      await addItemMutation({
+      const {data} = await addItemMutation({
         variables: {
           name,
           tags: tags.map((tag) => tag.name),
@@ -51,23 +46,27 @@ export const addNewItemForm = ({
           images: fireBaseImgURL,
         },
       });
-
-      formDispatch({type: SET_SUBMIT_LOADING, payload: false});
-      formDispatch({type: SET_UPLOAD_STATE, payload: 0});
-      formDispatch({type: CLEAR_FORM});
-      // dispatch({
-      //   type: ADD_ITEM,
-      //   payload: {
-      //     name,
-      //     owner,
-      //     images: fireBaseImgURL,
-      //     tags: tags.map((tag) => tag.name),
-      //     category,
-      //     description,
-      //   },
-      // });
-    } catch (error) {}
-
-    // navigate('Tab');
+      if (data) {
+        dispatch({
+          type: ADD_ITEM,
+          payload: {
+            id: data.addNewItem.id,
+            name,
+            owner,
+            images,
+            tags: tags.map((tag) => tag.name),
+            category,
+            description,
+          },
+        });
+      }
+      formContextDispatch({type: SET_SUBMIT_LOADING, payload: false});
+      formContextDispatch({type: SET_UPLOAD_STATE, payload: 0});
+      formContextDispatch({type: CLEAR_FORM});
+      navigate('Tab');
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   }
 };

@@ -18,7 +18,6 @@ export const ADD_NEW_ITEM = gql`
       }
     ) {
       id
-      name
     }
   }
 `;
