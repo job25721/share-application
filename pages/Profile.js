@@ -24,7 +24,7 @@ export default (props) => {
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {data, error, loading, refetch} = useQuery(getMyItem);
+  const myItem = useQuery(getMyItem);
   // useEffect(() => {
   //   console.log(props.route.params);
   // }, []);
@@ -34,6 +34,22 @@ export default (props) => {
   //     console.log(data);
   //   }
   // }, [data]);
+  const changeProfileTab = async (tabIndex) => {
+    try {
+      if (tabIndex === 1) {
+        await myItem.refetch();
+      } else if (tabIndex === 2) {
+        //do something...
+      } else if (tabIndex === 3) {
+        //do something...
+      }
+
+      setActive(tabIndex);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: Colors.white, paddingVertical: 10}}>
@@ -94,17 +110,7 @@ export default (props) => {
           <IconList
             active={active === i ? true : false}
             key={i}
-            onPress={async () => {
-              try {
-                if (i === 1) {
-                  await refetch();
-                }
-
-                setActive(i);
-              } catch (err) {
-                console.log(err);
-              }
-            }}
+            onPress={() => changeProfileTab(i)}
             text={item.text}
             nameIcon={item.nameIcon}
           />
@@ -139,22 +145,20 @@ export default (props) => {
         </View>
       ) : active === 1 ? (
         <ScrollView style={{paddingHorizontal: 20}}>
-          {data ? (
-            data.getMyItem.map((item) => (
-              <ItemChatCard
-                key={item.id}
-                titleImg={item.name}
-                imgSrc={item.images[0]}
-                category={item.category}
-                tags={item.tags}
-                onPress={() =>
-                  navigation.navigate('Chat', {name: 'Stamp Watcharin'})
-                }
-              />
-            ))
-          ) : (
-            <CustomText>Hello</CustomText>
-          )}
+          {myItem.data
+            ? myItem.data.getMyItem.map((item) => (
+                <ItemChatCard
+                  key={item.id}
+                  titleImg={item.name}
+                  imgSrc={item.images[0]}
+                  category={item.category}
+                  tags={item.tags}
+                  onPress={() =>
+                    navigation.navigate('Chat', {name: 'Stamp Watcharin'})
+                  }
+                />
+              ))
+            : null}
         </ScrollView>
       ) : active === 2 ? (
         <ScrollView style={{paddingHorizontal: 20}}>
