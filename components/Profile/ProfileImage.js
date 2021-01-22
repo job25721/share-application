@@ -6,7 +6,7 @@ import {Colors} from '../../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {CustomText} from '../../components/CustomStyledComponent/Text';
 
-export default ({navigate, name, username}) => {
+export default ({navigate, name, username, img}) => {
   return (
     <View
       style={{
@@ -19,7 +19,7 @@ export default ({navigate, name, username}) => {
         }}>
         <Image
           style={{height: 170, width: 130, borderRadius: 10}}
-          source={require('../../assets/img/stamp.png')}
+          source={{uri: img}}
         />
         <View
           style={{

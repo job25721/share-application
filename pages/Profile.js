@@ -69,6 +69,7 @@ export default (props) => {
         navigate={props.navigation.navigate}
         name={`${getMyInfo.info.firstName} ${getMyInfo.info.lastName}`}
         username={getMyInfo.username}
+        img={getMyInfo.avatar}
       />
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         {[
