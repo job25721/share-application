@@ -6,6 +6,7 @@ export const getAllItem = gql`
       id
       name
       owner {
+        id
         avatar
         info {
           firstName
@@ -14,6 +15,7 @@ export const getAllItem = gql`
       }
       tags
       category
+      description
       images
       status
     }

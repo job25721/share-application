@@ -36,8 +36,8 @@ export default (props) => {
           <CustomText>Logout</CustomText>
           <Button
             onPress={async () => {
-              const token = await AsyncStorage.removeItem('userToken');
-              dispatch({type: SET_TOKEN, payload: token});
+              await AsyncStorage.removeItem('userToken');
+              dispatch({type: SET_TOKEN, payload: null});
               dispatch({type: SET_USER_DATA, payload: null});
               props.navigation.navigate('Tab');
             }}
