@@ -94,7 +94,17 @@ export default (props) => {
           <IconList
             active={active === i ? true : false}
             key={i}
-            onPress={() => setActive(i)}
+            onPress={async () => {
+              try {
+                if (i === 1) {
+                  await refetch();
+                }
+
+                setActive(i);
+              } catch (err) {
+                console.log(err);
+              }
+            }}
             text={item.text}
             nameIcon={item.nameIcon}
           />
@@ -132,6 +142,7 @@ export default (props) => {
           {data ? (
             data.getMyItem.map((item) => (
               <ItemChatCard
+                key={item.id}
                 titleImg={item.name}
                 imgSrc={item.images[0]}
                 category={item.category}
