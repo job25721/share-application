@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,7 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-
+import storage from '@react-native-firebase/storage';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import {Input} from '../CustomStyledComponent/Input/CustomInput';
 import {Colors, PantoneColor} from '../../utils/Colors';
@@ -19,35 +19,108 @@ import ImgUpload from './ImgUpload';
 import PickerInput from './TypePickerIOS/PickerInput';
 import {FormContext} from '../../pages/NewItem';
 import {
+  CLEAR_FORM,
   SET_DESCRIPTION,
   SET_ITEM_NAME,
+  SET_SUBMIT_LOADING,
+  SET_UPLOAD_STATE,
 } from '../../utils/form/form-action-type';
 import AlertDialog from '../AlertDialog';
-import {useDispatch} from 'react-redux';
-import {addNewItem} from '../../store/actions/item';
+import {useDispatch, useSelector} from 'react-redux';
+
 import {useNavigation} from '@react-navigation/native';
 
 import Modal from 'react-native-modalbox';
+import {useMutation} from '@apollo/client';
+import {ADD_NEW_ITEM} from '../../graphql/mutation/item';
+
+import {ADD_ITEM} from '../../store/types/item';
 
 const NewItemForm = () => {
   const {state, dispatch} = useContext(FormContext);
-
-  const uDispatch = useDispatch();
+  const userData = useSelector((state) => state.user.userData);
+  const [addNewItem] = useMutation(ADD_NEW_ITEM);
+  const reduxDispatch = useDispatch();
   const [alertMsg, setAlert] = useState(false);
 
   const {navigate} = useNavigation();
-  const Share = () => {
+
+  const Share = async () => {
     const {itemName, selectedType, description, tags, images} = state;
-    addNewItem({
-      owner: 'Pathomporn Pankaew',
-      images,
+    console.log(tags);
+    const {name, category, owner} = {
+      owner: userData.getMyInfo,
       name: itemName,
       category: selectedType,
-      description,
-      tags,
-      navigate,
-      formDispatch: dispatch,
-    })(uDispatch);
+    };
+    if (
+      // images.length > 0 &&
+      name !== '' &&
+      category !== null &&
+      description !== ''
+    ) {
+      console.log(owner);
+      dispatch({type: SET_SUBMIT_LOADING, payload: true});
+      const fireBaseImgURL = [];
+      for (let i = 0; i < images.length; i++) {
+        const imgPath = images[i];
+        const filename = imgPath.substr(
+          imgPath.lastIndexOf('/') + 1,
+          imgPath.length,
+        );
+        const imgRef = storage().ref(
+          `${owner.info.firstName}/images/${filename}`,
+        );
+        await imgRef.putFile(imgPath);
+        const imgURL = await imgRef.getDownloadURL();
+        fireBaseImgURL.push(imgURL);
+        dispatch({type: SET_UPLOAD_STATE, payload: i + 1});
+      }
+
+      try {
+        const {data} = await addNewItem({
+          variables: {
+            name,
+            tags: tags.map((tag) => tag.name),
+            category,
+            description,
+            images: fireBaseImgURL,
+          },
+        });
+        console.log(data);
+        // reduxDispatch({
+        //   type: ADD_ITEM,
+        //   payload: {
+        //     id: data.id,
+        //     name,
+        //     owner,
+        //     images: fireBaseImgURL,
+        //     tags: tags.map((tag) => tag.name),
+        //     category,
+        //     description,
+        //   },
+        // });
+        dispatch({type: SET_SUBMIT_LOADING, payload: false});
+        dispatch({type: SET_UPLOAD_STATE, payload: 0});
+        dispatch({type: CLEAR_FORM});
+      } catch (err) {
+        console.log(err);
+      }
+
+      // navigate('Tab');
+    }
+
+    // addNewItemForm({
+    //   owner: userData.getMyInfo,
+    //   images,
+    //   name: itemName,
+    //   category: selectedType,
+    //   description,
+    //   tags,
+    //   navigate,
+    //   formDispatch: dispatch,
+    //   addItemMutation: addNewItem,
+    // })(uDispatch);
   };
   return (
     <KeyboardAvoidingView

@@ -24,4 +24,8 @@ const authMiddleware = new ApolloLink(async (operation, forward) => {
 export const client = new ApolloClient({
   link: concat(authMiddleware, httpLink),
   cache: new InMemoryCache(),
+  onError: ({networkError, graphQLErrors}) => {
+    console.log('graphQLErrors', graphQLErrors);
+    console.log('networkError', networkError);
+  },
 });
