@@ -1,5 +1,11 @@
 import {Image} from 'react-native';
-import {ADD_ITEM, SET_FEED_ITEMS} from '../types/item';
+import {
+  ADD_ITEM,
+  ADD_MY_RECEIVING_ITEM,
+  SET_FEED_ITEMS,
+  SET_MY_RECEIVING_ITEM,
+  SET_REFRESH_FEED,
+} from '../types/item';
 
 const initialState = {
   feedItems: [
@@ -35,6 +41,8 @@ const initialState = {
     //   description: 'ซื้อมาละมาขว้าง ขอแบ่งให้คนอยากดูหรู ดุรวย',
     // },
   ],
+  myReceivingItem: [],
+  refreshFeed: false,
 };
 
 export default function itemReducer(state = initialState, action) {
@@ -48,6 +56,21 @@ export default function itemReducer(state = initialState, action) {
       return {
         ...state,
         feedItems: action.payload,
+      };
+    case SET_MY_RECEIVING_ITEM:
+      return {
+        ...state,
+        myReceivingItem: action.payload,
+      };
+    case ADD_MY_RECEIVING_ITEM:
+      return {
+        ...state,
+        myReceivingItem: [action.payload, ...state.myReceivingItem],
+      };
+    case SET_REFRESH_FEED:
+      return {
+        ...state,
+        refreshFeed: action.payload,
       };
     default:
       return state;

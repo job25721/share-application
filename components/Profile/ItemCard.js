@@ -18,11 +18,7 @@ const ItemChatCard = ({onPress, titleImg, imgSrc, category, tags}) => {
         <CustomText>ประเภท: {category}</CustomText>
         <View style={{flexDirection: 'row', marginTop: 5}}>
           {tags
-            ? tags.map((tag, i) => (
-                <>
-                  <Tag key={i} text={tag} />
-                </>
-              ))
+            ? tags.map((tag, i) => <Tag key={i.toString()} text={tag} />)
             : null}
         </View>
       </View>

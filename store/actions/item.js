@@ -1,4 +1,3 @@
-import {Alert} from 'react-native';
 import {
   CLEAR_FORM,
   SET_SUBMIT_LOADING,

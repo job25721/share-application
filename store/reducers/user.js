@@ -1,4 +1,4 @@
-import {SET_TOKEN, SET_USER_DATA} from '../actions/user';
+import {SET_TOKEN, SET_USER_DATA} from '../types/user';
 
 const initialState = {
   token: null,
@@ -19,6 +19,7 @@ export default function userReducer(state = initialState, action) {
         userData: action.payload,
       };
     }
+
     default:
       return state;
   }

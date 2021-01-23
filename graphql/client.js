@@ -21,9 +21,23 @@ const authMiddleware = new ApolloLink(async (operation, forward) => {
   return forward(operation);
 });
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    Agenda: {
+      fields: {
+        tasks: {
+          merge(existing, incoming) {
+            return incoming;
+          },
+        },
+      },
+    },
+  },
+});
+
 export const client = new ApolloClient({
   link: concat(authMiddleware, httpLink),
-  cache: new InMemoryCache(),
+  cache,
   onError: ({networkError, graphQLErrors}) => {
     console.log('graphQLErrors', graphQLErrors);
     console.log('networkError', networkError);

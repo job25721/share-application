@@ -1,14 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useCallback, useEffect} from 'react';
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  SafeAreaView,
-  Button,
-  RefreshControl,
-} from 'react-native';
-import {PantoneColor} from '../utils/Colors';
+import {ScrollView, View, SafeAreaView, RefreshControl} from 'react-native';
+import {Colors, PantoneColor} from '../utils/Colors';
 
 import {CustomText} from '../components/CustomStyledComponent/Text';
 
@@ -18,9 +11,9 @@ import {IconList} from '../components/Home/IconList';
 import {useDispatch, useSelector} from 'react-redux';
 import {getAllItem} from '../graphql/query/item';
 import {useQuery} from '@apollo/client';
-import {SET_FEED_ITEMS} from '../store/types/item';
+import {SET_FEED_ITEMS, SET_REFRESH_FEED} from '../store/types/item';
 import HomeHeader from '../components/Home/HomeHeader';
-import AlertDialog from '../components/AlertDialog';
+import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 const categories = [
   {
     nameIcon: 'tshirt',
@@ -50,9 +43,12 @@ const categories = [
 
 const Home = (props) => {
   const items = useSelector((state) => state.item.feedItems);
+  const refreshFeed = useSelector((state) => state.item.refreshFeed);
   const {data, error, loading, refetch} = useQuery(getAllItem);
   const [refreshing, setRefreshing] = useState(false);
+  const [wait, setWait] = useState(false);
   const dispatch = useDispatch();
+  const [errMsg, setErr] = useState('');
 
   const refetchItem = useCallback(async () => {
     setRefreshing(true);
@@ -67,6 +63,16 @@ const Home = (props) => {
       setRefreshing(false);
     } catch (err) {}
   }, [refetch, data, dispatch]);
+
+  useEffect(() => {
+    const refresh = async () => {
+      if (refreshFeed) {
+        await refetchItem();
+        dispatch({type: SET_REFRESH_FEED, payload: false});
+      }
+    };
+    refresh();
+  }, [refreshFeed, dispatch, refetchItem]);
 
   useEffect(() => {
     if (data) {
@@ -87,10 +93,25 @@ const Home = (props) => {
   }
 
   if (error) {
+    refetch();
     return (
       <SafeAreaView
         style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-        <CustomText>{error.message}</CustomText>
+        {!wait ? (
+          <CustomText>{errMsg === '' ? error.message : errMsg}</CustomText>
+        ) : null}
+        {!refreshing ? (
+          <Button
+            text="Reload"
+            onPress={() => {
+              dispatch({type: SET_REFRESH_FEED, payload: true});
+            }}
+            bg={PantoneColor.blueDepths}
+            color={Colors.white}
+          />
+        ) : (
+          <CustomText>Loading...</CustomText>
+        )}
       </SafeAreaView>
     );
   }
@@ -126,6 +147,7 @@ const Home = (props) => {
           {items.map((item) => (
             <Card
               key={item.id}
+              id={item.id}
               images={item.images.map((img) => img)}
               owner={item.owner}
               name={item.name}

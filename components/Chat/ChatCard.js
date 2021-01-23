@@ -15,7 +15,7 @@ const ItemChatCard = ({
   type,
 }) => {
   const [isNoti, setNoti] = useState(false);
-  const [lastest, setLastest] = useState({from: '', msg: ''});
+  const [lastest, setLastest] = useState(null);
   useEffect(() => {
     if (notification && notification > 0) {
       setNoti(true);
@@ -30,24 +30,26 @@ const ItemChatCard = ({
 
   return (
     <TouchableOpacity onPress={onPress} style={[styles.chatListCard]}>
-      <Image style={styles.img} source={imgSrc} />
+      <Image style={styles.img} source={{uri: imgSrc}} />
       <View style={{width: '60%'}}>
         <CustomText fontWeight="500">{title}</CustomText>
         {type === 'Person' ? null : <CustomText>เจ้าของ {owner}</CustomText>}
         <View>
-          <CustomText
-            fontWeight={isNoti ? 'bold' : 'normal'}
-            fontSize={15}
-            color={
-              notification && notification > 0
-                ? Colors.black
-                : 'rgb(75, 85, 99)'
-            }>
-            {lastest.from} :{' '}
-            {lastest.msg.length > 14
-              ? lastest.msg.substr(0, 14) + '....'
-              : lastest.msg}
-          </CustomText>
+          {lastest ? (
+            <CustomText
+              fontWeight={isNoti ? 'bold' : 'normal'}
+              fontSize={15}
+              color={
+                notification && notification > 0
+                  ? Colors.black
+                  : 'rgb(75, 85, 99)'
+              }>
+              {lastest.from} :{' '}
+              {lastest.msg.length > 14
+                ? lastest.msg.substr(0, 14) + '....'
+                : lastest.msg}
+            </CustomText>
+          ) : null}
         </View>
       </View>
       <View

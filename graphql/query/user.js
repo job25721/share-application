@@ -19,6 +19,7 @@ export const getMyInfo = gql`
 export const getMyItem = gql`
   query {
     getMyItem {
+      id
       name
       category
       images

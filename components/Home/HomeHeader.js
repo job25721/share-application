@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {Button} from '../CustomStyledComponent/Button/CustomButton';
 import {CustomText} from '../CustomStyledComponent/Text';
@@ -9,10 +9,9 @@ import {useQuery} from '@apollo/client';
 import {getMyInfo} from '../../graphql/query/user';
 
 import {Colors, PantoneColor} from '../../utils/Colors';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {connect, useDispatch} from 'react-redux';
-import {SET_USER_DATA} from '../../store/actions/user';
-import AlertDialog from '../AlertDialog';
+
+import {connect} from 'react-redux';
+import {SET_USER_DATA} from '../../store/types/user';
 
 const updateUser = (userData) => (dispatch) => {
   dispatch({type: SET_USER_DATA, payload: userData});
@@ -31,13 +30,13 @@ const HomeHeader = (props) => {
   useEffect(() => {
     const refetchUserData = async () => {
       try {
-        const refetchRes = await refetch();
-        if (refetchRes.data) {
+        await refetch();
+        if (data) {
           props.updateUser(data);
         }
-        if (refetchRes.error) {
-          props.updateUser(null);
-        }
+        // if (error) {
+        //   props.updateUser(null);
+        // }
       } catch (err) {
         console.log(err);
       }
@@ -83,8 +82,8 @@ const HomeHeader = (props) => {
         <View style={{flexDirection: 'row'}}>
           <Button
             onPress={async () => {
-              console.log(props);
-              // navigation.navigate('Notification')
+              // console.log(props);
+              navigation.navigate('Notification');
             }}
             px={5}>
             <FeatherIcon name="bell" size={35} />

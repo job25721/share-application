@@ -21,3 +21,24 @@ export const getAllItem = gql`
     }
   }
 `;
+
+export const GET_MY_RECEIVING_ITEM = gql`
+  query {
+    getMySendRequests {
+      id
+      item {
+        name
+        status
+        images
+        owner {
+          id
+          info {
+            firstName
+            lastName
+          }
+          avatar
+        }
+      }
+    }
+  }
+`;

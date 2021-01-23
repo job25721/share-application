@@ -11,7 +11,15 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const defaultImg = require('../../assets/img/cat.jpg');
 
-export const Card = ({name, owner, tags, images, category, description}) => {
+export const Card = ({
+  id,
+  name,
+  owner,
+  tags,
+  images,
+  category,
+  description,
+}) => {
   const {navigate} = useNavigation();
   const [tagArr, setTag] = useState([]);
   const [saved, setSaved] = useState(false);
@@ -25,6 +33,7 @@ export const Card = ({name, owner, tags, images, category, description}) => {
         style={cardStyles.card}
         onPress={() => {
           const itemData = {
+            id,
             name,
             owner,
             tags,
@@ -39,7 +48,7 @@ export const Card = ({name, owner, tags, images, category, description}) => {
           style={cardStyles.img}
           resizeMethod="scale"
           resizeMode="cover"
-          source={images && images[0] !== '' ? {uri: images[0]} : defaultImg}
+          source={{uri: images[0]}}
         />
         <View style={cardStyles.content}>
           <View style={cardStyles.userInfo}>
@@ -64,7 +73,7 @@ export const Card = ({name, owner, tags, images, category, description}) => {
 
           <View style={cardStyles.userOptions}>
             <View style={cardStyles.btnOptionsView}>
-              <CustomText>{!saved ? 'Whishlist' : 'บันทึกแล้ว'}</CustomText>
+              <CustomText>{!saved ? 'Wishlist' : 'บันทึกแล้ว'}</CustomText>
               <Button px={0}>
                 {!saved ? (
                   <FeatherIcon

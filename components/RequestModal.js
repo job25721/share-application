@@ -16,10 +16,25 @@ import {Button} from './CustomStyledComponent/Button/CustomButton';
 import {Input} from './CustomStyledComponent/Input/CustomInput';
 import {CustomText} from './CustomStyledComponent/Text';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
+import {connect} from 'react-redux';
+import {SET_REASON, SET_WANTED_RATE} from '../store/types/request';
 
-const RequestModal = ({name, isOpen, onClosePress, onSubmit}) => {
-  const [wantedRate, setRate] = useState(0);
+const mapStateToProps = ({request}) => ({
+  wantedRate: request.wantedRate,
+  reason: request.reason,
+});
 
+const connector = connect(mapStateToProps, {
+  setWantedRate: (payload) => (dispatch) => {
+    dispatch({type: SET_WANTED_RATE, payload});
+  },
+  setReason: (payload) => (dispatch) => {
+    dispatch({type: SET_REASON, payload});
+  },
+});
+
+const RequestModal = (props) => {
+  const {name, isOpen, onClosePress, onSubmit} = props;
   useEffect(() => {
     if (Platform.OS === 'android') {
       AndroidKeyboardAdjust.setAdjustNothing();
@@ -61,6 +76,8 @@ const RequestModal = ({name, isOpen, onClosePress, onSubmit}) => {
             textAlignVertical="top"
             height="40%"
             placeholder="กรอกเหตุผล..."
+            value={props.reason}
+            onChangeText={props.setReason}
             multiline
             backgroundColor={Colors._gray_900}
           />
@@ -73,29 +90,18 @@ const RequestModal = ({name, isOpen, onClosePress, onSubmit}) => {
                 justifyContent: 'space-between',
               }}>
               <Slider
-                minimumValue={0}
+                minimumValue={1}
                 maximumValue={10}
                 step={1}
                 minimumTrackTintColor={PantoneColor.livingCoral}
                 thumbTintColor={PantoneColor.blueDepths}
-                value={wantedRate}
+                value={props.wantedRate}
                 style={{width: '90%'}}
-                onValueChange={setRate}
+                onValueChange={props.setWantedRate}
               />
-              <CustomText>{wantedRate}</CustomText>
+              <CustomText>{props.wantedRate}</CustomText>
             </View>
           </View>
-          {/* <View style={{flexDirection: 'row'}}>
-            <View>
-              <CustomText>0</CustomText>
-            </View>
-            <View style={{position: 'absolute', right: 150}}>
-              <CustomText>5</CustomText>
-            </View>
-            <View style={{position: 'absolute', right: 0}}>
-              <CustomText>10</CustomText>
-            </View>
-          </View> */}
         </View>
         <View style={styles.submitBtnView}>
           <Button
@@ -133,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RequestModal;
+export default connector(RequestModal);

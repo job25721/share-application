@@ -25,7 +25,7 @@ import Auth from './pages/Auth';
 import {ApolloProvider} from '@apollo/client';
 import {client} from './graphql/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {SET_TOKEN, SET_USER_DATA} from './store/actions/user';
+import {SET_TOKEN, SET_USER_DATA} from './store/types/user';
 const RootStack = createStackNavigator();
 
 const ReduxScreenProvider = () => {

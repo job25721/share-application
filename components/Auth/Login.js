@@ -25,7 +25,7 @@ import {userLogin} from '../../graphql/mutation/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AlertDialog from '../AlertDialog';
 import {useDispatch} from 'react-redux';
-import {SET_TOKEN} from '../../store/actions/user';
+import {SET_TOKEN} from '../../store/types/user';
 export default () => {
   const {navigate} = useNavigation();
 

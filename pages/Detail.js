@@ -13,26 +13,62 @@ import RequestModal from '../components/RequestModal';
 import {DismissKeyboard} from '../components/CustomStyledComponent/DismissKeyboard';
 import AlertDialog from '../components/AlertDialog';
 import ShareModal from '../components/ShareModal';
-import {useSelector} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
+import {sendRequestAction} from '../store/actions/request';
+import {useMutation} from '@apollo/client';
+import {CREATE_REQUEST} from '../graphql/mutation/request';
+import {CLEAR_REQUEST_DATA, SET_REQUEST_ITEM_ID} from '../store/types/request';
+import store from '../store';
+import {useNavigation} from '@react-navigation/native';
+import Modal from 'react-native-modalbox';
 
-const Detail = ({navigation, route}) => {
+const connector = connect(() => ({}), {
+  sendRequestAction,
+  setRequestItemId: (payload) => (dispatch) =>
+    dispatch({
+      type: SET_REQUEST_ITEM_ID,
+      payload,
+    }),
+  clearRequestData: () => (dispatch) => dispatch({type: CLEAR_REQUEST_DATA}),
+});
+
+const Detail = (props) => {
+  const navigation = useNavigation();
+  const {route} = props;
   const [isModalOpen, setModalOpen] = useState(false);
   const [isAlert, setAlert] = useState(false);
   const [shareOpen, setShare] = useState(false);
   const {owner} = route.params;
   const userData = useSelector((state) => state.user.userData);
+  const [loading, setLoading] = useState(false);
+  const [createRequest] = useMutation(CREATE_REQUEST);
 
   return (
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
         <ShareModal isOpen={shareOpen} onClosed={() => setShare(false)} />
+        <Modal
+          isOpen={loading}
+          swipeToClose={false}
+          style={{alignItems: 'center', justifyContent: 'center'}}>
+          <CustomText>กรุณารอสักครู่....</CustomText>
+          <Button
+            color="#000"
+            text="test"
+            onPress={() => console.log(loading)}
+          />
+        </Modal>
         <AlertDialog
           open={isAlert}
-          onClosePress={() => setAlert(false)}
+          onClosePress={() => {
+            props.clearRequestData();
+            setAlert(false);
+          }}
           onConfirm={() => {
-            navigation.navigate('Chat');
             setAlert(false);
             setModalOpen(false);
+            props.setRequestItemId(route.params.id);
+            props.sendRequestAction(createRequest, navigation.navigate);
           }}
           title="ยืนยันคำขอ"
           content="คำขอจะถูกส่งไปหาเจ้าของ และจะทำการสร้างห้องแชทอัตโนมัติ"
@@ -40,7 +76,10 @@ const Detail = ({navigation, route}) => {
         <RequestModal
           name={route.params.name}
           isOpen={isModalOpen}
-          onClosePress={() => setModalOpen(false)}
+          onClosePress={() => {
+            // props.clearRequestData();
+            setModalOpen(false);
+          }}
           onSubmit={() => setAlert(true)}
           navigation={navigation}
         />
@@ -165,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Detail;
+export default connector(Detail);

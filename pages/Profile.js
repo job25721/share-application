@@ -1,26 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
-import Profile from '../components/Profile/ProfileImage';
+import ProfileImage from '../components/Profile/ProfileImage';
 import IconList from '../components/Profile/IconList';
 import {useQuery} from '@apollo/client';
-import ListCrad from '../components/Profile/ListCard';
+
 import {CustomText} from '../components/CustomStyledComponent/Text';
 import {Colors, PantoneColor} from '../utils/Colors';
 import {Button} from '../components/CustomStyledComponent/Button/CustomButton';
 import Feather from 'react-native-vector-icons/Feather';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch} from 'react-redux';
-import {SET_TOKEN, SET_USER_DATA} from '../store/actions/user';
+import {connect, useDispatch} from 'react-redux';
 import {ItemChatCard} from '../components/Profile/ItemCard';
 import {useNavigation} from '@react-navigation/native';
 import {getMyItem} from '../graphql/query/user';
-export default (props) => {
-  const {
-    route: {
-      params: {getMyInfo},
-    },
-  } = props;
+import {userLogout} from '../store/actions/user';
+
+const connector = connect(() => ({}), {userLogout});
+
+const Profile = (props) => {
+  const {getMyInfo} = props.route.params;
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -38,6 +36,7 @@ export default (props) => {
     try {
       if (tabIndex === 1) {
         await myItem.refetch();
+        console.log(myItem.data);
       } else if (tabIndex === 2) {
         //do something...
       } else if (tabIndex === 3) {
@@ -69,19 +68,12 @@ export default (props) => {
             right: 20,
           }}>
           <CustomText>Logout</CustomText>
-          <Button
-            onPress={async () => {
-              await AsyncStorage.removeItem('userToken');
-              dispatch({type: SET_TOKEN, payload: null});
-              dispatch({type: SET_USER_DATA, payload: null});
-              props.navigation.navigate('Tab');
-            }}
-            px={0}>
+          <Button onPress={() => props.userLogout(navigation.navigate)} px={0}>
             <Feather color={Colors._red_500} name="log-out" size={25} />
           </Button>
         </View>
       </View>
-      <Profile
+      <ProfileImage
         navigate={props.navigation.navigate}
         name={`${getMyInfo.info.firstName} ${getMyInfo.info.lastName}`}
         username={getMyInfo.username}
@@ -184,3 +176,5 @@ export default (props) => {
 const styles = StyleSheet.create({
   header: {flexDirection: 'row', marginTop: 20},
 });
+
+export default connector(Profile);
