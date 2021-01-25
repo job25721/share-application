@@ -26,7 +26,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../../App';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../store';
 // import {useDispatch} from '../store';
 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
@@ -45,6 +46,7 @@ const Detail: React.FC<Props> = (props) => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isAlert, setAlert] = useState<boolean>(false);
   const [shareOpen, setShare] = useState<boolean>(false);
+  const userData = useSelector((state: RootState) => state.user.userData);
 
   const dispatch = useDispatch();
   //   const [createRequest] = useMutation(CREATE_REQUEST);
@@ -164,16 +166,16 @@ const Detail: React.FC<Props> = (props) => {
             <CustomText fontSize={16}>{itemData.description}</CustomText>
           </View>
         </ScrollView>
-        {/* {userData && userData.getMyInfo.id !== owner.id ? ( */}
-        <View>
-          <Button
-            text="ส่งคำขอ"
-            onPress={() => setModalOpen(true)}
-            bg={PantoneColor.blueDepths}
-            color={Colors.white}
-          />
-        </View>
-        {/* ) : null} */}
+        {userData && userData.id !== itemData.owner.id ? (
+          <View>
+            <Button
+              text="ส่งคำขอ"
+              onPress={() => setModalOpen(true)}
+              bg={PantoneColor.blueDepths}
+              color={Colors.white}
+            />
+          </View>
+        ) : null}
       </SafeAreaView>
     </DismissKeyboard>
   );
