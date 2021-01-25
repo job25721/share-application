@@ -29,9 +29,13 @@ build/
 local.properties
 *.iml
 
+# Visual Studio Code
+#
+.vscode/
+
 # node.js
 #
-node_modules
+node_modules/
 npm-debug.log
 yarn-error.log
 
@@ -57,7 +61,3 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-.vscode
-
-package-lock.json
-yarn.lock
