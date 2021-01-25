@@ -1,4 +1,0 @@
-export const SET_REASON = 'SET_REASON';
-export const SET_WANTED_RATE = 'SET_WANTED_RATE';
-export const SET_REQUEST_ITEM_ID = 'SET_REQUEST_ITEM_ID';
-export const CLEAR_REQUEST_DATA = 'CLEAR_REQUEST_DATA';
