@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   CustomText,
   Button,
@@ -11,7 +11,7 @@ import {View, Image, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 import {Colors, PantoneColor} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {SliderBox} from 'react-native-image-slider-box';
+import {SliderBox} from '../components/react-native-image-slider-box';
 
 import {ShareModal, RequestModal} from '../components/Detail/';
 // import {sendRequestAction} from '../store/actions/request';
