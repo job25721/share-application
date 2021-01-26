@@ -6,7 +6,6 @@ import {
   split,
   ApolloLink,
   concat,
-  defaultDataIdFromObject,
 } from '@apollo/client';
 
 import {WebSocketLink} from '@apollo/client/link/ws';
