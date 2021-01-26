@@ -17,8 +17,8 @@ const PickerInput: React.FC = () => {
           payload: true,
         });
       }}>
-      <CustomText color={selectedType === null ? '#858283' : '#000'}>
-        {selectedType === null ? 'เลือกประเภท' : selectedType}
+      <CustomText color={selectedType === undefined ? '#858283' : '#000'}>
+        {selectedType === undefined ? 'เลือกประเภท' : selectedType}
       </CustomText>
       <View style={styles.icon}>
         <Feather name="chevron-down" size={20} />

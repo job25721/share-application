@@ -15,7 +15,7 @@ const TypePicker = () => {
       onValueChange={(val) => {
         dispatch({
           type: 'SET_PICKER_TYPE',
-          payload: val.toString(),
+          payload: val ? val.toString() : undefined,
         });
       }}
       style={[

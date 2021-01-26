@@ -37,7 +37,7 @@ export const Button: React.FC<ButtonProps> = ({
   const [textColor, setColor] = useState<string>(Colors.black);
   const [textSize, setSize] = useState<number>(18);
   const [btnWidth, setBtnWidth] = useState<number>(100);
-  const [paddingX, setPx] = useState<number>(10);
+  const [paddingX, setPx] = useState<number>(20);
   const [paddingY, setPy] = useState<number>(Platform.OS === 'ios' ? 5 : 10);
   useEffect(() => {
     bg ? setType(bg) : setType('transparent');

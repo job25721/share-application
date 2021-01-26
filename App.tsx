@@ -102,7 +102,7 @@ const RootStackScreen: React.FC = () => {
       }
     };
     getToken();
-  }, [dispatch]);
+  }, []);
   return (
     <RefreshHomeContext.Provider
       value={{refresh: refetchItem, refreshing, itemLoading: loading, error}}>

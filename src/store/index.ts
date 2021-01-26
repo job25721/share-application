@@ -17,7 +17,7 @@ const appReducer = combineReducers({
 });
 
 export type RootState = ReturnType<typeof appReducer>;
-type StoreEvent =
+export type StoreEvent =
   | RequestActionTypes
   | ItemActionTypes
   | UserActionTypes

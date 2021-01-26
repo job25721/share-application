@@ -1,4 +1,5 @@
 import {Dispatch} from 'react';
+import {categories} from '../../utils/category';
 import {FormActionTypes, FormState} from './types';
 
 export const initialState: FormState = {
@@ -11,10 +12,11 @@ export const initialState: FormState = {
   imagePreviewOpen: false,
   onSubmitLoading: false,
   uploadedState: 0,
-  pickerItems: [
-    {label: 'สวัสดีค้าบบ', value: 'สวัสดีค้าบบ', key: '1'},
-    {label: 'ท่านสมาชิก', value: 'ท่านสมาชิก', key: '1'},
-  ],
+  pickerItems: categories.map((cat) => ({
+    label: cat.text,
+    value: cat.text,
+    key: cat.text,
+  })),
 };
 export type FormReducers = {
   state: FormState;

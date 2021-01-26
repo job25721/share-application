@@ -14,7 +14,7 @@ const SET_UPLOAD_STATE = 'SET_UPLOAD_STATE';
 export type FormActionTypes =
   | {type: typeof ADD_IMAGE; payload: string[]}
   | {type: typeof SET_ITEM_NAME; payload: string}
-  | {type: typeof SET_PICKER_TYPE; payload: string}
+  | {type: typeof SET_PICKER_TYPE; payload: string | undefined}
   | {type: typeof SET_DESCRIPTION; payload: string}
   | {type: typeof ADD_TAG; payload: FormTag}
   | {type: typeof REMOVE_TAG; payload: number}

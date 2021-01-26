@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
-import {ScrollView, View, SafeAreaView, RefreshControl} from 'react-native';
+import React, {MutableRefObject, useContext, useRef} from 'react';
+import {
+  ScrollView,
+  View,
+  SafeAreaView,
+  RefreshControl,
+  ScrollResponderEvent,
+} from 'react-native';
 import {Colors, PantoneColor} from '../utils/Colors';
 
 import {IconList} from '../components/Home/IconList';
@@ -15,33 +21,7 @@ import {Card} from '../components/Home/Card';
 import {RouteProp} from '@react-navigation/native';
 import {RefreshHomeContext, RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
-
-const categories = [
-  {
-    nameIcon: 'tshirt',
-    text: 'เสื้อผ้า',
-  },
-  {
-    nameIcon: 'chair',
-    text: 'เฟอร์นิเจอร์',
-  },
-  {
-    nameIcon: 'book',
-    text: 'หนังสือ',
-  },
-  {
-    nameIcon: 'pen',
-    text: 'อุปกรณ์การเรียน',
-  },
-  {
-    nameIcon: 'hamburger',
-    text: 'อาหาร',
-  },
-  {
-    nameIcon: 'paw',
-    text: 'สัตว์เลี้ยง',
-  },
-];
+import {categories} from '../utils/category';
 
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Tab'>;
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Tab'>;
@@ -53,6 +33,7 @@ type Props = {
 
 const Home: React.FC<Props> = () => {
   const feedItems = useSelector((state: RootState) => state.item.feedItems);
+  const scrollRef = useRef(null);
 
   const {refresh, refreshing, itemLoading, error} = useContext(
     RefreshHomeContext,
@@ -76,7 +57,7 @@ const Home: React.FC<Props> = () => {
           text="reload"
           color={Colors.white}
           bg={PantoneColor.blueDepths}
-          onPress={() => refresh()}
+          onPress={refresh}
         />
       </SafeAreaView>
     );
@@ -90,16 +71,36 @@ const Home: React.FC<Props> = () => {
           SHARE
         </CustomText>
       </View>
+      <View
+        style={{
+          position: 'absolute',
+          zIndex: 1,
+          bottom: 535,
+          alignSelf: 'center',
+        }}>
+        <Button
+          text="new 3 items arrived"
+          bg="rgba(0,0,0,0.9)"
+          rounded
+          color={Colors.white}
+          onPress={async () => {
+            scrollRef.current.scrollTo({top: 0});
+            await refresh();
+          }}
+        />
+      </View>
       <ScrollView
+        ref={scrollRef}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refresh} />
         }
         style={{marginHorizontal: 10}}>
-        <View style={{marginTop: 20, marginBottom: 10}}>
+        <View style={{marginBottom: 10}}>
           <CustomText fontSize={20} fontWeight={'bold'}>
             เลือกหมวดหมู่ที่ใช่สำหรับคุณ
           </CustomText>
         </View>
+
         <ScrollView horizontal>
           {categories.map((item) => (
             <IconList
@@ -109,7 +110,12 @@ const Home: React.FC<Props> = () => {
             />
           ))}
         </ScrollView>
-        <View style={{alignItems: 'center'}}>
+
+        <View
+          style={{
+            alignItems: 'center',
+            marginTop: 20,
+          }}>
           {feedItems.map((item) => (
             <Card key={item.id} item={item} />
           ))}

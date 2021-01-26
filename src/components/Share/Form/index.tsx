@@ -11,33 +11,40 @@ import {
 import {Button, Input, CustomText, AlertDialog} from '../../custom-components';
 
 import {Colors, PantoneColor} from '../../../utils/Colors';
-// import FormTag from './Tag/FormTag';
+
 import {Picker, iOSPicker} from '../';
 
-// import ImgUpload from './ImgUpload';
-
-// import {useNavigation} from '@react-navigation/native';
-
 import Modal from 'react-native-modalbox';
-// import {useMutation} from '@apollo/client';
-// import {ADD_NEW_ITEM} from '../../graphql/mutation/item';
+import {useMutation} from '@apollo/client';
+import {
+  AddItemMutationReturnType,
+  ADD_NEW_ITEM,
+} from '../../../graphql/mutation/item';
 
-// import {addItemAction} from '../../store/actions/item';
-// import {RootState} from '../../../store';
+import {addItemAction} from '../../../store/item/actions';
+
 import {FormContext} from '../../../pages/Share';
 import UploadPhoto from './UploadPhoto';
 import TagForm from './Tag/Form';
+import {useSelector} from 'react-redux';
+import {RootState, useDispatch} from '../../../store';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../../../../App';
 
 const NewItemForm = () => {
   const {state, dispatch} = useContext(FormContext);
-  const {itemName, selectedType, description, images} = state;
-  //   const userData = useSelector(
-  //     (reduxState: RootState) => reduxState.user.userData,
-  //   );
-  //   const [addNewItem] = useMutation(ADD_NEW_ITEM);
+  const {itemName, selectedType, description, images, tags} = state;
+  const userData = useSelector(
+    (reduxState: RootState) => reduxState.user.userData,
+  );
+  const [addNewItem] = useMutation<AddItemMutationReturnType>(ADD_NEW_ITEM);
   const [alertMsg, setAlert] = useState<boolean>(false);
+  const storeDispatch = useDispatch();
 
-  //   const {navigate} = useNavigation();
+  const navigation = useNavigation<
+    StackNavigationProp<RootStackParamList, 'Share'>
+  >();
 
   return (
     <KeyboardAvoidingView
@@ -55,21 +62,20 @@ const NewItemForm = () => {
       <AlertDialog
         open={alertMsg}
         onClosePress={() => setAlert(false)}
-        onConfirm={() => {
+        onConfirm={async () => {
           setAlert(false);
-          //   props.addItemAction(
-          //     {
-          //       name: itemName,
-          //       description,
-          //       category: selectedType,
-          //       tags,
-          //       images,
-          //       owner: userData.getMyInfo,
-          //     },
-          //     dispatch,
-          //     navigate,
-          //     addNewItem,
-          //   );
+          await addItemAction(
+            {
+              name: itemName,
+              description,
+              category: selectedType,
+              images,
+              tags: tags.map((tag) => tag.text),
+              owner: userData,
+            },
+            addNewItem,
+            navigation,
+          )(dispatch, storeDispatch);
         }}
         title="ยืนยันข้อมูล"
         content="ข้อมูลถูกต้องครบถ้วนแล้วใช่หรือไม่"
