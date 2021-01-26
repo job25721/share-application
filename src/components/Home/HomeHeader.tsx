@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {Button, CustomText} from '../custom-components';
 
@@ -9,23 +9,13 @@ import {useNavigation} from '@react-navigation/native';
 import {Colors, PantoneColor} from '../../utils/Colors';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../../../App';
 
 const HomeHeader: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const userData = useSelector((state: RootState) => state.user.userData);
-
-  // useEffect(() => {
-  //   console.log(userData);
-  // }, [userData]);
-
-  // if (loading) {
-  //   return (
-  //     <View style={styles.headerContainer}>
-  //       <CustomText>Loading..</CustomText>
-  //     </View>
-  //   );
-  // }
 
   if (userData) {
     return (
@@ -33,7 +23,9 @@ const HomeHeader: React.FC = () => {
         <View style={{flexDirection: 'row'}}>
           <Button
             px={0}
-            onPress={() => navigation.navigate('Profile', userData)}>
+            onPress={() =>
+              navigation.navigate('Profile', {userInfo: userData})
+            }>
             <Image
               style={{
                 height: 60,

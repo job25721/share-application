@@ -32,18 +32,18 @@ export type ItemActionTypes =
   | {type: 'SET_REFRESH_FEED'; payload: boolean};
 
 export interface Item {
-  id?: string;
+  id: string;
   name: string;
   description: string;
   category: string | undefined;
   tags: string[];
-  ownerId?: string;
+  ownerId: string;
   images: string[];
-  status?: string;
-  createdDate?: Date;
-  logId?: string;
-  owner?: User;
-  log?: ItemLog;
+  status: string;
+  createdDate: string;
+  logId: string;
+  owner: User;
+  log: ItemLog;
 }
 
 interface ItemLog {

@@ -1,12 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {MutableRefObject, useContext, useRef} from 'react';
-import {
-  ScrollView,
-  View,
-  SafeAreaView,
-  RefreshControl,
-  ScrollResponderEvent,
-} from 'react-native';
+import React, {useContext, useRef} from 'react';
+import {ScrollView, View, SafeAreaView, RefreshControl} from 'react-native';
 import {Colors, PantoneColor} from '../utils/Colors';
 
 import {IconList} from '../components/Home/IconList';
@@ -19,7 +13,7 @@ import {RootState} from '../store';
 import HomeHeader from '../components/Home/HomeHeader';
 import {Card} from '../components/Home/Card';
 import {RouteProp} from '@react-navigation/native';
-import {RefreshHomeContext, RootStackParamList} from '../../App';
+import {RefreshContext, RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {categories} from '../utils/category';
 
@@ -35,9 +29,8 @@ const Home: React.FC<Props> = () => {
   const feedItems = useSelector((state: RootState) => state.item.feedItems);
   const scrollRef = useRef(null);
 
-  const {refresh, refreshing, itemLoading, error} = useContext(
-    RefreshHomeContext,
-  );
+  const {feedHome} = useContext(RefreshContext);
+  const {refresh, refreshing, itemLoading, error} = feedHome;
 
   if (itemLoading) {
     return (

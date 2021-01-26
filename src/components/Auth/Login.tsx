@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 
 import {View, Image, StyleSheet, Alert} from 'react-native';
 import {Button, Input, CustomText, AlertDialog} from '../custom-components';
@@ -11,7 +11,7 @@ import {useMutation, useQuery} from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GET_MY_INFO, MyInfoQueryType} from '../../graphql/query/user';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../../App';
+import {RefreshContext, RootStackParamList} from '../../../App';
 import {useDispatch} from '../../store';
 
 const Login: React.FC = () => {
@@ -23,7 +23,7 @@ const Login: React.FC = () => {
   const [login] = useMutation(USER_LOGIN);
   const user = useQuery<MyInfoQueryType>(GET_MY_INFO);
   const dispatch = useDispatch();
-
+  const {mySendRequests, myReceiveRequest} = useContext(RefreshContext);
   const loginAction = async () => {
     if (username !== '' && password !== '') {
       try {
@@ -58,7 +58,8 @@ const Login: React.FC = () => {
             type: 'SET_USER_DATA',
             payload: refetchUser.data?.getMyInfo,
           });
-          dispatch({type: 'SET_REFRESH_FEED', payload: true});
+          await mySendRequests.refresh();
+          await myReceiveRequest.refresh();
           navigate('Tab');
         }
       } catch (error) {

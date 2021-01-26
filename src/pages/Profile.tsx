@@ -14,10 +14,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {ItemChatCard} from '../components/Profile/ItemCard';
 import {RouteProp} from '@react-navigation/native';
 import {getMyItem, MyItemQueryType} from '../graphql/query/user';
-import {RefreshHomeContext, RootStackParamList} from '../../App';
+import {RefreshContext, RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootState, useDispatch} from '../store';
 import {useSelector} from 'react-redux';
+import client from '../graphql/client';
 interface ProfileTabIcons {
   name: string;
   text: string;
@@ -56,15 +57,16 @@ type Props = {
 const Profile: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(0);
-  const {refresh} = useContext(RefreshHomeContext);
+  const {feedHome} = useContext(RefreshContext);
+  const {refresh} = feedHome;
 
-  const myItem = useQuery<MyItemQueryType>(getMyItem);
+  // const myItem = useQuery<MyItemQueryType>(getMyItem);
   const userData = useSelector((state: RootState) => state.user.userData);
 
   const changeProfileTab = async (tabIndex: number) => {
     try {
       if (tabIndex === 1) {
-        await myItem.refetch();
+        // await myItem.refetch();
       } else if (tabIndex === 2) {
         //do something...
       } else if (tabIndex === 3) {
@@ -99,11 +101,16 @@ const Profile: React.FC<Props> = ({navigation}) => {
             <CustomText>Logout</CustomText>
             <Button
               onPress={async () => {
-                await AsyncStorage.removeItem('userToken');
-                await AsyncStorage.removeItem('userInfo');
-                dispatch({type: 'USER_LOGOUT'});
-                await refresh();
-                navigation.navigate('Tab');
+                try {
+                  await AsyncStorage.removeItem('userToken');
+                  await AsyncStorage.removeItem('userInfo');
+                  dispatch({type: 'USER_LOGOUT'});
+                  await client.cache.reset();
+                  await refresh();
+                  navigation.navigate('Tab');
+                } catch (err) {
+                  console.log(err);
+                }
               }}
               px={0}>
               <Feather color={Colors._red_500} name="log-out" size={25} />
@@ -159,7 +166,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
           </View>
         ) : active === 1 ? (
           <ScrollView style={{paddingHorizontal: 20}}>
-            {myItem.data
+            {/* {myItem.data
               ? myItem.data.getMyItem.map(() => (
                   <CustomText>Hello</CustomText>
                   //   <ItemChatCard
@@ -173,7 +180,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
                   //     // }
                   //   />
                 ))
-              : null}
+              : null} */}
           </ScrollView>
         ) : active === 2 ? (
           <ScrollView style={{paddingHorizontal: 20}}>

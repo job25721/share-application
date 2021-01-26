@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 
 import Tag from './Tag';
-import {Button, CustomText} from '../custom-components';
+import {Button, CustomText, ProgressiveImage} from '../custom-components';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
 // import {useNavigation} from '@react-navigation/native';
@@ -39,10 +39,11 @@ export const Card: React.FC<CardProps> = ({item}) => {
           console.log('send params');
           console.log(itemData);
         }}>
-        <Image
+        <ProgressiveImage
           style={cardStyles.img}
           resizeMethod="scale"
           resizeMode="cover"
+          loadingType="interwind"
           source={
             images[0] !== ''
               ? {uri: images[0]}
@@ -114,7 +115,7 @@ export const cardStyles = StyleSheet.create({
   },
   img: {
     width: '100%',
-    height: '45%',
+
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },

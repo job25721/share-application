@@ -16,7 +16,7 @@ interface TextProps {
 
 export const CustomText: React.FC<TextProps> = ({
   children,
-  fontSize,
+  fontSize = 18,
   fontWeight,
   lineHeight,
   spacing,

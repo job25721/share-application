@@ -14,10 +14,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {SliderBox} from '../components/react-native-image-slider-box';
 
 import {ShareModal, RequestModal} from '../components/Detail/';
-// import {sendRequestAction} from '../store/actions/request';
-// import {useMutation} from '@apollo/client';
 
-// import {CREATE_REQUEST} from '../graphql/mutation/request';
+import {CREATE_REQUEST} from '../graphql/mutation/request';
 
 // import Modal from 'react-native-modalbox';
 
@@ -26,9 +24,12 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../../App';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {RootState} from '../store';
-// import {useDispatch} from '../store';
+import {useMutation} from '@apollo/client';
+import {createRequestAction} from '../store/request/actions';
+import {useDispatch} from '../store';
+import Modal from 'react-native-modalbox';
 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
 type DetailScreenNavigationProp = StackNavigationProp<
@@ -47,16 +48,23 @@ const Detail: React.FC<Props> = (props) => {
   const [isAlert, setAlert] = useState<boolean>(false);
   const [shareOpen, setShare] = useState<boolean>(false);
   const userData = useSelector((state: RootState) => state.user.userData);
-
+  const onRequestLoading = useSelector(
+    (state: RootState) => state.request.onRequestLoading,
+  );
   const dispatch = useDispatch();
-  //   const [createRequest] = useMutation(CREATE_REQUEST);
+  const [createRequest] = useMutation(CREATE_REQUEST);
   const {itemData, wishlist} = route.params;
 
   return (
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
         <ShareModal isOpen={shareOpen} onClosed={() => setShare(false)} />
-
+        <Modal
+          style={{justifyContent: 'center', alignItems: 'center'}}
+          isOpen={onRequestLoading.loading}
+          swipeToClose={false}>
+          <CustomText>{onRequestLoading.msg}</CustomText>
+        </Modal>
         <AlertDialog
           open={isAlert}
           onClosePress={() => {
@@ -67,7 +75,7 @@ const Detail: React.FC<Props> = (props) => {
             setAlert(false);
             setModalOpen(false);
             dispatch({type: 'SET_REQUEST_ITEM_ID', payload: itemData.id});
-            // props.sendRequestAction(createRequest, navigation.navigate);
+            createRequestAction(createRequest, navigation)(dispatch);
           }}
           title="ยืนยันคำขอ"
           content="คำขอจะถูกส่งไปหาเจ้าของ และจะทำการสร้างห้องแชทอัตโนมัติ"
@@ -80,7 +88,6 @@ const Detail: React.FC<Props> = (props) => {
             setModalOpen(false);
           }}
           onSubmit={() => setAlert(true)}
-          //   navigation={navigation}
         />
 
         <View style={styles.header}>

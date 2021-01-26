@@ -6,6 +6,7 @@ import {
   split,
   ApolloLink,
   concat,
+  defaultDataIdFromObject,
 } from '@apollo/client';
 
 import {WebSocketLink} from '@apollo/client/link/ws';
@@ -14,11 +15,11 @@ import {getMainDefinition} from '@apollo/client/utilities';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const httpLink = new HttpLink({
-  uri: 'http://18.216.73.101/graphql',
+  uri: 'http://localhost:4001/graphql',
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://18.216.73.101/graphql',
+  uri: 'ws://localhost:4001/graphql',
   options: {
     reconnect: true,
   },
@@ -46,17 +47,7 @@ const networkLink = split(
   httpLink,
 );
 
-const cache = new InMemoryCache({
-  typePolicies: {
-    Agenda: {
-      fields: {
-        tasks: {
-          merge: false,
-        },
-      },
-    },
-  },
-});
+const cache = new InMemoryCache();
 
 const client = new ApolloClient<NormalizedCacheObject>({
   link: concat(authMiddleware, networkLink),

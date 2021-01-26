@@ -101,13 +101,22 @@ export class SliderBox extends Component {
           />
         </TouchableHighlight>
         {!this.state.loading[index] && (
-          <ActivityIndicator
-            size="large"
-            color={imageLoadingColor}
+          // <ActivityIndicator
+          //   size="large"
+          //   color={imageLoadingColor}
+          //   style={{
+          //     position: 'absolute',
+          //     alignSelf: 'center',
+          //   }}
+          // />
+          <Image
             style={{
               position: 'absolute',
               alignSelf: 'center',
+              height: 100,
+              width: 100,
             }}
+            source={require('../../../assets/img/loadingIndicator/eclipse.gif')}
           />
         )}
       </View>

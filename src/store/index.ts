@@ -9,11 +9,14 @@ import requestReducers from './request/reducers';
 import {RequestActionTypes} from './request/types';
 import {ItemActionTypes} from './item/types';
 import {UserActionTypes} from './user/types';
+import {chatReducer} from './chat/reducers';
+import {ChatActionTypes} from './chat/types';
 
 const appReducer = combineReducers({
   item: itemReducers,
   user: userReducers,
   request: requestReducers,
+  chat: chatReducer,
 });
 
 export type RootState = ReturnType<typeof appReducer>;
@@ -21,6 +24,7 @@ export type StoreEvent =
   | RequestActionTypes
   | ItemActionTypes
   | UserActionTypes
+  | ChatActionTypes
   | {type: 'USER_LOGOUT'};
 
 export function useDispatch() {

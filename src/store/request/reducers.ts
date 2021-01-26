@@ -4,6 +4,10 @@ const initialState: RequestState = {
   reason: '',
   wantedRate: 1,
   requestItemId: '',
+  onRequestLoading: {
+    msg: '',
+    loading: false,
+  },
 };
 
 export default function requestReducers(
@@ -25,6 +29,11 @@ export default function requestReducers(
       return {
         ...state,
         requestItemId: action.payload,
+      };
+    case 'SET_REQUEST_LOADING':
+      return {
+        ...state,
+        onRequestLoading: action.payload,
       };
     case 'CLEAR_REQUEST_DATA':
       return initialState;
