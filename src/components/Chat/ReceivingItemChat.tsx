@@ -1,9 +1,6 @@
-import React, {useContext, useEffect} from 'react';
-// import {ItemChatCard} from '../../components/Chat/ChatCard';
-import {useNavigation} from '@react-navigation/native';
+import React, {useContext} from 'react';
 
-import {StackNavigationProp} from '@react-navigation/stack';
-import {ChatStackParamList, RefreshContext} from '../../../App';
+import {RefreshContext} from '../../../App';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {ItemChatCard} from './ChatCard';
@@ -12,7 +9,6 @@ import {CustomText} from '../custom-components';
 import {View} from 'react-native';
 
 const ReceivingItemChat = () => {
-  //   const navigation = useNavigation<StackNavigationProp<ChatStackParamList>>();
   const {mySendRequests} = useContext(RefreshContext);
   const {refreshing} = mySendRequests;
   const mySendRequestsState = useSelector(

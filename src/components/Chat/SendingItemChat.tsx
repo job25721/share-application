@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {Image, View} from 'react-native';
+import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootStackParamList} from '../../../App';
 import {ItemCardAbstract} from '../../components/Chat/ChatCard';
@@ -14,7 +14,7 @@ const SendingItemChat: React.FC = () => {
     (state: RootState) => state.user.myReceiveRequests,
   );
 
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   return (
     <>
@@ -25,7 +25,7 @@ const SendingItemChat: React.FC = () => {
             item={sending.item}
             personRequest={sending.request.length}
             onPress={() =>
-              navigation.navigate('Chat', {
+              navigate('Chat', {
                 screen: 'Person',
                 params: {
                   requests: sending.request,
