@@ -1,3 +1,4 @@
+import {getTime} from '../../utils/getTime';
 import {ChatActionTypes, ChatState} from './types';
 
 const initialState: ChatState = {
@@ -6,37 +7,37 @@ const initialState: ChatState = {
     {
       pos: 'right',
       msg: ['ผมจะบริจาคให้ 1000 บาท'],
-      time: Date.now().toString(),
+      time: getTime(Date.now()),
     },
     {
       pos: 'right',
       msg: ['ประมาณ วันพรุ่งนี้ ตอนเที่ยง'],
-      time: Date.now().toString(),
+      time: getTime(Date.now()),
     },
     {
       pos: 'left',
       msg: ['คุณพี่จะเอาชื่อขึ้นหน้าจอไหมค้า'],
-      time: Date.now().toString(),
+      time: getTime(Date.now()),
     },
     {
       pos: 'right',
       msg: ['ไม่ต้องครับ ไม่จำเป็น...'],
-      time: Date.now().toString(),
+      time: getTime(Date.now()),
     },
     {
       pos: 'left',
       msg: ['ขอบพระคุณค่ะ ขอให้คุณพี่มีแต่ความสุขความเจริญ'],
-      time: Date.now().toString(),
+      time: getTime(Date.now()),
     },
     {
       pos: 'right',
       msg: ['แต่...', 'แต่ว่า'],
-      time: Date.now().toString(),
+      time: getTime(Date.now()),
     },
     {
       pos: 'right',
       msg: ['ผมจะให้คุณ...'],
-      time: Date.now().toString(),
+      time: getTime(Date.now()),
     },
   ],
 };

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   ImageStyle,
+  ImageResizeMode,
 } from 'react-native';
 type ImageLoading =
   | 'rolling'
@@ -16,11 +17,12 @@ interface ProgressiveImageProps {
   source: ImageURISource;
   style: ImageStyle;
   loadingType: ImageLoading;
+  resizeMode: ImageResizeMode;
 }
 const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
   const [thumbnailAnimated] = useState(new Animated.Value(0));
   const [imageAnimated] = useState(new Animated.Value(0));
-  const [onLoad, setOnLoad] = useState<boolean>(true);
+
   const indicatorPath = {
     rolling: require('../../assets/img/loadingIndicator/rolling.gif'),
     eclipse: require('../../assets/img/loadingIndicator/eclipse.gif'),
@@ -53,7 +55,7 @@ const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
       <Animated.Image
         {...props}
         source={source}
-        onLoadEnd={() => setOnLoad(false)}
+        resizeMode={props.resizeMode}
         style={[styles.imageOverlay, {opacity: imageAnimated}, style]}
         onLoad={onImageLoad}
       />

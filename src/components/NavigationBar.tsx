@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, View, SafeAreaView} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors, PantoneColor} from '../utils/Colors';
@@ -8,8 +8,6 @@ const Routes = {
   home: 'Index',
   search: 'Search',
   addItem: 'Share',
-  chat: 'Chat',
-  profile: 'Profile',
 };
 
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
@@ -62,20 +60,6 @@ const NavigationBar: React.FC<BottomTabBarProps> = ({
             name="search"
           />
         </Button>
-
-        {/*<Button*/}
-        {/*  onPress={() => navigation.navigate(Routes.profile)}*/}
-        {/*  text={*/}
-        {/*    <Feather*/}
-        {/*      name="user"*/}
-        {/*      color={*/}
-        {/*        current === Routes.profile ? Colors._indigo_500 : Colors.black*/}
-        {/*      }*/}
-        {/*      size={current === Routes.profile ? 35 : 30}*/}
-        {/*    />*/}
-        {/*  }*/}
-        {/*  px={0}*/}
-        {/*/>*/}
       </View>
     </SafeAreaView>
   );
@@ -90,6 +74,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    shadowColor: Colors.black,
+    shadowOpacity: 0.1,
   },
 });
 

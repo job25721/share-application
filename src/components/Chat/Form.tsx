@@ -4,6 +4,7 @@ import {Button, AlertDialog} from '../custom-components';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {Colors} from '../../utils/Colors';
 import {useDispatch} from '../../store';
+import {getTime} from '../../utils/getTime';
 
 const ChatForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -12,8 +13,8 @@ const ChatForm: React.FC = () => {
   const [alertMsg, setAlert] = useState(false);
 
   return (
-    <View style={chatFromStyles.msgBox}>
-      <AlertDialog
+    <View style={chatFromStyles.form}>
+      {/* <AlertDialog
         open={alertMsg}
         onClosePress={() => setAlert(false)}
         onConfirm={() => {
@@ -24,19 +25,18 @@ const ChatForm: React.FC = () => {
         content="ท่านได้ทำการส่งต่อสิ่งของแล้วใช่หรือไม่"
         confirmText="ยืนยัน"
         cancelText="ไม่ยืนยัน"
-      />
-      {/* <AlertDialog
-        hasCancel={false}
+      /> */}
+      <AlertDialog
         open={alertMsg}
         onClosePress={() => setAlert(false)}
         onConfirm={() => {
           setAlert(false);
         }}
-        title="ยืนยันการส่งต่อ"
-        content="ท่านได้ทำการส่งต่อสิ่งของแล้วใช่หรือไม่"
-        confirmText="ยืนยัน"
-        cancelText="ไม่ยืนยัน"
-      /> */}
+        title="ยืนยันการรับ"
+        content="ท่านได้รับของที่ท่านร้องของเรียบร้อยแล้ว ?"
+        confirmText="ได้รับแล้ว"
+        cancelText="ยังไม่ได้รับ"
+      />
       <View style={chatFromStyles.chatInputView}>
         <TextInput
           style={chatFromStyles.chatInput}
@@ -44,10 +44,7 @@ const ChatForm: React.FC = () => {
           multiline
           placeholder="Type a message..."
           value={msg}
-          onChangeText={(val) => {
-            console.log(val);
-            setMsg(val);
-          }}
+          onChangeText={setMsg}
         />
       </View>
       <View style={chatFromStyles.btnView}>
@@ -66,7 +63,7 @@ const ChatForm: React.FC = () => {
                 payload: {
                   pos: 'right',
                   msg: msg.split('\n'),
-                  time: Date.now().toString(),
+                  time: getTime(Date.now()),
                 },
               });
               setMsg('');
@@ -82,15 +79,13 @@ const ChatForm: React.FC = () => {
 };
 
 const chatFromStyles = StyleSheet.create({
-  msgBox: {
+  form: {
     flexDirection: 'row',
-    padding: 5,
-    backgroundColor: Colors.white,
-    marginLeft: 5,
+    marginHorizontal: 5,
   },
   chatInputView: {
     justifyContent: 'center',
-    width: '65%',
+    flex: 1,
   },
   chatInput: {
     width: '100%',
@@ -102,8 +97,6 @@ const chatFromStyles = StyleSheet.create({
     maxHeight: 200,
   },
   btnView: {
-    width: 'auto',
-    height: '100%',
     flexDirection: 'row',
   },
 });

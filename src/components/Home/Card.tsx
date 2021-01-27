@@ -41,9 +41,8 @@ export const Card: React.FC<CardProps> = ({item}) => {
         }}>
         <ProgressiveImage
           style={cardStyles.img}
-          resizeMethod="scale"
           resizeMode="cover"
-          loadingType="interwind"
+          loadingType="spinner"
           source={
             images[0] !== ''
               ? {uri: images[0]}
