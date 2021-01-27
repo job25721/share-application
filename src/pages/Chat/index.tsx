@@ -14,11 +14,12 @@ import Feather from 'react-native-vector-icons/Feather';
 import {RouteProp} from '@react-navigation/native';
 import {ChatStackParamList, RefreshContext} from '../../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ReceivingItemChat} from '../../components/Chat';
+import {ReceivingItemChat, SendingItemChat} from '../../components/Chat';
 
 import {useSelector} from 'react-redux';
 import {RootState, useDispatch} from '../../store';
-import SendingItemChat from '../../components/Chat/SendingItemChat';
+import ChatRoom from './ChatRoom';
+import PersonModal from './PersonModal';
 
 type ChatIndexScreenRouteProp = RouteProp<ChatStackParamList, 'Index'>;
 type ChatIndexScreenNavigationProp = StackNavigationProp<
@@ -97,5 +98,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
+export {ChatRoom, PersonModal};
 
 export default ChatIndex;

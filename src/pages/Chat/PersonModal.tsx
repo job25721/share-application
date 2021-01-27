@@ -44,13 +44,17 @@ const PersonModal: React.FC<Props> = ({navigation, route}) => {
         </View>
 
         <ScrollView style={styles.scrollContainer}>
-          {requests.map(({id, requestPerson: {info, avatar}}) => (
+          {requests.map(({id, requestPerson}) => (
             <ItemChatCard
               key={id}
               type="Person"
-              title={`${info.firstName} ${info.lastName}`}
-              imgSrc={avatar}
-              latestMsg={{from: info.firstName, msg: 'ซาหวัดดีค้าบบบ'}}
+              title={`${requestPerson.info.firstName} ${requestPerson.info.lastName}`}
+              owner={requestPerson}
+              imgSrc={requestPerson.avatar}
+              latestMsg={{
+                from: requestPerson.info.firstName,
+                msg: 'ซาหวัดดีค้าบบบ',
+              }}
               notification={1}
             />
           ))}

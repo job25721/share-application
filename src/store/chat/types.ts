@@ -1,4 +1,4 @@
-interface ChatMessage {
+interface ChatMessageSchema {
   from: string;
   to: string;
   message: string;
@@ -6,17 +6,30 @@ interface ChatMessage {
 }
 export interface Chat {
   id: string;
-  data: ChatMessage[];
+  data: ChatMessageSchema[];
   active: boolean;
   lastestUpdate: number;
 }
 
 type ChatTabIndexType = 0 | 1;
-export interface ChatState {
-  tabIndex: ChatTabIndexType;
+
+type ChatPositionType = 'left' | 'right';
+
+export interface ChatMessageDisplay {
+  pos: ChatPositionType;
+  msg: string[];
+  time: string;
 }
 
-export type ChatActionTypes = {
-  type: 'SET_TAB_INDEX';
-  payload: ChatTabIndexType;
-};
+export interface ChatState {
+  tabIndex: ChatTabIndexType;
+  messages: ChatMessageDisplay[];
+}
+
+export type ChatActionTypes =
+  | {
+      type: 'SET_TAB_INDEX';
+      payload: ChatTabIndexType;
+    }
+  | {type: 'SET_MESSAGE'; payload: ChatMessageDisplay[]}
+  | {type: 'ADD_MESSAGE'; payload: ChatMessageDisplay};

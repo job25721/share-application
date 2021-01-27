@@ -1,36 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {createContext, useCallback, useEffect, useState} from 'react';
 import {NavigationContainer, ParamListBase} from '@react-navigation/native';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 import store, {useDispatch} from './src/store';
-import Auth from './src/pages/Auth';
-import TabScreen from './src/pages';
+
+import TabScreen, {pages} from './src/pages';
 import {ApolloError, ApolloProvider, useQuery} from '@apollo/client';
 import client from './src/graphql/client';
 import {Item} from './src/store/item/types';
 import {Request} from './src/store/request/types';
-import Detail from './src/pages/Detail';
-import Share from './src/pages/Share';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {User} from './src/store/user/types';
-import Profile from './src/pages/Profile';
+
 import 'react-native-gesture-handler';
 import {GetAllItemQueryType, GET_ALL_ITEM} from './src/graphql/query/item';
-import ChatIndex from './src/pages/Chat';
+
 import {
   GetRequestsQueryType,
   GET_MY_RECEIVING_ITEM,
   GET_MY_REQUESTS,
 } from './src/graphql/query/request';
 import {Alert} from 'react-native';
-import PersonModal from './src/pages/Chat/PersonModal';
 
 const RootStack = createStackNavigator();
 
@@ -104,6 +99,8 @@ export const RefreshContext = createContext<RefreshContext>({
   },
 });
 
+const {Auth, Share, Detail, Profile, Chat} = pages;
+const {ChatIndex, ChatRoom, PersonModal} = Chat;
 const RootStackScreen: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -275,6 +272,11 @@ const ChatStackScreen: React.FC = () => (
     <ChatStack.Screen
       name="Index"
       component={ChatIndex}
+      options={{headerShown: false}}
+    />
+    <ChatStack.Screen
+      name="ChatRoom"
+      component={ChatRoom}
       options={{headerShown: false}}
     />
     <ChatStack.Screen

@@ -1,21 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useRef} from 'react';
+import React, {useContext, useRef, useState} from 'react';
+import {useSelector} from 'react-redux';
 import {ScrollView, View, SafeAreaView, RefreshControl} from 'react-native';
 import {Colors, PantoneColor} from '../utils/Colors';
-
-import {IconList} from '../components/Home/IconList';
-
-import {useSelector} from 'react-redux';
-
 import {Button, CustomText} from '../components/custom-components';
 import {RootState} from '../store';
-
-import HomeHeader from '../components/Home/HomeHeader';
-import {Card} from '../components/Home/Card';
 import {RouteProp} from '@react-navigation/native';
 import {RefreshContext, RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {categories} from '../utils/category';
+import {Card, HomeHeader, IconList} from '../components/Home';
 
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Tab'>;
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Tab'>;
@@ -27,10 +21,29 @@ type Props = {
 
 const Home: React.FC<Props> = () => {
   const feedItems = useSelector((state: RootState) => state.item.feedItems);
-  const scrollRef = useRef(null);
+  const [reload, setReload] = useState<boolean>(false);
+  const scrollRef = useRef<ScrollView>(null);
 
-  const {feedHome} = useContext(RefreshContext);
+  const {feedHome, myReceiveRequest, mySendRequests} = useContext(
+    RefreshContext,
+  );
   const {refresh, refreshing, itemLoading, error} = feedHome;
+
+  async function reloadData() {
+    try {
+      setReload(true);
+      await refresh();
+      await mySendRequests.refresh();
+      await myReceiveRequest.refresh();
+      setReload(false);
+    } catch (err) {
+      console.log(err);
+    }
+
+    setTimeout(() => {
+      setReload(false);
+    }, 10000);
+  }
 
   if (itemLoading) {
     return (
@@ -45,19 +58,25 @@ const Home: React.FC<Props> = () => {
     return (
       <SafeAreaView
         style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-        <CustomText>{error.message}</CustomText>
-        <Button
-          text="reload"
-          color={Colors.white}
-          bg={PantoneColor.blueDepths}
-          onPress={refresh}
-        />
+        {!reload ? (
+          <>
+            <CustomText>{error.message}</CustomText>
+            <Button
+              text="reload"
+              color={Colors.white}
+              bg={PantoneColor.blueDepths}
+              onPress={reloadData}
+            />
+          </>
+        ) : (
+          <CustomText>Loading...</CustomText>
+        )}
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
       <HomeHeader />
       <View style={{paddingLeft: 10}}>
         <CustomText color={PantoneColor.livingCoral} spacing={10} type="header">
@@ -77,8 +96,10 @@ const Home: React.FC<Props> = () => {
           rounded
           color={Colors.white}
           onPress={async () => {
-            scrollRef.current.scrollTo({top: 0});
-            await refresh();
+            scrollRef.current?.scrollTo({y: 0});
+            try {
+              await refresh();
+            } catch (err) {}
           }}
         />
       </View>

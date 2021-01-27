@@ -1,5 +1,8 @@
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {Image, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {ChatStackParamList} from '../../../App';
 
 import {Item} from '../../store/item/types';
 
@@ -11,17 +14,15 @@ import ProgressiveImage from '../custom-components/ProgressiveImage';
 
 type ChatCardType = 'Person' | 'Item';
 interface ItemChatCardProps {
-  onPress?: () => void;
   title: string;
   notification?: number;
   latestMsg?: {from: string; msg: string};
   imgSrc?: string;
-  owner?: User;
+  owner: User;
   type: ChatCardType;
 }
 
 const ItemChatCard: React.FC<ItemChatCardProps> = ({
-  onPress,
   title,
   notification = 0,
   latestMsg = {from: '', msg: ''},
@@ -29,8 +30,11 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
   owner,
   type,
 }) => {
+  const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.chatListCard]}>
+    <TouchableOpacity
+      onPress={() => navigate('ChatRoom', {chatWith: owner})}
+      style={[styles.chatListCard]}>
       <ProgressiveImage
         loadingType="rolling"
         style={styles.img}
@@ -39,7 +43,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
       <View style={{width: '60%'}}>
         <CustomText fontWeight="500">{title}</CustomText>
         {type === 'Person' ? null : (
-          <CustomText>เจ้าของ {owner ? owner.info.firstName : ''}</CustomText>
+          <CustomText>เจ้าของ {owner.info.firstName}</CustomText>
         )}
         <View>
           {latestMsg.from !== '' && latestMsg.msg !== '' ? (

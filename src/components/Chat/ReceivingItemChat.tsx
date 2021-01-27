@@ -39,11 +39,6 @@ const ReceivingItemChat = () => {
             imgSrc={request.item.images[0]}
             notification={1}
             type="Item"
-            //   onPress={() =>
-            //     navigation.navigate('ChatRoom', {
-            //      chatWith : ,
-            //     })
-            //   }
           />
         ))
       ) : (
