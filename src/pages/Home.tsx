@@ -83,7 +83,7 @@ const Home: React.FC<Props> = () => {
           SHARE
         </CustomText>
       </View>
-      <View
+      {/* <View
         style={{
           position: 'absolute',
           zIndex: 1,
@@ -102,7 +102,7 @@ const Home: React.FC<Props> = () => {
             } catch (err) {}
           }}
         />
-      </View>
+      </View> */}
       <ScrollView
         ref={scrollRef}
         refreshControl={
