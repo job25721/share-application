@@ -17,7 +17,7 @@ interface ProgressiveImageProps {
   source: ImageURISource;
   style: ImageStyle;
   loadingType: ImageLoading;
-  resizeMode: ImageResizeMode;
+  resizeMode?: ImageResizeMode;
 }
 const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
   const [thumbnailAnimated] = useState(new Animated.Value(0));

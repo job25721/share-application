@@ -29,10 +29,11 @@ const ReceivingItemChat = () => {
         mySendRequestsState.map((request) => (
           <ItemChatCard
             key={request.id}
-            title={request.item.name}
+            item={request.item}
             owner={request.requestToPerson}
+            requestPerson={request.requestPerson}
+            requestStatus={request.status}
             latestMsg={{from: 'ระบบ', msg: 'สร้างห้องแชทเรียบร้อยแล้ว'}}
-            imgSrc={request.item.images[0]}
             notification={1}
             type="Item"
           />

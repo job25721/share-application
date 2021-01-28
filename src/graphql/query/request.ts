@@ -46,6 +46,14 @@ export const GET_MY_REQUESTS = gql`
   query {
     getMyRequests {
       id
+      requestToPerson {
+        id
+        avatar
+        info {
+          firstName
+          lastName
+        }
+      }
       requestPerson {
         id
         avatar

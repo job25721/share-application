@@ -264,7 +264,7 @@ const ChatStack = createStackNavigator();
 export type ChatStackParamList = {
   Index: undefined;
   Person: {requests: Request[]; itemName: string};
-  ChatRoom: {chatWith: User};
+  ChatRoom: {chatWith: User; item: Item; requestStatus: string};
 };
 
 const ChatStackScreen: React.FC = () => (
