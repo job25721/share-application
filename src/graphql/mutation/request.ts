@@ -1,8 +1,10 @@
 import {gql} from '@apollo/client';
 import {Request} from '../../store/request/types';
 
-export interface CreateReuquestReturnType {
+export interface ReuquestMutationReturnType {
   createRequest: Request;
+  acceptRequest: Request;
+  acceptDelivered: Request;
 }
 export interface SendRequestDto {
   itemId: string;
@@ -19,7 +21,7 @@ export const CREATE_REQUEST = gql`
       reqData: {reason: $reason, wantedRate: $wantedRate, itemId: $itemId}
     ) {
       id
-      requestToPerson {
+      requestPerson {
         id
         avatar
         info {
@@ -33,10 +35,111 @@ export const CREATE_REQUEST = gql`
       item {
         id
         name
+        category
         description
         tags
         status
         images
+        owner {
+          id
+          avatar
+          info {
+            firstName
+            lastName
+          }
+        }
+      }
+      chat {
+        id
+        data {
+          from
+          to
+          message
+          timestamp
+        }
+        active
+      }
+    }
+  }
+`;
+
+export const ACCEPT_REQUEST = gql`
+  mutation AcceptRequest($reqId: String!) {
+    acceptRequest(reqData: {reqId: $reqId}) {
+      id
+      requestPerson {
+        id
+        avatar
+        info {
+          firstName
+          lastName
+        }
+      }
+      reason
+      wantedRate
+      status
+      item {
+        id
+        name
+        category
+        description
+        tags
+        status
+        images
+        owner {
+          id
+          avatar
+          info {
+            firstName
+            lastName
+          }
+        }
+      }
+      chat {
+        id
+        data {
+          from
+          to
+          message
+          timestamp
+        }
+        active
+      }
+    }
+  }
+`;
+
+export const ACCEPT_DELIVERED = gql`
+  mutation AcceptDelivered($reqId: String!) {
+    acceptDelivered(reqData: {reqId: $reqId}) {
+      id
+      requestPerson {
+        id
+        avatar
+        info {
+          firstName
+          lastName
+        }
+      }
+      reason
+      wantedRate
+      status
+      item {
+        id
+        name
+        category
+        description
+        tags
+        status
+        images
+        owner {
+          id
+          avatar
+          info {
+            firstName
+            lastName
+          }
+        }
       }
       chat {
         id

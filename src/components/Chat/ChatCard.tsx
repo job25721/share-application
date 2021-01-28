@@ -3,10 +3,11 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {ChatStackParamList} from '../../../App';
+import {useDispatch} from '../../store';
 
 import {Item} from '../../store/item/types';
+import {Request} from '../../store/request/types';
 
-import {User} from '../../store/user/types';
 import {Colors, PantoneColor} from '../../utils/Colors';
 
 import {CustomText} from '../custom-components';
@@ -16,57 +17,58 @@ type ChatCardType = 'Person' | 'Item';
 interface ItemChatCardProps {
   notification?: number;
   latestMsg?: {from: string; msg: string};
-  owner: User;
-  requestPerson: User;
-  item: Item;
-  requestStatus: string;
+  request: Request;
   type: ChatCardType;
 }
 
 const ItemChatCard: React.FC<ItemChatCardProps> = ({
   notification = 0,
   latestMsg = {from: '', msg: ''},
-  owner,
-  requestPerson,
-  requestStatus,
-  item,
+  request,
   type,
 }) => {
   const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
+  const dispatch = useDispatch();
   return (
     <TouchableOpacity
-      onPress={() =>
-        navigate('ChatRoom', {
-          chatWith: type === 'Item' ? owner : requestPerson,
-          requestStatus,
-          item,
-        })
-      }
+      onPress={() => {
+        dispatch({
+          type: 'SET_CHAT_WITH',
+          payload: type === 'Item' ? request.item.owner : request.requestPerson,
+        });
+        dispatch({
+          type: 'SET_CURRENT_PROCESS_REQUEST',
+          payload: request,
+        });
+        navigate('ChatRoom');
+      }}
       style={[styles.chatListCard]}>
       {type === 'Person' ? (
         <ProgressiveImage
           loadingType="rolling"
           style={styles.img}
-          source={{uri: requestPerson.avatar}}
+          source={{uri: request.requestPerson.avatar}}
         />
       ) : (
         <ProgressiveImage
           loadingType="rolling"
           style={styles.img}
-          source={{uri: item.images[0]}}
+          source={{uri: request.item.images[0]}}
         />
       )}
       <View style={{width: '60%'}}>
         {type === 'Person' ? (
           <>
             <CustomText fontWeight="500">
-              {requestPerson.info.firstName} {requestPerson.info.lastName}
+              {request.requestPerson.info.firstName}{' '}
+              {request.requestPerson.info.lastName}
             </CustomText>
           </>
         ) : (
           <>
-            <CustomText fontWeight="500">{item.name}</CustomText>
-            <CustomText>เจ้าของ {owner.info.firstName}</CustomText>
+            <CustomText fontWeight="500">{request.item.name}</CustomText>
+            <CustomText>สถานะสิ่งของ : {request.item.status}</CustomText>
+            <CustomText>เจ้าของ {request.item.owner.info.firstName}</CustomText>
           </>
         )}
         <View>
@@ -123,6 +125,7 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
       <View style={{width: '60%'}}>
         <CustomText fontWeight="500">{item.name}</CustomText>
         <CustomText>ประเภท : {item.category}</CustomText>
+        <CustomText>สถานะ : {item.status}</CustomText>
       </View>
       <View
         style={[styles.notiBadge, {backgroundColor: PantoneColor.blueDepths}]}>

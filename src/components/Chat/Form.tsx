@@ -1,42 +1,19 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
-import {Button, AlertDialog} from '../custom-components';
+import {Button} from '../custom-components';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {Colors} from '../../utils/Colors';
 import {useDispatch} from '../../store';
 import {getTime} from '../../utils/getTime';
+import {ModalContext} from '../../pages/Chat/ChatRoom';
 
-const ChatForm: React.FC = () => {
+const ChatForm: React.FC<{hasAcceptBtn: boolean}> = ({hasAcceptBtn}) => {
   const dispatch = useDispatch();
   const [msg, setMsg] = useState<string>('');
-
-  const [alertMsg, setAlert] = useState(false);
+  const {setAlert} = useContext(ModalContext);
 
   return (
     <View style={chatFromStyles.form}>
-      {/* <AlertDialog
-        open={alertMsg}
-        onClosePress={() => setAlert(false)}
-        onConfirm={() => {
-          setAlert(false);
-        }}
-        title="ยืนยันการส่งต่อ"
-        bindColor={true}
-        content="ท่านได้ทำการส่งต่อสิ่งของแล้วใช่หรือไม่"
-        confirmText="ยืนยัน"
-        cancelText="ไม่ยืนยัน"
-      /> */}
-      <AlertDialog
-        open={alertMsg}
-        onClosePress={() => setAlert(false)}
-        onConfirm={() => {
-          setAlert(false);
-        }}
-        title="ยืนยันการรับ"
-        content="ท่านได้รับของที่ท่านร้องของเรียบร้อยแล้ว ?"
-        confirmText="ได้รับแล้ว"
-        cancelText="ยังไม่ได้รับ"
-      />
       <View style={chatFromStyles.chatInputView}>
         <TextInput
           style={chatFromStyles.chatInput}
@@ -48,13 +25,15 @@ const ChatForm: React.FC = () => {
         />
       </View>
       <View style={chatFromStyles.btnView}>
-        <Button onPress={() => setAlert(true)}>
-          <FeatherIcon
-            name="check-square"
-            color={Colors._indigo_800}
-            size={20}
-          />
-        </Button>
+        {hasAcceptBtn ? (
+          <Button onPress={() => setAlert(true)}>
+            <FeatherIcon
+              name="check-square"
+              color={Colors._indigo_800}
+              size={20}
+            />
+          </Button>
+        ) : null}
         <Button
           onPress={() => {
             if (msg !== '') {

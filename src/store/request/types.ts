@@ -24,6 +24,8 @@ export interface RequestState {
   onRequestLoading: OnRequestLoading;
 }
 
+export type RequestStatus = 'requested' | 'accepted' | 'rejected' | 'delivered';
+
 export interface Request {
   id: string;
   itemId: string;
@@ -32,7 +34,7 @@ export interface Request {
   timestamp: string;
   reason: string;
   wantedRate: number;
-  status: string;
+  status: RequestStatus;
   chat_uid: string;
   chat: Chat;
   item: Item;

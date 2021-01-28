@@ -2,32 +2,35 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modalbox';
-import Feather from 'react-native-vector-icons/Feather';
 import {Colors, PantoneColor} from '../../utils/Colors';
-import {Button, CustomText} from './';
+import {Button, CustomText} from '../custom-components';
 
-interface AlertDialogProps {
+interface AcceptAlertProps {
   title: string;
   content?: string;
-  onConfirm?: any;
   open: boolean;
-  onClosePress?: any;
+  onConfirm?: () => void;
+  onReject?: () => void;
+  onClosePress?: () => void;
   confirmText?: string;
+  rejectText?: string;
   cancelText?: string;
-  hasCancel?: boolean;
+  hasReject?: boolean;
   disabledBtn?: boolean;
   bindColor?: boolean;
 }
 
-const AlertDialog: React.FC<AlertDialogProps> = ({
+const AcceptAlert: React.FC<AcceptAlertProps> = ({
   title,
   content,
   onConfirm,
-  open,
   onClosePress,
+  onReject,
+  open,
   confirmText,
+  rejectText,
   cancelText,
-  hasCancel,
+  hasReject,
   disabledBtn,
   bindColor,
 }) => {
@@ -57,16 +60,22 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
             color={Colors.white}
             bg={bindColor ? Colors._green_600 : PantoneColor.livingCoral}
           />
-          {hasCancel === false ? null : (
+          <Button
+            text={cancelText ? cancelText : 'ยกเลิก'}
+            onPress={onClosePress}
+            color={Colors.white}
+            bg={PantoneColor.blueDepths}
+          />
+          {hasReject ? (
             <Button
-              text={cancelText ? cancelText : 'ยกเลิก'}
-              onPress={onClosePress}
+              text={rejectText}
+              onPress={onReject}
               color={Colors.white}
               bg={
                 bindColor === true ? Colors._red_500 : PantoneColor.blueDepths
               }
             />
-          )}
+          ) : null}
         </View>
       )}
     </Modal>
@@ -88,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AlertDialog;
+export default AcceptAlert;

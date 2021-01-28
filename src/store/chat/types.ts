@@ -1,3 +1,6 @@
+import {Request} from '../request/types';
+import {User} from '../user/types';
+
 interface ChatMessageSchema {
   from: string;
   to: string;
@@ -24,6 +27,9 @@ export interface ChatMessageDisplay {
 export interface ChatState {
   tabIndex: ChatTabIndexType;
   messages: ChatMessageDisplay[];
+  chatWith: User | null;
+  currentProcessRequest?: Request | null;
+  loadingAction: boolean;
 }
 
 export type ChatActionTypes =
@@ -32,4 +38,7 @@ export type ChatActionTypes =
       payload: ChatTabIndexType;
     }
   | {type: 'SET_MESSAGE'; payload: ChatMessageDisplay[]}
-  | {type: 'ADD_MESSAGE'; payload: ChatMessageDisplay};
+  | {type: 'ADD_MESSAGE'; payload: ChatMessageDisplay}
+  | {type: 'SET_CHAT_WITH'; payload: User | null}
+  | {type: 'SET_CURRENT_PROCESS_REQUEST'; payload: Request | null}
+  | {type: 'SET_LOADING_ACTION'; payload: boolean};

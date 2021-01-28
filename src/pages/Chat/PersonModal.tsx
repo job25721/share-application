@@ -44,23 +44,18 @@ const PersonModal: React.FC<Props> = ({navigation, route}) => {
         </View>
 
         <ScrollView style={styles.scrollContainer}>
-          {requests.map(
-            ({id, requestPerson, requestToPerson, item, status}) => (
-              <ItemChatCard
-                key={id}
-                type="Person"
-                item={item}
-                requestPerson={requestPerson}
-                requestStatus={status}
-                owner={requestToPerson}
-                latestMsg={{
-                  from: requestPerson.info.firstName,
-                  msg: 'ซาหวัดดีค้าบบบ',
-                }}
-                notification={1}
-              />
-            ),
-          )}
+          {requests.map((request) => (
+            <ItemChatCard
+              key={request.id}
+              type="Person"
+              request={request}
+              latestMsg={{
+                from: request.requestPerson.info.firstName,
+                msg: 'ซาหวัดดีค้าบบบ',
+              }}
+              notification={1}
+            />
+          ))}
         </ScrollView>
       </SafeAreaView>
     </>

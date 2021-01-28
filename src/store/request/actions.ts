@@ -4,12 +4,12 @@ import {Dispatch} from 'react';
 import store, {StoreEvent} from '..';
 import {RootStackParamList} from '../../../App';
 import {
-  CreateReuquestReturnType,
+  ReuquestMutationReturnType,
   SendRequestDto,
 } from '../../graphql/mutation/request';
 
 export const createRequestAction = (
-  createRequestMutation: MutationFunction<CreateReuquestReturnType>,
+  createRequestMutation: MutationFunction<ReuquestMutationReturnType>,
   navigation: StackNavigationProp<RootStackParamList, 'Detail'>,
 ) => async (dispatch: Dispatch<StoreEvent>) => {
   const {requestItemId, reason, wantedRate} = store.getState().request;
@@ -40,7 +40,7 @@ export const createRequestAction = (
           payload: {msg: '', loading: false},
         });
         dispatch({type: 'SET_TAB_INDEX', payload: 0});
-        navigation.navigate('Chat');
+        navigation.navigate('Chat', {screen: 'Index'});
       }
     } catch (err) {
       dispatch({

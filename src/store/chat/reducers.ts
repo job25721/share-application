@@ -40,6 +40,9 @@ const initialState: ChatState = {
       time: getTime(Date.now()),
     },
   ],
+  chatWith: null,
+  currentProcessRequest: null,
+  loadingAction: false,
 };
 
 export function chatReducer(
@@ -61,6 +64,21 @@ export function chatReducer(
       return {
         ...state,
         messages: [...state.messages, action.payload],
+      };
+    case 'SET_CHAT_WITH':
+      return {
+        ...state,
+        chatWith: action.payload,
+      };
+    case 'SET_CURRENT_PROCESS_REQUEST':
+      return {
+        ...state,
+        currentProcessRequest: action.payload,
+      };
+    case 'SET_LOADING_ACTION':
+      return {
+        ...state,
+        loadingAction: action.payload,
       };
     default:
       return state;

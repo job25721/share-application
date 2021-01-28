@@ -11,7 +11,7 @@ import TabScreen, {pages} from './src/pages';
 import {ApolloError, ApolloProvider, useQuery} from '@apollo/client';
 import client from './src/graphql/client';
 import {Item} from './src/store/item/types';
-import {Request} from './src/store/request/types';
+import {Request, RequestStatus} from './src/store/request/types';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -138,7 +138,11 @@ const RootStackScreen: React.FC = () => {
       if (refetchMyRequestsRes.data.getMySendRequests) {
         dispatch({
           type: 'SET_MY_SEND_REQUETS',
-          payload: refetchMyRequestsRes.data.getMySendRequests,
+          payload: refetchMyRequestsRes.data.getMySendRequests
+            .slice(0)
+            .sort((a, b) => {
+              return b.chat.lastestUpdate - a.chat.lastestUpdate;
+            }),
         });
         setMySendRequestRefreshing(false);
       }
@@ -159,7 +163,11 @@ const RootStackScreen: React.FC = () => {
       if (refetchMyReceiveRequestsRes.data.getMyRequests) {
         dispatch({
           type: 'SET_MY_RECEIVE_REQUETS',
-          payload: refetchMyReceiveRequestsRes.data.getMyRequests,
+          payload: refetchMyReceiveRequestsRes.data.getMyRequests
+            .slice(0)
+            .sort((a, b) => {
+              return b.chat.lastestUpdate - a.chat.lastestUpdate;
+            }),
         });
         setmyReceiveRequestRefresing(false);
       }
@@ -264,7 +272,7 @@ const ChatStack = createStackNavigator();
 export type ChatStackParamList = {
   Index: undefined;
   Person: {requests: Request[]; itemName: string};
-  ChatRoom: {chatWith: User; item: Item; requestStatus: string};
+  ChatRoom: undefined;
 };
 
 const ChatStackScreen: React.FC = () => (
