@@ -11,7 +11,7 @@ import TabScreen, {pages} from './src/pages';
 import {ApolloError, ApolloProvider, useQuery} from '@apollo/client';
 import client from './src/graphql/client';
 import {Item} from './src/store/item/types';
-import {Request, RequestStatus} from './src/store/request/types';
+import {Request} from './src/store/request/types';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

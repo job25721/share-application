@@ -2,10 +2,10 @@ import {Chat} from '../chat/types';
 import {Item} from '../item/types';
 import {User} from '../user/types';
 
-export const SET_REASON = 'SET_REASON';
-export const SET_WANTED_RATE = 'SET_WANTED_RATE';
-export const SET_REQUEST_ITEM_ID = 'SET_REQUEST_ITEM_ID';
-export const CLEAR_REQUEST_DATA = 'CLEAR_REQUEST_DATA';
+const SET_REASON = 'SET_REASON';
+const SET_WANTED_RATE = 'SET_WANTED_RATE';
+const SET_REQUEST_ITEM_ID = 'SET_REQUEST_ITEM_ID';
+const CLEAR_REQUEST_DATA = 'CLEAR_REQUEST_DATA';
 export interface OnRequestLoading {
   loading: boolean;
   msg: string;

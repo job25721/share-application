@@ -1,9 +1,9 @@
 import {User} from '../user/types';
 
-export const ADD_ITEM = 'ADD_ITEM';
-export const SET_FEED_ITEMS = 'SET_FEED_ITEMS';
-export const ADD_MY_RECEIVING_ITEM = 'ADD_MY_RECEIVING_ITEM';
-export const SET_MY_RECEIVING_ITEM = 'SET_MY_RECEIVING_ITEM';
+const ADD_ITEM = 'ADD_ITEM';
+const SET_FEED_ITEMS = 'SET_FEED_ITEMS';
+const ADD_MY_RECEIVING_ITEM = 'ADD_MY_RECEIVING_ITEM';
+const SET_MY_RECEIVING_ITEM = 'SET_MY_RECEIVING_ITEM';
 
 interface AddItemAction {
   type: typeof ADD_ITEM;
