@@ -31,7 +31,6 @@ const Home: React.FC<Props> = () => {
     try {
       setReload(true);
       await refresh();
-      setReload(false);
     } catch (err) {
       console.log(err);
     }
