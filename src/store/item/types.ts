@@ -44,6 +44,7 @@ export interface Item {
   logId: string;
   owner: User;
   log: ItemLog;
+  acceptedToPerson: User | null;
 }
 
 interface ItemLog {

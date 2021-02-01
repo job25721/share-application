@@ -35,6 +35,14 @@ export const GET_MY_RECEIVING_ITEM: DocumentNode = gql`
             lastName
           }
         }
+        acceptedToPerson {
+          id
+          avatar
+          info {
+            firstName
+            lastName
+          }
+        }
       }
       chat {
         id
@@ -75,6 +83,14 @@ export const GET_MY_REQUESTS = gql`
         status
         images
         owner {
+          id
+          avatar
+          info {
+            firstName
+            lastName
+          }
+        }
+        acceptedToPerson {
           id
           avatar
           info {
