@@ -11,6 +11,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import {Item} from '../../store/item/types';
 import {useNavigation} from '@react-navigation/native';
+import {getFullDate, getTime} from '../../utils/getTime';
 
 interface CardProps {
   item: Item;
@@ -20,7 +21,16 @@ export const Card: React.FC<CardProps> = ({item}) => {
   const {navigate} = useNavigation();
   const [saved, setSaved] = useState<boolean>(false);
 
-  const {id, name, owner, tags, images, category, description} = item;
+  const {
+    id,
+    name,
+    owner,
+    tags,
+    images,
+    category,
+    description,
+    createdDate,
+  } = item;
   return (
     <>
       <TouchableOpacity
@@ -61,6 +71,10 @@ export const Card: React.FC<CardProps> = ({item}) => {
           <View>
             <CustomText fontWeight="bold" fontSize={20}>
               {name}
+            </CustomText>
+            <CustomText>
+              {getFullDate(new Date(createdDate).getTime())} เวลา{' '}
+              {getTime(new Date(createdDate).getTime())}
             </CustomText>
           </View>
           <CustomText>ประเภท : {category}</CustomText>

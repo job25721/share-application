@@ -15,3 +15,11 @@ export function getTime(time: number): string {
   }
   return hr + ':' + displayMin + ' ' + mid;
 }
+
+export function getFullDate(time: number): string {
+  let day = new Date(time).getDate();
+  let month = new Date(time).getMonth() + 1;
+  let year = new Date(time).getFullYear();
+
+  return `${day}-${month < 10 ? '0' + month.toString() : month}-${year}`;
+}

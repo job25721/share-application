@@ -23,6 +23,7 @@ export const GET_ALL_ITEM: DocumentNode = gql`
       description
       images
       status
+      createdDate
     }
   }
 `;

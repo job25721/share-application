@@ -125,9 +125,18 @@ const Home: React.FC<Props> = () => {
             alignItems: 'center',
             marginTop: 20,
           }}>
-          {feedItems.map((item) => (
-            <Card key={item.id} item={item} />
-          ))}
+          {feedItems.length > 0 ? (
+            feedItems.map((item) => <Card key={item.id} item={item} />)
+          ) : !refreshing ? (
+            <>
+              <CustomText fontWeight="bold">
+                ไม่มีของชิ้นใดอยู่ในระบบ
+              </CustomText>
+              <CustomText fontWeight="500" fontSize={16}>
+                มาร่วม SHARE และสร้างสังคมที่น่าอยู่กันเถอะ!
+              </CustomText>
+            </>
+          ) : null}
         </View>
       </ScrollView>
     </SafeAreaView>

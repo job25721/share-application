@@ -6,7 +6,7 @@ import {ChatStackParamList} from '../../../App';
 import {useDispatch} from '../../store';
 
 import {Item} from '../../store/item/types';
-import {Request} from '../../store/request/types';
+import {Request, requestStatusNormalized} from '../../store/request/types';
 
 import {Colors, PantoneColor} from '../../utils/Colors';
 
@@ -46,13 +46,13 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
       {type === 'Person' ? (
         <ProgressiveImage
           loadingType="rolling"
-          style={styles.img}
+          style={[styles.img]}
           source={{uri: request.requestPerson.avatar}}
         />
       ) : (
         <ProgressiveImage
           loadingType="rolling"
-          style={styles.img}
+          style={[styles.img, {height: 100}]}
           source={{uri: request.item.images[0]}}
         />
       )}
@@ -66,9 +66,11 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
           </>
         ) : (
           <>
-            <CustomText fontWeight="500">{request.item.name}</CustomText>
-            <CustomText>สถานะสิ่งของ : {request.item.status}</CustomText>
+            <CustomText fontWeight="bold">{request.item.name}</CustomText>
             <CustomText>เจ้าของ {request.item.owner.info.firstName}</CustomText>
+            <CustomText fontSize={16}>
+              สถานะคำขอ : {requestStatusNormalized(request.status)}
+            </CustomText>
           </>
         )}
         <View>
@@ -119,7 +121,7 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
     <TouchableOpacity onPress={onPress} style={[styles.chatListCard]}>
       <ProgressiveImage
         loadingType="rolling"
-        style={styles.img}
+        style={[styles.img, {height: 100}]}
         source={{uri: item.images[0]}}
       />
       <View style={{width: '60%'}}>
@@ -153,12 +155,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 5,
-    justifyContent: 'space-evenly',
-    shadowColor: Colors.black,
+    justifyContent: 'space-between',
   },
   img: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     borderRadius: 50,
     marginHorizontal: 10,
   },

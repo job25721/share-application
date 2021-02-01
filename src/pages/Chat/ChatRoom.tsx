@@ -20,11 +20,7 @@ import {
 
 import {ChatBubble, Form} from '../../components/Chat';
 import {Colors} from '../../utils/Colors';
-import {
-  CustomText,
-  Button,
-  AlertDialog,
-} from '../../components/custom-components';
+import {CustomText, Button} from '../../components/custom-components';
 
 import Feather from 'react-native-vector-icons/Feather';
 import {RouteProp} from '@react-navigation/native';
@@ -100,6 +96,7 @@ const ChatRoom: React.FC<Props> = ({navigation}) => {
         <Modal
           isOpen={loadingAction}
           position="center"
+          coverScreen={true}
           style={{
             width: '90%',
             height: '18%',
