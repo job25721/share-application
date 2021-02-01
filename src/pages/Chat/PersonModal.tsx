@@ -50,8 +50,14 @@ const PersonModal: React.FC<Props> = ({navigation, route}) => {
               type="Person"
               request={request}
               latestMsg={{
-                from: request.requestPerson.info.firstName,
-                msg: 'ซาหวัดดีค้าบบบ',
+                from:
+                  request.chat.data.length > 0
+                    ? request.chat.data[request.chat.data.length - 1].from
+                    : '',
+                msg:
+                  request.chat.data.length > 0
+                    ? request.chat.data[request.chat.data.length - 1].message
+                    : '',
               }}
               notification={1}
             />

@@ -26,8 +26,17 @@ const ReceivingItemChat = () => {
         <ItemChatCard
           key={request.id}
           request={request}
-          latestMsg={{from: 'ระบบ', msg: 'สร้างห้องแชทเรียบร้อยแล้ว'}}
-          notification={1}
+          latestMsg={{
+            from:
+              request.chat.data.length > 0
+                ? request.chat.data[request.chat.data.length - 1].from
+                : '',
+            msg:
+              request.chat.data.length > 0
+                ? request.chat.data[request.chat.data.length - 1].message
+                : '',
+          }}
+          notification={0}
           type="Item"
         />
       ))}

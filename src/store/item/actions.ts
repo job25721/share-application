@@ -27,7 +27,7 @@ export const addItemAction = (
           imgPath.length,
         );
         const imgRef = storage().ref(
-          `${owner.info.firstName}/images/${filename}`,
+          `${owner.info.firstName}/images/items/${name}/${filename}`,
         );
         await imgRef.putFile(imgPath);
         const imgURL = await imgRef.getDownloadURL();

@@ -2,13 +2,16 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
 import {ChatStackParamList} from '../../../App';
-import {useDispatch} from '../../store';
+import {RootState, useDispatch} from '../../store';
+import {ChatMessageDisplay} from '../../store/chat/types';
 
 import {Item} from '../../store/item/types';
 import {Request, requestStatusNormalized} from '../../store/request/types';
 
 import {Colors, PantoneColor} from '../../utils/Colors';
+import {getTime} from '../../utils/getTime';
 
 import {CustomText} from '../custom-components';
 import ProgressiveImage from '../custom-components/ProgressiveImage';
@@ -29,6 +32,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
 }) => {
   const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
   const dispatch = useDispatch();
+  const currentUser = useSelector((state: RootState) => state.user.userData);
   return (
     <TouchableOpacity
       onPress={() => {
@@ -36,6 +40,16 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
           type: 'SET_CHAT_WITH',
           payload: type === 'Item' ? request.item.owner : request.requestPerson,
         });
+        const chatDisplay: ChatMessageDisplay[] = request.chat.data.map(
+          (chatData) => {
+            return {
+              pos: currentUser?.id === chatData.from ? 'right' : 'left',
+              msg: chatData.message.split('\n'),
+              time: getTime(new Date(chatData.timestamp).getTime()),
+            };
+          },
+        );
+        dispatch({type: 'SET_MESSAGE', payload: chatDisplay});
         dispatch({
           type: 'SET_CURRENT_PROCESS_REQUEST',
           payload: request,

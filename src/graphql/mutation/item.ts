@@ -36,6 +36,7 @@ export const ADD_NEW_ITEM = gql`
       description
       images
       status
+      createdDate
     }
   }
 `;

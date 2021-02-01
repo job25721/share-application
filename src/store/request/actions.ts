@@ -45,7 +45,7 @@ export const createRequestAction = (
     } catch (err) {
       dispatch({
         type: 'SET_REQUEST_LOADING',
-        payload: {msg: 'มีข้อผิดพลาด', loading: true},
+        payload: {msg: `มีข้อผิดพลาด\n${err.message}`, loading: true},
       });
       console.log(err);
     }
