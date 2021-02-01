@@ -3,7 +3,6 @@ import React, {useContext, useState} from 'react';
 import {View, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 
 import {Icontab, ProfileImage} from '../components/Profile/';
-import {useQuery} from '@apollo/client';
 
 import {CustomText, Button} from '../components/custom-components';
 import {Colors, PantoneColor} from '../utils/Colors';
@@ -11,9 +10,8 @@ import {Colors, PantoneColor} from '../utils/Colors';
 import Feather from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// import {ItemChatCard} from '../components/Profile/ItemCard';
 import {RouteProp} from '@react-navigation/native';
-import {getMyItem, MyItemQueryType} from '../graphql/query/user';
+
 import {RefreshContext, RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootState, useDispatch} from '../store';

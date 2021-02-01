@@ -90,9 +90,7 @@ const ChatRoom: React.FC<Props> = ({navigation}) => {
   const [acceptRequest] = useMutation(ACCEPT_REQUEST);
   const [acceptDelivered] = useMutation(ACCEPT_DELIVERED);
   const dispatch = useDispatch();
-  const {myReceiveRequest, mySendRequests, feedHome} = useContext(
-    RefreshContext,
-  );
+  const {feedHome} = useContext(RefreshContext);
   if (chatWith && currentProcessRequest) {
     const {item, status, requestPerson, chat} = currentProcessRequest;
     return (
@@ -122,7 +120,7 @@ const ChatRoom: React.FC<Props> = ({navigation}) => {
             onConfirm={async () => {
               setAlert(false);
               await acceptRequestAction(acceptRequest)(dispatch);
-              await myReceiveRequest.refresh();
+              // await myReceiveRequest.refresh();
               await feedHome.refresh();
             }}
             onReject={() => Alert.alert('rejeted!')}
@@ -141,7 +139,7 @@ const ChatRoom: React.FC<Props> = ({navigation}) => {
             onConfirm={async () => {
               setAlert(false);
               await acceptDeliveredAction(acceptDelivered)(dispatch);
-              await mySendRequests.refresh();
+
               Alert.alert(
                 'กระบวนการ SHARE เสร็จสิ้น',
                 'ห้องแชทได้ถูกปิดแล้ว ขอบพระคุณที่ใช้บริการของเรา',

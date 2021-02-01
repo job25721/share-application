@@ -8,7 +8,7 @@ import {Provider} from 'react-redux';
 import store, {useDispatch} from './src/store';
 
 import TabScreen, {pages} from './src/pages';
-import {ApolloError, ApolloProvider, useQuery} from '@apollo/client';
+import {ApolloError, ApolloProvider} from '@apollo/client';
 import client from './src/graphql/client';
 import {Item} from './src/store/item/types';
 import {Request} from './src/store/request/types';
@@ -18,14 +18,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {User} from './src/store/user/types';
 
 import 'react-native-gesture-handler';
-import {GetAllItemQueryType, GET_ALL_ITEM} from './src/graphql/query/item';
 
-import {
-  GetRequestsQueryType,
-  GET_MY_RECEIVING_ITEM,
-  GET_MY_REQUESTS,
-} from './src/graphql/query/request';
 import {Alert} from 'react-native';
+import {useFeedQuery} from './src/components/custom-hooks-graphql/FeedItem';
+import {useMySendRquestsQuery} from './src/components/custom-hooks-graphql/MySendRequests';
+import {useMyReceivingRequestsQuery} from './src/components/custom-hooks-graphql/MyReceivingRequests';
 
 const RootStack = createStackNavigator();
 
@@ -65,17 +62,9 @@ interface FeedRefresh {
   itemLoading: boolean;
   error: ApolloError | undefined;
 }
-interface RequestRefresh {
-  refresh: () => Promise<void> | undefined;
-  refreshing: boolean;
-  requestLoading: boolean;
-  error: ApolloError | undefined;
-}
 
 type RefreshContext = {
   feedHome: FeedRefresh;
-  mySendRequests: RequestRefresh;
-  myReceiveRequest: RequestRefresh;
 };
 
 export const RefreshContext = createContext<RefreshContext>({
@@ -85,116 +74,20 @@ export const RefreshContext = createContext<RefreshContext>({
     itemLoading: false,
     error: undefined,
   },
-  mySendRequests: {
-    refresh: () => undefined,
-    refreshing: false,
-    requestLoading: false,
-    error: undefined,
-  },
-  myReceiveRequest: {
-    refresh: () => undefined,
-    refreshing: false,
-    requestLoading: false,
-    error: undefined,
-  },
 });
 
 const {Auth, Share, Detail, Profile, Chat} = pages;
-const {ChatIndex, ChatRoom, PersonModal} = Chat;
+
 const RootStackScreen: React.FC = () => {
   const dispatch = useDispatch();
-
-  const feedQuery = useQuery<GetAllItemQueryType>(GET_ALL_ITEM);
-  const [feedRefreshing, setFeedRefresh] = useState<boolean>(false);
-  const refetchItem = useCallback(async () => {
-    setFeedRefresh(true);
-    try {
-      const refetchItemRes = await feedQuery.refetch();
-      if (refetchItemRes.data) {
-        dispatch({
-          type: 'SET_FEED_ITEMS',
-          payload: refetchItemRes.data.getAllItem.filter(
-            ({status}) => status === 'available',
-          ),
-        });
-      }
-      setFeedRefresh(false);
-    } catch (err) {
-      console.log(err);
-    }
-  }, [feedQuery.refetch]);
-
-  const mySendRequetsQuery = useQuery<GetRequestsQueryType>(
-    GET_MY_RECEIVING_ITEM,
-  );
-  const [
-    mySendRequestRefreshing,
-    setMySendRequestRefreshing,
-  ] = useState<boolean>(false);
-  const refetchMySendRequests = useCallback(async () => {
-    setMySendRequestRefreshing(true);
-    try {
-      const refetchMyRequestsRes = await mySendRequetsQuery.refetch();
-      if (refetchMyRequestsRes.data.getMySendRequests) {
-        dispatch({
-          type: 'SET_MY_SEND_REQUETS',
-          payload: refetchMyRequestsRes.data.getMySendRequests
-            .slice(0)
-            .sort((a, b) => {
-              return b.chat.lastestUpdate - a.chat.lastestUpdate;
-            }),
-        });
-        setMySendRequestRefreshing(false);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }, [mySendRequetsQuery.refetch]);
-
-  const myReceiveRequestQuery = useQuery<GetRequestsQueryType>(GET_MY_REQUESTS);
-  const [
-    myReceiveRequestRefresing,
-    setmyReceiveRequestRefresing,
-  ] = useState<boolean>(false);
-  const refetchMyReceiveRequests = useCallback(async () => {
-    setmyReceiveRequestRefresing(true);
-    try {
-      const refetchMyReceiveRequestsRes = await myReceiveRequestQuery.refetch();
-      if (refetchMyReceiveRequestsRes.data.getMyRequests) {
-        dispatch({
-          type: 'SET_MY_RECEIVE_REQUETS',
-          payload: refetchMyReceiveRequestsRes.data.getMyRequests
-            .slice(0)
-            .sort((a, b) => {
-              return b.chat.lastestUpdate - a.chat.lastestUpdate;
-            }),
-        });
-        setmyReceiveRequestRefresing(false);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }, [myReceiveRequestQuery.refetch]);
-
-  useEffect(() => {
-    const refetch = async () => {
-      try {
-        await refetchItem();
-        await refetchMySendRequests();
-        await refetchMyReceiveRequests();
-      } catch (error) {
-        Alert.alert(error.message);
-      }
-    };
-    refetch();
-  }, []);
-
   useEffect(() => {
     const getToken = async () => {
-      console.log('in');
       try {
+        console.log('getting token...');
         const token = await AsyncStorage.getItem('userToken');
         if (token) {
+          console.log('token found!!!');
+          console.log(token);
           dispatch({type: 'SET_TOKEN', payload: token});
           const user = await AsyncStorage.getItem('userInfo');
           if (user) {
@@ -210,6 +103,8 @@ const RootStackScreen: React.FC = () => {
     };
     getToken();
   }, []);
+  const [feedQuery, refetchItem, feedRefreshing] = useFeedQuery();
+
   return (
     <RefreshContext.Provider
       value={{
@@ -218,18 +113,6 @@ const RootStackScreen: React.FC = () => {
           refreshing: feedRefreshing,
           itemLoading: feedQuery.loading,
           error: feedQuery.error,
-        },
-        mySendRequests: {
-          refresh: refetchMySendRequests,
-          refreshing: mySendRequestRefreshing,
-          requestLoading: mySendRequetsQuery.loading,
-          error: mySendRequetsQuery.error,
-        },
-        myReceiveRequest: {
-          refresh: refetchMyReceiveRequests,
-          refreshing: myReceiveRequestRefresing,
-          requestLoading: myReceiveRequestQuery.loading,
-          error: myReceiveRequestQuery.error,
         },
       }}>
       <RootStack.Navigator mode="card">
@@ -274,9 +157,9 @@ export type ChatStackParamList = {
   Person: {requests: Request[]; itemName: string};
   ChatRoom: undefined;
 };
-
+const {ChatIndex, ChatRoom, PersonModal} = Chat;
 const ChatStackScreen: React.FC = () => (
-  <ChatStack.Navigator mode="modal">
+  <ChatStack.Navigator mode="card">
     <ChatStack.Screen
       name="Index"
       component={ChatIndex}
