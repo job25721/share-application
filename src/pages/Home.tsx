@@ -24,17 +24,13 @@ const Home: React.FC<Props> = () => {
   const [reload, setReload] = useState<boolean>(false);
   const scrollRef = useRef<ScrollView>(null);
 
-  const {feedHome, myReceiveRequest, mySendRequests} = useContext(
-    RefreshContext,
-  );
+  const {feedHome} = useContext(RefreshContext);
   const {refresh, refreshing, itemLoading, error} = feedHome;
 
   async function reloadData() {
     try {
       setReload(true);
       await refresh();
-      await mySendRequests.refresh();
-      await myReceiveRequest.refresh();
       setReload(false);
     } catch (err) {
       console.log(err);
