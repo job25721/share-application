@@ -63,7 +63,22 @@ const Detail: React.FC<Props> = (props) => {
           style={{justifyContent: 'center', alignItems: 'center'}}
           isOpen={onRequestLoading.loading}
           swipeToClose={false}>
-          <CustomText>{onRequestLoading.msg}</CustomText>
+          <Image
+            source={require('../assets/img/logo.png')}
+            style={{width: 150, height: 150, borderRadius: 100}}
+          />
+          <CustomText textAlign="center">{onRequestLoading.msg}</CustomText>
+          <Button
+            bg={PantoneColor.blueDepths}
+            color={Colors.white}
+            text="ลองใหม่"
+            onPress={() =>
+              dispatch({
+                type: 'SET_REQUEST_LOADING',
+                payload: {msg: '', loading: false},
+              })
+            }
+          />
         </Modal>
         <AlertDialog
           open={isAlert}

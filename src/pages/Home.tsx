@@ -3,7 +3,7 @@ import React, {useContext, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ScrollView, View, SafeAreaView, RefreshControl} from 'react-native';
 import {Colors, PantoneColor} from '../utils/Colors';
-import {Button, CustomText} from '../components/custom-components';
+import {AlertDialog, Button, CustomText} from '../components/custom-components';
 import {RootState} from '../store';
 import {RouteProp} from '@react-navigation/native';
 import {RefreshContext, RootStackParamList} from '../../App';
@@ -40,14 +40,14 @@ const Home: React.FC<Props> = () => {
     }, 10000);
   }
 
-  if (itemLoading) {
-    return (
-      <SafeAreaView
-        style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-        <CustomText>Loading..</CustomText>
-      </SafeAreaView>
-    );
-  }
+  // if (itemLoading) {
+  //   return (
+  //     <SafeAreaView
+  //       style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+  //       <CustomText>Loading..</CustomText>
+  //     </SafeAreaView>
+  //   );
+  // }
 
   if (error) {
     return (
@@ -64,7 +64,7 @@ const Home: React.FC<Props> = () => {
             />
           </>
         ) : (
-          <CustomText>Loading...</CustomText>
+          <AlertDialog title="กำลังโหลด..." disabledBtn open={true} />
         )}
       </SafeAreaView>
     );
@@ -125,8 +125,10 @@ const Home: React.FC<Props> = () => {
             alignItems: 'center',
             marginTop: 20,
           }}>
-          {feedItems.length > 0 ? (
+          {feedItems.length > 0 && !refreshing ? (
             feedItems.map((item) => <Card key={item.id} item={item} />)
+          ) : itemLoading || refreshing ? (
+            <AlertDialog title="กำลังโหลด..." disabledBtn open={true} />
           ) : !refreshing ? (
             <>
               <CustomText fontWeight="bold">
