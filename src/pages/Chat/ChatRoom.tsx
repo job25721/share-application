@@ -29,11 +29,16 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
 import {RootState, useDispatch} from '../../store';
 import AcceptAlert from '../../components/Chat/AcceptAlert';
-import {ACCEPT_DELIVERED, ACCEPT_REQUEST} from '../../graphql/mutation/request';
+import {
+  ACCEPT_DELIVERED,
+  ACCEPT_REQUEST,
+  REJECT_REQUEST,
+} from '../../graphql/mutation/request';
 import {useMutation} from '@apollo/client';
 import {
   acceptDeliveredAction,
   acceptRequestAction,
+  rejectRequestAction,
 } from '../../store/chat/actions';
 import Modal from 'react-native-modalbox';
 
@@ -85,6 +90,7 @@ const ChatRoom: React.FC<Props> = ({navigation}) => {
 
   const [acceptRequest] = useMutation(ACCEPT_REQUEST);
   const [acceptDelivered] = useMutation(ACCEPT_DELIVERED);
+  const [requestRequest] = useMutation(REJECT_REQUEST);
   const dispatch = useDispatch();
   const {feedHome} = useContext(RefreshContext);
   if (chatWith && currentProcessRequest) {
@@ -96,7 +102,6 @@ const ChatRoom: React.FC<Props> = ({navigation}) => {
         <Modal
           isOpen={loadingAction}
           position="center"
-          coverScreen={true}
           style={{
             width: '90%',
             height: '18%',
@@ -120,7 +125,10 @@ const ChatRoom: React.FC<Props> = ({navigation}) => {
               // await myReceiveRequest.refresh();
               await feedHome.refresh();
             }}
-            onReject={() => Alert.alert('rejeted!')}
+            onReject={async () => {
+              setAlert(false);
+              await rejectRequestAction(requestRequest)(dispatch);
+            }}
             title="ยืนยันการส่งต่อ"
             bindColor={true}
             content={`ทำการส่งต่อ ${item.name} ให้กับ ${chatWith.info.firstName} `}

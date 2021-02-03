@@ -60,3 +60,32 @@ export const acceptDeliveredAction = (
     }
   }
 };
+
+export const rejectRequestAction = (
+  rejectRequestMutation: MutationFunction<ReuquestMutationReturnType>,
+) => async (dispatch: Dispatch<StoreEvent>) => {
+  const reqId = store.getState().chat.currentProcessRequest?.id;
+  if (reqId) {
+    try {
+      dispatch({type: 'SET_LOADING_ACTION', payload: true});
+      const {data, errors} = await rejectRequestMutation({
+        variables: {
+          reqId,
+        },
+      });
+      if (errors) {
+        throw errors;
+      }
+      if (data?.rejectRequest) {
+        dispatch({
+          type: 'SET_CURRENT_PROCESS_REQUEST',
+          payload: data.rejectRequest,
+        });
+        dispatch({type: 'SET_LOADING_ACTION', payload: false});
+      }
+    } catch (err) {
+      console.log(err);
+      dispatch({type: 'SET_LOADING_ACTION', payload: false});
+    }
+  }
+};
