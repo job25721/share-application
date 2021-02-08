@@ -24,7 +24,7 @@ export const GET_MY_INFO = gql`
 export interface MyItemQueryType {
   getMyItem: Item[];
 }
-export const getMyItem = gql`
+export const GET_MY_ITEM = gql`
   query {
     getMyItem {
       name
