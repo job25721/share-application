@@ -23,14 +23,42 @@ export const GET_MY_INFO = gql`
 
 export interface MyItemQueryType {
   getMyItem: Item[];
+  getMyReceivedItem: Item[];
 }
 export const GET_MY_ITEM = gql`
   query {
     getMyItem {
+      id
       name
       category
       images
       tags
+      owner {
+        avatar
+        info {
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+`;
+
+export const GET_MY_RECEIVED_ITEM = gql`
+  query {
+    getMyReceivedItem {
+      id
+      name
+      category
+      images
+      tags
+      owner {
+        avatar
+        info {
+          firstName
+          lastName
+        }
+      }
     }
   }
 `;

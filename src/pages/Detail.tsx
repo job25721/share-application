@@ -17,8 +17,6 @@ import {ShareModal, RequestModal} from '../components/Detail/';
 
 import {CREATE_REQUEST} from '../graphql/mutation/request';
 
-// import Modal from 'react-native-modalbox';
-
 import Tag from '../components/Home/Tag';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
@@ -68,17 +66,19 @@ const Detail: React.FC<Props> = (props) => {
             style={{width: 150, height: 150, borderRadius: 100}}
           />
           <CustomText textAlign="center">{onRequestLoading.msg}</CustomText>
-          <Button
-            bg={PantoneColor.blueDepths}
-            color={Colors.white}
-            text="ลองใหม่"
-            onPress={() =>
-              dispatch({
-                type: 'SET_REQUEST_LOADING',
-                payload: {msg: '', loading: false},
-              })
-            }
-          />
+          {onRequestLoading.err && (
+            <Button
+              bg={PantoneColor.blueDepths}
+              color={Colors.white}
+              text="ลองใหม่"
+              onPress={() =>
+                dispatch({
+                  type: 'SET_REQUEST_LOADING',
+                  payload: {msg: '', loading: false, err: false},
+                })
+              }
+            />
+          )}
         </Modal>
         <AlertDialog
           open={isAlert}

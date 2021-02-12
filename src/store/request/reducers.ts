@@ -7,6 +7,7 @@ const initialState: RequestState = {
   onRequestLoading: {
     msg: '',
     loading: false,
+    err: false,
   },
 };
 

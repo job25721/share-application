@@ -24,7 +24,11 @@ export const createRequestAction = (
     try {
       dispatch({
         type: 'SET_REQUEST_LOADING',
-        payload: {msg: 'กรุณารอสักครู่ กำลังส่งคำขอ...', loading: true},
+        payload: {
+          msg: 'กรุณารอสักครู่ กำลังส่งคำขอ...',
+          loading: true,
+          err: false,
+        },
       });
       const {data, errors} = await createRequestMutation({
         variables: sendRequestData,
@@ -45,7 +49,11 @@ export const createRequestAction = (
     } catch (err) {
       dispatch({
         type: 'SET_REQUEST_LOADING',
-        payload: {msg: `มีข้อผิดพลาด\n${err.message}`, loading: true},
+        payload: {
+          msg: `มีข้อผิดพลาด\n${err.message}`,
+          loading: true,
+          err: true,
+        },
       });
       console.log(err);
     }

@@ -1,15 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   ScrollView,
   SafeAreaView,
   StyleSheet,
   RefreshControl,
-  Image,
 } from 'react-native';
 
-import {Icontab, ProfileImage} from '../components/Profile/';
+import {Icontab, ItemCard, ProfileImage} from '../components/Profile/';
 
 import {CustomText, Button} from '../components/custom-components';
 import {Colors, PantoneColor} from '../utils/Colors';
@@ -24,10 +23,10 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RootState, useDispatch} from '../store';
 import {useSelector} from 'react-redux';
 import client from '../graphql/client';
-import {useQuery} from '@apollo/client';
-import {GET_MY_ITEM, MyItemQueryType} from '../graphql/query/user';
+
 import {useMyItemQuery} from '../components/custom-hooks-graphql/MyItem';
-import {ItemChatCard} from '../components/Chat/ChatCard';
+import {useMyReceivedItemQuery} from '../components/custom-hooks-graphql/MyReceivedItem';
+
 interface ProfileTabIcons {
   name: string;
   text: string;
@@ -69,24 +68,32 @@ const Profile: React.FC<Props> = ({navigation}) => {
   const {feedHome} = useContext(RefreshContext);
   const {refresh} = feedHome;
 
-  const [myItemQuery, myIetmRefetch, myItemRefreshing] = useMyItemQuery();
+  const [myItemQuery, myItemRefetch, myItemRefreshing] = useMyItemQuery();
+  const [
+    myReceivedItemQuery,
+    myReceivedItemRefetch,
+    myReceivedItemRefreshing,
+  ] = useMyReceivedItemQuery();
   const userData = useSelector((state: RootState) => state.user.userData);
 
   const changeProfileTab = async (tabIndex: number) => {
     try {
+      setActive(tabIndex);
       if (tabIndex === 1) {
-        // await myItem.refetch();
+        await myItemRefetch();
       } else if (tabIndex === 2) {
-        //do something...
+        await myReceivedItemRefetch();
       } else if (tabIndex === 3) {
         //do something...
       }
-
-      setActive(tabIndex);
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    console.log(myItemQuery.data?.getMyItem[0].images[0]);
+  }, [myItemQuery.data]);
 
   if (userData) {
     return (
@@ -173,52 +180,40 @@ const Profile: React.FC<Props> = ({navigation}) => {
               </CustomText>
             </View>
           </View>
-        ) : active === 1 ? (
+        ) : (
           <ScrollView
             refreshControl={
               <RefreshControl
-                refreshing={myItemRefreshing}
-                onRefresh={myIetmRefetch}
+                refreshing={
+                  active === 1
+                    ? myItemRefreshing
+                    : active === 2
+                    ? myReceivedItemRefreshing
+                    : false
+                }
+                onRefresh={
+                  active === 1
+                    ? myItemRefetch
+                    : active === 2
+                    ? myReceivedItemRefetch
+                    : undefined
+                }
               />
             }
             style={{paddingHorizontal: 20}}>
-            {myItemQuery.data
-              ? myItemQuery.data.getMyItem.map((item) => (
-                  <View key={item.id}>
-                    <Image source={{uri: item.images[0]}} />
-                    <CustomText>{item.name}</CustomText>
-                  </View>
-
-                  //   <ItemChatCard
-                  //     key={item.id}
-                  //     titleImg={item.name}
-                  //     imgSrc={item.images[0]}
-                  //     category={item.category}
-                  //     tags={item.tags}
-                  //     // onPress={() =>
-                  //     //   navigation.navigate('Chat', {name: 'Stamp Watcharin'})
-                  //     // }
-                  //   />
+            {active === 1
+              ? myItemQuery.data &&
+                myItemQuery.data.getMyItem.map((item) => (
+                  <ItemCard key={item.id} item={item} />
+                ))
+              : active === 2
+              ? myReceivedItemQuery.data &&
+                myReceivedItemQuery.data.getMyReceivedItem.map((item) => (
+                  <ItemCard key={item.id} item={item} />
                 ))
               : null}
           </ScrollView>
-        ) : active === 2 ? (
-          <ScrollView style={{paddingHorizontal: 20}}>
-            {/* <ItemChatCard
-            //   onPress={() =>
-            //     navigation.navigate('Chat', {name: 'Stamp Watcharin'})
-            //   }
-            /> */}
-          </ScrollView>
-        ) : active === 3 ? (
-          <ScrollView style={{paddingHorizontal: 20}}>
-            {/* <ItemChatCard
-            //   onPress={() =>
-            //     navigation.navigate('Chat', {name: 'Stamp Watcharin'})
-            //   }
-            /> */}
-          </ScrollView>
-        ) : null}
+        )}
       </SafeAreaView>
     );
   }

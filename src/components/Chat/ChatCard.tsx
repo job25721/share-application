@@ -60,7 +60,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
       {type === 'Person' ? (
         <ProgressiveImage
           loadingType="rolling"
-          style={[styles.img]}
+          style={styles.img}
           source={{uri: request.requestPerson.avatar}}
         />
       ) : (
