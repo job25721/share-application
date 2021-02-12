@@ -24,7 +24,11 @@ const ChatBubble: React.FC<ChatBubbleProps> = (props) => {
           bubbleStyles.msgContainer,
         ]}>
         {msg.map((m, i) => (
-          <CustomText fontSize={17} color={Colors.white} key={i}>
+          <CustomText
+            fontWeight="600"
+            fontSize={17}
+            color={Colors.white}
+            key={i}>
             {m}
           </CustomText>
         ))}
@@ -40,7 +44,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = (props) => {
 
 const bubbleStyles = StyleSheet.create({
   container: {
-    maxWidth: '70%',
+    maxWidth: '75%',
     marginVertical: 5,
     alignItems: 'flex-end',
   },

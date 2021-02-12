@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
-import {View, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  View,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+  RefreshControl,
+  Image,
+} from 'react-native';
 
 import {Icontab, ProfileImage} from '../components/Profile/';
 
@@ -17,6 +24,10 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RootState, useDispatch} from '../store';
 import {useSelector} from 'react-redux';
 import client from '../graphql/client';
+import {useQuery} from '@apollo/client';
+import {GET_MY_ITEM, MyItemQueryType} from '../graphql/query/user';
+import {useMyItemQuery} from '../components/custom-hooks-graphql/MyItem';
+import {ItemChatCard} from '../components/Chat/ChatCard';
 interface ProfileTabIcons {
   name: string;
   text: string;
@@ -58,7 +69,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
   const {feedHome} = useContext(RefreshContext);
   const {refresh} = feedHome;
 
-  // const myItem = useQuery<MyItemQueryType>(getMyItem);
+  const [myItemQuery, myIetmRefetch, myItemRefreshing] = useMyItemQuery();
   const userData = useSelector((state: RootState) => state.user.userData);
 
   const changeProfileTab = async (tabIndex: number) => {
@@ -163,10 +174,21 @@ const Profile: React.FC<Props> = ({navigation}) => {
             </View>
           </View>
         ) : active === 1 ? (
-          <ScrollView style={{paddingHorizontal: 20}}>
-            {/* {myItem.data
-              ? myItem.data.getMyItem.map(() => (
-                  <CustomText>Hello</CustomText>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={myItemRefreshing}
+                onRefresh={myIetmRefetch}
+              />
+            }
+            style={{paddingHorizontal: 20}}>
+            {myItemQuery.data
+              ? myItemQuery.data.getMyItem.map((item) => (
+                  <View key={item.id}>
+                    <Image source={{uri: item.images[0]}} />
+                    <CustomText>{item.name}</CustomText>
+                  </View>
+
                   //   <ItemChatCard
                   //     key={item.id}
                   //     titleImg={item.name}
@@ -178,7 +200,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
                   //     // }
                   //   />
                 ))
-              : null} */}
+              : null}
           </ScrollView>
         ) : active === 2 ? (
           <ScrollView style={{paddingHorizontal: 20}}>

@@ -83,6 +83,7 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
       await refetchMyReceive();
     };
     refetch();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
