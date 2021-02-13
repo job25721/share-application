@@ -27,12 +27,12 @@ export type StoreEvent =
   | ChatActionTypes
   | {type: 'USER_LOGOUT'};
 
-export function useDispatch() {
+export const useDispatch = () => {
   const dispatch = _useDispatch();
   return (event: StoreEvent) => {
     dispatch(event);
   };
-}
+};
 
 const rootReducer = (state: RootState | undefined, action: any) => {
   if (action.type === 'USER_LOGOUT') {
