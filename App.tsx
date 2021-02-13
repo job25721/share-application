@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {createContext, useCallback, useEffect, useState} from 'react';
+import React, {createContext, useEffect} from 'react';
 import {NavigationContainer, ParamListBase} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -19,10 +19,7 @@ import {User} from './src/store/user/types';
 
 import 'react-native-gesture-handler';
 
-import {Alert} from 'react-native';
 import {useFeedQuery} from './src/components/custom-hooks-graphql/FeedItem';
-import {useMySendRquestsQuery} from './src/components/custom-hooks-graphql/MySendRequests';
-import {useMyReceivingRequestsQuery} from './src/components/custom-hooks-graphql/MyReceivingRequests';
 
 const RootStack = createStackNavigator();
 
