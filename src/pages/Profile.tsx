@@ -123,6 +123,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
                   dispatch({type: 'USER_LOGOUT'});
                   await client.cache.reset();
                   await refresh();
+
                   navigation.navigate('Tab');
                 } catch (err) {
                   console.log(err);

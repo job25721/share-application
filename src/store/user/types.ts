@@ -14,6 +14,7 @@ export interface UserState {
   myItem: Item[];
   mySendRequests: Request[];
   myReceiveRequests: SendingItem[];
+  mySavedItem: Item[];
 }
 
 export interface SendingItem {
@@ -72,4 +73,7 @@ export type UserActionTypes =
   | SetMySendRequestsAction
   | AddMySendRequestsAction
   | SetMyReceiveRequestsAction
-  | AddMyReceiveRequestsAction;
+  | AddMyReceiveRequestsAction
+  | {type: 'SET_MY_SAVED_ITEM'; payload: Item[]}
+  | {type: 'ADD_MY_SAVED_ITEM'; payload: Item}
+  | {type: 'REMOVE_SAVED_ITEM'; payload: string};

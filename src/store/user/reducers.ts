@@ -7,6 +7,7 @@ const initialState: UserState = {
   myItem: [],
   mySendRequests: [],
   myReceiveRequests: [],
+  mySavedItem: [],
 };
 
 export default function userReducers(
@@ -46,6 +47,21 @@ export default function userReducers(
           state.myReceiveRequests,
           action.payload,
         ),
+      };
+    case 'SET_MY_SAVED_ITEM':
+      return {
+        ...state,
+        mySavedItem: action.payload,
+      };
+    case 'ADD_MY_SAVED_ITEM':
+      return {
+        ...state,
+        mySavedItem: [action.payload, ...state.mySavedItem],
+      };
+    case 'REMOVE_SAVED_ITEM':
+      return {
+        ...state,
+        mySavedItem: state.mySavedItem.filter(({id}) => id !== action.payload),
       };
     default:
       return state;

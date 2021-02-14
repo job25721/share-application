@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ScrollView, View, SafeAreaView, RefreshControl} from 'react-native';
 import {Colors, PantoneColor} from '../utils/Colors';
@@ -21,6 +21,7 @@ type Props = {
 
 const Home: React.FC<Props> = () => {
   const feedItems = useSelector((state: RootState) => state.item.feedItems);
+  const savedItems = useSelector((state: RootState) => state.user.mySavedItem);
   const [reload, setReload] = useState<boolean>(false);
   const scrollRef = useRef<ScrollView>(null);
 
@@ -72,6 +73,7 @@ const Home: React.FC<Props> = () => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
+      <Button text="Store" onPress={() => console.log(savedItems)} />
       <HomeHeader />
       <View style={{paddingLeft: 10}}>
         <CustomText color={PantoneColor.livingCoral} spacing={10} type="header">
@@ -126,7 +128,13 @@ const Home: React.FC<Props> = () => {
             marginTop: 20,
           }}>
           {feedItems.length > 0 && !refreshing ? (
-            feedItems.map((item) => <Card key={item.id} item={item} />)
+            feedItems.map((item) => (
+              <Card
+                key={item.id}
+                isSaved={savedItems.some(({id}) => id === item.id)}
+                item={item}
+              />
+            ))
           ) : itemLoading || refreshing ? (
             <AlertDialog title="กำลังโหลด..." disabledBtn open={true} />
           ) : !refreshing ? (
