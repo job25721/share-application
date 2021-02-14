@@ -113,10 +113,11 @@ export class SliderBox extends Component {
             style={{
               position: 'absolute',
               alignSelf: 'center',
-              height: 100,
-              width: 100,
+              height: '100%',
+              width: '95%',
+              borderRadius: 20,
             }}
-            source={require('../../../assets/img/loadingIndicator/eclipse.gif')}
+            source={require('../../../assets/img/loadingIndicator/loadingMotion.gif')}
           />
         )}
       </View>

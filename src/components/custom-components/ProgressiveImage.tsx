@@ -7,12 +7,14 @@ import {
   ImageStyle,
   ImageResizeMode,
 } from 'react-native';
+import {CustomText} from './Text';
 type ImageLoading =
   | 'rolling'
   | 'eclipse'
   | 'interwind'
   | 'spinner'
-  | 'roundLoading';
+  | 'roundLoading'
+  | 'loadingMotion';
 interface ProgressiveImageProps {
   source: ImageURISource;
   style: ImageStyle;
@@ -22,6 +24,7 @@ interface ProgressiveImageProps {
 const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
   const [thumbnailAnimated] = useState(new Animated.Value(0));
   const [imageAnimated] = useState(new Animated.Value(0));
+  const [loading, setLoading] = useState<boolean>(true);
 
   const indicatorPath = {
     rolling: require('../../assets/img/loadingIndicator/rolling.gif'),
@@ -29,6 +32,7 @@ const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
     interwind: require('../../assets/img/loadingIndicator/interwind.gif'),
     spinner: require('../../assets/img/loadingIndicator/spinner.gif'),
     roundLoading: require('../../assets/img/loadingIndicator/roundLoading.gif'),
+    loadingMotion: require('../../assets/img/loadingIndicator/loadingMotion.gif'),
   };
   const handleThumbnailLoad = () => {
     Animated.timing(thumbnailAnimated, {
@@ -40,7 +44,12 @@ const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
     Animated.timing(imageAnimated, {
       toValue: 1,
       useNativeDriver: true,
-    }).start();
+    }).start(({finished}) => {
+      if (finished) {
+        console.log('fin');
+        setLoading(false);
+      }
+    });
   };
   const {source, style, loadingType} = props;
   return (
@@ -50,7 +59,6 @@ const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
         source={indicatorPath[loadingType]}
         style={[style, {opacity: thumbnailAnimated}]}
         onLoad={handleThumbnailLoad}
-        // blurRadius={1}
       />
       <Animated.Image
         {...props}
