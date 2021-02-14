@@ -84,3 +84,19 @@ export const GET_MY_SAVED_ITEM = gql`
     }
   }
 `;
+
+export interface FindUserByIdQuery {
+  getUserById: User;
+}
+
+export const GET_USER_BY_ID = gql`
+  query GetUserById($userID: String!) {
+    getUserById(userID: $userID) {
+      id
+      info {
+        firstName
+        lastName
+      }
+    }
+  }
+`;

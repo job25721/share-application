@@ -1,9 +1,11 @@
+import {useQuery} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {ChatStackParamList} from '../../../App';
+import {FindUserByIdQuery, GET_USER_BY_ID} from '../../graphql/query/user';
 import {RootState, useDispatch} from '../../store';
 import {ChatMessageDisplay} from '../../store/chat/types';
 
@@ -33,6 +35,17 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
   const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.userData);
+  const {data, error, loading, refetch} = useQuery<FindUserByIdQuery>(
+    GET_USER_BY_ID,
+    {
+      variables: {userID: latestMsg.from},
+    },
+  );
+
+  if (loading) {
+    return <CustomText>Loading..</CustomText>;
+  }
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -88,6 +101,8 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
                   ? Colors._red_500
                   : request.status === 'requested'
                   ? Colors._blue_400
+                  : request.status === 'accepted'
+                  ? Colors._green_500
                   : Colors.black
               }
               fontSize={16}>
@@ -105,7 +120,10 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
                   ? Colors.black
                   : 'rgb(75, 85, 99)'
               }>
-              {latestMsg.from} :{' '}
+              {latestMsg.from === currentUser?.id
+                ? 'คุณ'
+                : data && data.getUserById.info.firstName}
+              {' : '}
               {latestMsg.msg.length > 14
                 ? latestMsg.msg.substr(0, 14) + '....'
                 : latestMsg.msg}
