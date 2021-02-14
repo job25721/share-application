@@ -5,3 +5,19 @@ export const USER_LOGIN = gql`
     login(auth: {username: $username, password: $password})
   }
 `;
+
+export const ADD_WISHLIST_ITEM = gql`
+  mutation AddNewBookmark($itemId: String!) {
+    addNewBookmark(itemId: $itemId) {
+      items
+    }
+  }
+`;
+
+export const REMOVE_WISHLIST_ITEM = gql`
+  mutation RemoveBookmark($itemId: String!) {
+    removeBookmark(itemId: $itemId) {
+      items
+    }
+  }
+`;

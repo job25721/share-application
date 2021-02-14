@@ -20,6 +20,7 @@ import {User} from './src/store/user/types';
 import 'react-native-gesture-handler';
 
 import {useFeedQuery} from './src/components/custom-hooks-graphql/FeedItem';
+import {useMySavedItemQuery} from './src/components/custom-hooks-graphql/MySavedItem';
 
 const RootStack = createStackNavigator();
 
@@ -59,13 +60,26 @@ interface FeedRefresh {
   itemLoading: boolean;
   error: ApolloError | undefined;
 }
+interface SavedItemRefresh {
+  refresh: () => Promise<void> | undefined;
+  refreshing: boolean;
+  itemLoading: boolean;
+  error: ApolloError | undefined;
+}
 
 type RefreshContext = {
   feedHome: FeedRefresh;
+  savedItem: SavedItemRefresh;
 };
 
 export const RefreshContext = createContext<RefreshContext>({
   feedHome: {
+    refresh: () => undefined,
+    refreshing: false,
+    itemLoading: false,
+    error: undefined,
+  },
+  savedItem: {
     refresh: () => undefined,
     refreshing: false,
     itemLoading: false,
@@ -101,6 +115,11 @@ const RootStackScreen: React.FC = () => {
     getToken();
   }, []);
   const [feedQuery, refetchItem, feedRefreshing] = useFeedQuery();
+  const [
+    savedItemQuery,
+    refetchSavedItem,
+    savedItemRefreshing,
+  ] = useMySavedItemQuery();
 
   return (
     <RefreshContext.Provider
@@ -110,6 +129,12 @@ const RootStackScreen: React.FC = () => {
           refreshing: feedRefreshing,
           itemLoading: feedQuery.loading,
           error: feedQuery.error,
+        },
+        savedItem: {
+          refresh: refetchSavedItem,
+          refreshing: savedItemRefreshing,
+          itemLoading: savedItemQuery.loading,
+          error: savedItemQuery.error,
         },
       }}>
       <RootStack.Navigator mode="card">
