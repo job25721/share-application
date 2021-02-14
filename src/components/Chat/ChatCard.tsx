@@ -82,7 +82,15 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
           <>
             <CustomText fontWeight="bold">{request.item.name}</CustomText>
             <CustomText>เจ้าของ {request.item.owner.info.firstName}</CustomText>
-            <CustomText fontSize={16}>
+            <CustomText
+              color={
+                request.status === 'rejected'
+                  ? Colors._red_500
+                  : request.status === 'requested'
+                  ? Colors._blue_400
+                  : Colors.black
+              }
+              fontSize={16}>
               สถานะคำขอ : {requestStatusNormalized(request.status)}
             </CustomText>
           </>
