@@ -18,7 +18,8 @@ import {
   REMOVE_WISHLIST_ITEM,
 } from '../../graphql/mutation/user';
 
-import {useDispatch} from '../../store';
+import {RootState, useDispatch} from '../../store';
+import {useSelector} from 'react-redux';
 
 interface CardProps {
   item: Item;
@@ -28,6 +29,7 @@ interface CardProps {
 export const Card: React.FC<CardProps> = ({item, isSaved}) => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.userData);
   const [AddNewBookmark] = useMutation(ADD_WISHLIST_ITEM);
   const [RemoveBookmark] = useMutation(REMOVE_WISHLIST_ITEM);
   const [saved, setSaved] = useState<boolean>(false);
@@ -139,26 +141,30 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
 
           <View style={cardStyles.userOptions}>
             <View style={cardStyles.btnOptionsView}>
-              <CustomText>
-                {(!saved && !loading && 'Wishlist') ||
-                  (!loading && 'บันทึกแล้ว')}
-              </CustomText>
-              {(!saved && !loading && (
-                <Button px={0} onPress={addToWishlist}>
-                  <FeatherIcon name="bookmark" size={30} />
-                </Button>
-              )) ||
-                (!loading && (
-                  <Button px={0} onPress={removeWishlist}>
-                    <MaterialCommunityIcons name="bookmark" size={31} />
-                  </Button>
-                ))}
-              {loading ? (
-                <Image
-                  style={{width: 60, height: 60}}
-                  source={require('../../assets/img/loadingIndicator/ball.gif')}
-                />
-              ) : null}
+              {user?.id !== item.owner.id && (
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <CustomText>
+                    {(!saved && !loading && 'Wishlist') ||
+                      (!loading && 'บันทึกแล้ว')}
+                  </CustomText>
+                  {(!saved && !loading && (
+                    <Button px={0} onPress={addToWishlist}>
+                      <FeatherIcon name="bookmark" size={30} />
+                    </Button>
+                  )) ||
+                    (!loading && (
+                      <Button px={0} onPress={removeWishlist}>
+                        <MaterialCommunityIcons name="bookmark" size={31} />
+                      </Button>
+                    ))}
+                  {loading ? (
+                    <Image
+                      style={{width: 60, height: 60}}
+                      source={require('../../assets/img/loadingIndicator/ball.gif')}
+                    />
+                  ) : null}
+                </View>
+              )}
             </View>
           </View>
         </View>
