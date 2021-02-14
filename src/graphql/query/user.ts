@@ -62,3 +62,25 @@ export const GET_MY_RECEIVED_ITEM = gql`
     }
   }
 `;
+
+export interface MySavedQuery {
+  getMyBookmarks: Item[];
+}
+export const GET_MY_SAVED_ITEM = gql`
+  query {
+    getMyBookmarks {
+      id
+      name
+      category
+      images
+      tags
+      owner {
+        avatar
+        info {
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+`;
