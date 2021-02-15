@@ -1,6 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Platform, StyleSheet, TextInput, TextStyle} from 'react-native';
+import {TextInput, TextStyle, StyleSheet, View, Platform} from 'react-native';
+import {Button} from '.';
+import Feather from 'react-native-vector-icons/Feather';
 import {Colors} from '../../utils/Colors';
 
 type Shadow = 'sm' | 'md' | 'lg';
@@ -20,6 +22,7 @@ interface InputProps {
   textAlignVertical?: TextStyle['textAlignVertical'];
   maxLength?: number;
   value?: any;
+  onClearBtnPress: () => void;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -37,6 +40,7 @@ export const Input: React.FC<InputProps> = ({
   textAlignVertical,
   maxLength,
   value,
+  onClearBtnPress,
 }) => {
   const [isFocus, setFocus] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(false);
@@ -54,26 +58,40 @@ export const Input: React.FC<InputProps> = ({
       : setShadow(0);
   }, [type, width, textAlign, shadow]);
   return (
-    <TextInput
-      onFocus={() => setFocus(true)}
-      onBlur={() => setFocus(false)}
-      multiline={multiline ? true : false}
-      style={[
-        styles.input,
-        isFocus && focus ? styles.onFocus : null,
-        {width: w, shadowOpacity},
-        height ? {height} : null,
-        textAlign ? {textAlign} : null,
-        rounded ? {borderRadius: 50} : null,
-        backgroundColor ? {backgroundColor} : null,
-        textAlignVertical ? {textAlignVertical} : null,
-      ]}
-      placeholder={placeholder}
-      secureTextEntry={secure}
-      onChangeText={onChangeText}
-      maxLength={maxLength}
-      value={value}
-    />
+    <View style={{width: w, justifyContent: 'center'}}>
+      {value !== '' && (
+        <View
+          style={{
+            position: 'absolute',
+            zIndex: 1,
+            right: 0,
+          }}>
+          <Button onPress={onClearBtnPress} px={10}>
+            <Feather name="x" size={18} />
+          </Button>
+        </View>
+      )}
+      <TextInput
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        multiline={multiline ? true : false}
+        style={[
+          styles.input,
+          isFocus && focus ? styles.onFocus : null,
+          {shadowOpacity},
+          height ? {height} : null,
+          textAlign ? {textAlign} : null,
+          rounded ? {borderRadius: 50} : null,
+          backgroundColor ? {backgroundColor} : null,
+          textAlignVertical ? {textAlignVertical} : null,
+        ]}
+        placeholder={placeholder}
+        secureTextEntry={secure}
+        onChangeText={onChangeText}
+        maxLength={maxLength}
+        value={value}
+      />
+    </View>
   );
 };
 
