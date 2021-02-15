@@ -20,7 +20,7 @@ import Tag from '../components/Home/Tag';
 import {SearchResultCard} from '../components/Search';
 import {useSearch} from '../components/custom-hooks-graphql/SearchItem';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store';
+import {RootState, useDispatch} from '../store';
 import {QueryResult, useQuery} from '@apollo/client';
 import {GET_TREANDING_TAG, TrendingTagQueryResult} from '../graphql/query/item';
 import {RouteProp} from '@react-navigation/native';
@@ -38,6 +38,7 @@ type Props = {
   navigation: SearchScreenNavigationProp;
 };
 const Search: React.FC<Props> = ({route}) => {
+  const dispatch = useDispatch();
   const searchResult = useSelector(
     (state: RootState) => state.item.searchResult,
   );
@@ -54,6 +55,7 @@ const Search: React.FC<Props> = ({route}) => {
 
   useEffect(() => {
     if (searchParam) {
+      setSearchKey(searchParam);
       setSubmit(searchParam);
     }
   }, [searchParam]);
@@ -166,6 +168,7 @@ const Search: React.FC<Props> = ({route}) => {
                         onPress={() => {
                           setSubmit('');
                           setSearchKey('');
+                          dispatch({type: 'SET_SEARCH_RESULT', payload: []});
                         }}
                         px={5}>
                         <FeatherIcon
