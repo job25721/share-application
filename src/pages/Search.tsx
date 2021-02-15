@@ -82,10 +82,7 @@ const Search: React.FC = () => {
               width="80%"
               value={searchKey}
               onChangeText={setSearchKey}
-              onClearBtnPress={() => {
-                setSearchKey('');
-                setSubmit('');
-              }}
+              onClearBtnPress={() => setSubmit('')}
             />
             <Button
               onPress={() => {

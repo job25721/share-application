@@ -66,7 +66,12 @@ export const Input: React.FC<InputProps> = ({
             zIndex: 1,
             right: 0,
           }}>
-          <Button onPress={onClearBtnPress} px={10}>
+          <Button
+            onPress={() => {
+              onChangeText('');
+              onClearBtnPress && onClearBtnPress();
+            }}
+            px={10}>
             <Feather name="x" size={18} />
           </Button>
         </View>
