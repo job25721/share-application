@@ -13,13 +13,11 @@ export const useFeedQuery = (): [
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
-    if (query.data?.getAllItem) {
+    if (query.data?.getFeedItems) {
       console.log('query item');
       dispatch({
         type: 'SET_FEED_ITEMS',
-        payload: query.data.getAllItem.filter(
-          ({status}) => status === 'available',
-        ),
+        payload: query.data.getFeedItems,
       });
     }
   }, [dispatch, query.data]);
