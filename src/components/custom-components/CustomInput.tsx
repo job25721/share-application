@@ -22,7 +22,7 @@ interface InputProps {
   textAlignVertical?: TextStyle['textAlignVertical'];
   maxLength?: number;
   value?: any;
-  onClearBtnPress: () => void;
+  onClearBtnPress?: () => void;
 }
 
 export const Input: React.FC<InputProps> = ({
