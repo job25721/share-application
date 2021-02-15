@@ -1,55 +1,54 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Colors} from '../../utils/Colors';
-import {CustomText} from '../custom-components';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import React from 'react';
+import {View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
+import {RootStackParamList} from '../../../App';
+import {RootState} from '../../store';
+import {Item} from '../../store/item/types';
+
+import {CustomText, ProgressiveImage} from '../custom-components';
 
 type Props = {
-  name: string;
-  tags?: string[];
-  category: string;
+  item: Item;
 };
 
-const SearchResultCard: React.FC<Props> = ({name, tags, category}) => {
-  const [tagConcated, setTag] = useState('');
-  useEffect(() => {
-    if (tags) {
-      let concated = '';
-      tags.forEach((tag, i) => {
-        if (i === tags.length - 1) {
-          concated += tag;
-        } else {
-          concated += tag + ', ';
-        }
-      });
-      setTag(concated);
-    }
-  }, [tagConcated, tags]);
+const SearchResultCard: React.FC<Props> = ({item}) => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const mySavedItem = useSelector((state: RootState) => state.user.mySavedItem);
   return (
     <View style={{flexDirection: 'row', marginVertical: 10}}>
-      <View style={styles.container} />
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Detail', {
+            item,
+            wishlist: mySavedItem.some(({id}) => id === item.id),
+          })
+        }>
+        <ProgressiveImage
+          source={{uri: item.images[0]}}
+          loadingType="loadingMotion"
+          style={{width: 100, height: 100, borderRadius: 5}}
+        />
+      </TouchableOpacity>
       <View style={{justifyContent: 'center', paddingHorizontal: 10}}>
         <CustomText fontSize={22} fontWeight="bold">
-          {name}
+          {item.name}
         </CustomText>
-        <CustomText fontSize={16}>ประเภท : {category}</CustomText>
-        {tags && tags.length > 0 ? (
-          <CustomText fontSize={16}>แท็ก : {tagConcated}</CustomText>
-        ) : null}
+        <CustomText fontSize={16}>ประเภท : {item.category}</CustomText>
+
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+          <CustomText fontSize={16}>แท็ก : </CustomText>
+          {item.tags.map((tag, i) => (
+            <CustomText key={i.toString()} fontSize={16}>
+              {tag} {i !== item.tags.length - 1 && ','}
+            </CustomText>
+          ))}
+        </View>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    height: 100,
-    width: 100,
-    backgroundColor: Colors._indigo_300,
-    marginHorizontal: 5,
-    padding: 10,
-    borderRadius: 5,
-  },
-});
 
 export default SearchResultCard;

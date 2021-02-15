@@ -3,6 +3,7 @@ const initialState: ItemState = {
   feedItems: [],
   myReceivingItem: [],
   refreshFeed: false,
+  searchResult: [],
 };
 
 export default function itemReducers(
@@ -34,6 +35,11 @@ export default function itemReducers(
       return {
         ...state,
         refreshFeed: action.payload,
+      };
+    case 'SET_SEARCH_RESULT':
+      return {
+        ...state,
+        searchResult: action.payload,
       };
     default:
       return state;

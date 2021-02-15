@@ -18,10 +18,19 @@ import {Colors} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Tag from '../components/Home/Tag';
 import {SearchResultCard} from '../components/Search';
+import {useSearch} from '../components/custom-hooks-graphql/SearchItem';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store';
 
 const Search: React.FC = () => {
+  const searchResult = useSelector(
+    (state: RootState) => state.item.searchResult,
+  );
   const [onSearch, setOnSearch] = useState<boolean>(false);
+  const [searchKey, setSearchKey] = useState<string>('');
+  const [submitSearchKey, setSubmit] = useState<string>('');
 
+  useSearch({searchKey: submitSearchKey === '' ? '!' : submitSearchKey});
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', onKeyboardShow);
     Keyboard.addListener('keyboardDidHide', onKeyboardHide);
@@ -44,7 +53,7 @@ const Search: React.FC = () => {
     <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
       <DismissKeyboard>
         <View style={styles.container}>
-          {onSearch ? null : (
+          {!onSearch && searchKey === '' && (
             <View>
               <CustomText type="header">ค้นหา</CustomText>
             </View>
@@ -61,8 +70,16 @@ const Search: React.FC = () => {
               backgroundColor={Colors._gray_500}
               placeholder="ค้นหา..."
               width="80%"
+              value={searchKey}
+              onChangeText={setSearchKey}
             />
-            <Button onPress={() => Keyboard.dismiss()}>
+            <Button
+              onPress={() => {
+                if (searchKey !== '') {
+                  setSubmit(searchKey);
+                  Keyboard.dismiss();
+                }
+              }}>
               <FeatherIcon
                 style={{alignSelf: 'center'}}
                 name="search"
@@ -71,7 +88,7 @@ const Search: React.FC = () => {
             </Button>
           </View>
 
-          {onSearch ? null : (
+          {!onSearch && searchResult.length === 0 && searchKey === '' && (
             <View style={{marginBottom: 10}}>
               <View style={{marginBottom: 10}}>
                 <CustomText type="subheader">แท็กที่กำลังมาแรง</CustomText>
@@ -90,18 +107,33 @@ const Search: React.FC = () => {
             </View>
           )}
 
-          {onSearch ? (
+          {onSearch || searchResult.length > 0 || searchKey !== '' ? (
             <>
-              <CustomText type="subheader">ผลลัพธ์</CustomText>
-
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <CustomText type="subheader">ผลลัพธ์</CustomText>
+                {searchResult.length > 0 && (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <CustomText fontSize={20}>Clear</CustomText>
+                    <Button
+                      onPress={() => {
+                        setSubmit('');
+                        setSearchKey('');
+                      }}
+                      px={5}>
+                      <FeatherIcon color={Colors._red_500} name="x" size={30} />
+                    </Button>
+                  </View>
+                )}
+              </View>
               <ScrollView>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                  <SearchResultCard
-                    name="หนังสือแคล 3"
-                    category="หนังสือ"
-                    tags={['คือลือ', 'เบิ้มๆหน่ะ']}
-                    key={item}
-                  />
+                {searchResult.map((item) => (
+                  <SearchResultCard key={item.id} item={item} />
                 ))}
               </ScrollView>
             </>
