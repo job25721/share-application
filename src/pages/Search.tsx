@@ -21,6 +21,8 @@ import {SearchResultCard} from '../components/Search';
 import {useSearch} from '../components/custom-hooks-graphql/SearchItem';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
+import {useQuery} from '@apollo/client';
+import {GET_TREANDING_TAG, TrendingTagQueryResult} from '../graphql/query/item';
 
 const Search: React.FC = () => {
   const searchResult = useSelector(
@@ -29,8 +31,16 @@ const Search: React.FC = () => {
   const [onSearch, setOnSearch] = useState<boolean>(false);
   const [searchKey, setSearchKey] = useState<string>('');
   const [submitSearchKey, setSubmit] = useState<string>('');
+  const {data} = useQuery<TrendingTagQueryResult>(GET_TREANDING_TAG);
 
   useSearch({searchKey: submitSearchKey === '' ? '!' : submitSearchKey});
+  useEffect(() => {
+    if (submitSearchKey !== '') {
+      setOnSearch(true);
+    } else {
+      setOnSearch(false);
+    }
+  }, [submitSearchKey]);
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', onKeyboardShow);
     Keyboard.addListener('keyboardDidHide', onKeyboardHide);
@@ -98,11 +108,17 @@ const Search: React.FC = () => {
                   flexDirection: 'row',
                   flexWrap: 'wrap',
                 }}>
-                {['หนังสือ', 'การเรียน', 'เสื้อผ้า', 'ของใช้', 'ของกิน'].map(
-                  (item, i) => (
-                    <Tag key={i} text={item} />
-                  ),
-                )}
+                {data &&
+                  data.getMostUsedTag.map((tag) => (
+                    <Tag
+                      onPress={() => {
+                        setSearchKey(tag.name);
+                        setSubmit(tag.name);
+                      }}
+                      key={tag.id}
+                      text={tag.name}
+                    />
+                  ))}
               </View>
             </View>
           )}
