@@ -10,15 +10,14 @@ export interface SearchHookType {
 export const useSearch: React.FC<SearchHookType> = ({
   searchKey,
 }): QueryResult<SearchResult> => {
-  const dispatch = useDispatch();
-
-  const searchQuery = useQuery<SearchResult>(SEARCH_ITEM_BY_KEYWORD, {
-    variables: {searchKey: searchKey || '!'},
-  });
-
   const searchResult = useSelector(
     (state: RootState) => state.item.searchResult,
   );
+  const dispatch = useDispatch();
+
+  const searchQuery = useQuery<SearchResult>(SEARCH_ITEM_BY_KEYWORD, {
+    variables: {searchKey: searchKey},
+  });
 
   useEffect(() => {
     if (searchQuery.data) {
@@ -27,7 +26,7 @@ export const useSearch: React.FC<SearchHookType> = ({
         payload: searchQuery.data.searchItem,
       });
     }
-  }, [searchQuery.data, dispatch, searchResult]);
+  }, [searchQuery.data, searchResult]);
 
   return searchQuery;
 };

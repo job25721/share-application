@@ -37,28 +37,19 @@ type Props = {
   route: SearchScreenRouteProp;
   navigation: SearchScreenNavigationProp;
 };
-const Search: React.FC<Props> = ({route}) => {
+const Search: React.FC<Props> = () => {
   const dispatch = useDispatch();
-  const searchResult = useSelector(
-    (state: RootState) => state.item.searchResult,
+  const {searchResult, submitSearchKey} = useSelector(
+    (state: RootState) => state.item,
   );
   const [onSearch, setOnSearch] = useState<boolean>(false);
   const [searchKey, setSearchKey] = useState<string>('');
-  const [submitSearchKey, setSubmit] = useState<string>('');
-  const {data} = useQuery<TrendingTagQueryResult>(GET_TREANDING_TAG);
 
-  const {searchParam = undefined} = route.params;
+  const {data} = useQuery<TrendingTagQueryResult>(GET_TREANDING_TAG);
 
   const searchQuery: QueryResult = useSearch({
     searchKey: submitSearchKey === '' ? '!' : submitSearchKey,
   });
-
-  useEffect(() => {
-    if (searchParam) {
-      setSearchKey(searchParam);
-      setSubmit(searchParam);
-    }
-  }, [searchParam]);
 
   useEffect(() => {
     if (submitSearchKey !== '') {
@@ -108,12 +99,14 @@ const Search: React.FC<Props> = ({route}) => {
               width="80%"
               value={searchKey}
               onChangeText={setSearchKey}
-              onClearBtnPress={() => setSubmit('')}
+              onClearBtnPress={() =>
+                dispatch({type: 'SET_SEARCH_SUBMIT', payload: ''})
+              }
             />
             <Button
               onPress={() => {
                 if (searchKey !== '') {
-                  setSubmit(searchKey);
+                  dispatch({type: 'SET_SEARCH_SUBMIT', payload: searchKey});
                   Keyboard.dismiss();
                 }
               }}>
@@ -140,7 +133,10 @@ const Search: React.FC<Props> = ({route}) => {
                     <Tag
                       onPress={() => {
                         setSearchKey(tag.name);
-                        setSubmit(tag.name);
+                        dispatch({
+                          type: 'SET_SEARCH_SUBMIT',
+                          payload: tag.name,
+                        });
                       }}
                       key={tag.id}
                       text={tag.name}
@@ -153,31 +149,27 @@ const Search: React.FC<Props> = ({route}) => {
           {onSearch || searchResult.length > 0 || searchKey !== '' ? (
             <>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <CustomText fontSize={20}>Clear</CustomText>
+                  <Button
+                    onPress={() => {
+                      dispatch({type: 'SET_SEARCH_SUBMIT', payload: ''});
+                      setSearchKey('');
+                      dispatch({type: 'SET_SEARCH_RESULT', payload: []});
+                    }}
+                    px={5}>
+                    <FeatherIcon color={Colors._red_500} name="x" size={30} />
+                  </Button>
+                </View>
                 {(searchResult.length > 0 && (
                   <>
                     <CustomText type="subheader">ผลลัพธ์</CustomText>
-                    <View
-                      style={{
-                        position: 'absolute',
-                        right: 0,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}>
-                      <CustomText fontSize={20}>Clear</CustomText>
-                      <Button
-                        onPress={() => {
-                          setSubmit('');
-                          setSearchKey('');
-                          dispatch({type: 'SET_SEARCH_RESULT', payload: []});
-                        }}
-                        px={5}>
-                        <FeatherIcon
-                          color={Colors._red_500}
-                          name="x"
-                          size={30}
-                        />
-                      </Button>
-                    </View>
                   </>
                 )) ||
                   (!searchQuery.loading && (
@@ -189,6 +181,7 @@ const Search: React.FC<Props> = ({route}) => {
                     </CustomText>
                   )) || <CustomText fontSize={25}>กำลังค้นหา</CustomText>}
               </View>
+
               <ScrollView>
                 {searchResult.map((item) => (
                   <SearchResultCard key={item.id} item={item} />

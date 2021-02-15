@@ -30,7 +30,8 @@ export type ItemActionTypes =
   | SetMyReceivingItem
   | AddMyReceivingItem
   | {type: 'SET_REFRESH_FEED'; payload: boolean}
-  | {type: 'SET_SEARCH_RESULT'; payload: Item[]};
+  | {type: 'SET_SEARCH_RESULT'; payload: Item[]}
+  | {type: 'SET_SEARCH_SUBMIT'; payload: string};
 
 export interface Item {
   id: string;
@@ -67,4 +68,5 @@ export interface ItemState {
   myReceivingItem: Item[];
   refreshFeed: boolean;
   searchResult: Item[];
+  submitSearchKey: string;
 }
