@@ -51,7 +51,7 @@ const Detail: React.FC<Props> = (props) => {
   );
   const dispatch = useDispatch();
   const [createRequest] = useMutation(CREATE_REQUEST);
-  const {itemData, wishlist} = route.params;
+  const {item, wishlist} = route.params;
 
   return (
     <DismissKeyboard>
@@ -89,17 +89,16 @@ const Detail: React.FC<Props> = (props) => {
           onConfirm={() => {
             setAlert(false);
             setModalOpen(false);
-            dispatch({type: 'SET_REQUEST_ITEM_ID', payload: itemData.id});
+            dispatch({type: 'SET_REQUEST_ITEM_ID', payload: item.id});
             createRequestAction(createRequest, navigation)(dispatch);
           }}
           title="ยืนยันคำขอ"
           content="คำขอจะถูกส่งไปหาเจ้าของ และจะทำการสร้างห้องแชทอัตโนมัติ"
         />
         <RequestModal
-          name={itemData.name}
+          name={item.name}
           isOpen={isModalOpen}
           onClosePress={() => {
-            // props.clearRequestData();
             setModalOpen(false);
           }}
           onSubmit={() => setAlert(true)}
@@ -120,13 +119,10 @@ const Detail: React.FC<Props> = (props) => {
         <ScrollView>
           <View style={{paddingHorizontal: 20}}>
             <View style={styles.userDetailView}>
-              <Image
-                style={styles.userImg}
-                source={{uri: itemData.owner.avatar}}
-              />
+              <Image style={styles.userImg} source={{uri: item.owner.avatar}} />
               <View style={{paddingHorizontal: 15}}>
                 <CustomText fontWeight="500" fontSize={18}>
-                  {itemData.owner.info.firstName} {itemData.owner.info.lastName}
+                  {item.owner.info.firstName} {item.owner.info.lastName}
                 </CustomText>
               </View>
               <View style={styles.optionsView}>
@@ -144,18 +140,18 @@ const Detail: React.FC<Props> = (props) => {
             </View>
 
             <CustomText fontWeight="bold" fontSize={23}>
-              {itemData.name ? itemData.name : null}
+              {item.name ? item.name : null}
             </CustomText>
-            <CustomText>ประเภท : {itemData.category}</CustomText>
+            <CustomText>ประเภท : {item.category}</CustomText>
 
             <View style={styles.tagView}>
-              {itemData.tags.map((tag, i) => (
+              {item.tags.map((tag, i) => (
                 <Tag key={i} text={tag} />
               ))}
             </View>
           </View>
 
-          {itemData.images.length > 0 && itemData.images[0] !== '' ? (
+          {item.images.length > 0 && item.images[0] !== '' ? (
             //   <Image source={{uri:route}} />
             <SliderBox
               dotColor={PantoneColor.livingCoral}
@@ -165,7 +161,6 @@ const Detail: React.FC<Props> = (props) => {
                 borderRadius: 15,
               }}
               TouchableHighlight="#fff"
-              inactiveDotColor="#90A4AE"
               dotStyle={{
                 width: 10,
                 height: 10,
@@ -175,20 +170,17 @@ const Detail: React.FC<Props> = (props) => {
                 margin: 0,
                 backgroundColor: 'rgba(128, 128, 128, 0.92)',
               }}
-              resizeMethod={'resize'}
-              resizeMode={'cover'}
               paginationBoxVerticalPadding={20}
-              imageLoadingColor="#2196F3"
               sliderBoxHeight={400}
-              images={itemData.images}
+              images={item.images}
             />
           ) : null}
 
           <View style={{padding: 20}}>
-            <CustomText fontSize={16}>{itemData.description}</CustomText>
+            <CustomText fontSize={16}>{item.description}</CustomText>
           </View>
         </ScrollView>
-        {userData && userData.id !== itemData.owner.id ? (
+        {userData && userData.id !== item.owner.id ? (
           <View>
             <Button
               text="ส่งคำขอ"

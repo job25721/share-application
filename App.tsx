@@ -37,7 +37,7 @@ export type RootStackParamList = {
   Tab: undefined;
   Auth: undefined;
   Profile: {userInfo: User};
-  Detail: {itemData: Item; wishlist: boolean};
+  Detail: {item: Item; wishlist: boolean};
   Share: undefined;
   Chat: ChatNestedNavigation;
 };

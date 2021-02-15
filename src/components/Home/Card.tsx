@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Image, TouchableOpacity, Alert} from 'react-native';
 
 import Tag from './Tag';
 import {Button, CustomText, ProgressiveImage} from '../custom-components';
@@ -20,6 +20,8 @@ import {
 
 import {RootState, useDispatch} from '../../store';
 import {useSelector} from 'react-redux';
+import {SliderBox} from '../react-native-image-slider-box';
+import {PantoneColor} from '../../utils/Colors';
 
 interface CardProps {
   item: Item;
@@ -33,6 +35,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
   const [AddNewBookmark] = useMutation(ADD_WISHLIST_ITEM);
   const [RemoveBookmark] = useMutation(REMOVE_WISHLIST_ITEM);
   const [saved, setSaved] = useState<boolean>(false);
+  const [liked, setliked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     setSaved(isSaved);
@@ -76,35 +79,29 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
     }
   };
 
-  const {
-    id,
-    name,
-    owner,
-    tags,
-    images,
-    category,
-    description,
-    createdDate,
-  } = item;
+  const {name, owner, tags, images, category, createdDate} = item;
+
   return (
     <>
       <TouchableOpacity
         style={cardStyles.card}
-        onPress={() => {
-          const itemData = {
-            id,
-            name,
-            owner,
-            tags,
-            category,
-            description,
-            images,
-          };
-          navigate('Detail', {itemData, wishlist: saved});
-          console.log('send params');
-          console.log(itemData);
-        }}>
-        <ProgressiveImage
+        onPress={() => navigate('Detail', {item, wishlist: saved})}>
+        <View style={cardStyles.userInfo}>
+          <TouchableOpacity onPress={() => Alert.alert(owner.info.firstName)}>
+            <Image style={cardStyles.userImg} source={{uri: owner.avatar}} />
+          </TouchableOpacity>
+
+          <View style={{paddingHorizontal: 15}}>
+            <CustomText fontSize={17} fontWeight="500">
+              {owner.info.firstName} {owner.info.lastName}
+            </CustomText>
+            <CustomText fontSize={13}>
+              {getFullDate(new Date(createdDate).getTime())}{' '}
+              {getTime(new Date(createdDate).getTime())}
+            </CustomText>
+          </View>
+        </View>
+        {/* <ProgressiveImage
           style={cardStyles.img}
           resizeMode="cover"
           loadingType="loadingMotion"
@@ -113,23 +110,73 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
               ? {uri: images[0]}
               : require('../../assets/img/cat.jpg')
           }
+        /> */}
+        <SliderBox
+          dotColor={PantoneColor.livingCoral}
+          TouchableHighlight="#fff"
+          dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            marginHorizontal: 0,
+            padding: 0,
+            margin: 0,
+            backgroundColor: 'rgba(128, 128, 128, 0.92)',
+          }}
+          onCurrentImagePressed={() =>
+            navigate('Detail', {item, wishlist: saved})
+          }
+          paginationBoxVerticalPadding={20}
+          sliderBoxHeight={300}
+          images={images}
         />
         <View style={cardStyles.content}>
-          <View style={cardStyles.userInfo}>
-            <Image style={cardStyles.userImg} source={{uri: owner.avatar}} />
-            <View style={{paddingHorizontal: 15}}>
-              <CustomText fontWeight="500">
-                {owner.info.firstName} {owner.info.lastName}
-              </CustomText>
+          <View style={cardStyles.btnOptionsView}>
+            <View>
+              <Button px={0} py={0} onPress={() => setliked(!liked)}>
+                {liked ? (
+                  <MaterialCommunityIcons name="heart" size={24} />
+                ) : (
+                  <FeatherIcon name="heart" size={22} />
+                )}
+              </Button>
             </View>
+
+            {user?.id !== item.owner.id && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  right: 0,
+                }}>
+                <CustomText>
+                  {(!saved && !loading && 'Wishlist') ||
+                    (!loading && 'บันทึกแล้ว')}
+                </CustomText>
+                {(!saved && !loading && (
+                  <Button px={0} onPress={addToWishlist}>
+                    <FeatherIcon name="bookmark" size={30} />
+                  </Button>
+                )) ||
+                  (!loading && (
+                    <Button px={0} onPress={removeWishlist}>
+                      <MaterialCommunityIcons name="bookmark" size={31} />
+                    </Button>
+                  ))}
+                {loading ? (
+                  <Image
+                    style={{width: 60, height: 60}}
+                    source={require('../../assets/img/loadingIndicator/ball.gif')}
+                  />
+                ) : null}
+              </View>
+            )}
           </View>
+          <CustomText>145 Likes</CustomText>
           <View>
             <CustomText fontWeight="bold" fontSize={20}>
               {name}
-            </CustomText>
-            <CustomText>
-              {getFullDate(new Date(createdDate).getTime())} เวลา{' '}
-              {getTime(new Date(createdDate).getTime())}
             </CustomText>
           </View>
           <CustomText>ประเภท : {category}</CustomText>
@@ -137,35 +184,6 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
             {tags.map((tag, i) => (
               <Tag key={i} text={tag} />
             ))}
-          </View>
-
-          <View style={cardStyles.userOptions}>
-            <View style={cardStyles.btnOptionsView}>
-              {user?.id !== item.owner.id && (
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <CustomText>
-                    {(!saved && !loading && 'Wishlist') ||
-                      (!loading && 'บันทึกแล้ว')}
-                  </CustomText>
-                  {(!saved && !loading && (
-                    <Button px={0} onPress={addToWishlist}>
-                      <FeatherIcon name="bookmark" size={30} />
-                    </Button>
-                  )) ||
-                    (!loading && (
-                      <Button px={0} onPress={removeWishlist}>
-                        <MaterialCommunityIcons name="bookmark" size={31} />
-                      </Button>
-                    ))}
-                  {loading ? (
-                    <Image
-                      style={{width: 60, height: 60}}
-                      source={require('../../assets/img/loadingIndicator/ball.gif')}
-                    />
-                  ) : null}
-                </View>
-              )}
-            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -175,7 +193,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
 
 export const cardStyles = StyleSheet.create({
   card: {
-    width: '94%',
+    width: '100%',
     height: 570,
     shadowColor: '#000',
     shadowOffset: {
@@ -191,18 +209,19 @@ export const cardStyles = StyleSheet.create({
   },
   img: {
     width: '100%',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    // height: 300,
+    // borderTopLeftRadius: 15,
+    // borderTopRightRadius: 15,
   },
   userImg: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     borderRadius: 50,
   },
   userInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 5,
+    margin: 15,
   },
   content: {
     paddingHorizontal: 15,
@@ -215,10 +234,8 @@ export const cardStyles = StyleSheet.create({
     flexWrap: 'wrap',
     marginVertical: 5,
   },
-  userOptions: {
+  btnOptionsView: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
   },
-  btnOptionsView: {flexDirection: 'row', alignItems: 'center'},
 });
