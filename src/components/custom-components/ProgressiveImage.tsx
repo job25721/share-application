@@ -24,7 +24,6 @@ interface ProgressiveImageProps {
 const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
   const [thumbnailAnimated] = useState(new Animated.Value(0));
   const [imageAnimated] = useState(new Animated.Value(0));
-  const [loading, setLoading] = useState<boolean>(true);
 
   const indicatorPath = {
     rolling: require('../../assets/img/loadingIndicator/rolling.gif'),
@@ -44,12 +43,7 @@ const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
     Animated.timing(imageAnimated, {
       toValue: 1,
       useNativeDriver: true,
-    }).start(({finished}) => {
-      if (finished) {
-        console.log('fin');
-        setLoading(false);
-      }
-    });
+    }).start();
   };
   const {source, style, loadingType} = props;
   return (

@@ -35,16 +35,9 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
   const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.userData);
-  const {data, error, loading, refetch} = useQuery<FindUserByIdQuery>(
-    GET_USER_BY_ID,
-    {
-      variables: {userID: latestMsg.from},
-    },
-  );
-
-  if (loading) {
-    return <CustomText>Loading..</CustomText>;
-  }
+  const {data} = useQuery<FindUserByIdQuery>(GET_USER_BY_ID, {
+    variables: {userID: latestMsg.from},
+  });
 
   return (
     <TouchableOpacity
@@ -78,7 +71,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
         />
       ) : (
         <ProgressiveImage
-          loadingType="rolling"
+          loadingType="loadingMotion"
           style={[styles.img, {height: 100}]}
           source={{uri: request.item.images[0]}}
         />
@@ -160,7 +153,7 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
   return (
     <TouchableOpacity onPress={onPress} style={[styles.chatListCard]}>
       <ProgressiveImage
-        loadingType="rolling"
+        loadingType="loadingMotion"
         style={[styles.img, {height: 100}]}
         source={{uri: item.images[0]}}
       />
