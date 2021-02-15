@@ -1,10 +1,10 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Image, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {RootStackParamList} from '../../../App';
 import {Item} from '../../store/item/types';
 import {Colors} from '../../utils/Colors';
-import {CustomText} from '../custom-components';
+import {CustomText, ProgressiveImage} from '../custom-components';
 import Tag from '../Home/Tag';
 
 const ItemCard: React.FC<{item: Item}> = ({item}) => {
@@ -13,11 +13,13 @@ const ItemCard: React.FC<{item: Item}> = ({item}) => {
   return (
     <TouchableOpacity
       style={styles.mainView}
-      onPress={() =>
-        navigation.navigate('Detail', {itemData: item, wishlist: false})
-      }>
+      onPress={() => navigation.navigate('Detail', {item, wishlist: true})}>
       <View style={styles.imgView}>
-        <Image style={styles.img} source={{uri: item.images[0]}} />
+        <ProgressiveImage
+          loadingType="rolling"
+          style={styles.img}
+          source={{uri: item.images[0]}}
+        />
       </View>
       <View>
         <CustomText fontWeight="bold">{item.name}</CustomText>
