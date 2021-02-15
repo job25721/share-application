@@ -73,7 +73,7 @@ const Home: React.FC<Props> = () => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
-      <Button text="Store" onPress={() => console.log(savedItems)} />
+      {/* <Button text="Store" onPress={() => console.log(savedItems)} /> */}
       <HomeHeader />
       <View style={{paddingLeft: 10}}>
         <CustomText color={PantoneColor.livingCoral} spacing={10} type="header">
