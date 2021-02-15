@@ -75,6 +75,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
     myReceivedItemRefreshing,
   ] = useMyReceivedItemQuery();
   const userData = useSelector((state: RootState) => state.user.userData);
+  const mySavedItem = useSelector((state: RootState) => state.user.mySavedItem);
 
   const changeProfileTab = async (tabIndex: number) => {
     try {
@@ -210,6 +211,10 @@ const Profile: React.FC<Props> = ({navigation}) => {
               : active === 2
               ? myReceivedItemQuery.data &&
                 myReceivedItemQuery.data.getMyReceivedItem.map((item) => (
+                  <ItemCard key={item.id} item={item} />
+                ))
+              : active === 3
+              ? mySavedItem.map((item) => (
                   <ItemCard key={item.id} item={item} />
                 ))
               : null}
