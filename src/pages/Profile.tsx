@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
   RefreshControl,
+  Alert,
 } from 'react-native';
 
 import {Icontab, ItemCard, ProfileImage} from '../components/Profile/';
@@ -88,13 +89,9 @@ const Profile: React.FC<Props> = ({navigation}) => {
         //do something...
       }
     } catch (err) {
-      console.log(err);
+      Alert.alert(err.message);
     }
   };
-
-  useEffect(() => {
-    console.log(myItemQuery.data?.getMyItem[0].images[0]);
-  }, [myItemQuery.data]);
 
   if (userData) {
     return (

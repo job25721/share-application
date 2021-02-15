@@ -44,17 +44,15 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   imgView: {
-    // alignSelf: 'center',
+    alignSelf: 'center',
   },
   tagView: {
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   mainView: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: Colors._blue_100,
-    padding: 10,
+    backgroundColor: Colors._indigo_100,
+    padding: 15,
     borderRadius: 15,
     marginVertical: 5,
   },

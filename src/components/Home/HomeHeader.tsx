@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import {Button, CustomText} from '../custom-components';
+import {Button, CustomText, ProgressiveImage} from '../custom-components';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
@@ -26,13 +26,14 @@ const HomeHeader: React.FC = () => {
             onPress={() =>
               navigation.navigate('Profile', {userInfo: userData})
             }>
-            <Image
+            <ProgressiveImage
               style={{
                 height: 60,
                 width: 60,
                 borderRadius: 50,
                 marginRight: 10,
               }}
+              loadingType="spinner"
               source={{uri: userData.avatar}}
             />
           </Button>

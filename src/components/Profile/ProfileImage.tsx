@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Image} from 'react-native';
-import {Button, CustomText} from '../custom-components';
+import {View} from 'react-native';
+import {Button, CustomText, ProgressiveImage} from '../custom-components';
 import {Colors} from '../../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
@@ -26,9 +26,10 @@ const ProfileImage: React.FC<ProfileImageProps> = ({name, username, img}) => {
         style={{
           padding: 20,
         }}>
-        <Image
+        <ProgressiveImage
           style={{height: 170, width: 130, borderRadius: 10}}
           source={{uri: img}}
+          loadingType="loadingMotion"
         />
         <View
           style={{

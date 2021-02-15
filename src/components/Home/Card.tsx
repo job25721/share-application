@@ -88,7 +88,11 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
         onPress={() => navigate('Detail', {item, wishlist: saved})}>
         <View style={cardStyles.userInfo}>
           <TouchableOpacity onPress={() => Alert.alert(owner.info.firstName)}>
-            <Image style={cardStyles.userImg} source={{uri: owner.avatar}} />
+            <ProgressiveImage
+              loadingType="spinner"
+              style={cardStyles.userImg}
+              source={{uri: owner.avatar}}
+            />
           </TouchableOpacity>
 
           <View style={{paddingHorizontal: 15}}>
