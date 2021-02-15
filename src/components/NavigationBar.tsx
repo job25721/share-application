@@ -11,12 +11,15 @@ const Routes = {
 };
 
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store';
 
 const NavigationBar: React.FC<BottomTabBarProps> = ({
   state,
   descriptors,
   navigation,
 }) => {
+  const storeToken = useSelector((state: RootState) => state.user.token);
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const routeName = state.routeNames[state.index];
 
@@ -38,17 +41,19 @@ const NavigationBar: React.FC<BottomTabBarProps> = ({
             name="home"
           />
         </Button>
-        <Button onPress={() => navigation.navigate(Routes.addItem)} px={0}>
-          <Feather
-            name="plus"
-            color={
-              routeName === Routes.addItem
-                ? PantoneColor.livingCoral
-                : Colors.black
-            }
-            size={routeName === Routes.addItem ? 35 : 30}
-          />
-        </Button>
+        {storeToken && (
+          <Button onPress={() => navigation.navigate(Routes.addItem)} px={0}>
+            <Feather
+              name="plus"
+              color={
+                routeName === Routes.addItem
+                  ? PantoneColor.livingCoral
+                  : Colors.black
+              }
+              size={routeName === Routes.addItem ? 35 : 30}
+            />
+          </Button>
+        )}
         <Button onPress={() => navigation.navigate(Routes.search)} px={0}>
           <Feather
             color={

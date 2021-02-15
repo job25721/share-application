@@ -91,6 +91,7 @@ const {Auth, Share, Detail, Profile, Chat} = pages;
 
 const RootStackScreen: React.FC = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     const getToken = async () => {
       try {
@@ -114,6 +115,7 @@ const RootStackScreen: React.FC = () => {
     };
     getToken();
   }, []);
+
   const [feedQuery, refetchItem, feedRefreshing] = useFeedQuery();
   const [
     savedItemQuery,
@@ -137,7 +139,7 @@ const RootStackScreen: React.FC = () => {
           error: savedItemQuery.error,
         },
       }}>
-      <RootStack.Navigator mode="card">
+      <RootStack.Navigator mode="modal">
         <RootStack.Screen
           name="Tab"
           component={TabScreen}
