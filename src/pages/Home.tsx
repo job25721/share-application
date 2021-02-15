@@ -19,7 +19,7 @@ type Props = {
   navigation: HomeScreenNavigationProp;
 };
 
-const Home: React.FC<Props> = () => {
+const Home: React.FC<Props> = ({navigation}) => {
   const feedItems = useSelector((state: RootState) => state.item.feedItems);
   const savedItems = useSelector((state: RootState) => state.user.mySavedItem);
   const [reload, setReload] = useState<boolean>(false);
@@ -118,6 +118,12 @@ const Home: React.FC<Props> = () => {
               key={item.nameIcon}
               text={item.text}
               nameIcon={item.nameIcon}
+              onPress={() =>
+                navigation.navigate('Tab', {
+                  screen: 'Search',
+                  params: {searchParam: item.text},
+                })
+              }
             />
           ))}
         </ScrollView>

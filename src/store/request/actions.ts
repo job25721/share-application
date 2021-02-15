@@ -41,7 +41,7 @@ export const createRequestAction = (
         dispatch({type: 'CLEAR_REQUEST_DATA'});
         dispatch({
           type: 'SET_REQUEST_LOADING',
-          payload: {msg: '', loading: false},
+          payload: {msg: '', loading: false, err: false},
         });
         dispatch({type: 'SET_TAB_INDEX', payload: 0});
         navigation.navigate('Chat', {screen: 'Index'});

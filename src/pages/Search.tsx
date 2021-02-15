@@ -21,10 +21,23 @@ import {SearchResultCard} from '../components/Search';
 import {useSearch} from '../components/custom-hooks-graphql/SearchItem';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
-import {useQuery} from '@apollo/client';
+import {QueryResult, useQuery} from '@apollo/client';
 import {GET_TREANDING_TAG, TrendingTagQueryResult} from '../graphql/query/item';
+import {RouteProp} from '@react-navigation/native';
+import {TabParamList} from '.';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 
-const Search: React.FC = () => {
+type SearchScreenRouteProp = RouteProp<TabParamList, 'Search'>;
+type SearchScreenNavigationProp = BottomTabNavigationProp<
+  TabParamList,
+  'Search'
+>;
+
+type Props = {
+  route: SearchScreenRouteProp;
+  navigation: SearchScreenNavigationProp;
+};
+const Search: React.FC<Props> = ({route}) => {
   const searchResult = useSelector(
     (state: RootState) => state.item.searchResult,
   );
@@ -33,7 +46,18 @@ const Search: React.FC = () => {
   const [submitSearchKey, setSubmit] = useState<string>('');
   const {data} = useQuery<TrendingTagQueryResult>(GET_TREANDING_TAG);
 
-  useSearch({searchKey: submitSearchKey === '' ? '!' : submitSearchKey});
+  const {searchParam = undefined} = route.params;
+
+  const searchQuery: QueryResult = useSearch({
+    searchKey: submitSearchKey === '' ? '!' : submitSearchKey,
+  });
+
+  useEffect(() => {
+    if (searchParam) {
+      setSubmit(searchParam);
+    }
+  }, [searchParam]);
+
   useEffect(() => {
     if (submitSearchKey !== '') {
       setOnSearch(true);
@@ -127,26 +151,40 @@ const Search: React.FC = () => {
           {onSearch || searchResult.length > 0 || searchKey !== '' ? (
             <>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <CustomText type="subheader">ผลลัพธ์</CustomText>
-                {searchResult.length > 0 && (
-                  <View
-                    style={{
-                      position: 'absolute',
-                      right: 0,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
-                    <CustomText fontSize={20}>Clear</CustomText>
-                    <Button
-                      onPress={() => {
-                        setSubmit('');
-                        setSearchKey('');
-                      }}
-                      px={5}>
-                      <FeatherIcon color={Colors._red_500} name="x" size={30} />
-                    </Button>
-                  </View>
-                )}
+                {(searchResult.length > 0 && (
+                  <>
+                    <CustomText type="subheader">ผลลัพธ์</CustomText>
+                    <View
+                      style={{
+                        position: 'absolute',
+                        right: 0,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <CustomText fontSize={20}>Clear</CustomText>
+                      <Button
+                        onPress={() => {
+                          setSubmit('');
+                          setSearchKey('');
+                        }}
+                        px={5}>
+                        <FeatherIcon
+                          color={Colors._red_500}
+                          name="x"
+                          size={30}
+                        />
+                      </Button>
+                    </View>
+                  </>
+                )) ||
+                  (!searchQuery.loading && (
+                    <CustomText>
+                      ไม่มีผลลัพธ์ใดตรงกับ{' '}
+                      <CustomText fontWeight="bold">
+                        {submitSearchKey}
+                      </CustomText>
+                    </CustomText>
+                  )) || <CustomText fontSize={25}>กำลังค้นหา</CustomText>}
               </View>
               <ScrollView>
                 {searchResult.map((item) => (

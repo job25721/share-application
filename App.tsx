@@ -7,7 +7,7 @@ import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 import store, {useDispatch} from './src/store';
 
-import TabScreen, {pages} from './src/pages';
+import TabScreen, {pages, TabParamList} from './src/pages';
 import {ApolloError, ApolloProvider} from '@apollo/client';
 import client from './src/graphql/client';
 import {Item} from './src/store/item/types';
@@ -33,8 +33,12 @@ type ChatNestedNavigation =
   | ISubNavigator<ChatStackParamList, 'Index'>
   | ISubNavigator<ChatStackParamList, 'Person'>;
 
+type TabNestedNavigation =
+  | ISubNavigator<TabParamList, 'Home'>
+  | ISubNavigator<TabParamList, 'Search'>;
+
 export type RootStackParamList = {
-  Tab: undefined;
+  Tab: TabNestedNavigation;
   Auth: undefined;
   Profile: {userInfo: User};
   Detail: {item: Item; wishlist: boolean};

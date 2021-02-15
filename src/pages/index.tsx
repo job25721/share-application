@@ -14,7 +14,7 @@ import ChatIndex, {ChatRoom, PersonModal} from './Chat';
 const Tab = createBottomTabNavigator();
 export type TabParamList = {
   Home: undefined;
-  Search: undefined;
+  Search: {searchParam: string};
 };
 const TabScreen: React.FC = () => {
   return (

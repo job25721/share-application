@@ -2,24 +2,24 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Colors, PantoneColor} from '../../utils/Colors';
-import {Button, CustomText} from '../custom-components';
+import {CustomText} from '../custom-components';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-export const IconList: React.FC<{nameIcon: string; text: string}> = ({
-  nameIcon,
-  text,
-}) => {
+export const IconList: React.FC<{
+  nameIcon: string;
+  text: string;
+  onPress?: () => void;
+}> = ({nameIcon, text, onPress}) => {
   return (
-    <View style={{alignItems: 'center'}}>
+    <TouchableOpacity style={{alignItems: 'center'}} onPress={onPress}>
       <View style={styles.container}>
-        <Button px={0} mx={0}>
-          <AwesomeIcon color={Colors.white} name={nameIcon} size={35} />
-        </Button>
+        <AwesomeIcon color={Colors.white} name={nameIcon} size={35} />
       </View>
       <CustomText fontSize={16} color={PantoneColor.livingCoral}>
         {text}
       </CustomText>
-    </View>
+    </TouchableOpacity>
   );
 };
 
