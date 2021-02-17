@@ -9,7 +9,7 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import Login from '../components/Auth/Login';
 
-const Auth: React.FC = () => {
+const Auth = () => {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView

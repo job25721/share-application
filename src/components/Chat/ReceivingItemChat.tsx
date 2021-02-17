@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 
 import {useSelector} from 'react-redux';
@@ -21,7 +22,7 @@ const ReceivingItemChat = () => {
   }
 
   return (
-    <>
+    <View style={{padding: 5}}>
       {mySendRequestsState.map((request) => (
         <ItemChatCard
           key={request.id}
@@ -36,11 +37,11 @@ const ReceivingItemChat = () => {
                 ? request.chat.data[request.chat.data.length - 1].message
                 : '',
           }}
-          notification={0}
+          notification={10}
           type="Item"
         />
       ))}
-    </>
+    </View>
   );
 };
 

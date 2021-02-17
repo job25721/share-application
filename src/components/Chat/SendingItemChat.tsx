@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
@@ -17,7 +18,7 @@ const SendingItemChat: React.FC = () => {
   const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   return (
-    <>
+    <View style={{padding: 5}}>
       {myReceiveRequests.length > 0 ? (
         myReceiveRequests.map((sending) => (
           <ItemCardAbstract
@@ -40,7 +41,7 @@ const SendingItemChat: React.FC = () => {
           <CustomText>ไม่มีคนที่ขอรับของคุณตอนนี้</CustomText>
         </View>
       )}
-    </>
+    </View>
   );
 };
 export default SendingItemChat;

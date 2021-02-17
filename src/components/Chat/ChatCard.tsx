@@ -1,7 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import {useQuery} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {ChatStackParamList} from '../../../App';
@@ -71,12 +72,13 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
         />
       ) : (
         <ProgressiveImage
-          loadingType="loadingMotion"
-          style={[styles.img, {height: 100}]}
+          loadingType="spinner"
+          resizeMode="cover"
+          style={styles.img}
           source={{uri: request.item.images[0]}}
         />
       )}
-      <View style={{width: '60%'}}>
+      <View style={styles.contentView}>
         {type === 'Person' ? (
           <>
             <CustomText fontWeight="500">
@@ -124,16 +126,18 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
           ) : null}
         </View>
       </View>
-      <View
-        style={[
-          styles.notiBadge,
-          notification === 0 ? {backgroundColor: 'transparent'} : null,
-        ]}>
-        {notification > 0 ? (
-          <CustomText textAlign="center" color={Colors.white}>
-            {notification}
-          </CustomText>
-        ) : null}
+      <View style={styles.notiView}>
+        <View
+          style={[
+            styles.notiBadge,
+            notification === 0 ? {backgroundColor: 'transparent'} : null,
+          ]}>
+          {notification > 0 ? (
+            <CustomText textAlign="center" color={Colors.white}>
+              {notification}
+            </CustomText>
+          ) : null}
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -153,26 +157,41 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
   return (
     <TouchableOpacity onPress={onPress} style={[styles.chatListCard]}>
       <ProgressiveImage
-        loadingType="loadingMotion"
-        style={[styles.img, {height: 100}]}
+        loadingType="spinner"
+        style={styles.img}
         source={{uri: item.images[0]}}
       />
-      <View style={{width: '60%'}}>
+      <View style={styles.contentView}>
         <CustomText fontWeight="500">{item.name}</CustomText>
         <CustomText>ประเภท : {item.category}</CustomText>
         <CustomText>สถานะ : {item.status}</CustomText>
       </View>
-      <View
-        style={[styles.notiBadge, {backgroundColor: PantoneColor.blueDepths}]}>
-        <CustomText textAlign="center" color={Colors.white}>
-          {personRequest}
-        </CustomText>
+      <View style={styles.notiView}>
+        <View
+          style={[
+            styles.notiBadge,
+            {backgroundColor: PantoneColor.blueDepths},
+          ]}>
+          <CustomText textAlign="center" color={Colors.white}>
+            {personRequest}
+          </CustomText>
+        </View>
       </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  chatListCard: {
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    // padding: 10,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
+    elevation: 1,
+  },
   notiBadge: {
     backgroundColor: Colors._red_400,
     justifyContent: 'center',
@@ -180,19 +199,15 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
   },
-  chatListCard: {
-    backgroundColor: Colors._gray_900,
-    borderRadius: 25,
-    padding: 10,
-    paddingVertical: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 5,
-    justifyContent: 'space-between',
+  notiView: {
+    justifyContent: 'center',
+  },
+  contentView: {
+    width: '55%',
   },
   img: {
-    width: 70,
-    height: 70,
+    width: 75,
+    height: 75,
     borderRadius: 50,
     marginHorizontal: 10,
   },

@@ -6,8 +6,9 @@ import {
   View,
   ImageStyle,
   ImageResizeMode,
+  ViewStyle,
 } from 'react-native';
-import {CustomText} from './Text';
+
 type ImageLoading =
   | 'rolling'
   | 'eclipse'
@@ -17,9 +18,10 @@ type ImageLoading =
   | 'loadingMotion';
 interface ProgressiveImageProps {
   source: ImageURISource;
-  style: ImageStyle;
-  loadingType: ImageLoading;
+  style?: ImageStyle;
+  loadingType?: ImageLoading;
   resizeMode?: ImageResizeMode;
+  imgViewStyle?: ViewStyle;
 }
 const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
   const [thumbnailAnimated] = useState(new Animated.Value(0));
@@ -45,12 +47,12 @@ const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
       useNativeDriver: true,
     }).start();
   };
-  const {source, style, loadingType} = props;
+  const {source, style, imgViewStyle, loadingType} = props;
   return (
-    <View>
+    <View style={imgViewStyle}>
       <Animated.Image
         {...props}
-        source={indicatorPath[loadingType]}
+        source={indicatorPath[loadingType] || null}
         style={[style, {opacity: thumbnailAnimated}]}
         onLoad={handleThumbnailLoad}
       />

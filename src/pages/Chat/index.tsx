@@ -28,7 +28,6 @@ import {useMySendRquestsQuery} from '../../components/custom-hooks-graphql/MySen
 import {useMyReceivingRequestsQuery} from '../../components/custom-hooks-graphql/MyReceivingRequests';
 import {QueryResult} from '@apollo/client';
 import {GetRequestsQueryType} from '../../graphql/query/request';
-import {Request} from '../../store/request/types';
 
 type ChatIndexScreenRouteProp = RouteProp<ChatStackParamList, 'Index'>;
 type ChatIndexScreenNavigationProp = StackNavigationProp<
@@ -88,7 +87,7 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
   }, []);
 
   return (
-    <SafeAreaView style={{backgroundColor: Colors.white, flex: 1}}>
+    <SafeAreaView style={{backgroundColor: Colors._gray_300, flex: 1}}>
       {myReceiveQuery.loading && mySendRequestquery.loading ? (
         <AlertDialog title="กรุณารอสักครู่..." disabledBtn open={true} />
       ) : null}

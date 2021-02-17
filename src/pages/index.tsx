@@ -16,7 +16,7 @@ export type TabParamList = {
   Home: undefined;
   Search: undefined;
 };
-const TabScreen: React.FC = () => {
+const TabScreen = () => {
   return (
     <Tab.Navigator tabBar={(props) => <NavigationBar {...props} />}>
       <Tab.Screen name="Index" component={Home} />
