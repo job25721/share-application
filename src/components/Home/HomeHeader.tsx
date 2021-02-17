@@ -42,7 +42,7 @@ const HomeHeader: React.FC = () => {
               {userData.info.firstName} {userData.info.lastName}
             </CustomText>
             <CustomText fontSize={14} textAlign="left">
-              @{userData.username}
+              {userData.username ? `@${userData.username}` : userData.email}
             </CustomText>
           </View>
         </View>

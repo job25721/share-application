@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -27,7 +27,7 @@ import client from '../graphql/client';
 
 import {useMyItemQuery} from '../components/custom-hooks-graphql/MyItem';
 import {useMyReceivedItemQuery} from '../components/custom-hooks-graphql/MyReceivedItem';
-
+import {LoginManager} from 'react-native-fbsdk';
 interface ProfileTabIcons {
   name: string;
   text: string;
@@ -116,13 +116,13 @@ const Profile: React.FC<Props> = ({navigation}) => {
             <Button
               onPress={async () => {
                 try {
+                  LoginManager.logOut();
                   await AsyncStorage.removeItem('userToken');
                   await AsyncStorage.removeItem('userInfo');
                   dispatch({type: 'USER_LOGOUT'});
                   await client.cache.reset();
                   await refresh();
-
-                  navigation.navigate('Tab');
+                  navigation.navigate('Tab', {screen: 'Home'});
                 } catch (err) {
                   console.log(err);
                 }
@@ -132,11 +132,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
             </Button>
           </View>
         </View>
-        <ProfileImage
-          name={`${userData.info.firstName} ${userData.info.lastName}`}
-          username={userData.username}
-          img={userData.avatar}
-        />
+        <ProfileImage user={userData} />
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           {profileTabIcons.map((item, i) => (
             <Icontab
@@ -159,7 +155,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
               width: 320,
               alignItems: 'center',
             }}>
-            <View
+            {/* <View
               style={{margin: '10%', justifyContent: 'space-evenly', flex: 1}}>
               <CustomText fontSize={20}>
                 ชื่อ-สกุล:
@@ -177,7 +173,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
                     )
                   : null}
               </CustomText>
-            </View>
+            </View> */}
           </View>
         ) : (
           <ScrollView
