@@ -28,7 +28,7 @@ const NavigationBar: React.FC<BottomTabBarProps> = ({
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: Colors._gray_300}}>
       <View style={styles.appBar}>
         <Button onPress={() => navigation.navigate(Routes.home)} px={0}>
           <Feather
@@ -77,10 +77,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: '7%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    // borderTopLeftRadius: 30,
+    // borderTopRightRadius: 30,
+    borderRadius: 30,
     shadowColor: Colors.black,
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    elevation: 1,
   },
 });
 

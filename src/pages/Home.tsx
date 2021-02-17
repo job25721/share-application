@@ -73,7 +73,7 @@ const Home: React.FC<Props> = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: Colors._gray_300}}>
       {/* <Button text="Store" onPress={() => console.log(savedItems)} /> */}
       <HomeHeader />
       <View style={{paddingLeft: 10}}>
@@ -81,32 +81,12 @@ const Home: React.FC<Props> = ({navigation}) => {
           SHARE
         </CustomText>
       </View>
-      {/* <View
-        style={{
-          position: 'absolute',
-          zIndex: 1,
-          bottom: 535,
-          alignSelf: 'center',
-        }}>
-        <Button
-          text="new 3 items arrived"
-          bg="rgba(0,0,0,0.9)"
-          rounded
-          color={Colors.white}
-          onPress={async () => {
-            scrollRef.current?.scrollTo({y: 0});
-            try {
-              await refresh();
-            } catch (err) {}
-          }}
-        />
-      </View> */}
       <ScrollView
         ref={scrollRef}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refresh} />
         }
-        style={{marginHorizontal: 10}}>
+        style={{marginHorizontal: 10, borderRadius: 15}}>
         <View style={{marginBottom: 10}}>
           <CustomText fontSize={20} fontWeight={'bold'}>
             เลือกหมวดหมู่ที่ใช่สำหรับคุณ
@@ -133,6 +113,7 @@ const Home: React.FC<Props> = ({navigation}) => {
           style={{
             alignItems: 'center',
             marginTop: 20,
+            paddingHorizontal: 1,
           }}>
           {feedItems.length > 0 && !refreshing ? (
             feedItems.map((item) => (

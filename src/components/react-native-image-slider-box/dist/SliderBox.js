@@ -114,7 +114,7 @@ export class SliderBox extends Component {
               position: 'absolute',
               alignSelf: 'center',
               height: '100%',
-              width: '95%',
+              // width: '95%',
               borderRadius: 20,
             }}
             source={require('../../../assets/img/loadingIndicator/loadingMotion.gif')}

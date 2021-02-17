@@ -63,7 +63,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
         });
         navigate('ChatRoom');
       }}
-      style={[styles.chatListCard]}>
+      style={styles.chatListCard}>
       {type === 'Person' ? (
         <ProgressiveImage
           loadingType="rolling"
@@ -155,7 +155,7 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
   onPress,
 }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.chatListCard]}>
+    <TouchableOpacity onPress={onPress} style={styles.chatListCard}>
       <ProgressiveImage
         loadingType="spinner"
         style={styles.img}
@@ -186,11 +186,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 20,
     // padding: 10,
-    paddingVertical: 10,
+    paddingVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 5,
     elevation: 1,
+    shadowColor: Colors.black,
+    shadowOpacity: 0.02,
   },
   notiBadge: {
     backgroundColor: Colors._red_400,

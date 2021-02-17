@@ -7,6 +7,7 @@ import {
   ImageStyle,
   ImageResizeMode,
   ViewStyle,
+  Image,
 } from 'react-native';
 
 type ImageLoading =
@@ -26,6 +27,7 @@ interface ProgressiveImageProps {
 const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
   const [thumbnailAnimated] = useState(new Animated.Value(0));
   const [imageAnimated] = useState(new Animated.Value(0));
+  const [loading, setLoading] = useState<boolean>(true);
 
   const indicatorPath = {
     rolling: require('../../assets/img/loadingIndicator/rolling.gif'),
@@ -56,6 +58,7 @@ const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
         style={[style, {opacity: thumbnailAnimated}]}
         onLoad={handleThumbnailLoad}
       />
+
       <Animated.Image
         {...props}
         source={source}

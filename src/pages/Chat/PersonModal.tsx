@@ -69,7 +69,7 @@ const PersonModal: React.FC<Props> = ({navigation, route}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: Colors.white, flex: 1},
+  container: {backgroundColor: Colors._gray_300, flex: 1},
   scrollContainer: {
     paddingHorizontal: 15,
   },

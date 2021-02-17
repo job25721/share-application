@@ -167,30 +167,6 @@ const Login = () => {
           SHARE
         </CustomText>
       </View>
-      {/* <LoginButton
-        style={{borderRadius: 20, padding: 20}}
-        onLogoutFinished={() => console.log('logout')}
-        permissions={['profile_pic', 'email']}
-        onLoginFinished={(err, res) => {
-          if (err) {
-            console.log('err 1');
-            console.log(err);
-
-            console.log(res);
-          } else if (res.isCancelled) {
-            console.log('cancelled');
-          } else {
-            AccessToken.getCurrentAccessToken()
-              .then((data) => {
-                console.log(data?.accessToken);
-              })
-              .catch((error) => {
-                console.log('catch');
-                console.log(error);
-              });
-          }
-        }}
-      /> */}
 
       <View style={styles.btnView}>
         <Button onPress={fbLogin} rounded px={0} py={10} bg={Colors.facebook}>
@@ -235,34 +211,35 @@ const Login = () => {
             <CustomText color={Colors.white}>ล็อกอินผ่าน Google</CustomText>
           </View>
         </Button> */}
+        <View style={styles.inputContainer}>
+          <Input
+            value={username}
+            onChangeText={setUsername}
+            placeholder="Username"
+            focus
+            rounded
+            width="100%"
+          />
+          <Input
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Password"
+            focus
+            rounded
+            width="100%"
+          />
+          <Button
+            text="Login"
+            bg={PantoneColor.turkishSea}
+            color={Colors.white}
+            rounded
+            my={10}
+            onPress={loginAction}
+          />
+        </View>
       </View>
-      {/* <View style={styles.inputContainer}>
-        <Input
-          value={username}
-          onChangeText={setUsername}
-          placeholder="Username"
-          focus
-          rounded
-          width="100%"
-        />
-        <Input
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Password"
-          focus
-          rounded
-          width="100%"
-        />
-        <Button
-          text="Login"
-          bg={PantoneColor.turkishSea}
-          color={Colors.white}
-          rounded
-          my={10}
-          onPress={loginAction}
-        />
-      </View> */}
-      {/* 
+
+      {/*       
       <View
         style={{
           alignItems: 'center',
