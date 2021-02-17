@@ -34,7 +34,7 @@ interface FacebookUserDataResponse {
   picture: FacebookProfilePic;
 }
 
-const Login: React.FC = () => {
+const Login = () => {
   const {navigate}: StackNavigationProp<RootStackParamList> = useNavigation();
 
   const [username, setUsername] = useState<string>('guy');
@@ -140,7 +140,7 @@ const Login: React.FC = () => {
                   : '',
             },
             email: facebookUser.email,
-            avatar: fbAvatar.request.responseURL,
+            avatar: fbAvatar.request.responseURL.toString(),
           };
           await AsyncStorage.setItem('userInfo', JSON.stringify(storeUser));
           dispatch({

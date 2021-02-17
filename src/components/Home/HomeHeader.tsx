@@ -84,6 +84,7 @@ const HomeHeader: React.FC = () => {
         text="Login"
         bg={PantoneColor.livingCoral}
         color={Colors.white}
+        px={20}
         onPress={() => {
           navigation.navigate('Auth');
         }}
