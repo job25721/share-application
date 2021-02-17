@@ -7,14 +7,13 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../App';
+import {User} from '../../store/user/types';
 
 interface ProfileImageProps {
-  name: string;
-  username: string;
-  img: string;
+  user: User;
 }
 
-const ProfileImage: React.FC<ProfileImageProps> = ({name, username, img}) => {
+const ProfileImage: React.FC<ProfileImageProps> = ({user}) => {
   const {navigate}: StackNavigationProp<RootStackParamList> = useNavigation();
   return (
     <View
@@ -28,7 +27,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({name, username, img}) => {
         }}>
         <ProgressiveImage
           style={{height: 170, width: 130, borderRadius: 10}}
-          source={{uri: img}}
+          source={{uri: user.avatar}}
           loadingType="loadingMotion"
         />
         <View
@@ -49,9 +48,11 @@ const ProfileImage: React.FC<ProfileImageProps> = ({name, username, img}) => {
         </View>
       </View>
       <View style={{justifyContent: 'center'}}>
-        <CustomText>{name}</CustomText>
+        <CustomText>
+          {user.info.firstName} {user.info.lastName}
+        </CustomText>
         <CustomText fontSize={16} color="#C7C7C7">
-          @{username}
+          {user.username ? `@${user.username}` : user.email}
         </CustomText>
       </View>
     </View>

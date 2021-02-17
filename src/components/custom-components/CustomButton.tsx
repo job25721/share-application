@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     shadowColor: Colors.black,
   },
   btnText: {
-    fontFamily: Platform.OS === 'ios' ? 'Sukhumvit Set' : 'SukhumvitSet-Medium',
+    fontFamily:
+      Platform.OS === 'ios' ? 'SukhumvitSet-Medium' : 'SukhumvitSet-Medium',
   },
 });

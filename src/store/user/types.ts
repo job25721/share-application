@@ -24,7 +24,7 @@ export interface SendingItem {
 
 export interface User {
   id: string;
-  username: string;
+  username?: string;
   password?: string;
   email?: string;
   avatar: string;

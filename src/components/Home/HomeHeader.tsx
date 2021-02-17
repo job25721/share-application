@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Button, CustomText, ProgressiveImage} from '../custom-components';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -11,6 +11,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../App';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const HomeHeader: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -20,43 +21,56 @@ const HomeHeader: React.FC = () => {
   if (userData) {
     return (
       <View style={styles.headerContainer}>
-        <View style={{flexDirection: 'row'}}>
-          <Button
-            px={0}
-            onPress={() =>
-              navigation.navigate('Profile', {userInfo: userData})
-            }>
-            <ProgressiveImage
-              style={{
-                height: 60,
-                width: 60,
-                borderRadius: 50,
-                marginRight: 10,
-              }}
-              loadingType="spinner"
-              source={{uri: userData.avatar}}
-            />
-          </Button>
-          <View style={{justifyContent: 'center', paddingRight: 10}}>
-            <CustomText fontSize={14}>
-              {userData.info.firstName} {userData.info.lastName}
+        <Button
+          px={0}
+          onPress={() => navigation.navigate('Profile', {userInfo: userData})}>
+          <ProgressiveImage
+            style={{
+              height: 60,
+              width: 60,
+              borderRadius: 50,
+            }}
+            loadingType="spinner"
+            source={{uri: userData.avatar}}
+          />
+        </Button>
+        <View
+          style={{
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}>
+          <View>
+            <CustomText fontWeight="700" fontSize={15}>
+              <FontAwesome5Icon
+                size={15}
+                color={Colors.facebook}
+                name="facebook"
+              />{' '}
+              {userData.info.firstName}
             </CustomText>
-            <CustomText fontSize={14} textAlign="left">
-              @{userData.username}
+            <CustomText fontWeight="700" fontSize={15}>
+              {userData.info.lastName}
             </CustomText>
           </View>
         </View>
-
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            position: 'absolute',
+            right: 0,
+            padding: 10,
+          }}>
           <Button
             onPress={async () => {
               // console.log(props);
-              navigation.navigate('Notification');
+              // navigation.navigate('Notification');
             }}
             px={5}>
             <FeatherIcon name="bell" size={35} />
           </Button>
-          <Button onPress={() => navigation.navigate('Chat')} px={5}>
+          <Button
+            onPress={() => navigation.navigate('Chat', {screen: 'Index'})}
+            px={5}>
             <FeatherIcon name="message-circle" size={35} />
           </Button>
         </View>
@@ -70,6 +84,7 @@ const HomeHeader: React.FC = () => {
         text="Login"
         bg={PantoneColor.livingCoral}
         color={Colors.white}
+        px={20}
         onPress={() => {
           navigation.navigate('Auth');
         }}
@@ -81,8 +96,9 @@ const HomeHeader: React.FC = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    // justifyContent: 'space-between',
+    // alignItems: 'center',
+
     padding: 20,
   },
 });
