@@ -10,13 +10,12 @@ export const GET_MY_INFO = gql`
     getMyInfo {
       id
       avatar
-      username
+      email
       info {
         firstName
         lastName
-        birthDate
-        age
       }
+      facebookId
     }
   }
 `;

@@ -29,6 +29,7 @@ export interface User {
   email?: string;
   avatar: string;
   info: UserInfo;
+  facebookId: string;
 }
 export interface UserInfo {
   firstName: string;

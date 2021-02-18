@@ -1,7 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {ScrollView, View, SafeAreaView, RefreshControl} from 'react-native';
+import {
+  ScrollView,
+  View,
+  SafeAreaView,
+  RefreshControl,
+  Image,
+} from 'react-native';
 import {Colors, PantoneColor} from '../utils/Colors';
 import {AlertDialog, Button, CustomText} from '../components/custom-components';
 import {RootState, useDispatch} from '../store';
@@ -10,6 +16,7 @@ import {RefreshContext, RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {categories} from '../utils/category';
 import {Card, HomeHeader, IconList} from '../components/Home';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Tab'>;
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Tab'>;
@@ -23,6 +30,7 @@ const Home: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const feedItems = useSelector((state: RootState) => state.item.feedItems);
   const savedItems = useSelector((state: RootState) => state.user.mySavedItem);
+
   const [reload, setReload] = useState<boolean>(false);
   const scrollRef = useRef<ScrollView>(null);
 
@@ -74,7 +82,6 @@ const Home: React.FC<Props> = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: Colors._gray_300}}>
-      {/* <Button text="Store" onPress={() => console.log(savedItems)} /> */}
       <HomeHeader />
       <View style={{paddingLeft: 10}}>
         <CustomText color={PantoneColor.livingCoral} spacing={10} type="header">

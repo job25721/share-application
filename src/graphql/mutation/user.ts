@@ -6,6 +6,12 @@ export const USER_LOGIN = gql`
   }
 `;
 
+export const FACEBOOK_LOGIN = gql`
+  mutation FacebookSign($fbAccessToken: String!) {
+    facebookSign(fbAccessToken: $fbAccessToken)
+  }
+`;
+
 export const ADD_WISHLIST_ITEM = gql`
   mutation AddNewBookmark($itemId: String!) {
     addNewBookmark(itemId: $itemId) {

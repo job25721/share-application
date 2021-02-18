@@ -41,11 +41,16 @@ const HomeHeader: React.FC = () => {
           }}>
           <View>
             <CustomText fontWeight="700" fontSize={15}>
-              <FontAwesome5Icon
-                size={15}
-                color={Colors.facebook}
-                name="facebook"
-              />{' '}
+              {userData.facebookId && (
+                <>
+                  <FontAwesome5Icon
+                    size={15}
+                    color={Colors.facebook}
+                    name="facebook"
+                  />
+                  <CustomText> </CustomText>
+                </>
+              )}
               {userData.info.firstName}
             </CustomText>
             <CustomText fontWeight="700" fontSize={15}>

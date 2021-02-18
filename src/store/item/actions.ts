@@ -48,7 +48,7 @@ export const addItemAction = (
       }
       if (data?.addNewItem) {
         dispatch({type: 'ADD_ITEM', payload: data.addNewItem});
-        navigation.navigate('Tab');
+        navigation.navigate('Tab', {screen: 'Home'});
       }
     } catch (err) {
       console.log(err);

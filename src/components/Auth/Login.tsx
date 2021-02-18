@@ -5,8 +5,7 @@ import {Button, Input, CustomText, AlertDialog} from '../custom-components';
 import {Colors, PantoneColor} from '../../utils/Colors';
 
 import {useNavigation} from '@react-navigation/native';
-import {USER_LOGIN} from '../../graphql/mutation/user';
-// import {useDispatch} from '../../store';
+import {FACEBOOK_LOGIN, USER_LOGIN} from '../../graphql/mutation/user';
 import {useMutation, useQuery} from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GET_MY_INFO, MyInfoQueryType} from '../../graphql/query/user';
@@ -15,24 +14,6 @@ import {RefreshContext, RootStackParamList} from '../../../App';
 import {useDispatch} from '../../store';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
-import axios from 'axios';
-import {User} from '../../store/user/types';
-
-interface FacebookPictureData {
-  height: number;
-  is_silhouette: boolean;
-  url: string;
-}
-interface FacebookProfilePic {
-  data: FacebookPictureData;
-}
-
-interface FacebookUserDataResponse {
-  id: string;
-  email: string;
-  name: string;
-  picture: FacebookProfilePic;
-}
 
 const Login = () => {
   const {navigate}: StackNavigationProp<RootStackParamList> = useNavigation();
@@ -41,10 +22,36 @@ const Login = () => {
   const [password, setPassword] = useState<string>('1234');
   const [loading, setLoading] = useState<boolean>(false);
   const [login] = useMutation(USER_LOGIN);
+  const [facebookSign] = useMutation<{facebookSign: string}>(FACEBOOK_LOGIN);
   const user = useQuery<MyInfoQueryType>(GET_MY_INFO);
   const dispatch = useDispatch();
 
   const {savedItem} = useContext(RefreshContext);
+
+  async function setDataAndNavigate(token: string) {
+    dispatch({type: 'SET_TOKEN', payload: token});
+    await AsyncStorage.setItem('userToken', token);
+    await savedItem.refresh();
+    console.log('requerying...');
+    const refetchUser = await user.refetch();
+    console.log(refetchUser);
+    if (refetchUser.error) {
+      throw new Error(refetchUser.error.message);
+    }
+    if (refetchUser.data) {
+      console.log('complete');
+      console.log(refetchUser.data);
+      await AsyncStorage.setItem(
+        'userInfo',
+        JSON.stringify(refetchUser.data?.getMyInfo),
+      );
+      dispatch({
+        type: 'SET_USER_DATA',
+        payload: refetchUser.data?.getMyInfo,
+      });
+      navigate('Tab', {screen: 'Home'});
+    }
+  }
 
   const loginAction = async () => {
     if (username !== '' && password !== '') {
@@ -59,31 +66,7 @@ const Login = () => {
         if (data.login === 'Login Failed') {
           throw new Error(data.login);
         }
-        dispatch({type: 'SET_TOKEN', payload: data.login});
-        await AsyncStorage.setItem('userToken', data.login);
-        await savedItem.refresh();
-        console.log('requerying...');
-        const refetchUser = await user.refetch();
-        console.log(refetchUser);
-
-        if (refetchUser.error) {
-          throw new Error(refetchUser.error.message);
-        }
-        console.log(data);
-        if (refetchUser.data) {
-          console.log('complete');
-          console.log(refetchUser.data);
-          await AsyncStorage.setItem(
-            'userInfo',
-            JSON.stringify(refetchUser.data?.getMyInfo),
-          );
-          dispatch({
-            type: 'SET_USER_DATA',
-            payload: refetchUser.data?.getMyInfo,
-          });
-
-          navigate('Tab', {screen: 'Home'});
-        }
+        await setDataAndNavigate(data.login);
       } catch (error) {
         setLoading(false);
         Alert.alert(error.message);
@@ -101,56 +84,33 @@ const Login = () => {
         'email',
       ]);
       if (res.error) {
-        console.log(res.error);
+        throw res.error;
       } else if (res.isCancelled) {
-        setLoading(false);
-        console.log('cancelled');
+        throw new Error('cancelled');
       } else {
         const token = await AccessToken.getCurrentAccessToken();
         if (token) {
           const {accessToken} = token;
-          await AsyncStorage.setItem('userToken', accessToken);
-          dispatch({type: 'SET_TOKEN', payload: accessToken});
-          const fbUserData = await axios.get('https://graph.facebook.com/me', {
-            params: {
-              fields: 'id,name,email,picture',
-              access_token: accessToken,
+          const {data, errors} = await facebookSign({
+            variables: {
+              fbAccessToken: accessToken,
             },
           });
-          const fbAvatar = await axios.get(
-            'https://graph.facebook.com/me/picture',
-            {
-              params: {
-                height: 500,
-                width: 500,
-                access_token: accessToken,
-              },
-            },
-          );
-
-          const facebookUser: FacebookUserDataResponse = fbUserData.data;
-
-          const storeUser: User = {
-            id: facebookUser.id,
-            info: {
-              firstName: facebookUser.name.split(' ')[0],
-              lastName:
-                facebookUser.name.split(' ').length > 1
-                  ? facebookUser.name.split(' ')[1]
-                  : '',
-            },
-            email: facebookUser.email,
-            avatar: fbAvatar.request.responseURL.toString(),
-          };
-          await AsyncStorage.setItem('userInfo', JSON.stringify(storeUser));
-          dispatch({
-            type: 'SET_USER_DATA',
-            payload: storeUser,
-          });
+          if (errors) {
+            throw errors;
+          }
+          if (data) {
+            const jwtToken = data.facebookSign;
+            await setDataAndNavigate(jwtToken);
+          }
           navigate('Tab', {screen: 'Home'});
+        } else {
+          setLoading(false);
+          throw new Error('fb token not is undefield');
         }
       }
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
   };
