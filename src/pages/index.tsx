@@ -5,11 +5,6 @@ import NavigationBar from '../components/NavigationBar';
 
 import Home from './Home';
 import Search from './Search';
-import Auth from './Auth';
-import Detail from './Detail';
-import Profile from './Profile';
-import Share from './Share';
-import ChatIndex, {ChatRoom, PersonModal} from './Chat';
 
 const Tab = createBottomTabNavigator();
 export type TabParamList = {
@@ -23,14 +18,6 @@ const TabScreen = () => {
       <Tab.Screen name="Search" component={Search} />
     </Tab.Navigator>
   );
-};
-
-export const pages = {
-  Auth,
-  Detail,
-  Profile,
-  Share,
-  Chat: {ChatIndex, ChatRoom, PersonModal},
 };
 
 export default TabScreen;

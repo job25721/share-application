@@ -21,11 +21,11 @@ const apiLink = {
 };
 
 const httpLink = new HttpLink({
-  uri: `http://${apiLink.local}/graphql`,
+  uri: `http://${apiLink.online}/graphql`,
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${apiLink.local}/graphql`,
+  uri: `ws://${apiLink.online}/graphql`,
   options: {
     reconnect: true,
   },
@@ -70,6 +70,11 @@ const cache: ApolloCache<NormalizedCacheObject> = new InMemoryCache({
 const client = new ApolloClient({
   link: concat(authMiddleware, networkLink),
   cache,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'network-only',
+    },
+  },
 });
 
 export default client;

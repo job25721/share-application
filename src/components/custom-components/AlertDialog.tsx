@@ -2,9 +2,10 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modalbox';
-import Feather from 'react-native-vector-icons/Feather';
+// import Feather from 'react-native-vector-icons/Feather';
 import {Colors, PantoneColor} from '../../utils/Colors';
-import {Button, CustomText} from './';
+import {CustomText} from './Text';
+import {Button} from './CustomButton';
 
 interface AlertDialogProps {
   title: string;

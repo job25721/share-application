@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {TextInput, TextStyle, StyleSheet, View, Platform} from 'react-native';
-import {Button} from '.';
+import {Button} from './CustomButton';
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors} from '../../utils/Colors';
 

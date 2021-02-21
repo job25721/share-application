@@ -7,7 +7,6 @@ import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 import store, {useDispatch} from './src/store';
 
-import TabScreen, {pages, TabParamList} from './src/pages';
 import {ApolloError, ApolloProvider} from '@apollo/client';
 import client from './src/graphql/client';
 import {Item} from './src/store/item/types';
@@ -21,6 +20,13 @@ import 'react-native-gesture-handler';
 
 import {useFeedQuery} from './src/components/custom-hooks-graphql/FeedItem';
 import {useMySavedItemQuery} from './src/components/custom-hooks-graphql/MySavedItem';
+
+import TabScreen, {TabParamList} from './src/pages';
+import Auth from './src/pages/Auth';
+import Share from './src/pages/Share';
+import Detail from './src/pages/Detail';
+import Profile from './src/pages/Profile';
+import ChatIndex, {ChatRoom, PersonModal} from './src/pages/Chat';
 
 const RootStack = createStackNavigator();
 
@@ -90,8 +96,6 @@ export const RefreshContext = createContext<RefreshContext>({
     error: undefined,
   },
 });
-
-const {Auth, Share, Detail, Profile, Chat} = pages;
 
 const RootStackScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -185,7 +189,7 @@ export type ChatStackParamList = {
   Person: {requests: Request[]; itemName: string};
   ChatRoom: undefined;
 };
-const {ChatIndex, ChatRoom, PersonModal} = Chat;
+
 const ChatStackScreen: React.FC = () => (
   <ChatStack.Navigator mode="card">
     <ChatStack.Screen
