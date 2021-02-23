@@ -1,4 +1,4 @@
-import {Chat} from '../chat/types';
+import {Chat, ChatMessageSchema} from '../chat/types';
 import {Item} from '../item/types';
 import {User} from '../user/types';
 
@@ -11,18 +11,41 @@ export interface OnRequestLoading {
   err: boolean;
   msg: string;
 }
+
 export type RequestActionTypes =
   | {type: typeof SET_REASON; payload: string}
   | {type: typeof SET_WANTED_RATE; payload: number}
   | {type: typeof SET_REQUEST_ITEM_ID; payload: string}
   | {type: typeof CLEAR_REQUEST_DATA}
-  | {type: 'SET_REQUEST_LOADING'; payload: OnRequestLoading};
+  | {type: 'SET_REQUEST_LOADING'; payload: OnRequestLoading}
+  | {type: 'ADD_MY_SEND_REQUETS'; payload: Request}
+  | {type: 'SET_MY_RECEIVE_REQUETS'; payload: Request[]}
+  | {type: 'SET_MY_SEND_REQUETS'; payload: Request[]}
+  | {type: 'ADD_MY_RECEIVE_REQUETS'; payload: Request}
+  | {
+      type: 'UPDATE_CHAT_TYPE_ITEM';
+      payload: {requestId: string; message: ChatMessageSchema};
+    }
+  | {
+      type: 'UPDATE_CHAT_TYPE_PERSON';
+      payload: {requestId: string; itemId: string; message: ChatMessageSchema};
+    }
+  | {type: 'SORT_REQUEST_ARR_TYPE_ITEM'}
+  | {
+      type: 'SORT_REQUEST_ARR_TYPE_PERSON';
+    };
 
+export interface SendingItem {
+  item: Item;
+  request: Request[];
+}
 export interface RequestState {
   reason: string;
   wantedRate: number;
   requestItemId: string;
   onRequestLoading: OnRequestLoading;
+  mySendRequests: Request[];
+  myReceiveRequests: SendingItem[];
 }
 
 export type RequestStatus = 'requested' | 'accepted' | 'rejected' | 'delivered';
