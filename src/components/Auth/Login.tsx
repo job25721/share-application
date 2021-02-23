@@ -79,10 +79,7 @@ const Login = () => {
   const fbLogin = async () => {
     try {
       setLoading(true);
-      const res = await LoginManager.logInWithPermissions([
-        'public_profile',
-        'email',
-      ]);
+      const res = await LoginManager.logInWithPermissions(['email']);
       if (res.error) {
         throw res.error;
       } else if (res.isCancelled) {

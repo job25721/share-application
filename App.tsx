@@ -27,6 +27,7 @@ import Share from './src/pages/Share';
 import Detail from './src/pages/Detail';
 import Profile from './src/pages/Profile';
 import ChatIndex, {ChatRoom, PersonModal} from './src/pages/Chat';
+import {ChatCardType} from './src/components/Chat/ChatCard';
 
 const RootStack = createStackNavigator();
 
@@ -184,10 +185,11 @@ const RootStackScreen: React.FC = () => {
 };
 
 const ChatStack = createStackNavigator();
+
 export type ChatStackParamList = {
   Index: undefined;
-  Person: {requests: Request[]; itemName: string};
-  ChatRoom: undefined;
+  Person: {itemId: string; itemName: string};
+  ChatRoom: {type: ChatCardType};
 };
 
 const ChatStackScreen: React.FC = () => (

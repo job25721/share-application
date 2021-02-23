@@ -12,7 +12,7 @@ import {CustomText} from '../custom-components';
 
 const SendingItemChat: React.FC = () => {
   const myReceiveRequests = useSelector(
-    (state: RootState) => state.user.myReceiveRequests,
+    (state: RootState) => state.request.myReceiveRequests,
   );
 
   const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -29,7 +29,7 @@ const SendingItemChat: React.FC = () => {
               navigate('Chat', {
                 screen: 'Person',
                 params: {
-                  requests: sending.request,
+                  itemId: sending.item.id,
                   itemName: sending.item.name,
                 },
               })

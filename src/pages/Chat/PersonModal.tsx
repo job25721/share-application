@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 import {ItemChatCard} from '../../components/Chat/ChatCard';
 import {Colors, PantoneColor} from '../../utils/Colors';
@@ -8,6 +8,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ChatStackParamList} from '../../../App';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 type PersonScreenRouteProp = RouteProp<ChatStackParamList, 'Person'>;
 type PersonScreenNavigationProp = StackNavigationProp<
@@ -21,10 +23,10 @@ type Props = {
 };
 
 const PersonModal: React.FC<Props> = ({navigation, route}) => {
-  const {requests, itemName} = route.params;
-  useEffect(() => {
-    // console.log(requests);
-  }, []);
+  const {itemId, itemName} = route.params;
+  const myReceiveRequests = useSelector(
+    (state: RootState) => state.request.myReceiveRequests,
+  );
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -44,24 +46,27 @@ const PersonModal: React.FC<Props> = ({navigation, route}) => {
         </View>
 
         <ScrollView style={styles.scrollContainer}>
-          {requests.map((request) => (
-            <ItemChatCard
-              key={request.id}
-              type="Person"
-              request={request}
-              latestMsg={{
-                from:
-                  request.chat.data.length > 0
-                    ? request.chat.data[request.chat.data.length - 1].from
-                    : '',
-                msg:
-                  request.chat.data.length > 0
-                    ? request.chat.data[request.chat.data.length - 1].message
-                    : '',
-              }}
-              notification={1}
-            />
-          ))}
+          {myReceiveRequests
+            .slice(0)
+            .find(({item}) => item.id === itemId)
+            ?.request.map((request) => (
+              <ItemChatCard
+                key={request.id}
+                type="Person"
+                request={request}
+                latestMsg={{
+                  from:
+                    request.chat.data.length > 0
+                      ? request.chat.data[request.chat.data.length - 1].from
+                      : '',
+                  msg:
+                    request.chat.data.length > 0
+                      ? request.chat.data[request.chat.data.length - 1].message
+                      : '',
+                }}
+                notification={1}
+              />
+            ))}
         </ScrollView>
       </SafeAreaView>
     </>

@@ -102,67 +102,26 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
       </View>
       <View style={styles.chatTab}>
         <Button
-          onPress={() => dispatch({type: 'SET_TAB_INDEX', payload: 0})}
+          onPress={async () => {
+            dispatch({type: 'SET_TAB_INDEX', payload: 0});
+            await refetchMySendRequests();
+          }}
           bg={activeIndex === 0 ? PantoneColor.livingCoral : 'transparent'}>
           <CustomText color={activeIndex === 0 ? Colors.white : Colors.black}>
             ของที่กำลังขอรับ
           </CustomText>
         </Button>
         <Button
-          onPress={() => dispatch({type: 'SET_TAB_INDEX', payload: 1})}
+          onPress={async () => {
+            dispatch({type: 'SET_TAB_INDEX', payload: 1});
+            await refetchMyReceive();
+          }}
           bg={activeIndex === 1 ? PantoneColor.blueDepths : 'transparent'}>
           <CustomText color={activeIndex === 1 ? Colors.white : Colors.black}>
             ของที่กำลังส่งต่อ
           </CustomText>
         </Button>
       </View>
-      {/* <Button
-        text="test"
-        onPress={() => {
-          const x: Request = {
-            id: '1233',
-            requestPerson: {
-              id: '1231323',
-              username: 'asdad',
-              avatar: '1123',
-              info: {
-                firstName: 'asdasd',
-                lastName: 'asdasdas',
-                birthDate: '12,22023',
-                age: 12,
-              },
-            },
-            item: {
-              id: 'asdad',
-              name: 'sss',
-              category: 'asdad',
-              status: 'available',
-              tags: [],
-              owner: {
-                id: '1231323',
-                username: 'asdad',
-                avatar: '1123',
-                info: {
-                  firstName: 'asdasd',
-                  lastName: 'asdasdas',
-                  birthDate: '12,22023',
-                  age: 12,
-                },
-              },
-              description: 'aasdsd',
-              createdDate: '123.1231232',
-              images: ['ss'],
-            },
-            chat: {
-              id: 'asdasd',
-              data: [],
-              lastestUpdate: Date.now(),
-              active: true,
-            },
-          };
-          dispatch({type: 'ADD_MY_SEND_REQUETS', payload: x});
-        }}
-      /> */}
 
       <ChatContext.Provider
         value={{

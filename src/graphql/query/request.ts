@@ -44,6 +44,7 @@ export const GET_MY_RECEIVING_ITEM: DocumentNode = gql`
           }
         }
       }
+      chat_uid
       chat {
         id
         data {

@@ -19,7 +19,7 @@ import {getTime} from '../../utils/getTime';
 import {CustomText} from '../custom-components';
 import ProgressiveImage from '../custom-components/ProgressiveImage';
 
-type ChatCardType = 'Person' | 'Item';
+export type ChatCardType = 'Person' | 'Item';
 interface ItemChatCardProps {
   notification?: number;
   latestMsg?: {from: string; msg: string};
@@ -61,7 +61,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
           type: 'SET_CURRENT_PROCESS_REQUEST',
           payload: request,
         });
-        navigate('ChatRoom');
+        navigate('ChatRoom', {type});
       }}
       style={styles.chatListCard}>
       {type === 'Person' ? (

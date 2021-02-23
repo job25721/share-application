@@ -10,7 +10,7 @@ import {View} from 'react-native';
 
 const ReceivingItemChat = () => {
   const mySendRequestsState = useSelector(
-    (state: RootState) => state.user.mySendRequests,
+    (state: RootState) => state.request.mySendRequests,
   );
 
   if (mySendRequestsState.length === 0) {
