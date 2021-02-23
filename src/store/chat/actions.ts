@@ -1,7 +1,87 @@
 import {MutationFunction} from '@apollo/client';
 import {Dispatch} from 'react';
 import store, {StoreEvent} from '..';
+
+import {
+  SendMessageInput,
+  SendMessageReturnType,
+} from '../../graphql/mutation/chat';
 import {ReuquestMutationReturnType} from '../../graphql/mutation/request';
+import {getTime} from '../../utils/getTime';
+import {SendMessage} from './types';
+
+interface UpdateRequesPayload {
+  requestId: string;
+  itemId?: string;
+}
+
+export const SubscribeMessageAction = () => async (
+  dispatch: Dispatch<StoreEvent>,
+) => {};
+
+export const SendMessageAction = (
+  sendMessageMutation: MutationFunction<
+    SendMessageReturnType,
+    SendMessageInput
+  >,
+  sendMessagePayload: SendMessage,
+  updateRequestPayload: UpdateRequesPayload,
+) => async (dispatch: Dispatch<StoreEvent>) => {
+  const {chatRoomId, messagePayload} = sendMessagePayload;
+  const {from, to, message, timestamp} = messagePayload;
+
+  try {
+    const {errors, data} = await sendMessageMutation({
+      variables: {
+        chatRoomId,
+        from,
+        to,
+        message,
+        timestamp,
+      },
+    });
+    if (errors) {
+      throw errors;
+    }
+    if (data) {
+      dispatch({
+        type: 'ADD_MESSAGE',
+        payload: {
+          pos: 'right',
+          msg: data.sendMessage.message.split('\n'),
+          time: getTime(new Date(data.sendMessage.timestamp).getTime()),
+        },
+      });
+      const {itemId, requestId} = updateRequestPayload;
+      if (!itemId) {
+        dispatch({
+          type: 'UPDATE_CHAT_TYPE_ITEM',
+          payload: {
+            requestId,
+            message: messagePayload,
+          },
+        });
+        dispatch({
+          type: 'SORT_REQUEST_ARR_TYPE_ITEM',
+        });
+      } else {
+        dispatch({
+          type: 'UPDATE_CHAT_TYPE_PERSON',
+          payload: {
+            requestId,
+            itemId,
+            message: messagePayload,
+          },
+        });
+        dispatch({
+          type: 'SORT_REQUEST_ARR_TYPE_PERSON',
+        });
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const acceptRequestAction = (
   acceptRequestMutation: MutationFunction<ReuquestMutationReturnType>,

@@ -1,11 +1,11 @@
 import {Request} from '../request/types';
 import {User} from '../user/types';
 
-interface ChatMessageSchema {
+export interface ChatMessageSchema {
   from: string;
   to: string;
   message: string;
-  timestamp: string;
+  timestamp: Date;
 }
 export interface Chat {
   id: string;
@@ -22,6 +22,11 @@ export interface ChatMessageDisplay {
   pos: ChatPositionType;
   msg: string[];
   time: string;
+}
+
+export interface SendMessage {
+  chatRoomId: string;
+  messagePayload: ChatMessageSchema;
 }
 
 export interface ChatState {

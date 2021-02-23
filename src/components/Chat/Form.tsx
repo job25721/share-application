@@ -3,12 +3,12 @@ import {StyleSheet, TextInput, View} from 'react-native';
 import {Button} from '../custom-components';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {Colors} from '../../utils/Colors';
-import {useDispatch} from '../../store';
-import {getTime} from '../../utils/getTime';
 import {ModalContext} from '../../pages/Chat/ChatRoom';
 
-const ChatForm: React.FC<{hasAcceptBtn: boolean}> = ({hasAcceptBtn}) => {
-  const dispatch = useDispatch();
+const ChatForm: React.FC<{
+  hasAcceptBtn: boolean;
+  onSendMessage: (msg: string) => void;
+}> = ({hasAcceptBtn, onSendMessage}) => {
   const [msg, setMsg] = useState<string>('');
   const {setAlert} = useContext(ModalContext);
 
@@ -37,14 +37,7 @@ const ChatForm: React.FC<{hasAcceptBtn: boolean}> = ({hasAcceptBtn}) => {
         <Button
           onPress={() => {
             if (msg !== '') {
-              dispatch({
-                type: 'ADD_MESSAGE',
-                payload: {
-                  pos: 'right',
-                  msg: msg.split('\n'),
-                  time: getTime(Date.now()),
-                },
-              });
+              onSendMessage(msg);
               setMsg('');
             }
           }}

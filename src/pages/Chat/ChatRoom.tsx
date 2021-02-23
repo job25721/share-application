@@ -39,8 +39,15 @@ import {
   acceptDeliveredAction,
   acceptRequestAction,
   rejectRequestAction,
+  SendMessageAction,
 } from '../../store/chat/actions';
+
 import Modal from 'react-native-modalbox';
+import {
+  SendMessageInput,
+  SendMessageReturnType,
+  SEND_MESSAGE,
+} from '../../graphql/mutation/chat';
 
 type ChatRoomScreenRouteProp = RouteProp<ChatStackParamList, 'ChatRoom'>;
 type ChatRoomScreenNavigationProp = StackNavigationProp<
@@ -60,7 +67,8 @@ interface ModalContextType {
 export const ModalContext = createContext<ModalContextType>({
   setAlert: () => null,
 });
-const ChatRoom: React.FC<Props> = ({navigation}) => {
+const ChatRoom: React.FC<Props> = ({navigation, route}) => {
+  const {type} = route.params;
   const messages = useSelector((state: RootState) => state.chat.messages);
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', onKeyboardShow);
@@ -91,10 +99,13 @@ const ChatRoom: React.FC<Props> = ({navigation}) => {
   const [acceptRequest] = useMutation(ACCEPT_REQUEST);
   const [acceptDelivered] = useMutation(ACCEPT_DELIVERED);
   const [requestRequest] = useMutation(REJECT_REQUEST);
+  const [sendMessage] = useMutation<SendMessageReturnType, SendMessageInput>(
+    SEND_MESSAGE,
+  );
   const dispatch = useDispatch();
   const {feedHome} = useContext(RefreshContext);
   if (chatWith && currentProcessRequest) {
-    const {item, status, requestPerson, chat} = currentProcessRequest;
+    const {item, status, requestPerson, chat, id} = currentProcessRequest;
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -195,6 +206,24 @@ const ChatRoom: React.FC<Props> = ({navigation}) => {
           <ModalContext.Provider value={{setAlert}}>
             {chat.active ? (
               <Form
+                onSendMessage={(message) =>
+                  SendMessageAction(
+                    sendMessage,
+                    {
+                      chatRoomId: chat.id,
+                      messagePayload: {
+                        from: currentUser ? currentUser.id : '',
+                        to: chatWith.id,
+                        message,
+                        timestamp: new Date(),
+                      },
+                    },
+                    {
+                      requestId: id,
+                      itemId: type === 'Item' ? undefined : item.id,
+                    },
+                  )(dispatch)
+                }
                 hasAcceptBtn={
                   (status === 'requested' &&
                     currentUser?.id === item.owner.id) ||
