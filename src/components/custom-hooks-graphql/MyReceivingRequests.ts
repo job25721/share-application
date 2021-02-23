@@ -26,7 +26,7 @@ export const useMyReceivingRequestsQuery = (): [
         }),
       });
     }
-  }, [dispatch, query.data]);
+  }, [query.data]);
 
   const refetch = useCallback(async () => {
     setRefreshing(true);

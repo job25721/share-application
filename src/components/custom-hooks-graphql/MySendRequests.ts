@@ -25,7 +25,7 @@ export const useMySendRquestsQuery = (): [
         }),
       });
     }
-  }, [dispatch, query.data]);
+  }, [query.data]);
 
   const refetch = useCallback(async () => {
     setRefreshing(true);

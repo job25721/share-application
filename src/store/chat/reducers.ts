@@ -6,6 +6,7 @@ const initialState: ChatState = {
   chatWith: null,
   currentProcessRequest: null,
   loadingAction: false,
+  newDirectMessage: undefined,
 };
 
 export function chatReducer(
@@ -42,6 +43,11 @@ export function chatReducer(
       return {
         ...state,
         loadingAction: action.payload,
+      };
+    case 'SET_NEW_DIRECT':
+      return {
+        ...state,
+        newDirectMessage: action.payload,
       };
     default:
       return state;
