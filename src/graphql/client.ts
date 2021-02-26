@@ -13,19 +13,19 @@ import {WebSocketLink} from '@apollo/client/link/ws';
 
 import {getMainDefinition} from '@apollo/client/utilities';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {API_URL_EC2, API_LOCAL} from '../config';
+import {API_URL_ONLINE, API_LOCAL} from '../config';
 
 const apiLink = {
   local: API_LOCAL,
-  online: API_URL_EC2,
+  online: API_URL_ONLINE,
 };
 
 const httpLink = new HttpLink({
-  uri: `http://${apiLink.local}/graphql`,
+  uri: `http://${apiLink.online}/graphql`,
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${apiLink.local}/graphql`,
+  uri: `ws://${apiLink.online}/graphql`,
   options: {
     reconnect: true,
   },
