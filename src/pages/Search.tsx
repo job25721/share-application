@@ -21,7 +21,7 @@ import {SearchResultCard} from '../components/Search';
 import {useSearch} from '../components/custom-hooks-graphql/SearchItem';
 import {useSelector} from 'react-redux';
 import {RootState, useDispatch} from '../store';
-import {QueryResult, useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/client';
 import {GET_TREANDING_TAG, TrendingTagQueryResult} from '../graphql/query/item';
 import {RouteProp} from '@react-navigation/native';
 import {TabParamList} from '.';
@@ -37,32 +37,32 @@ type Props = {
   route: SearchScreenRouteProp;
   navigation: SearchScreenNavigationProp;
 };
-const Search: React.FC<Props> = () => {
+const Search: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
-  const {searchResult, submitSearchKey} = useSelector(
-    (state: RootState) => state.item,
+  const searchResult = useSelector(
+    (state: RootState) => state.item.searchResult,
   );
   const [onSearch, setOnSearch] = useState<boolean>(false);
   const [searchKey, setSearchKey] = useState<string>('');
 
   const {data} = useQuery<TrendingTagQueryResult>(GET_TREANDING_TAG);
 
-  const searchQuery: QueryResult = useSearch({
-    searchKey: submitSearchKey === '' ? '!' : submitSearchKey,
-  });
+  const {searchQuery, search} = useSearch();
 
   useEffect(() => {
-    if (submitSearchKey !== '') {
+    if (route.params.catSearch) {
       setOnSearch(true);
-    } else {
+      setSearchKey(route.params.catSearch);
+      search({variables: {searchKey: route.params.catSearch}});
       setOnSearch(false);
     }
-  }, [submitSearchKey]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route.params]);
+
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', onKeyboardShow);
     Keyboard.addListener('keyboardDidHide', onKeyboardHide);
 
-    // cleanup function
     return () => {
       Keyboard.removeListener('keyboardDidShow', onKeyboardShow);
       Keyboard.removeListener('keyboardDidHide', onKeyboardHide);
@@ -99,14 +99,16 @@ const Search: React.FC<Props> = () => {
               width="80%"
               value={searchKey}
               onChangeText={setSearchKey}
-              onClearBtnPress={() =>
-                dispatch({type: 'SET_SEARCH_SUBMIT', payload: ''})
-              }
+              onClearBtnPress={() => {
+                setOnSearch(false);
+                setSearchKey('');
+              }}
             />
             <Button
               onPress={() => {
                 if (searchKey !== '') {
-                  dispatch({type: 'SET_SEARCH_SUBMIT', payload: searchKey});
+                  search({variables: {searchKey}});
+                  setOnSearch(true);
                   Keyboard.dismiss();
                 }
               }}>
@@ -133,10 +135,7 @@ const Search: React.FC<Props> = () => {
                     <Tag
                       onPress={() => {
                         setSearchKey(tag.name);
-                        dispatch({
-                          type: 'SET_SEARCH_SUBMIT',
-                          payload: tag.name,
-                        });
+                        search({variables: {searchKey: tag.name}});
                       }}
                       key={tag.id}
                       text={tag.name}
@@ -149,37 +148,36 @@ const Search: React.FC<Props> = () => {
           {onSearch || searchResult.length > 0 || searchKey !== '' ? (
             <>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                  <CustomText fontSize={20}>Clear</CustomText>
-                  <Button
-                    onPress={() => {
-                      dispatch({type: 'SET_SEARCH_SUBMIT', payload: ''});
-                      setSearchKey('');
-                      dispatch({type: 'SET_SEARCH_RESULT', payload: []});
-                    }}
-                    px={5}>
-                    <FeatherIcon color={Colors._red_500} name="x" size={30} />
-                  </Button>
-                </View>
-                {(searchResult.length > 0 && (
-                  <>
-                    <CustomText type="subheader">ผลลัพธ์</CustomText>
-                  </>
-                )) ||
-                  (!searchQuery.loading && (
-                    <CustomText>
-                      ไม่มีผลลัพธ์ใดตรงกับ{' '}
-                      <CustomText fontWeight="bold">
-                        {submitSearchKey}
-                      </CustomText>
-                    </CustomText>
-                  )) || <CustomText fontSize={25}>กำลังค้นหา</CustomText>}
+                {searchResult.length > 0 && (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <CustomText fontSize={20}>Clear</CustomText>
+                    <Button
+                      onPress={() => {
+                        setOnSearch(false);
+                        setSearchKey('');
+                        dispatch({type: 'SET_SEARCH_RESULT', payload: []});
+                      }}
+                      px={5}>
+                      <FeatherIcon color={Colors._red_500} name="x" size={30} />
+                    </Button>
+                  </View>
+                )}
+                {searchResult.length > 0 ? (
+                  <CustomText type="subheader">ผลลัพธ์ล่าสุด</CustomText>
+                ) : !onSearch && searchResult.length === 0 ? (
+                  <CustomText>
+                    ไม่มีผลลัพธ์ใดตรงกับ{' '}
+                    <CustomText fontWeight="bold">{searchKey}</CustomText>
+                  </CustomText>
+                ) : searchQuery.loading ? (
+                  <CustomText fontSize={25}>กำลังค้นหา</CustomText>
+                ) : null}
               </View>
 
               <ScrollView>

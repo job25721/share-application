@@ -93,8 +93,8 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
 
   useEffect(() => {
     const refetch = async () => {
-      await refetchMySendRequests();
-      await refetchMyReceive();
+      // await refetchMySendRequests();
+      // await refetchMyReceive();
     };
     refetch();
 
@@ -119,7 +119,6 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         <Button
           onPress={async () => {
             dispatch({type: 'SET_TAB_INDEX', payload: 0});
-            await refetchMySendRequests();
           }}
           bg={activeIndex === 0 ? PantoneColor.livingCoral : 'transparent'}>
           <CustomText color={activeIndex === 0 ? Colors.white : Colors.black}>
@@ -129,7 +128,6 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         <Button
           onPress={async () => {
             dispatch({type: 'SET_TAB_INDEX', payload: 1});
-            await refetchMyReceive();
           }}
           bg={activeIndex === 1 ? PantoneColor.blueDepths : 'transparent'}>
           <CustomText color={activeIndex === 1 ? Colors.white : Colors.black}>
