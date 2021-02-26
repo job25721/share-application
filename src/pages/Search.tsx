@@ -50,7 +50,7 @@ const Search: React.FC<Props> = ({route}) => {
   const {searchQuery, search} = useSearch();
 
   useEffect(() => {
-    if (route.params.catSearch) {
+    if (route.params?.catSearch) {
       setOnSearch(true);
       setSearchKey(route.params.catSearch);
       search({variables: {searchKey: route.params.catSearch}});
