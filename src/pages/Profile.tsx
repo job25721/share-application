@@ -38,7 +38,6 @@ const profileTabIcons: ProfileTabIcons[] = [
   //   name: 'user',
   //   text: 'ทั่วไป',
   // },
-
   {
     id: 1,
     name: 'box',
@@ -89,8 +88,6 @@ const Profile: React.FC<Props> = ({navigation}) => {
         await myItemRefetch();
       } else if (tabIndex === 2) {
         await myReceivedItemRefetch();
-      } else if (tabIndex === 3) {
-        //do something...
       }
     } catch (err) {
       Alert.alert(err.message);
