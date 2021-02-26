@@ -1,23 +1,18 @@
-import {QueryResult, useQuery} from '@apollo/client';
+import {LazyQueryResult, QueryLazyOptions, useLazyQuery} from '@apollo/client';
 import {useEffect} from 'react';
-import {useSelector} from 'react-redux';
 import {SearchResult, SEARCH_ITEM_BY_KEYWORD} from '../../graphql/query/item';
-import {RootState, useDispatch} from '../../store';
+import {useDispatch} from '../../store';
 
-export interface SearchHookType {
-  searchKey: string;
-}
-export const useSearch: React.FC<SearchHookType> = ({
-  searchKey,
-}): QueryResult<SearchResult> => {
-  const searchResult = useSelector(
-    (state: RootState) => state.item.searchResult,
-  );
+export const useSearch = (): {
+  searchQuery: LazyQueryResult<SearchResult, {searchKey: string}>;
+  search: (options?: QueryLazyOptions<{searchKey: string}> | undefined) => void;
+} => {
   const dispatch = useDispatch();
 
-  const searchQuery = useQuery<SearchResult>(SEARCH_ITEM_BY_KEYWORD, {
-    variables: {searchKey: searchKey},
-  });
+  const [search, searchQuery] = useLazyQuery<SearchResult, {searchKey: string}>(
+    SEARCH_ITEM_BY_KEYWORD,
+    {fetchPolicy: 'network-only'},
+  );
 
   useEffect(() => {
     if (searchQuery.data) {
@@ -26,7 +21,8 @@ export const useSearch: React.FC<SearchHookType> = ({
         payload: searchQuery.data.searchItem,
       });
     }
-  }, [searchQuery.data, searchResult]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery.data]);
 
-  return searchQuery;
+  return {search, searchQuery};
 };
