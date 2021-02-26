@@ -63,7 +63,14 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
         });
         navigate('ChatRoom', {type});
       }}
-      style={styles.chatListCard}>
+      style={[
+        styles.chatListCard,
+        type === 'Person' &&
+        request.status === 'delivered' &&
+        request.item.acceptedToPerson?.id === request.requestPerson.id
+          ? {backgroundColor: Colors._green_100}
+          : null,
+      ]}>
       {type === 'Person' ? (
         <ProgressiveImage
           loadingType="rolling"
@@ -164,7 +171,16 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
       <View style={styles.contentView}>
         <CustomText fontWeight="500">{item.name}</CustomText>
         <CustomText>ประเภท : {item.category}</CustomText>
-        <CustomText>สถานะ : {item.status}</CustomText>
+        <CustomText>
+          สถานะ :{' '}
+          {item.status === 'delivered' ? (
+            <CustomText fontWeight="700">
+              ได้ส่งต่อให้ {item.acceptedToPerson?.info.firstName}
+            </CustomText>
+          ) : (
+            item.status
+          )}
+        </CustomText>
       </View>
       <View style={styles.notiView}>
         <View
