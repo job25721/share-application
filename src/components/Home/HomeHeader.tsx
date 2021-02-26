@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Button, CustomText, ProgressiveImage} from '../custom-components';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';

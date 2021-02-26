@@ -6,7 +6,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const CameraBtn: React.FC<{onPress: any}> = ({onPress}) => {
   return (
-    <Button onPress={onPress} rounded bg={Colors._gray_900} py={20} px={10}>
+    <Button onPress={onPress} rounded bg={Colors.white} py={20} px={10}>
       <View style={btnStyles.btnFlex}>
         <FeatherIcon name="camera" size={45} />
         <CustomText fontSize={16} fontWeight="bold">

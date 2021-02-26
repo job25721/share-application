@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   mainView: {
-    backgroundColor: Colors._indigo_100,
+    backgroundColor: Colors._green_50,
     padding: 15,
     borderRadius: 15,
     marginVertical: 5,

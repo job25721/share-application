@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  container: {backgroundColor: Colors.white, flex: 1},
+  container: {backgroundColor: '#f5f5f5', flex: 1},
 });
 
 export default Share;
