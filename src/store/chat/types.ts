@@ -1,3 +1,4 @@
+import {NewDirectMessage} from '../../graphql/subcription/chat';
 import {Request} from '../request/types';
 import {User} from '../user/types';
 
@@ -33,8 +34,9 @@ export interface ChatState {
   tabIndex: ChatTabIndexType;
   messages: ChatMessageDisplay[];
   chatWith: User | null;
-  currentProcessRequest?: Request | null;
+  currentProcessRequest: Request;
   loadingAction: boolean;
+  newDirectMessage?: NewDirectMessage;
 }
 
 export type ChatActionTypes =
@@ -46,4 +48,5 @@ export type ChatActionTypes =
   | {type: 'ADD_MESSAGE'; payload: ChatMessageDisplay}
   | {type: 'SET_CHAT_WITH'; payload: User | null}
   | {type: 'SET_CURRENT_PROCESS_REQUEST'; payload: Request | null}
-  | {type: 'SET_LOADING_ACTION'; payload: boolean};
+  | {type: 'SET_LOADING_ACTION'; payload: boolean}
+  | {type: 'SET_NEW_DIRECT'; payload: NewDirectMessage};

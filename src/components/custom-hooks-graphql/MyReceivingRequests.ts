@@ -1,4 +1,5 @@
-import {QueryResult, useQuery} from '@apollo/client';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {QueryResult, useLazyQuery, useQuery} from '@apollo/client';
 import {useCallback, useEffect, useState} from 'react';
 import {
   GetRequestsQueryType,
@@ -7,13 +8,17 @@ import {
 import {useDispatch} from '../../store';
 
 export const useMyReceivingRequestsQuery = (): [
-  QueryResult<GetRequestsQueryType>,
+  QueryResult<GetRequestsQueryType> | undefined,
   () => Promise<void>,
   boolean,
 ] => {
   const dispatch = useDispatch();
-  const query = useQuery<GetRequestsQueryType>(GET_MY_REQUESTS);
+  const [load, query] = useLazyQuery<GetRequestsQueryType>(GET_MY_REQUESTS);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  useEffect(() => {
+    load();
+  }, []);
 
   useEffect(() => {
     if (query.data?.getMyRequests) {
@@ -26,15 +31,17 @@ export const useMyReceivingRequestsQuery = (): [
         }),
       });
     }
-  }, [dispatch, query.data]);
+  }, [query.data]);
 
   const refetch = useCallback(async () => {
-    setRefreshing(true);
-    try {
-      await query.refetch();
-      setRefreshing(false);
-    } catch (err) {
-      console.log(err);
+    if (query.refetch) {
+      setRefreshing(true);
+      try {
+        await query.refetch();
+        setRefreshing(false);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }, [query]);
 

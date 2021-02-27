@@ -4,7 +4,6 @@ const initialState: ItemState = {
   myReceivingItem: [],
   refreshFeed: false,
   searchResult: [],
-  submitSearchKey: '',
 };
 
 export default function itemReducers(
@@ -41,11 +40,6 @@ export default function itemReducers(
       return {
         ...state,
         searchResult: action.payload,
-      };
-    case 'SET_SEARCH_SUBMIT':
-      return {
-        ...state,
-        submitSearchKey: action.payload,
       };
     default:
       return state;

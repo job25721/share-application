@@ -29,24 +29,27 @@ import {useMyItemQuery} from '../components/custom-hooks-graphql/MyItem';
 import {useMyReceivedItemQuery} from '../components/custom-hooks-graphql/MyReceivedItem';
 import {LoginManager} from 'react-native-fbsdk';
 interface ProfileTabIcons {
+  id: number;
   name: string;
   text: string;
 }
 const profileTabIcons: ProfileTabIcons[] = [
+  // {
+  //   name: 'user',
+  //   text: 'ทั่วไป',
+  // },
   {
-    name: 'user',
-    text: 'ทั่วไป',
-  },
-
-  {
+    id: 1,
     name: 'box',
     text: 'ของของฉัน',
   },
   {
+    id: 2,
     name: 'arrow-up-right',
     text: 'รับต่อมา',
   },
   {
+    id: 3,
     name: 'bookmark',
     text: 'ที่บันทึกไว้',
   },
@@ -65,7 +68,7 @@ type Props = {
 
 const Profile: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(1);
   const {feedHome} = useContext(RefreshContext);
   const {refresh} = feedHome;
 
@@ -85,8 +88,6 @@ const Profile: React.FC<Props> = ({navigation}) => {
         await myItemRefetch();
       } else if (tabIndex === 2) {
         await myReceivedItemRefetch();
-      } else if (tabIndex === 3) {
-        //do something...
       }
     } catch (err) {
       Alert.alert(err.message);
@@ -134,11 +135,11 @@ const Profile: React.FC<Props> = ({navigation}) => {
         </View>
         <ProfileImage user={userData} />
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          {profileTabIcons.map((item, i) => (
+          {profileTabIcons.map((item) => (
             <Icontab
-              active={active === i ? true : false}
-              key={i}
-              onPress={() => changeProfileTab(i)}
+              active={active === item.id ? true : false}
+              key={item.id.toString()}
+              onPress={() => changeProfileTab(item.id)}
               text={item.text}
               name={item.name}
             />

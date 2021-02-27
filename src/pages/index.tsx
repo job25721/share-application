@@ -9,7 +9,7 @@ import Search from './Search';
 const Tab = createBottomTabNavigator();
 export type TabParamList = {
   Home: undefined;
-  Search: undefined;
+  Search: {catSearch: string | undefined};
 };
 const TabScreen = () => {
   return (

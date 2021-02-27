@@ -1,4 +1,5 @@
-import {QueryResult, useQuery} from '@apollo/client';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {QueryResult, useLazyQuery, useQuery} from '@apollo/client';
 import {useCallback, useEffect, useState} from 'react';
 import {
   GetRequestsQueryType,
@@ -12,9 +13,14 @@ export const useMySendRquestsQuery = (): [
   boolean,
 ] => {
   const dispatch = useDispatch();
-  const query = useQuery<GetRequestsQueryType>(GET_MY_RECEIVING_ITEM);
+  const [load, query] = useLazyQuery<GetRequestsQueryType>(
+    GET_MY_RECEIVING_ITEM,
+    {fetchPolicy: 'network-only'},
+  );
   const [refreshing, setRefreshing] = useState<boolean>(false);
-
+  useEffect(() => {
+    load();
+  }, []);
   useEffect(() => {
     if (query.data?.getMySendRequests) {
       console.log('query sent requests');
@@ -25,7 +31,7 @@ export const useMySendRquestsQuery = (): [
         }),
       });
     }
-  }, [dispatch, query.data]);
+  }, [query.data]);
 
   const refetch = useCallback(async () => {
     setRefreshing(true);

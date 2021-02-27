@@ -26,8 +26,13 @@ import ChatRoom from './ChatRoom';
 import PersonModal from './PersonModal';
 import {useMySendRquestsQuery} from '../../components/custom-hooks-graphql/MySendRequests';
 import {useMyReceivingRequestsQuery} from '../../components/custom-hooks-graphql/MyReceivingRequests';
-import {QueryResult} from '@apollo/client';
+import {QueryResult, useSubscription} from '@apollo/client';
 import {GetRequestsQueryType} from '../../graphql/query/request';
+import {
+  CHAT_SUBSCRIPTION,
+  NewDirectMessage,
+} from '../../graphql/subcription/chat';
+import {SendMessageInput} from '../../graphql/mutation/chat';
 
 type ChatIndexScreenRouteProp = RouteProp<ChatStackParamList, 'Index'>;
 type ChatIndexScreenNavigationProp = StackNavigationProp<
@@ -64,6 +69,16 @@ const ChatContext = createContext<ChatContextTypes>({
 const ChatIndex: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const activeIndex = useSelector((state: RootState) => state.chat.tabIndex);
+  const {data} = useSubscription<{newDirectMessage: NewDirectMessage}>(
+    CHAT_SUBSCRIPTION,
+  );
+
+  useEffect(() => {
+    if (data) {
+      dispatch({type: 'SET_NEW_DIRECT', payload: data.newDirectMessage});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const [
     mySendRequestquery,
@@ -78,8 +93,8 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
 
   useEffect(() => {
     const refetch = async () => {
-      await refetchMySendRequests();
-      await refetchMyReceive();
+      // await refetchMySendRequests();
+      // await refetchMyReceive();
     };
     refetch();
 
@@ -104,7 +119,6 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         <Button
           onPress={async () => {
             dispatch({type: 'SET_TAB_INDEX', payload: 0});
-            await refetchMySendRequests();
           }}
           bg={activeIndex === 0 ? PantoneColor.livingCoral : 'transparent'}>
           <CustomText color={activeIndex === 0 ? Colors.white : Colors.black}>
@@ -114,7 +128,6 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         <Button
           onPress={async () => {
             dispatch({type: 'SET_TAB_INDEX', payload: 1});
-            await refetchMyReceive();
           }}
           bg={activeIndex === 1 ? PantoneColor.blueDepths : 'transparent'}>
           <CustomText color={activeIndex === 1 ? Colors.white : Colors.black}>

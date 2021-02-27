@@ -10,14 +10,61 @@ import {ReuquestMutationReturnType} from '../../graphql/mutation/request';
 import {getTime} from '../../utils/getTime';
 import {SendMessage} from './types';
 
-interface UpdateRequesPayload {
+export interface UpdateRequestPayload {
   requestId: string;
   itemId?: string;
 }
 
-export const SubscribeMessageAction = () => async (
-  dispatch: Dispatch<StoreEvent>,
-) => {};
+export const SubscribeMessageAction = (
+  newDirect: SendMessageInput | undefined,
+  updateRequestPayload: UpdateRequestPayload,
+  currentUserId: string,
+) => async (dispatch: Dispatch<StoreEvent>) => {
+  console.log(newDirect);
+  if (newDirect && currentUserId === newDirect.to) {
+    console.log('show');
+    dispatch({
+      type: 'ADD_MESSAGE',
+      payload: {
+        pos: 'left',
+        msg: newDirect.message.split('\n'),
+        time: getTime(new Date(newDirect.timestamp).getTime()),
+      },
+    });
+    const {itemId, requestId} = updateRequestPayload;
+    if (!itemId) {
+      dispatch({
+        type: 'UPDATE_CHAT_TYPE_ITEM',
+        payload: {
+          requestId,
+          message: {
+            ...newDirect,
+            timestamp: new Date(newDirect.timestamp),
+          },
+        },
+      });
+      dispatch({
+        type: 'SORT_REQUEST_ARR_TYPE_ITEM',
+      });
+    } else {
+      dispatch({
+        type: 'UPDATE_CHAT_TYPE_PERSON',
+        payload: {
+          requestId,
+          itemId,
+          message: {
+            ...newDirect,
+            timestamp: new Date(newDirect.timestamp),
+          },
+        },
+      });
+      dispatch({
+        type: 'SORT_REQUEST_ARR_TYPE_PERSON',
+      });
+    }
+    dispatch({type: 'SET_NEW_DIRECT', payload: undefined});
+  }
+};
 
 export const SendMessageAction = (
   sendMessageMutation: MutationFunction<
@@ -25,7 +72,7 @@ export const SendMessageAction = (
     SendMessageInput
   >,
   sendMessagePayload: SendMessage,
-  updateRequestPayload: UpdateRequesPayload,
+  updateRequestPayload: UpdateRequestPayload,
 ) => async (dispatch: Dispatch<StoreEvent>) => {
   const {chatRoomId, messagePayload} = sendMessagePayload;
   const {from, to, message, timestamp} = messagePayload;
@@ -53,6 +100,8 @@ export const SendMessageAction = (
         },
       });
       const {itemId, requestId} = updateRequestPayload;
+      console.log('sort');
+
       if (!itemId) {
         dispatch({
           type: 'UPDATE_CHAT_TYPE_ITEM',

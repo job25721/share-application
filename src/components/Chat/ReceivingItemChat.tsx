@@ -1,17 +1,35 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
+import {RootState, useDispatch} from '../../store';
 import {ItemChatCard} from './ChatCard';
 
 import {CustomText} from '../custom-components';
 import {View} from 'react-native';
+import {SubscribeMessageAction} from '../../store/chat/actions';
 
 const ReceivingItemChat = () => {
+  const dispatch = useDispatch();
   const mySendRequestsState = useSelector(
     (state: RootState) => state.request.mySendRequests,
   );
+
+  const {newDirectMessage} = useSelector((state: RootState) => state.chat);
+  const currentUser = useSelector((state: RootState) => state.user.userData);
+  useEffect(() => {
+    if (newDirectMessage) {
+      SubscribeMessageAction(
+        newDirectMessage,
+        {
+          requestId: newDirectMessage.requestId,
+          itemId: undefined,
+        },
+        currentUser ? currentUser.id : '',
+      )(dispatch);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newDirectMessage]);
 
   if (mySendRequestsState.length === 0) {
     return (

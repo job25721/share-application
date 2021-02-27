@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {Button, CustomText, ProgressiveImage} from '../custom-components';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -34,45 +34,41 @@ const HomeHeader: React.FC = () => {
             source={{uri: userData.avatar}}
           />
         </Button>
-        <View
-          style={{
-            alignItems: 'center',
-            flexDirection: 'row',
-          }}>
-          <View>
-            <CustomText fontWeight="700" fontSize={15}>
-              {userData.facebookId && (
-                <>
-                  <FontAwesome5Icon
-                    size={15}
-                    color={Colors.facebook}
-                    name="facebook"
-                  />
-                  <CustomText> </CustomText>
-                </>
-              )}
-              {userData.info.firstName}
-            </CustomText>
-            <CustomText fontWeight="700" fontSize={15}>
-              {userData.info.lastName}
-            </CustomText>
-          </View>
+
+        <View style={{paddingLeft: 10, justifyContent: 'center'}}>
+          <CustomText fontWeight="700" fontSize={15}>
+            {userData.facebookId && (
+              <>
+                <FontAwesome5Icon
+                  size={15}
+                  color={Colors.facebook}
+                  name="facebook"
+                />
+                <CustomText> </CustomText>
+              </>
+            )}
+            {userData.info.firstName}
+          </CustomText>
+          <CustomText fontWeight="700" fontSize={15}>
+            {userData.info.lastName}
+          </CustomText>
         </View>
+
         <View
           style={{
             flexDirection: 'row',
-            position: 'absolute',
-            right: 0,
+            flex: 1,
+            justifyContent: 'flex-end',
             padding: 10,
           }}>
-          <Button
+          {/* <Button
             onPress={async () => {
               // console.log(props);
               // navigation.navigate('Notification');
             }}
             px={5}>
             <FeatherIcon name="bell" size={35} />
-          </Button>
+          </Button> */}
           <Button
             onPress={() => navigation.navigate('Chat', {screen: 'Index'})}
             px={5}>

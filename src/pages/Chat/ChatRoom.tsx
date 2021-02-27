@@ -69,7 +69,24 @@ export const ModalContext = createContext<ModalContextType>({
 });
 const ChatRoom: React.FC<Props> = ({navigation, route}) => {
   const {type} = route.params;
+
   const messages = useSelector((state: RootState) => state.chat.messages);
+  const scrollRef = useRef<ScrollView>(null);
+  const [alertMsg, setAlert] = useState<boolean>(false);
+  const currentUser = useSelector((state: RootState) => state.user.userData);
+  const {chatWith, currentProcessRequest, loadingAction} = useSelector(
+    (state: RootState) => state.chat,
+  );
+  const {item, status, requestPerson, chat, id} = currentProcessRequest;
+
+  const [acceptRequest] = useMutation(ACCEPT_REQUEST);
+  const [acceptDelivered] = useMutation(ACCEPT_DELIVERED);
+  const [requestRequest] = useMutation(REJECT_REQUEST);
+  const [sendMessage] = useMutation<SendMessageReturnType, SendMessageInput>(
+    SEND_MESSAGE,
+  );
+  const dispatch = useDispatch();
+  const {feedHome} = useContext(RefreshContext);
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', onKeyboardShow);
     Keyboard.addListener('keyboardDidHide', onKeyboardHide);
@@ -89,23 +106,7 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
     scrollRef.current?.scrollToEnd({animated: true});
   };
 
-  const scrollRef = useRef<ScrollView>(null);
-  const [alertMsg, setAlert] = useState<boolean>(false);
-  const currentUser = useSelector((state: RootState) => state.user.userData);
-  const {chatWith, currentProcessRequest, loadingAction} = useSelector(
-    (state: RootState) => state.chat,
-  );
-
-  const [acceptRequest] = useMutation(ACCEPT_REQUEST);
-  const [acceptDelivered] = useMutation(ACCEPT_DELIVERED);
-  const [requestRequest] = useMutation(REJECT_REQUEST);
-  const [sendMessage] = useMutation<SendMessageReturnType, SendMessageInput>(
-    SEND_MESSAGE,
-  );
-  const dispatch = useDispatch();
-  const {feedHome} = useContext(RefreshContext);
-  if (chatWith && currentProcessRequest) {
-    const {item, status, requestPerson, chat, id} = currentProcessRequest;
+  if (chatWith) {
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}

@@ -1,19 +1,38 @@
 /* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootStackParamList} from '../../../App';
 import {ItemCardAbstract} from '../../components/Chat/ChatCard';
-import {RootState} from '../../store';
+import {RootState, useDispatch} from '../../store';
+import {SubscribeMessageAction} from '../../store/chat/actions';
 
 import {CustomText} from '../custom-components';
 
 const SendingItemChat: React.FC = () => {
+  const dispatch = useDispatch();
   const myReceiveRequests = useSelector(
     (state: RootState) => state.request.myReceiveRequests,
   );
+
+  const {newDirectMessage} = useSelector((state: RootState) => state.chat);
+  const currentUser = useSelector((state: RootState) => state.user.userData);
+
+  useEffect(() => {
+    if (newDirectMessage) {
+      SubscribeMessageAction(
+        newDirectMessage,
+        {
+          requestId: newDirectMessage.requestId,
+          itemId: newDirectMessage.itemId,
+        },
+        currentUser ? currentUser.id : '',
+      )(dispatch);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newDirectMessage]);
 
   const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
 

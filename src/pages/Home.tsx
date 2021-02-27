@@ -1,22 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {
-  ScrollView,
-  View,
-  SafeAreaView,
-  RefreshControl,
-  Image,
-} from 'react-native';
+import {ScrollView, View, SafeAreaView, RefreshControl} from 'react-native';
 import {Colors, PantoneColor} from '../utils/Colors';
 import {AlertDialog, Button, CustomText} from '../components/custom-components';
-import {RootState, useDispatch} from '../store';
+import {RootState} from '../store';
 import {RouteProp} from '@react-navigation/native';
 import {RefreshContext, RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {categories} from '../utils/category';
 import {Card, HomeHeader, IconList} from '../components/Home';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Tab'>;
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Tab'>;
@@ -27,7 +20,6 @@ type Props = {
 };
 
 const Home: React.FC<Props> = ({navigation}) => {
-  const dispatch = useDispatch();
   const feedItems = useSelector((state: RootState) => state.item.feedItems);
   const savedItems = useSelector((state: RootState) => state.user.mySavedItem);
 
@@ -49,15 +41,6 @@ const Home: React.FC<Props> = ({navigation}) => {
       setReload(false);
     }, 10000);
   }
-
-  // if (itemLoading) {
-  //   return (
-  //     <SafeAreaView
-  //       style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-  //       <CustomText>Loading..</CustomText>
-  //     </SafeAreaView>
-  //   );
-  // }
 
   if (error) {
     return (
@@ -107,9 +90,11 @@ const Home: React.FC<Props> = ({navigation}) => {
               text={item.text}
               nameIcon={item.nameIcon}
               onPress={() => {
-                dispatch({type: 'SET_SEARCH_SUBMIT', payload: item.text});
                 navigation.navigate('Tab', {
                   screen: 'Search',
+                  params: {
+                    catSearch: item.text,
+                  },
                 });
               }}
             />
