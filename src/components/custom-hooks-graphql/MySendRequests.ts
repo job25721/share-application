@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {QueryResult, useLazyQuery, useQuery} from '@apollo/client';
+import {LazyQueryResult, useLazyQuery} from '@apollo/client';
 import {useCallback, useEffect, useState} from 'react';
 import {
   GetRequestsQueryType,
@@ -8,7 +8,7 @@ import {
 import {useDispatch} from '../../store';
 
 export const useMySendRquestsQuery = (): [
-  QueryResult<GetRequestsQueryType>,
+  LazyQueryResult<GetRequestsQueryType, undefined> | undefined,
   () => Promise<void>,
   boolean,
 ] => {
@@ -34,12 +34,14 @@ export const useMySendRquestsQuery = (): [
   }, [query.data]);
 
   const refetch = useCallback(async () => {
-    setRefreshing(true);
-    try {
-      await query.refetch();
-      setRefreshing(false);
-    } catch (err) {
-      console.log(err);
+    if (query?.refetch) {
+      setRefreshing(true);
+      try {
+        await query.refetch();
+        setRefreshing(false);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }, [query]);
 
