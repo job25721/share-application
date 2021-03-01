@@ -55,11 +55,13 @@ export default function requestReducers(
     case 'SET_MY_RECEIVE_REQUETS':
       return {
         ...state,
+
         myReceiveRequests: preprocessData(action.payload),
       };
     case 'ADD_MY_RECEIVE_REQUETS':
       return {
         ...state,
+
         myReceiveRequests: preprocessAddNewRequestAbstract(
           state.myReceiveRequests,
           action.payload,
@@ -111,8 +113,6 @@ export default function requestReducers(
               ...sendingItem,
               request: sendingItem.request.map((request) => {
                 if (request.id === action.payload.requestId) {
-                  console.log('in re');
-
                   return {
                     ...request,
                     chat: action.payload.chat,
