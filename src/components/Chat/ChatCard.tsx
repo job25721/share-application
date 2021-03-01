@@ -1,14 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
-import {useQuery} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {ChatStackParamList} from '../../../App';
+import {READ_CHAT} from '../../graphql/mutation/chat';
 import {FindUserByIdQuery, GET_USER_BY_ID} from '../../graphql/query/user';
 import {RootState, useDispatch} from '../../store';
-import {ChatMessageDisplay} from '../../store/chat/types';
+import {readChatAction} from '../../store/chat/actions';
+import {Chat, ChatMessageDisplay} from '../../store/chat/types';
 
 import {Item} from '../../store/item/types';
 import {Request, requestStatusNormalized} from '../../store/request/types';
@@ -40,9 +42,17 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
     variables: {userID: latestMsg.from},
   });
 
+  const [readChat] = useMutation<
+    {updateChatToReadAll: {id: string}},
+    {chatRoomid: string}
+  >(READ_CHAT);
+
   return (
     <TouchableOpacity
-      onPress={() => {
+      onPress={async () => {
+        if (notification > 0) {
+          readChatAction(readChat, request, currentUser?.id, type)(dispatch);
+        }
         dispatch({
           type: 'SET_CHAT_WITH',
           payload: type === 'Item' ? request.item.owner : request.requestPerson,

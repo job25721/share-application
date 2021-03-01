@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
@@ -6,6 +7,7 @@ import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootStackParamList} from '../../../App';
 import {ItemCardAbstract} from '../../components/Chat/ChatCard';
+
 import {RootState, useDispatch} from '../../store';
 import {SubscribeMessageAction} from '../../store/chat/actions';
 

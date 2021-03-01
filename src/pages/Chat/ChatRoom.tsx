@@ -38,12 +38,14 @@ import {useMutation} from '@apollo/client';
 import {
   acceptDeliveredAction,
   acceptRequestAction,
+  readChatAction,
   rejectRequestAction,
   SendMessageAction,
 } from '../../store/chat/actions';
 
 import Modal from 'react-native-modalbox';
 import {
+  READ_CHAT,
   SendMessageInput,
   SendMessageReturnType,
   SEND_MESSAGE,
@@ -70,7 +72,9 @@ export const ModalContext = createContext<ModalContextType>({
 const ChatRoom: React.FC<Props> = ({navigation, route}) => {
   const {type} = route.params;
 
-  const messages = useSelector((state: RootState) => state.chat.messages);
+  const {messages, newDirectMessage} = useSelector(
+    (state: RootState) => state.chat,
+  );
   const scrollRef = useRef<ScrollView>(null);
   const [alertMsg, setAlert] = useState<boolean>(false);
   const currentUser = useSelector((state: RootState) => state.user.userData);
@@ -85,8 +89,24 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
   const [sendMessage] = useMutation<SendMessageReturnType, SendMessageInput>(
     SEND_MESSAGE,
   );
+  const [readChat] = useMutation<
+    {updateChatToReadAll: {id: string}},
+    {chatRoomid: string}
+  >(READ_CHAT);
   const dispatch = useDispatch();
   const {feedHome} = useContext(RefreshContext);
+
+  useEffect(() => {
+    if (newDirectMessage) {
+      readChatAction(
+        readChat,
+        currentProcessRequest,
+        currentUser?.id,
+        type,
+      )(dispatch);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newDirectMessage]);
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', onKeyboardShow);
     Keyboard.addListener('keyboardDidHide', onKeyboardHide);
