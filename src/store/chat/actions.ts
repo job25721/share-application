@@ -20,47 +20,44 @@ export interface UpdateRequestPayload {
 
 export const readChatAction = (
   readChatMutation: MutationFunction<
-    {updateChatToReadAll: {id: string}},
+    {updateChatToReadAll: Chat},
     {chatRoomid: string}
   >,
-  request: Request,
-  currentUserId: string | undefined,
+  request: Request | undefined,
   type: ChatCardType,
 ) => async (dispatch: Dispatch<StoreEvent>) => {
   try {
-    const readed = await readChatMutation({
-      variables: {chatRoomid: request.chat.id},
-    });
-    if (readed.data) {
-      const updatedChat: Chat = {
-        ...request.chat,
-        data: request.chat.data.map((chatData) =>
-          chatData.to === currentUserId
-            ? {...chatData, hasReaded: true}
-            : chatData,
-        ),
-      };
-      if (type === 'Person') {
-        dispatch({
-          type: 'SET_CHAT_TYPE_PERSON',
-          payload: {
-            requestId: request.id,
-            itemId: request.item.id,
-            chat: updatedChat,
-          },
-        });
-      } else if (type === 'Item') {
-        dispatch({
-          type: 'SET_CHAT_TYPE_ITEM',
-          payload: {
-            requestId: request.id,
-            chat: updatedChat,
-          },
-        });
+    if (request) {
+      const readed = await readChatMutation({
+        variables: {chatRoomid: request.chat.id},
+      });
+      if (readed.data) {
+        const updatedChat: Chat = readed.data.updateChatToReadAll;
+        if (type === 'Person') {
+          dispatch({
+            type: 'SET_CHAT_TYPE_PERSON',
+            payload: {
+              requestId: request.id,
+              itemId: request.item.id,
+              chat: updatedChat,
+            },
+          });
+        } else if (type === 'Item') {
+          dispatch({
+            type: 'SET_CHAT_TYPE_ITEM',
+            payload: {
+              requestId: request.id,
+              chat: updatedChat,
+            },
+          });
+        }
       }
+    } else {
+      throw new Error('request to update read chat is undefined');
     }
   } catch (err) {
     //do nothing
+    console.log(err);
   }
 };
 
@@ -156,7 +153,10 @@ export const SendMessageAction = (
           type: 'UPDATE_CHAT_TYPE_ITEM',
           payload: {
             requestId,
-            message: messagePayload,
+            message: {
+              ...messagePayload,
+              hasReaded: false,
+            },
           },
         });
         dispatch({
@@ -168,7 +168,10 @@ export const SendMessageAction = (
           payload: {
             requestId,
             itemId,
-            message: messagePayload,
+            message: {
+              ...messagePayload,
+              hasReaded: false,
+            },
           },
         });
         dispatch({

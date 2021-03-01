@@ -43,7 +43,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
   });
 
   const [readChat] = useMutation<
-    {updateChatToReadAll: {id: string}},
+    {updateChatToReadAll: Chat},
     {chatRoomid: string}
   >(READ_CHAT);
 
@@ -51,7 +51,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
     <TouchableOpacity
       onPress={async () => {
         if (notification > 0) {
-          readChatAction(readChat, request, currentUser?.id, type)(dispatch);
+          readChatAction(readChat, request, type)(dispatch);
         }
         dispatch({
           type: 'SET_CHAT_WITH',

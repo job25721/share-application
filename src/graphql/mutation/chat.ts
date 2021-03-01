@@ -40,6 +40,16 @@ export const READ_CHAT = gql`
   mutation UpdateChatToReadAll($chatRoomid: String!) {
     updateChatToReadAll(chatRoomid: $chatRoomid) {
       id
+      data {
+        from
+        to
+        timestamp
+        message
+        hasReaded
+      }
+      for
+      active
+      lastestUpdate
     }
   }
 `;

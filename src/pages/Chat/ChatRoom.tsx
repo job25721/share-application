@@ -51,6 +51,8 @@ import {
   SEND_MESSAGE,
 } from '../../graphql/mutation/chat';
 
+import {Chat} from '../../store/chat/types';
+
 type ChatRoomScreenRouteProp = RouteProp<ChatStackParamList, 'ChatRoom'>;
 type ChatRoomScreenNavigationProp = StackNavigationProp<
   ChatStackParamList,
@@ -75,6 +77,7 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
   const {messages, newDirectMessage} = useSelector(
     (state: RootState) => state.chat,
   );
+
   const scrollRef = useRef<ScrollView>(null);
   const [alertMsg, setAlert] = useState<boolean>(false);
   const currentUser = useSelector((state: RootState) => state.user.userData);
@@ -90,23 +93,19 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
     SEND_MESSAGE,
   );
   const [readChat] = useMutation<
-    {updateChatToReadAll: {id: string}},
+    {updateChatToReadAll: Chat},
     {chatRoomid: string}
   >(READ_CHAT);
   const dispatch = useDispatch();
   const {feedHome} = useContext(RefreshContext);
 
   useEffect(() => {
-    if (newDirectMessage) {
-      readChatAction(
-        readChat,
-        currentProcessRequest,
-        currentUser?.id,
-        type,
-      )(dispatch);
+    if (newDirectMessage && newDirectMessage.to === currentUser?.id) {
+      readChatAction(readChat, currentProcessRequest, type)(dispatch);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newDirectMessage]);
+
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', onKeyboardShow);
     Keyboard.addListener('keyboardDidHide', onKeyboardHide);
