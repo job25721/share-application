@@ -33,6 +33,8 @@ import {
   NewDirectMessage,
 } from '../../graphql/subcription/chat';
 import {SendMessageInput} from '../../graphql/mutation/chat';
+import {NEW_REQUEST} from '../../graphql/subcription/request';
+import {Request} from '../../store/request/types';
 
 type ChatIndexScreenRouteProp = RouteProp<ChatStackParamList, 'Index'>;
 type ChatIndexScreenNavigationProp = StackNavigationProp<
@@ -69,16 +71,36 @@ const ChatContext = createContext<ChatContextTypes>({
 const ChatIndex: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const activeIndex = useSelector((state: RootState) => state.chat.tabIndex);
-  const {data} = useSubscription<{newDirectMessage: NewDirectMessage}>(
+  const newDirect = useSubscription<{newDirectMessage: NewDirectMessage}>(
     CHAT_SUBSCRIPTION,
   );
+  const newRequest = useSubscription<{newRequest: Request}>(NEW_REQUEST);
+  const currentUser = useSelector((state: RootState) => state.user.userData);
 
   useEffect(() => {
-    if (data) {
-      dispatch({type: 'SET_NEW_DIRECT', payload: data.newDirectMessage});
+    if (newDirect.data) {
+      dispatch({
+        type: 'SET_NEW_DIRECT',
+        payload: newDirect.data.newDirectMessage,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [newDirect.data]);
+
+  useEffect(() => {
+    if (
+      newRequest.data &&
+      newRequest.data.newRequest.item.owner.id === currentUser?.id
+    ) {
+      console.log('in new');
+
+      dispatch({
+        type: 'ADD_MY_RECEIVE_REQUETS',
+        payload: newRequest.data.newRequest,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newRequest.data]);
 
   const [
     mySendRequestquery,
@@ -91,19 +113,9 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
     myReceiveRefreshing,
   ] = useMyReceivingRequestsQuery();
 
-  useEffect(() => {
-    const refetch = async () => {
-      // await refetchMySendRequests();
-      // await refetchMyReceive();
-    };
-    refetch();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <SafeAreaView style={{backgroundColor: Colors._gray_300, flex: 1}}>
-      {myReceiveQuery.loading && mySendRequestquery.loading ? (
+      {myReceiveQuery?.loading && mySendRequestquery?.loading ? (
         <AlertDialog title="กรุณารอสักครู่..." disabledBtn open={true} />
       ) : null}
       <View style={styles.header}>
