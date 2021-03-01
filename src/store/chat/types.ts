@@ -7,6 +7,14 @@ export interface ChatMessageSchema {
   to: string;
   message: string;
   timestamp: Date;
+  hasReaded: boolean;
+}
+
+export interface MessagePayload {
+  from: string;
+  to: string;
+  message: string;
+  timestamp: Date;
 }
 export interface Chat {
   id: string;
@@ -27,7 +35,7 @@ export interface ChatMessageDisplay {
 
 export interface SendMessage {
   chatRoomId: string;
-  messagePayload: ChatMessageSchema;
+  messagePayload: MessagePayload;
 }
 
 export interface ChatState {
