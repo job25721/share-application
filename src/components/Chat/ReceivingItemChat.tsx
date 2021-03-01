@@ -55,7 +55,12 @@ const ReceivingItemChat = () => {
                 ? request.chat.data[request.chat.data.length - 1].message
                 : '',
           }}
-          notification={10}
+          notification={
+            request.chat.data.filter(
+              ({hasReaded, to}) =>
+                hasReaded === false && currentUser?.id === to,
+            ).length
+          }
           type="Item"
         />
       ))}

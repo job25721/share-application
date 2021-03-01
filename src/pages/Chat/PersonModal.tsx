@@ -27,6 +27,7 @@ const PersonModal: React.FC<Props> = ({navigation, route}) => {
   const myReceiveRequests = useSelector(
     (state: RootState) => state.request.myReceiveRequests,
   );
+  const currentUser = useSelector((state: RootState) => state.user.userData);
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -64,7 +65,12 @@ const PersonModal: React.FC<Props> = ({navigation, route}) => {
                       ? request.chat.data[request.chat.data.length - 1].message
                       : '',
                 }}
-                notification={1}
+                notification={
+                  request.chat.data.filter(
+                    ({hasReaded, to}) =>
+                      hasReaded === false && currentUser?.id === to,
+                  ).length
+                }
               />
             ))}
         </ScrollView>
