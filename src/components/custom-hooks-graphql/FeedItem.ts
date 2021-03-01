@@ -28,7 +28,7 @@ export const useFeedQuery = (): [
       await query.refetch();
       setRefreshing(false);
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   }, [query]);
 
