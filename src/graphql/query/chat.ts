@@ -9,6 +9,7 @@ export const GET_CHAT_BY_ID = gql`
         from
         to
         timestamp
+        hasReaded
       }
       active
     }

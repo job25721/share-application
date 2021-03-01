@@ -52,6 +52,7 @@ export const GET_MY_RECEIVING_ITEM: DocumentNode = gql`
           to
           message
           timestamp
+          hasReaded
         }
         active
         lastestUpdate
@@ -107,6 +108,7 @@ export const GET_MY_REQUESTS = gql`
           to
           message
           timestamp
+          hasReaded
         }
         active
         lastestUpdate
