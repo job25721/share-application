@@ -33,6 +33,14 @@ export type RequestActionTypes =
   | {type: 'SORT_REQUEST_ARR_TYPE_ITEM'}
   | {
       type: 'SORT_REQUEST_ARR_TYPE_PERSON';
+    }
+  | {
+      type: 'SET_CHAT_TYPE_PERSON';
+      payload: {requestId: string; itemId: string; chat: Chat};
+    }
+  | {
+      type: 'SET_CHAT_TYPE_ITEM';
+      payload: {requestId: string; chat: Chat};
     };
 
 export interface SendingItem {
