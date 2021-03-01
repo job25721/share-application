@@ -7,6 +7,7 @@ export interface SendMessageInput {
   message: string;
   timestamp: Date;
 }
+
 export interface SendMessageReturnType {
   sendMessage: SendMessageInput;
 }
@@ -31,6 +32,14 @@ export const SEND_MESSAGE = gql`
       from
       to
       timestamp
+    }
+  }
+`;
+
+export const READ_CHAT = gql`
+  mutation UpdateChatToReadAll($chatRoomid: String!) {
+    updateChatToReadAll(chatRoomid: $chatRoomid) {
+      id
     }
   }
 `;
