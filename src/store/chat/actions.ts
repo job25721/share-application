@@ -1,22 +1,71 @@
 import {MutationFunction} from '@apollo/client';
 import {Dispatch} from 'react';
 import store, {StoreEvent} from '..';
+import {ChatCardType} from '../../components/Chat/ChatCard';
 
 import {
   SendMessageInput,
   SendMessageReturnType,
 } from '../../graphql/mutation/chat';
 import {ReuquestMutationReturnType} from '../../graphql/mutation/request';
+import {NewDirectMessage} from '../../graphql/subcription/chat';
 import {getTime} from '../../utils/getTime';
-import {SendMessage} from './types';
+import {Request} from '../request/types';
+import {Chat, SendMessage} from './types';
 
 export interface UpdateRequestPayload {
   requestId: string;
   itemId?: string;
 }
 
+export const readChatAction = (
+  readChatMutation: MutationFunction<
+    {updateChatToReadAll: {id: string}},
+    {chatRoomid: string}
+  >,
+  request: Request,
+  currentUserId: string | undefined,
+  type: ChatCardType,
+) => async (dispatch: Dispatch<StoreEvent>) => {
+  try {
+    const readed = await readChatMutation({
+      variables: {chatRoomid: request.chat.id},
+    });
+    if (readed.data) {
+      const updatedChat: Chat = {
+        ...request.chat,
+        data: request.chat.data.map((chatData) =>
+          chatData.to === currentUserId
+            ? {...chatData, hasReaded: true}
+            : chatData,
+        ),
+      };
+      if (type === 'Person') {
+        dispatch({
+          type: 'SET_CHAT_TYPE_PERSON',
+          payload: {
+            requestId: request.id,
+            itemId: request.item.id,
+            chat: updatedChat,
+          },
+        });
+      } else if (type === 'Item') {
+        dispatch({
+          type: 'SET_CHAT_TYPE_ITEM',
+          payload: {
+            requestId: request.id,
+            chat: updatedChat,
+          },
+        });
+      }
+    }
+  } catch (err) {
+    //do nothing
+  }
+};
+
 export const SubscribeMessageAction = (
-  newDirect: SendMessageInput | undefined,
+  newDirect: NewDirectMessage | undefined,
   updateRequestPayload: UpdateRequestPayload,
   currentUserId: string,
 ) => async (dispatch: Dispatch<StoreEvent>) => {
