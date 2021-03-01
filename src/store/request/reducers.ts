@@ -82,12 +82,48 @@ export default function requestReducers(
           return request;
         }),
       };
+    case 'SET_CHAT_TYPE_ITEM':
+      return {
+        ...state,
+        mySendRequests: state.mySendRequests.map((request) => {
+          if (request.id === action.payload.requestId) {
+            return {
+              ...request,
+              chat: action.payload.chat,
+            };
+          }
+          return request;
+        }),
+      };
     case 'SORT_REQUEST_ARR_TYPE_ITEM':
       return {
         ...state,
         mySendRequests: state.mySendRequests
           .slice(0)
           .sort((a, b) => b.chat.lastestUpdate - a.chat.lastestUpdate),
+      };
+    case 'SET_CHAT_TYPE_PERSON':
+      return {
+        ...state,
+        myReceiveRequests: state.myReceiveRequests.map((sendingItem) => {
+          if (sendingItem.item.id === action.payload.itemId) {
+            return {
+              ...sendingItem,
+              request: sendingItem.request.map((request) => {
+                if (request.id === action.payload.requestId) {
+                  console.log('in re');
+
+                  return {
+                    ...request,
+                    chat: action.payload.chat,
+                  };
+                }
+                return request;
+              }),
+            };
+          }
+          return sendingItem;
+        }),
       };
     case 'UPDATE_CHAT_TYPE_PERSON':
       return {
