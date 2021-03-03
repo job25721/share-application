@@ -7,6 +7,7 @@ const initialState: ChatState = {
   currentProcessRequest: null,
   loadingAction: false,
   newDirectMessage: undefined,
+  chatNotofication: 0,
 };
 
 export function chatReducer(
@@ -48,6 +49,16 @@ export function chatReducer(
       return {
         ...state,
         newDirectMessage: action.payload,
+      };
+    case 'SET_CHAT_NOTIFICATION':
+      return {
+        ...state,
+        chatNotofication: action.payload,
+      };
+    case 'ADD_CHAT_NOTIFICATION':
+      return {
+        ...state,
+        chatNotofication: state.chatNotofication + 1,
       };
     default:
       return state;

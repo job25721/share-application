@@ -10,7 +10,6 @@ import store, {useDispatch} from './src/store';
 import {ApolloError, ApolloProvider} from '@apollo/client';
 import client from './src/graphql/client';
 import {Item} from './src/store/item/types';
-import {Request} from './src/store/request/types';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,6 +27,10 @@ import Detail from './src/pages/Detail';
 import Profile from './src/pages/Profile';
 import ChatIndex, {ChatRoom, PersonModal} from './src/pages/Chat';
 import {ChatCardType} from './src/components/Chat/ChatCard';
+import {useChatSubscription} from './src/components/custom-hooks-graphql/ChatSucscription';
+import {useMySendRquestsQuery} from './src/components/custom-hooks-graphql/MySendRequests';
+import {useMyReceivingRequestsQuery} from './src/components/custom-hooks-graphql/MyReceivingRequests';
+import {useRequestSubscription} from './src/components/custom-hooks-graphql/RequestSubscription';
 
 const RootStack = createStackNavigator();
 
@@ -124,6 +127,11 @@ const RootStackScreen: React.FC = () => {
     };
     getToken();
   }, []);
+
+  useChatSubscription();
+  useRequestSubscription();
+  useMyReceivingRequestsQuery();
+  useMySendRquestsQuery();
 
   const [feedQuery, refetchItem, feedRefreshing] = useFeedQuery();
   const [

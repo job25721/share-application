@@ -45,6 +45,7 @@ export interface ChatState {
   currentProcessRequest: Request;
   loadingAction: boolean;
   newDirectMessage?: NewDirectMessage;
+  chatNotofication: number;
 }
 
 export type ChatActionTypes =
@@ -57,4 +58,6 @@ export type ChatActionTypes =
   | {type: 'SET_CHAT_WITH'; payload: User | null}
   | {type: 'SET_CURRENT_PROCESS_REQUEST'; payload: Request | null}
   | {type: 'SET_LOADING_ACTION'; payload: boolean}
-  | {type: 'SET_NEW_DIRECT'; payload: NewDirectMessage};
+  | {type: 'SET_NEW_DIRECT'; payload: NewDirectMessage}
+  | {type: 'SET_CHAT_NOTIFICATION'; payload: number}
+  | {type: 'ADD_CHAT_NOTIFICATION'};

@@ -1,4 +1,4 @@
-import React, {createContext, useEffect} from 'react';
+import React, {createContext} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -26,15 +26,8 @@ import ChatRoom from './ChatRoom';
 import PersonModal from './PersonModal';
 import {useMySendRquestsQuery} from '../../components/custom-hooks-graphql/MySendRequests';
 import {useMyReceivingRequestsQuery} from '../../components/custom-hooks-graphql/MyReceivingRequests';
-import {QueryResult, useSubscription} from '@apollo/client';
+import {QueryResult} from '@apollo/client';
 import {GetRequestsQueryType} from '../../graphql/query/request';
-import {
-  CHAT_SUBSCRIPTION,
-  NewDirectMessage,
-} from '../../graphql/subcription/chat';
-import {SendMessageInput} from '../../graphql/mutation/chat';
-import {NEW_REQUEST} from '../../graphql/subcription/request';
-import {Request} from '../../store/request/types';
 
 type ChatIndexScreenRouteProp = RouteProp<ChatStackParamList, 'Index'>;
 type ChatIndexScreenNavigationProp = StackNavigationProp<
@@ -71,36 +64,6 @@ const ChatContext = createContext<ChatContextTypes>({
 const ChatIndex: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const activeIndex = useSelector((state: RootState) => state.chat.tabIndex);
-  const newDirect = useSubscription<{newDirectMessage: NewDirectMessage}>(
-    CHAT_SUBSCRIPTION,
-  );
-  const newRequest = useSubscription<{newRequest: Request}>(NEW_REQUEST);
-  const currentUser = useSelector((state: RootState) => state.user.userData);
-
-  useEffect(() => {
-    if (newDirect.data) {
-      dispatch({
-        type: 'SET_NEW_DIRECT',
-        payload: newDirect.data.newDirectMessage,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newDirect.data]);
-
-  useEffect(() => {
-    if (
-      newRequest.data &&
-      newRequest.data.newRequest.item.owner.id === currentUser?.id
-    ) {
-      console.log('in new');
-
-      dispatch({
-        type: 'ADD_MY_RECEIVE_REQUETS',
-        payload: newRequest.data.newRequest,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newRequest.data]);
 
   const [
     mySendRequestquery,

@@ -16,7 +16,7 @@ const ItemCard: React.FC<{item: Item}> = ({item}) => {
       onPress={() => navigation.navigate('Detail', {item, wishlist: true})}>
       <View style={styles.imgView}>
         <ProgressiveImage
-          loadingType="loadingMotion"
+          loadingType="spinner"
           style={styles.img}
           source={{uri: item.images[0]}}
         />
