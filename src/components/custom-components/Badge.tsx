@@ -1,8 +1,5 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react-native/no-inline-styles */
 import React, {FunctionComponent} from 'react';
-
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {CustomText} from '.';
 import {Colors} from '../../utils/Colors';
 
@@ -17,18 +14,7 @@ export const Badge: FunctionComponent<Props> = ({
   width = 20,
   height = 20,
 }) => (
-  <View
-    style={{
-      width,
-      height,
-      backgroundColor: Colors._red_500,
-      borderRadius: 50,
-      position: 'absolute',
-      zIndex: 1,
-      right: -5,
-      top: -10,
-      justifyContent: 'center',
-    }}>
+  <View style={[styles.badge, {width, height}]}>
     {noti && (
       <CustomText
         textAlign="center"
@@ -40,3 +26,15 @@ export const Badge: FunctionComponent<Props> = ({
     )}
   </View>
 );
+
+const styles = StyleSheet.create({
+  badge: {
+    backgroundColor: Colors._red_500,
+    borderRadius: 50,
+    position: 'absolute',
+    zIndex: 1,
+    right: -5,
+    top: -10,
+    justifyContent: 'center',
+  },
+});
