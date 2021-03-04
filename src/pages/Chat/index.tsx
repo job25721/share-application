@@ -1,4 +1,3 @@
-/* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
@@ -29,8 +28,6 @@ import ChatRoom from './ChatRoom';
 import PersonModal from './PersonModal';
 import {useMySendRquestsQuery} from '../../components/custom-hooks-graphql/MySendRequests';
 import {useMyReceivingRequestsQuery} from '../../components/custom-hooks-graphql/MyReceivingRequests';
-import {QueryResult} from '@apollo/client';
-import {GetRequestsQueryType} from '../../graphql/query/request';
 
 type ChatIndexScreenRouteProp = RouteProp<ChatStackParamList, 'Index'>;
 type ChatIndexScreenNavigationProp = StackNavigationProp<
@@ -42,27 +39,6 @@ type Props = {
   route: ChatIndexScreenRouteProp;
   navigation: ChatIndexScreenNavigationProp;
 };
-
-interface RequestsQueryContext {
-  query: QueryResult<GetRequestsQueryType> | undefined;
-  refetch: () => Promise<void> | undefined;
-}
-
-// type ChatContextTypes = {
-//   mySendRequests: RequestsQueryContext;
-//   myReceiveRequests: RequestsQueryContext;
-// };
-
-// const ChatContext = createContext<ChatContextTypes>({
-//   mySendRequests: {
-//     query: undefined,
-//     refetch: () => undefined,
-//   },
-//   myReceiveRequests: {
-//     query: undefined,
-//     refetch: () => undefined,
-//   },
-// });
 
 const ChatIndex: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
@@ -140,18 +116,6 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
           </Button>
         </View>
       </View>
-
-      {/* <ChatContext.Provider
-        value={{
-          mySendRequests: {
-            query: mySendRequestquery,
-            refetch: refetchMySendRequests,
-          },
-          myReceiveRequests: {
-            query: myReceiveQuery,
-            refetch: refetchMyReceive,
-          },
-        }}> */}
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -164,13 +128,12 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
           />
         }
         style={styles.container}>
-        {activeIndex === 0 && !mySendRequestquery.loading ? (
+        {activeIndex === 0 ? (
           <ReceivingItemChat />
-        ) : activeIndex === 1 && !myReceiveQuery.loading ? (
+        ) : activeIndex === 1 ? (
           <SendingItemChat />
         ) : null}
       </ScrollView>
-      {/* </ChatContext.Provider> */}
     </SafeAreaView>
   );
 };
