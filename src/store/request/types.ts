@@ -41,6 +41,14 @@ export type RequestActionTypes =
   | {
       type: 'SET_CHAT_TYPE_ITEM';
       payload: {requestId: string; chat: Chat};
+    }
+  | {
+      type: 'UPDATE_MY_SEND_REQUEST';
+      payload: {requestId: string; update: Request};
+    }
+  | {
+      type: 'UPDATE_RECEIVE_REQUEST';
+      payload: {requestId: string; itemId: string; update: Request};
     };
 
 export interface SendingItem {

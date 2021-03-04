@@ -53,6 +53,30 @@ export default function requestReducers(
         ...state,
         mySendRequests: [action.payload, ...state.mySendRequests],
       };
+    case 'UPDATE_MY_SEND_REQUEST':
+      return {
+        ...state,
+        mySendRequests: state.mySendRequests.map((r) =>
+          r.id === action.payload.requestId ? action.payload.update : r,
+        ),
+      };
+    case 'UPDATE_RECEIVE_REQUEST':
+      return {
+        ...state,
+        myReceiveRequests: state.myReceiveRequests.map(({item, request}) => {
+          if (item.id === action.payload.itemId) {
+            return {
+              item,
+              request: request.map((req) =>
+                req.id === action.payload.requestId
+                  ? action.payload.update
+                  : req,
+              ),
+            };
+          }
+          return {item, request};
+        }),
+      };
 
     case 'SET_MY_RECEIVE_REQUETS':
       return {

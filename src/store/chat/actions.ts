@@ -11,7 +11,7 @@ import {ReuquestMutationReturnType} from '../../graphql/mutation/request';
 import {NewDirectMessage} from '../../graphql/subcription/chat';
 import {getTime} from '../../utils/getTime';
 import {Request} from '../request/types';
-import {Chat, SendMessage} from './types';
+import {Chat, ChatMessageDisplay, SendMessage} from './types';
 
 export interface UpdateRequestPayload {
   requestId: string;
@@ -187,7 +187,8 @@ export const SendMessageAction = (
 
 export const acceptRequestAction = (
   acceptRequestMutation: MutationFunction<ReuquestMutationReturnType>,
-) => async (dispatch: Dispatch<StoreEvent>) => {
+  type: ChatCardType,
+) => async (dispatch: Dispatch<StoreEvent>): Promise<Chat | undefined> => {
   const reqId = store.getState().chat.currentProcessRequest?.id;
   if (reqId) {
     try {
@@ -201,22 +202,50 @@ export const acceptRequestAction = (
         throw errors;
       }
       if (data?.acceptRequest) {
+        if (type === 'Item') {
+          dispatch({
+            type: 'UPDATE_MY_SEND_REQUEST',
+            payload: {
+              requestId: data.acceptRequest.id,
+              update: data.acceptRequest,
+            },
+          });
+          dispatch({
+            type: 'SORT_REQUEST_ARR_TYPE_ITEM',
+          });
+        } else {
+          dispatch({
+            type: 'UPDATE_RECEIVE_REQUEST',
+            payload: {
+              requestId: data.acceptRequest.id,
+              itemId: data.acceptRequest.item.id,
+              update: data.acceptRequest,
+            },
+          });
+          dispatch({
+            type: 'SORT_REQUEST_ARR_TYPE_PERSON',
+          });
+        }
         dispatch({
           type: 'SET_CURRENT_PROCESS_REQUEST',
           payload: data.acceptRequest,
         });
         dispatch({type: 'SET_LOADING_ACTION', payload: false});
+        return data.acceptRequest.chat;
       }
+      return undefined;
     } catch (err) {
       dispatch({type: 'SET_LOADING_ACTION', payload: false});
       console.log(err);
+      return err;
     }
   }
 };
 
 export const acceptDeliveredAction = (
   acceptDeliveredMutation: MutationFunction<ReuquestMutationReturnType>,
-) => async (dispatch: Dispatch<StoreEvent>) => {
+  type: ChatCardType,
+) => async (dispatch: Dispatch<StoreEvent>): Promise<Chat | undefined> => {
   const reqId = store.getState().chat.currentProcessRequest?.id;
   if (reqId) {
     try {
@@ -230,22 +259,50 @@ export const acceptDeliveredAction = (
         throw errors;
       }
       if (data?.acceptDelivered) {
+        if (type === 'Item') {
+          dispatch({
+            type: 'UPDATE_MY_SEND_REQUEST',
+            payload: {
+              requestId: data.acceptDelivered.id,
+              update: data.acceptDelivered,
+            },
+          });
+          dispatch({
+            type: 'SORT_REQUEST_ARR_TYPE_ITEM',
+          });
+        } else {
+          dispatch({
+            type: 'UPDATE_RECEIVE_REQUEST',
+            payload: {
+              requestId: data.acceptDelivered.id,
+              itemId: data.acceptDelivered.item.id,
+              update: data.acceptDelivered,
+            },
+          });
+          dispatch({
+            type: 'SORT_REQUEST_ARR_TYPE_PERSON',
+          });
+        }
         dispatch({
           type: 'SET_CURRENT_PROCESS_REQUEST',
           payload: data.acceptDelivered,
         });
         dispatch({type: 'SET_LOADING_ACTION', payload: false});
+        return data.acceptDelivered.chat;
       }
+      return undefined;
     } catch (err) {
       dispatch({type: 'SET_LOADING_ACTION', payload: false});
       console.log(err);
+      return err;
     }
   }
 };
 
 export const rejectRequestAction = (
   rejectRequestMutation: MutationFunction<ReuquestMutationReturnType>,
-) => async (dispatch: Dispatch<StoreEvent>) => {
+  type: ChatCardType,
+) => async (dispatch: Dispatch<StoreEvent>): Promise<Chat | undefined> => {
   const reqId = store.getState().chat.currentProcessRequest?.id;
   if (reqId) {
     try {
@@ -259,15 +316,43 @@ export const rejectRequestAction = (
         throw errors;
       }
       if (data?.rejectRequest) {
+        if (type === 'Item') {
+          dispatch({
+            type: 'UPDATE_MY_SEND_REQUEST',
+            payload: {
+              requestId: data.rejectRequest.id,
+              update: data.rejectRequest,
+            },
+          });
+          dispatch({
+            type: 'SORT_REQUEST_ARR_TYPE_ITEM',
+          });
+        } else {
+          dispatch({
+            type: 'UPDATE_RECEIVE_REQUEST',
+            payload: {
+              requestId: data.rejectRequest.id,
+              itemId: data.rejectRequest.item.id,
+              update: data.rejectRequest,
+            },
+          });
+          dispatch({
+            type: 'SORT_REQUEST_ARR_TYPE_PERSON',
+          });
+        }
+
         dispatch({
           type: 'SET_CURRENT_PROCESS_REQUEST',
           payload: data.rejectRequest,
         });
         dispatch({type: 'SET_LOADING_ACTION', payload: false});
+        return data.rejectRequest.chat;
       }
+      return undefined;
     } catch (err) {
       console.log(err);
       dispatch({type: 'SET_LOADING_ACTION', payload: false});
+      return err;
     }
   }
 };

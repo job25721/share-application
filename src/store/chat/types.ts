@@ -1,3 +1,4 @@
+import {RequestUpdatedNotify} from '../../components/custom-hooks-graphql/RequestSubscription';
 import {NewDirectMessage} from '../../graphql/subcription/chat';
 import {Request} from '../request/types';
 import {User} from '../user/types';
@@ -46,6 +47,7 @@ export interface ChatState {
   loadingAction: boolean;
   newDirectMessage?: NewDirectMessage;
   chatNotofication: number;
+  requestNotify: RequestUpdatedNotify;
 }
 
 export type ChatActionTypes =
@@ -60,4 +62,5 @@ export type ChatActionTypes =
   | {type: 'SET_LOADING_ACTION'; payload: boolean}
   | {type: 'SET_NEW_DIRECT'; payload: NewDirectMessage}
   | {type: 'SET_CHAT_NOTIFICATION'; payload: number}
-  | {type: 'ADD_CHAT_NOTIFICATION'};
+  | {type: 'ADD_CHAT_NOTIFICATION'}
+  | {type: 'SET_REQUEST_NOTIFY'; payload: RequestUpdatedNotify | undefined};

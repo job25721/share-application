@@ -51,7 +51,8 @@ import {
   SEND_MESSAGE,
 } from '../../graphql/mutation/chat';
 
-import {Chat} from '../../store/chat/types';
+import {Chat, ChatMessageDisplay} from '../../store/chat/types';
+import {getTime} from '../../utils/getTime';
 
 type ChatRoomScreenRouteProp = RouteProp<ChatStackParamList, 'ChatRoom'>;
 type ChatRoomScreenNavigationProp = StackNavigationProp<
@@ -81,9 +82,15 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
   const scrollRef = useRef<ScrollView>(null);
   const [alertMsg, setAlert] = useState<boolean>(false);
   const currentUser = useSelector((state: RootState) => state.user.userData);
-  const {chatWith, currentProcessRequest, loadingAction} = useSelector(
-    (state: RootState) => state.chat,
-  );
+  const {
+    chatWith,
+    currentProcessRequest,
+    loadingAction,
+    requestNotify,
+  } = useSelector((state: RootState) => state.chat);
+  // const {mySendRequests, myReceiveRequests} = useSelector(
+  //   (state: RootState) => state.request,
+  // );
   const {item, status, requestPerson, chat, id} = currentProcessRequest;
 
   const [acceptRequest] = useMutation(ACCEPT_REQUEST);
@@ -107,6 +114,23 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
   }, [newDirectMessage]);
 
   useEffect(() => {
+    if (
+      requestNotify &&
+      requestNotify.request.id === id &&
+      (requestNotify.notifyTo === requestPerson.id ||
+        requestNotify.notifyTo === item.owner.id)
+    ) {
+      console.log('set notify');
+
+      dispatch({
+        type: 'SET_CURRENT_PROCESS_REQUEST',
+        payload: requestNotify.request,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestNotify]);
+
+  useEffect(() => {
     Keyboard.addListener('keyboardDidShow', onKeyboardShow);
     Keyboard.addListener('keyboardDidHide', onKeyboardHide);
 
@@ -123,6 +147,24 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
 
   const onKeyboardHide = () => {
     scrollRef.current?.scrollToEnd({animated: true});
+  };
+
+  const setChat = (chatUdpate: Chat | undefined) => {
+    if (chatUdpate) {
+      const chatDisplay: ChatMessageDisplay[] = chatUdpate.data.map(
+        (chatData) => {
+          return {
+            pos: currentUser?.id === chatData.from ? 'right' : 'left',
+            msg: chatData.message.split('\n'),
+            time: getTime(new Date(chatData.timestamp).getTime()),
+          };
+        },
+      );
+
+      console.log(chat.data);
+
+      dispatch({type: 'SET_MESSAGE', payload: chatDisplay});
+    }
   };
 
   if (chatWith) {
@@ -149,33 +191,42 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
         item.status === 'available' ? (
           <AcceptAlert
             open={alertMsg}
-            onClosePress={() => setAlert(false)}
             onConfirm={async () => {
               setAlert(false);
-              await acceptRequestAction(acceptRequest)(dispatch);
-              // await myReceiveRequest.refresh();
+              const updatedChat = await acceptRequestAction(
+                acceptRequest,
+                type,
+              )(dispatch);
+              setChat(updatedChat);
               await feedHome.refresh();
             }}
             onReject={async () => {
               setAlert(false);
-              await rejectRequestAction(requestRequest)(dispatch);
+              const updatedChat = await rejectRequestAction(
+                requestRequest,
+                type,
+              )(dispatch);
+              setChat(updatedChat);
             }}
             title="ยืนยันการส่งต่อ"
             bindColor={true}
             content={`ทำการส่งต่อ ${item.name} ให้กับ ${chatWith.info.firstName} `}
             confirmText="ยืนยัน"
-            cancelText="ไว้ก่อน"
             hasReject={true}
             rejectText="ปฏิเสธ"
+            onClosed={() => setAlert(false)}
           />
         ) : status === 'accepted' ? (
           <AcceptAlert
             open={alertMsg}
-            onClosePress={() => setAlert(false)}
+            onClosed={() => setAlert(false)}
             onConfirm={async () => {
               setAlert(false);
-              await acceptDeliveredAction(acceptDelivered)(dispatch);
-
+              const updatedChat = await acceptDeliveredAction(
+                acceptDelivered,
+                type,
+              )(dispatch);
+              setChat(updatedChat);
               Alert.alert(
                 'กระบวนการ SHARE เสร็จสิ้น',
                 'ห้องแชทได้ถูกปิดแล้ว ขอบพระคุณที่ใช้บริการของเรา',
@@ -184,7 +235,6 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
             title="ยืนยันการรับ"
             content="ท่านได้รับของที่ท่านร้องของเรียบร้อยแล้ว ?"
             confirmText="ได้รับแล้ว"
-            cancelText="ยังไม่ได้รับ"
           />
         ) : (
           <Modal
