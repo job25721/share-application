@@ -21,11 +21,11 @@ const apiLink = {
 };
 
 const httpLink = new HttpLink({
-  uri: `http://${apiLink.online}/graphql`,
+  uri: `http://${apiLink.local}/graphql`,
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${apiLink.online}/graphql`,
+  uri: `ws://${apiLink.local}/graphql`,
   options: {
     reconnect: true,
   },

@@ -15,6 +15,7 @@ const initialState: RequestState = {
   },
   mySendRequests: [],
   myReceiveRequests: [],
+  myReceiveRequestPreloaded: [],
 };
 
 export default function requestReducers(
@@ -52,10 +53,36 @@ export default function requestReducers(
         ...state,
         mySendRequests: [action.payload, ...state.mySendRequests],
       };
+    case 'UPDATE_MY_SEND_REQUEST':
+      return {
+        ...state,
+        mySendRequests: state.mySendRequests.map((r) =>
+          r.id === action.payload.requestId ? action.payload.update : r,
+        ),
+      };
+    case 'UPDATE_RECEIVE_REQUEST':
+      return {
+        ...state,
+        myReceiveRequests: state.myReceiveRequests.map(({item, request}) => {
+          if (item.id === action.payload.itemId) {
+            return {
+              item,
+              request: request.map((req) =>
+                req.id === action.payload.requestId
+                  ? action.payload.update
+                  : req,
+              ),
+            };
+          }
+          return {item, request};
+        }),
+      };
+
     case 'SET_MY_RECEIVE_REQUETS':
       return {
         ...state,
         myReceiveRequests: preprocessData(action.payload),
+        myReceiveRequestPreloaded: action.payload,
       };
     case 'ADD_MY_RECEIVE_REQUETS':
       return {
@@ -64,6 +91,10 @@ export default function requestReducers(
           state.myReceiveRequests,
           action.payload,
         ),
+        myReceiveRequestPreloaded: [
+          ...state.myReceiveRequestPreloaded,
+          action.payload,
+        ],
       };
     case 'UPDATE_CHAT_TYPE_ITEM':
       return {
@@ -82,12 +113,46 @@ export default function requestReducers(
           return request;
         }),
       };
+    case 'SET_CHAT_TYPE_ITEM':
+      return {
+        ...state,
+        mySendRequests: state.mySendRequests.map((request) => {
+          if (request.id === action.payload.requestId) {
+            return {
+              ...request,
+              chat: action.payload.chat,
+            };
+          }
+          return request;
+        }),
+      };
     case 'SORT_REQUEST_ARR_TYPE_ITEM':
       return {
         ...state,
         mySendRequests: state.mySendRequests
           .slice(0)
           .sort((a, b) => b.chat.lastestUpdate - a.chat.lastestUpdate),
+      };
+    case 'SET_CHAT_TYPE_PERSON':
+      return {
+        ...state,
+        myReceiveRequests: state.myReceiveRequests.map((sendingItem) => {
+          if (sendingItem.item.id === action.payload.itemId) {
+            return {
+              ...sendingItem,
+              request: sendingItem.request.map((request) => {
+                if (request.id === action.payload.requestId) {
+                  return {
+                    ...request,
+                    chat: action.payload.chat,
+                  };
+                }
+                return request;
+              }),
+            };
+          }
+          return sendingItem;
+        }),
       };
     case 'UPDATE_CHAT_TYPE_PERSON':
       return {

@@ -34,12 +34,13 @@ const Home: React.FC<Props> = ({navigation}) => {
       setReload(true);
       await refresh();
     } catch (err) {
+      setReload(false);
       console.log(err);
     }
 
-    setTimeout(() => {
-      setReload(false);
-    }, 10000);
+    // setTimeout(() => {
+    //   setReload(false);
+    // }, 10000);
   }
 
   if (error) {
@@ -57,7 +58,7 @@ const Home: React.FC<Props> = ({navigation}) => {
             />
           </>
         ) : (
-          <AlertDialog title="กำลังโหลด..." disabledBtn open={true} />
+          <AlertDialog title="กำลังโหลด..." disabledBtn open={reload} />
         )}
       </SafeAreaView>
     );

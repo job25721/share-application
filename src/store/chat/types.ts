@@ -1,8 +1,17 @@
+import {RequestUpdatedNotify} from '../../components/custom-hooks-graphql/RequestSubscription';
 import {NewDirectMessage} from '../../graphql/subcription/chat';
 import {Request} from '../request/types';
 import {User} from '../user/types';
 
 export interface ChatMessageSchema {
+  from: string;
+  to: string;
+  message: string;
+  timestamp: Date;
+  hasReaded: boolean;
+}
+
+export interface MessagePayload {
   from: string;
   to: string;
   message: string;
@@ -27,7 +36,7 @@ export interface ChatMessageDisplay {
 
 export interface SendMessage {
   chatRoomId: string;
-  messagePayload: ChatMessageSchema;
+  messagePayload: MessagePayload;
 }
 
 export interface ChatState {
@@ -37,6 +46,8 @@ export interface ChatState {
   currentProcessRequest: Request;
   loadingAction: boolean;
   newDirectMessage?: NewDirectMessage;
+  chatNotofication: number;
+  requestNotify: RequestUpdatedNotify;
 }
 
 export type ChatActionTypes =
@@ -49,4 +60,7 @@ export type ChatActionTypes =
   | {type: 'SET_CHAT_WITH'; payload: User | null}
   | {type: 'SET_CURRENT_PROCESS_REQUEST'; payload: Request | null}
   | {type: 'SET_LOADING_ACTION'; payload: boolean}
-  | {type: 'SET_NEW_DIRECT'; payload: NewDirectMessage};
+  | {type: 'SET_NEW_DIRECT'; payload: NewDirectMessage}
+  | {type: 'SET_CHAT_NOTIFICATION'; payload: number}
+  | {type: 'ADD_CHAT_NOTIFICATION'}
+  | {type: 'SET_REQUEST_NOTIFY'; payload: RequestUpdatedNotify | undefined};

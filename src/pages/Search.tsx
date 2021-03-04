@@ -170,7 +170,9 @@ const Search: React.FC<Props> = ({route}) => {
                 )}
                 {searchResult.length > 0 ? (
                   <CustomText type="subheader">ผลลัพธ์ล่าสุด</CustomText>
-                ) : !onSearch && searchResult.length === 0 ? (
+                ) : !searchQuery.loading &&
+                  !onSearch &&
+                  searchResult.length === 0 ? (
                   <CustomText>
                     ไม่มีผลลัพธ์ใดตรงกับ{' '}
                     <CustomText fontWeight="bold">{searchKey}</CustomText>

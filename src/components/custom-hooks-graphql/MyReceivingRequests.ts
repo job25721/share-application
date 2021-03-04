@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import {QueryResult, useLazyQuery, useQuery} from '@apollo/client';
+import {LazyQueryResult, useLazyQuery} from '@apollo/client';
 import {useCallback, useEffect, useState} from 'react';
 import {
   GetRequestsQueryType,
@@ -8,7 +7,7 @@ import {
 import {useDispatch} from '../../store';
 
 export const useMyReceivingRequestsQuery = (): [
-  QueryResult<GetRequestsQueryType> | undefined,
+  LazyQueryResult<GetRequestsQueryType, {}> | undefined,
   () => Promise<void>,
   boolean,
 ] => {
@@ -18,19 +17,22 @@ export const useMyReceivingRequestsQuery = (): [
 
   useEffect(() => {
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (query.data?.getMyRequests) {
       const {getMyRequests} = query.data;
       console.log('query requests');
+      const setData = getMyRequests.slice(0).sort((a, b) => {
+        return b.chat.lastestUpdate - a.chat.lastestUpdate;
+      });
       dispatch({
         type: 'SET_MY_RECEIVE_REQUETS',
-        payload: getMyRequests.slice(0).sort((a, b) => {
-          return b.chat.lastestUpdate - a.chat.lastestUpdate;
-        }),
+        payload: setData,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.data]);
 
   const refetch = useCallback(async () => {

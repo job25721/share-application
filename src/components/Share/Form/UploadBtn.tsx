@@ -7,7 +7,7 @@ import {Button, CustomText} from '../../custom-components';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 const UploadBtn: React.FC<{onPress: any}> = ({onPress}) => {
   return (
-    <Button onPress={onPress} rounded bg={Colors._gray_900} py={20} px={10}>
+    <Button onPress={onPress} rounded bg={Colors.white} py={20} px={10}>
       <View style={btnStyles.btnFlex}>
         <FeatherIcon name="upload" size={45} />
         <CustomText fontSize={16} fontWeight="bold">

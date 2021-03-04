@@ -9,18 +9,21 @@ export const useFeedQuery = (): [
   boolean,
 ] => {
   const dispatch = useDispatch();
-  const query = useQuery<GetAllItemQueryType>(GET_ALL_ITEM);
+  const query = useQuery<GetAllItemQueryType>(GET_ALL_ITEM, {
+    fetchPolicy: 'network-only',
+  });
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     if (query.data?.getFeedItems) {
-      console.log('query item');
+      console.log('query feed item');
       dispatch({
         type: 'SET_FEED_ITEMS',
         payload: query.data.getFeedItems,
       });
     }
-  }, [dispatch, query.data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query.data]);
 
   const refetch = useCallback(async () => {
     setRefreshing(true);
@@ -28,7 +31,7 @@ export const useFeedQuery = (): [
       await query.refetch();
       setRefreshing(false);
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   }, [query]);
 

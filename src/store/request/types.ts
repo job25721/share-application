@@ -33,6 +33,22 @@ export type RequestActionTypes =
   | {type: 'SORT_REQUEST_ARR_TYPE_ITEM'}
   | {
       type: 'SORT_REQUEST_ARR_TYPE_PERSON';
+    }
+  | {
+      type: 'SET_CHAT_TYPE_PERSON';
+      payload: {requestId: string; itemId: string; chat: Chat};
+    }
+  | {
+      type: 'SET_CHAT_TYPE_ITEM';
+      payload: {requestId: string; chat: Chat};
+    }
+  | {
+      type: 'UPDATE_MY_SEND_REQUEST';
+      payload: {requestId: string; update: Request};
+    }
+  | {
+      type: 'UPDATE_RECEIVE_REQUEST';
+      payload: {requestId: string; itemId: string; update: Request};
     };
 
 export interface SendingItem {
@@ -46,6 +62,7 @@ export interface RequestState {
   onRequestLoading: OnRequestLoading;
   mySendRequests: Request[];
   myReceiveRequests: SendingItem[];
+  myReceiveRequestPreloaded: Request[];
 }
 
 export type RequestStatus = 'requested' | 'accepted' | 'rejected' | 'delivered';

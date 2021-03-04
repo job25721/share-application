@@ -1,4 +1,5 @@
-import React, {createContext, useEffect} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -12,6 +13,7 @@ import {
   CustomText,
   Button,
   AlertDialog,
+  Badge,
 } from '../../components/custom-components';
 
 import Feather from 'react-native-vector-icons/Feather';
@@ -26,13 +28,6 @@ import ChatRoom from './ChatRoom';
 import PersonModal from './PersonModal';
 import {useMySendRquestsQuery} from '../../components/custom-hooks-graphql/MySendRequests';
 import {useMyReceivingRequestsQuery} from '../../components/custom-hooks-graphql/MyReceivingRequests';
-import {QueryResult, useSubscription} from '@apollo/client';
-import {GetRequestsQueryType} from '../../graphql/query/request';
-import {
-  CHAT_SUBSCRIPTION,
-  NewDirectMessage,
-} from '../../graphql/subcription/chat';
-import {SendMessageInput} from '../../graphql/mutation/chat';
 
 type ChatIndexScreenRouteProp = RouteProp<ChatStackParamList, 'Index'>;
 type ChatIndexScreenNavigationProp = StackNavigationProp<
@@ -45,40 +40,15 @@ type Props = {
   navigation: ChatIndexScreenNavigationProp;
 };
 
-interface RequestsQueryContext {
-  query: QueryResult<GetRequestsQueryType> | undefined;
-  refetch: () => Promise<void> | undefined;
-}
-
-type ChatContextTypes = {
-  mySendRequests: RequestsQueryContext;
-  myReceiveRequests: RequestsQueryContext;
-};
-
-const ChatContext = createContext<ChatContextTypes>({
-  mySendRequests: {
-    query: undefined,
-    refetch: () => undefined,
-  },
-  myReceiveRequests: {
-    query: undefined,
-    refetch: () => undefined,
-  },
-});
-
 const ChatIndex: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const activeIndex = useSelector((state: RootState) => state.chat.tabIndex);
-  const {data} = useSubscription<{newDirectMessage: NewDirectMessage}>(
-    CHAT_SUBSCRIPTION,
-  );
+  const {mySendRequests} = useSelector((state: RootState) => state.request);
+  const {userData} = useSelector((state: RootState) => state.user);
+  const {chatNotofication} = useSelector((state: RootState) => state.chat);
 
-  useEffect(() => {
-    if (data) {
-      dispatch({type: 'SET_NEW_DIRECT', payload: data.newDirectMessage});
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  const [myReceiveRequestsNoti, setMyReceiveNoti] = useState<number>(0);
+  const [mySendRequestNoti, setMySendNoti] = useState<number>(0);
 
   const [
     mySendRequestquery,
@@ -92,18 +62,23 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
   ] = useMyReceivingRequestsQuery();
 
   useEffect(() => {
-    const refetch = async () => {
-      // await refetchMySendRequests();
-      // await refetchMyReceive();
-    };
-    refetch();
+    const mySendRequestNotiTab: number = mySendRequests
+      .map(
+        ({chat}) =>
+          chat.data.filter(
+            ({hasReaded, to}) => hasReaded === false && to === userData?.id,
+          ).length,
+      )
+      .reduce((cur, acc) => cur + acc, 0);
 
+    setMySendNoti(mySendRequestNotiTab);
+    setMyReceiveNoti(chatNotofication - mySendRequestNotiTab);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mySendRequests, chatNotofication]);
 
   return (
     <SafeAreaView style={{backgroundColor: Colors._gray_300, flex: 1}}>
-      {myReceiveQuery.loading && mySendRequestquery.loading ? (
+      {myReceiveQuery?.loading && mySendRequestquery?.loading ? (
         <AlertDialog title="กรุณารอสักครู่..." disabledBtn open={true} />
       ) : null}
       <View style={styles.header}>
@@ -116,58 +91,49 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         </CustomText>
       </View>
       <View style={styles.chatTab}>
-        <Button
-          onPress={async () => {
-            dispatch({type: 'SET_TAB_INDEX', payload: 0});
-          }}
-          bg={activeIndex === 0 ? PantoneColor.livingCoral : 'transparent'}>
-          <CustomText color={activeIndex === 0 ? Colors.white : Colors.black}>
-            ของที่กำลังขอรับ
-          </CustomText>
-        </Button>
-        <Button
-          onPress={async () => {
-            dispatch({type: 'SET_TAB_INDEX', payload: 1});
-          }}
-          bg={activeIndex === 1 ? PantoneColor.blueDepths : 'transparent'}>
-          <CustomText color={activeIndex === 1 ? Colors.white : Colors.black}>
-            ของที่กำลังส่งต่อ
-          </CustomText>
-        </Button>
+        <View>
+          {mySendRequestNoti > 0 && <Badge noti={mySendRequestNoti} />}
+          <Button
+            onPress={async () => {
+              dispatch({type: 'SET_TAB_INDEX', payload: 0});
+            }}
+            bg={activeIndex === 0 ? PantoneColor.livingCoral : 'transparent'}>
+            <CustomText color={activeIndex === 0 ? Colors.white : Colors.black}>
+              ของที่กำลังขอรับ
+            </CustomText>
+          </Button>
+        </View>
+        <View>
+          {myReceiveRequestsNoti > 0 && <Badge noti={myReceiveRequestsNoti} />}
+          <Button
+            onPress={async () => {
+              dispatch({type: 'SET_TAB_INDEX', payload: 1});
+            }}
+            bg={activeIndex === 1 ? PantoneColor.blueDepths : 'transparent'}>
+            <CustomText color={activeIndex === 1 ? Colors.white : Colors.black}>
+              ของที่กำลังส่งต่อ
+            </CustomText>
+          </Button>
+        </View>
       </View>
-
-      <ChatContext.Provider
-        value={{
-          mySendRequests: {
-            query: mySendRequestquery,
-            refetch: refetchMySendRequests,
-          },
-          myReceiveRequests: {
-            query: myReceiveQuery,
-            refetch: refetchMyReceive,
-          },
-        }}>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={
-                activeIndex === 0
-                  ? mySendRequestRefreshing
-                  : myReceiveRefreshing
-              }
-              onRefresh={
-                activeIndex === 0 ? refetchMySendRequests : refetchMyReceive
-              }
-            />
-          }
-          style={styles.container}>
-          {activeIndex === 0 && !mySendRequestquery.loading ? (
-            <ReceivingItemChat />
-          ) : activeIndex === 1 && !myReceiveQuery.loading ? (
-            <SendingItemChat />
-          ) : null}
-        </ScrollView>
-      </ChatContext.Provider>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={
+              activeIndex === 0 ? mySendRequestRefreshing : myReceiveRefreshing
+            }
+            onRefresh={
+              activeIndex === 0 ? refetchMySendRequests : refetchMyReceive
+            }
+          />
+        }
+        style={styles.container}>
+        {activeIndex === 0 ? (
+          <ReceivingItemChat />
+        ) : activeIndex === 1 ? (
+          <SendingItemChat />
+        ) : null}
+      </ScrollView>
     </SafeAreaView>
   );
 };

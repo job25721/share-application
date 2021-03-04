@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {Button, CustomText, ProgressiveImage} from '../custom-components';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -8,15 +8,44 @@ import {useNavigation} from '@react-navigation/native';
 
 import {Colors, PantoneColor} from '../../utils/Colors';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
+import {RootState, useDispatch} from '../../store';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../App';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const HomeHeader: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
+  const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.user.userData);
+  const {myReceiveRequests, mySendRequests} = useSelector(
+    (state: RootState) => state.request,
+  );
+  const chatNoti = useSelector(
+    (state: RootState) => state.chat.chatNotofication,
+  );
+
+  useEffect(() => {
+    const notification: number = [
+      ...mySendRequests.map(
+        ({chat}) =>
+          chat.data.filter(
+            ({hasReaded, to}) => hasReaded === false && to === userData?.id,
+          ).length,
+      ),
+      ...myReceiveRequests.map(({request}) =>
+        request
+          .map(
+            ({chat}) =>
+              chat.data.filter(
+                ({hasReaded, to}) => hasReaded === false && to === userData?.id,
+              ).length,
+          )
+          .reduce((acc, cur) => acc + cur, 0),
+      ),
+    ].reduce((acc, cur) => acc + cur, 0);
+    dispatch({type: 'SET_CHAT_NOTIFICATION', payload: notification});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myReceiveRequests, mySendRequests]);
 
   if (userData) {
     return (
@@ -72,6 +101,13 @@ const HomeHeader: React.FC = () => {
           <Button
             onPress={() => navigation.navigate('Chat', {screen: 'Index'})}
             px={5}>
+            {chatNoti > 0 && (
+              <View style={styles.chatBadge}>
+                <CustomText fontSize={13} fontWeight="700" color={Colors.white}>
+                  {chatNoti}
+                </CustomText>
+              </View>
+            )}
             <FeatherIcon name="message-circle" size={35} />
           </Button>
         </View>
@@ -97,10 +133,19 @@ const HomeHeader: React.FC = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // alignItems: 'center',
-
     padding: 20,
+  },
+  chatBadge: {
+    width: 20,
+    height: 20,
+    borderRadius: 50,
+    backgroundColor: Colors._red_500,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

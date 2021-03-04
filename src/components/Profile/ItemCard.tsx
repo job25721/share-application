@@ -16,7 +16,7 @@ const ItemCard: React.FC<{item: Item}> = ({item}) => {
       onPress={() => navigation.navigate('Detail', {item, wishlist: true})}>
       <View style={styles.imgView}>
         <ProgressiveImage
-          loadingType="loadingMotion"
+          loadingType="spinner"
           style={styles.img}
           source={{uri: item.images[0]}}
         />
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   mainView: {
-    backgroundColor: Colors._indigo_100,
+    backgroundColor: Colors._green_50,
     padding: 15,
     borderRadius: 15,
     marginVertical: 5,

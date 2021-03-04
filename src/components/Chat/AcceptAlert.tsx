@@ -18,6 +18,7 @@ interface AcceptAlertProps {
   hasReject?: boolean;
   disabledBtn?: boolean;
   bindColor?: boolean;
+  onClosed: () => void;
 }
 
 const AcceptAlert: React.FC<AcceptAlertProps> = ({
@@ -33,12 +34,14 @@ const AcceptAlert: React.FC<AcceptAlertProps> = ({
   hasReject,
   disabledBtn,
   bindColor,
+  onClosed,
 }) => {
   return (
     <Modal
-      backdropPressToClose={false}
+      backdropPressToClose={true}
       swipeToClose={false}
       coverScreen={true}
+      onClosed={onClosed}
       isOpen={open}
       style={[
         styles.container,
@@ -60,12 +63,12 @@ const AcceptAlert: React.FC<AcceptAlertProps> = ({
             color={Colors.white}
             bg={bindColor ? Colors._green_600 : PantoneColor.livingCoral}
           />
-          <Button
+          {/* <Button
             text={cancelText ? cancelText : 'ยกเลิก'}
             onPress={onClosePress}
             color={Colors.white}
             bg={PantoneColor.blueDepths}
-          />
+          /> */}
           {hasReject ? (
             <Button
               text={rejectText}

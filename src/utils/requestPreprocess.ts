@@ -9,7 +9,7 @@ export function preprocessAddNewRequestAbstract(
   );
   if (isItemExist) {
     return oldState.map<SendingItem>((s) => {
-      if (s.item.id === newRequest.id) {
+      if (s.item.id === newRequest.item.id) {
         return {
           ...s,
           request: [newRequest, ...s.request],
@@ -19,7 +19,7 @@ export function preprocessAddNewRequestAbstract(
     });
   }
 
-  return [{item: newRequest.item, request: [newRequest], ...oldState}];
+  return [{item: newRequest.item, request: [newRequest]}, ...oldState];
 }
 
 export function preprocessData(myReceiveRequests: Request[]) {

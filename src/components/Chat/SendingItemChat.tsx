@@ -1,42 +1,23 @@
-/* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootStackParamList} from '../../../App';
 import {ItemCardAbstract} from '../../components/Chat/ChatCard';
-import {RootState, useDispatch} from '../../store';
-import {SubscribeMessageAction} from '../../store/chat/actions';
+
+import {RootState} from '../../store';
 
 import {CustomText} from '../custom-components';
 
 const SendingItemChat: React.FC = () => {
-  const dispatch = useDispatch();
-  const myReceiveRequests = useSelector(
-    (state: RootState) => state.request.myReceiveRequests,
-  );
-
-  const {newDirectMessage} = useSelector((state: RootState) => state.chat);
-  const currentUser = useSelector((state: RootState) => state.user.userData);
-
-  useEffect(() => {
-    if (newDirectMessage) {
-      SubscribeMessageAction(
-        newDirectMessage,
-        {
-          requestId: newDirectMessage.requestId,
-          itemId: newDirectMessage.itemId,
-        },
-        currentUser ? currentUser.id : '',
-      )(dispatch);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newDirectMessage]);
+  const {myReceiveRequests} = useSelector((state: RootState) => state.request);
+  const {userData} = useSelector((state: RootState) => state.user);
 
   const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   return (
+    // eslint-disable-next-line react-native/no-inline-styles
     <View style={{padding: 5}}>
       {myReceiveRequests.length > 0 ? (
         myReceiveRequests.map((sending) => (
@@ -44,6 +25,15 @@ const SendingItemChat: React.FC = () => {
             key={sending.item.id}
             item={sending.item}
             personRequest={sending.request.length}
+            notification={sending.request
+              .map(
+                ({chat}) =>
+                  chat.data.filter(
+                    ({hasReaded, to}) =>
+                      hasReaded === false && to === userData?.id,
+                  ).length,
+              )
+              .reduce((cur, acc) => cur + acc)}
             onPress={() =>
               navigate('Chat', {
                 screen: 'Person',

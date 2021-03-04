@@ -1,14 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
-import {useQuery} from '@apollo/client';
+import React from 'react';
+import {useMutation} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {ChatStackParamList} from '../../../App';
-import {FindUserByIdQuery, GET_USER_BY_ID} from '../../graphql/query/user';
+import {READ_CHAT} from '../../graphql/mutation/chat';
 import {RootState, useDispatch} from '../../store';
-import {ChatMessageDisplay} from '../../store/chat/types';
+import {readChatAction} from '../../store/chat/actions';
+import {Chat, ChatMessageDisplay} from '../../store/chat/types';
 
 import {Item} from '../../store/item/types';
 import {Request, requestStatusNormalized} from '../../store/request/types';
@@ -16,8 +17,9 @@ import {Request, requestStatusNormalized} from '../../store/request/types';
 import {Colors, PantoneColor} from '../../utils/Colors';
 import {getTime} from '../../utils/getTime';
 
-import {CustomText} from '../custom-components';
+import {Badge, CustomText} from '../custom-components';
 import ProgressiveImage from '../custom-components/ProgressiveImage';
+import Feather from 'react-native-vector-icons/Feather';
 
 export type ChatCardType = 'Person' | 'Item';
 interface ItemChatCardProps {
@@ -36,13 +38,18 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
   const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.userData);
-  const {data} = useQuery<FindUserByIdQuery>(GET_USER_BY_ID, {
-    variables: {userID: latestMsg.from},
-  });
+
+  const [readChat] = useMutation<
+    {updateChatToReadAll: Chat},
+    {chatRoomid: string}
+  >(READ_CHAT);
 
   return (
     <TouchableOpacity
-      onPress={() => {
+      onPress={async () => {
+        if (notification > 0) {
+          readChatAction(readChat, request, type)(dispatch);
+        }
         dispatch({
           type: 'SET_CHAT_WITH',
           payload: type === 'Item' ? request.item.owner : request.requestPerson,
@@ -63,7 +70,14 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
         });
         navigate('ChatRoom', {type});
       }}
-      style={styles.chatListCard}>
+      style={[
+        styles.chatListCard,
+        type === 'Person' &&
+        request.status === 'delivered' &&
+        request.item.acceptedToPerson?.id === request.requestPerson.id
+          ? {backgroundColor: Colors._green_100}
+          : null,
+      ]}>
       {type === 'Person' ? (
         <ProgressiveImage
           loadingType="rolling"
@@ -117,7 +131,9 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
               }>
               {latestMsg.from === currentUser?.id
                 ? 'คุณ'
-                : data && data.getUserById.info.firstName}
+                : type === 'Item'
+                ? request.item.owner.info.firstName
+                : request.requestPerson.info.firstName}
               {' : '}
               {latestMsg.msg.length > 14
                 ? latestMsg.msg.substr(0, 14) + '....'
@@ -147,15 +163,18 @@ interface ItemChatCardAbstractProps {
   personRequest: number;
   item: Item;
   onPress?: () => void;
+  notification: number;
 }
 
 const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
   personRequest = 0,
   item,
   onPress,
+  notification,
 }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.chatListCard}>
+      {notification > 0 && <Badge height={20} width={20} />}
       <ProgressiveImage
         loadingType="spinner"
         style={styles.img}
@@ -164,7 +183,16 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
       <View style={styles.contentView}>
         <CustomText fontWeight="500">{item.name}</CustomText>
         <CustomText>ประเภท : {item.category}</CustomText>
-        <CustomText>สถานะ : {item.status}</CustomText>
+        <CustomText>
+          สถานะ :{' '}
+          {item.status === 'delivered' ? (
+            <CustomText fontWeight="700">
+              ได้ส่งต่อให้ {item.acceptedToPerson?.info.firstName}
+            </CustomText>
+          ) : (
+            item.status
+          )}
+        </CustomText>
       </View>
       <View style={styles.notiView}>
         <View
@@ -172,9 +200,12 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
             styles.notiBadge,
             {backgroundColor: PantoneColor.blueDepths},
           ]}>
-          <CustomText textAlign="center" color={Colors.white}>
-            {personRequest}
-          </CustomText>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Feather size={14} color={Colors.white} name="users" />
+            <CustomText textAlign="center" color={Colors.white}>
+              {personRequest}
+            </CustomText>
+          </View>
         </View>
       </View>
     </TouchableOpacity>

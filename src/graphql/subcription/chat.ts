@@ -7,6 +7,7 @@ export interface NewDirectMessage {
   timestamp: Date;
   requestId: string;
   itemId: string;
+  hasReaded: boolean;
 }
 export const CHAT_SUBSCRIPTION = gql`
   subscription {
@@ -18,6 +19,7 @@ export const CHAT_SUBSCRIPTION = gql`
       timestamp
       requestId
       itemId
+      hasReaded
     }
   }
 `;

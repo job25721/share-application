@@ -18,6 +18,7 @@ interface AlertDialogProps {
   hasCancel?: boolean;
   disabledBtn?: boolean;
   bindColor?: boolean;
+  backdropPressToClose?: boolean;
 }
 
 const AlertDialog: React.FC<AlertDialogProps> = ({
@@ -31,10 +32,11 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
   hasCancel,
   disabledBtn,
   bindColor,
+  backdropPressToClose = false,
 }) => {
   return (
     <Modal
-      backdropPressToClose={false}
+      backdropPressToClose={backdropPressToClose}
       swipeToClose={false}
       coverScreen={true}
       isOpen={open}

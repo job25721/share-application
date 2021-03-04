@@ -159,10 +159,11 @@ const styles = StyleSheet.create({
   form: {paddingHorizontal: 20, marginTop: 10},
   inputSection: {
     padding: 20,
-    backgroundColor: Colors._gray_500,
+    backgroundColor: Colors.white,
     borderRadius: 20,
     shadowColor: Colors.black,
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.01,
+    elevation: 1,
   },
 });
 
