@@ -12,6 +12,7 @@ import {CustomText} from '../custom-components';
 
 const SendingItemChat: React.FC = () => {
   const {myReceiveRequests} = useSelector((state: RootState) => state.request);
+  const {userData} = useSelector((state: RootState) => state.user);
 
   const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -24,6 +25,15 @@ const SendingItemChat: React.FC = () => {
             key={sending.item.id}
             item={sending.item}
             personRequest={sending.request.length}
+            notification={sending.request
+              .map(
+                ({chat}) =>
+                  chat.data.filter(
+                    ({hasReaded, to}) =>
+                      hasReaded === false && to === userData?.id,
+                  ).length,
+              )
+              .reduce((cur, acc) => cur + acc)}
             onPress={() =>
               navigate('Chat', {
                 screen: 'Person',

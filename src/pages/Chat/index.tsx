@@ -70,6 +70,7 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
   const {mySendRequests} = useSelector((state: RootState) => state.request);
   const {userData} = useSelector((state: RootState) => state.user);
   const {chatNotofication} = useSelector((state: RootState) => state.chat);
+
   const [myReceiveRequestsNoti, setMyReceiveNoti] = useState<number>(0);
   const [mySendRequestNoti, setMySendNoti] = useState<number>(0);
 
@@ -115,7 +116,7 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
       </View>
       <View style={styles.chatTab}>
         <View>
-          {mySendRequestNoti > 0 && <Badge />}
+          {mySendRequestNoti > 0 && <Badge noti={mySendRequestNoti} />}
           <Button
             onPress={async () => {
               dispatch({type: 'SET_TAB_INDEX', payload: 0});
@@ -127,8 +128,7 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
           </Button>
         </View>
         <View>
-          {myReceiveRequestsNoti > 0 && <Badge />}
-
+          {myReceiveRequestsNoti > 0 && <Badge noti={myReceiveRequestsNoti} />}
           <Button
             onPress={async () => {
               dispatch({type: 'SET_TAB_INDEX', payload: 1});

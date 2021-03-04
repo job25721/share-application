@@ -18,8 +18,9 @@ import {Request, requestStatusNormalized} from '../../store/request/types';
 import {Colors, PantoneColor} from '../../utils/Colors';
 import {getTime} from '../../utils/getTime';
 
-import {CustomText} from '../custom-components';
+import {Badge, CustomText} from '../custom-components';
 import ProgressiveImage from '../custom-components/ProgressiveImage';
+import Feather from 'react-native-vector-icons/Feather';
 
 export type ChatCardType = 'Person' | 'Item';
 interface ItemChatCardProps {
@@ -164,15 +165,18 @@ interface ItemChatCardAbstractProps {
   personRequest: number;
   item: Item;
   onPress?: () => void;
+  notification: number;
 }
 
 const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
   personRequest = 0,
   item,
   onPress,
+  notification,
 }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.chatListCard}>
+      {notification > 0 && <Badge height={20} width={20} />}
       <ProgressiveImage
         loadingType="spinner"
         style={styles.img}
@@ -198,9 +202,12 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
             styles.notiBadge,
             {backgroundColor: PantoneColor.blueDepths},
           ]}>
-          <CustomText textAlign="center" color={Colors.white}>
-            {personRequest}
-          </CustomText>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Feather size={14} color={Colors.white} name="users" />
+            <CustomText textAlign="center" color={Colors.white}>
+              {personRequest}
+            </CustomText>
+          </View>
         </View>
       </View>
     </TouchableOpacity>

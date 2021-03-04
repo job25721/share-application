@@ -14,8 +14,8 @@ interface Props {
 
 export const Badge: FunctionComponent<Props> = ({
   noti,
-  width = 30,
-  height = 30,
+  width = 20,
+  height = 20,
 }) => (
   <View
     style={{
