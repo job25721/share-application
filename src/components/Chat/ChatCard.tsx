@@ -1,13 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import {useMutation, useQuery} from '@apollo/client';
+import React from 'react';
+import {useMutation} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {ChatStackParamList} from '../../../App';
 import {READ_CHAT} from '../../graphql/mutation/chat';
-import {FindUserByIdQuery, GET_USER_BY_ID} from '../../graphql/query/user';
 import {RootState, useDispatch} from '../../store';
 import {readChatAction} from '../../store/chat/actions';
 import {Chat, ChatMessageDisplay} from '../../store/chat/types';
@@ -39,9 +38,6 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
   const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.userData);
-  const {data} = useQuery<FindUserByIdQuery>(GET_USER_BY_ID, {
-    variables: {userID: latestMsg.from},
-  });
 
   const [readChat] = useMutation<
     {updateChatToReadAll: Chat},
@@ -135,7 +131,9 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
               }>
               {latestMsg.from === currentUser?.id
                 ? 'คุณ'
-                : data && data.getUserById.info.firstName}
+                : type === 'Item'
+                ? request.item.owner.info.firstName
+                : request.requestPerson.info.firstName}
               {' : '}
               {latestMsg.msg.length > 14
                 ? latestMsg.msg.substr(0, 14) + '....'
