@@ -8,7 +8,7 @@ import {
 import {useDispatch} from '../../store';
 
 export const useMySendRquestsQuery = (): [
-  LazyQueryResult<GetRequestsQueryType, undefined> | undefined,
+  LazyQueryResult<GetRequestsQueryType, {}> | undefined,
   () => Promise<void>,
   boolean,
 ] => {
