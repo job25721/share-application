@@ -101,11 +101,13 @@ const HomeHeader: React.FC = () => {
           <Button
             onPress={() => navigation.navigate('Chat', {screen: 'Index'})}
             px={5}>
-            <View style={styles.chatBadge}>
-              <CustomText fontSize={13} fontWeight="700" color={Colors.white}>
-                {chatNoti}
-              </CustomText>
-            </View>
+            {chatNoti > 0 && (
+              <View style={styles.chatBadge}>
+                <CustomText fontSize={13} fontWeight="700" color={Colors.white}>
+                  {chatNoti}
+                </CustomText>
+              </View>
+            )}
             <FeatherIcon name="message-circle" size={35} />
           </Button>
         </View>
