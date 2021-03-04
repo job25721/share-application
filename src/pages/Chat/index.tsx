@@ -1,4 +1,6 @@
-import React, {createContext} from 'react';
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -12,6 +14,7 @@ import {
   CustomText,
   Button,
   AlertDialog,
+  Badge,
 } from '../../components/custom-components';
 
 import Feather from 'react-native-vector-icons/Feather';
@@ -45,25 +48,30 @@ interface RequestsQueryContext {
   refetch: () => Promise<void> | undefined;
 }
 
-type ChatContextTypes = {
-  mySendRequests: RequestsQueryContext;
-  myReceiveRequests: RequestsQueryContext;
-};
+// type ChatContextTypes = {
+//   mySendRequests: RequestsQueryContext;
+//   myReceiveRequests: RequestsQueryContext;
+// };
 
-const ChatContext = createContext<ChatContextTypes>({
-  mySendRequests: {
-    query: undefined,
-    refetch: () => undefined,
-  },
-  myReceiveRequests: {
-    query: undefined,
-    refetch: () => undefined,
-  },
-});
+// const ChatContext = createContext<ChatContextTypes>({
+//   mySendRequests: {
+//     query: undefined,
+//     refetch: () => undefined,
+//   },
+//   myReceiveRequests: {
+//     query: undefined,
+//     refetch: () => undefined,
+//   },
+// });
 
 const ChatIndex: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const activeIndex = useSelector((state: RootState) => state.chat.tabIndex);
+  const {mySendRequests} = useSelector((state: RootState) => state.request);
+  const {userData} = useSelector((state: RootState) => state.user);
+  const {chatNotofication} = useSelector((state: RootState) => state.chat);
+  const [myReceiveRequestsNoti, setMyReceiveNoti] = useState<number>(0);
+  const [mySendRequestNoti, setMySendNoti] = useState<number>(0);
 
   const [
     mySendRequestquery,
@@ -75,6 +83,21 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
     refetchMyReceive,
     myReceiveRefreshing,
   ] = useMyReceivingRequestsQuery();
+
+  useEffect(() => {
+    const mySendRequestNotiTab: number = mySendRequests
+      .map(
+        ({chat}) =>
+          chat.data.filter(
+            ({hasReaded, to}) => hasReaded === false && to === userData?.id,
+          ).length,
+      )
+      .reduce((cur, acc) => cur + acc, 0);
+
+    setMySendNoti(mySendRequestNotiTab);
+    setMyReceiveNoti(chatNotofication - mySendRequestNotiTab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mySendRequests, chatNotofication]);
 
   return (
     <SafeAreaView style={{backgroundColor: Colors._gray_300, flex: 1}}>
@@ -91,27 +114,34 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         </CustomText>
       </View>
       <View style={styles.chatTab}>
-        <Button
-          onPress={async () => {
-            dispatch({type: 'SET_TAB_INDEX', payload: 0});
-          }}
-          bg={activeIndex === 0 ? PantoneColor.livingCoral : 'transparent'}>
-          <CustomText color={activeIndex === 0 ? Colors.white : Colors.black}>
-            ของที่กำลังขอรับ
-          </CustomText>
-        </Button>
-        <Button
-          onPress={async () => {
-            dispatch({type: 'SET_TAB_INDEX', payload: 1});
-          }}
-          bg={activeIndex === 1 ? PantoneColor.blueDepths : 'transparent'}>
-          <CustomText color={activeIndex === 1 ? Colors.white : Colors.black}>
-            ของที่กำลังส่งต่อ
-          </CustomText>
-        </Button>
+        <View>
+          {mySendRequestNoti > 0 && <Badge />}
+          <Button
+            onPress={async () => {
+              dispatch({type: 'SET_TAB_INDEX', payload: 0});
+            }}
+            bg={activeIndex === 0 ? PantoneColor.livingCoral : 'transparent'}>
+            <CustomText color={activeIndex === 0 ? Colors.white : Colors.black}>
+              ของที่กำลังขอรับ
+            </CustomText>
+          </Button>
+        </View>
+        <View>
+          {myReceiveRequestsNoti > 0 && <Badge />}
+
+          <Button
+            onPress={async () => {
+              dispatch({type: 'SET_TAB_INDEX', payload: 1});
+            }}
+            bg={activeIndex === 1 ? PantoneColor.blueDepths : 'transparent'}>
+            <CustomText color={activeIndex === 1 ? Colors.white : Colors.black}>
+              ของที่กำลังส่งต่อ
+            </CustomText>
+          </Button>
+        </View>
       </View>
 
-      <ChatContext.Provider
+      {/* <ChatContext.Provider
         value={{
           mySendRequests: {
             query: mySendRequestquery,
@@ -121,28 +151,26 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
             query: myReceiveQuery,
             refetch: refetchMyReceive,
           },
-        }}>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={
-                activeIndex === 0
-                  ? mySendRequestRefreshing
-                  : myReceiveRefreshing
-              }
-              onRefresh={
-                activeIndex === 0 ? refetchMySendRequests : refetchMyReceive
-              }
-            />
-          }
-          style={styles.container}>
-          {activeIndex === 0 && !mySendRequestquery.loading ? (
-            <ReceivingItemChat />
-          ) : activeIndex === 1 && !myReceiveQuery.loading ? (
-            <SendingItemChat />
-          ) : null}
-        </ScrollView>
-      </ChatContext.Provider>
+        }}> */}
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={
+              activeIndex === 0 ? mySendRequestRefreshing : myReceiveRefreshing
+            }
+            onRefresh={
+              activeIndex === 0 ? refetchMySendRequests : refetchMyReceive
+            }
+          />
+        }
+        style={styles.container}>
+        {activeIndex === 0 && !mySendRequestquery.loading ? (
+          <ReceivingItemChat />
+        ) : activeIndex === 1 && !myReceiveQuery.loading ? (
+          <SendingItemChat />
+        ) : null}
+      </ScrollView>
+      {/* </ChatContext.Provider> */}
     </SafeAreaView>
   );
 };

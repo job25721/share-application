@@ -54,6 +54,7 @@ export interface RequestState {
   onRequestLoading: OnRequestLoading;
   mySendRequests: Request[];
   myReceiveRequests: SendingItem[];
+  myReceiveRequestPreloaded: Request[];
 }
 
 export type RequestStatus = 'requested' | 'accepted' | 'rejected' | 'delivered';

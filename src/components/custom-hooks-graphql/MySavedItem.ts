@@ -14,13 +14,14 @@ export const useMySavedItemQuery = (): [
 
   useEffect(() => {
     if (query.data?.getMyBookmarks) {
-      console.log('query item');
+      console.log('query saved item');
       dispatch({
         type: 'SET_MY_SAVED_ITEM',
         payload: query.data.getMyBookmarks,
       });
     }
-  }, [dispatch, query.data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query.data]);
 
   const refetch = useCallback(async () => {
     setRefreshing(true);

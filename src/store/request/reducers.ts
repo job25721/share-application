@@ -15,6 +15,7 @@ const initialState: RequestState = {
   },
   mySendRequests: [],
   myReceiveRequests: [],
+  myReceiveRequestPreloaded: [],
 };
 
 export default function requestReducers(
@@ -52,20 +53,24 @@ export default function requestReducers(
         ...state,
         mySendRequests: [action.payload, ...state.mySendRequests],
       };
+
     case 'SET_MY_RECEIVE_REQUETS':
       return {
         ...state,
-
         myReceiveRequests: preprocessData(action.payload),
+        myReceiveRequestPreloaded: action.payload,
       };
     case 'ADD_MY_RECEIVE_REQUETS':
       return {
         ...state,
-
         myReceiveRequests: preprocessAddNewRequestAbstract(
           state.myReceiveRequests,
           action.payload,
         ),
+        myReceiveRequestPreloaded: [
+          ...state.myReceiveRequestPreloaded,
+          action.payload,
+        ],
       };
     case 'UPDATE_CHAT_TYPE_ITEM':
       return {

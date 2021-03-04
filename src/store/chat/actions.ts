@@ -66,7 +66,6 @@ export const SubscribeMessageAction = (
   updateRequestPayload: UpdateRequestPayload,
   currentUserId: string,
 ) => async (dispatch: Dispatch<StoreEvent>) => {
-  console.log(newDirect);
   if (newDirect && currentUserId === newDirect.to) {
     console.log('show');
     dispatch({
@@ -78,6 +77,8 @@ export const SubscribeMessageAction = (
       },
     });
     const {itemId, requestId} = updateRequestPayload;
+    console.log(itemId);
+
     if (!itemId) {
       dispatch({
         type: 'UPDATE_CHAT_TYPE_ITEM',
