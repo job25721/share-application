@@ -52,7 +52,7 @@ import {
 } from '../../graphql/mutation/chat';
 
 import {Chat, ChatMessageDisplay} from '../../store/chat/types';
-import {getChatDate, getFullDate, getTime} from '../../utils/getTime';
+import {getChatDate, getTime} from '../../utils/getTime';
 
 type ChatRoomScreenRouteProp = RouteProp<ChatStackParamList, 'ChatRoom'>;
 type ChatRoomScreenNavigationProp = StackNavigationProp<

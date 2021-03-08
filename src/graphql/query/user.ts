@@ -51,6 +51,7 @@ export const GET_MY_RECEIVED_ITEM = gql`
       name
       category
       images
+      description
       tags
       owner {
         avatar
@@ -72,6 +73,7 @@ export const GET_MY_SAVED_ITEM = gql`
       id
       name
       category
+      description
       images
       tags
       owner {
