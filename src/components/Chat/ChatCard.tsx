@@ -3,21 +3,25 @@ import React from 'react';
 import {useMutation} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {useSelector} from 'react-redux';
-import {ChatStackParamList} from '../../../App';
+import {ChatStackParamList, RootStackParamList} from '../../../App';
 import {READ_CHAT} from '../../graphql/mutation/chat';
 import {RootState, useDispatch} from '../../store';
 import {readChatAction} from '../../store/chat/actions';
 import {Chat, ChatMessageDisplay} from '../../store/chat/types';
 
-import {Item} from '../../store/item/types';
-import {Request, requestStatusNormalized} from '../../store/request/types';
+import {Item, itemStatusNormalized} from '../../store/item/types';
+import {
+  Request,
+  RequestStatus,
+  requestStatusNormalized,
+} from '../../store/request/types';
 
 import {Colors, PantoneColor} from '../../utils/Colors';
 import {getChatDate, getTime} from '../../utils/getTime';
 
-import {Badge, CustomText} from '../custom-components';
+import {Badge, Button, CustomText} from '../custom-components';
 import ProgressiveImage from '../custom-components/ProgressiveImage';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -36,86 +40,145 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
   type,
 }) => {
   const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
+  const mainNavigation = useNavigation<
+    StackNavigationProp<RootStackParamList>
+  >();
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.userData);
-
+  const mySavedItem = useSelector((state: RootState) => state.user.mySavedItem);
   const [readChat] = useMutation<
     {updateChatToReadAll: Chat},
     {chatRoomid: string}
   >(READ_CHAT);
 
+  const openChatRoom = async () => {
+    if (notification > 0) {
+      readChatAction(readChat, request, type)(dispatch);
+    }
+    dispatch({
+      type: 'SET_CHAT_WITH',
+      payload: type === 'Item' ? request.item.owner : request.requestPerson,
+    });
+    const chatDisplay: ChatMessageDisplay[] = request.chat.data.map(
+      (chatData) => {
+        return {
+          pos: currentUser?.id === chatData.from ? 'right' : 'left',
+          msg: chatData.message.split('\n'),
+          time: getTime(new Date(chatData.timestamp).getTime()),
+          date: getChatDate(new Date(chatData.timestamp)),
+        };
+      },
+    );
+    dispatch({type: 'SET_MESSAGE', payload: chatDisplay});
+    dispatch({
+      type: 'SET_CURRENT_PROCESS_REQUEST',
+      payload: request,
+    });
+    navigate('ChatRoom', {type});
+  };
+
+  const textColor = (requestStatus: RequestStatus): string =>
+    requestStatus === 'rejected'
+      ? Colors._red_500
+      : requestStatus === 'requested'
+      ? Colors._blue_400
+      : requestStatus === 'accepted'
+      ? Colors._indigo_400
+      : requestStatus === 'delivered'
+      ? Colors._green_400
+      : Colors.black;
+
   return (
     <TouchableOpacity
-      onPress={async () => {
-        if (notification > 0) {
-          readChatAction(readChat, request, type)(dispatch);
-        }
-        dispatch({
-          type: 'SET_CHAT_WITH',
-          payload: type === 'Item' ? request.item.owner : request.requestPerson,
-        });
-        const chatDisplay: ChatMessageDisplay[] = request.chat.data.map(
-          (chatData) => {
-            return {
-              pos: currentUser?.id === chatData.from ? 'right' : 'left',
-              msg: chatData.message.split('\n'),
-              time: getTime(new Date(chatData.timestamp).getTime()),
-              date: getChatDate(new Date(chatData.timestamp)),
-            };
-          },
-        );
-        dispatch({type: 'SET_MESSAGE', payload: chatDisplay});
-        dispatch({
-          type: 'SET_CURRENT_PROCESS_REQUEST',
-          payload: request,
-        });
-        navigate('ChatRoom', {type});
-      }}
+      onPress={openChatRoom}
       style={[
         styles.chatListCard,
-        type === 'Person' &&
-        request.status === 'delivered' &&
-        request.item.acceptedToPerson?.id === request.requestPerson.id
-          ? {backgroundColor: Colors._green_100}
+        request.status === 'requested'
+          ? {backgroundColor: Colors._blue_50}
+          : request.status === 'accepted'
+          ? {backgroundColor: Colors._indigo_100}
+          : request.status === 'rejected'
+          ? {backgroundColor: Colors._red_100}
+          : request.status === 'delivered'
+          ? {backgroundColor: Colors._green_50}
           : null,
       ]}>
       {type === 'Person' ? (
-        <ProgressiveImage
-          loadingType="rolling"
-          style={styles.img}
-          source={{uri: request.requestPerson.avatar}}
-        />
+        // <ProgressiveImage
+        //   loadingType="rolling"
+        //   style={styles.img}
+        //   source={{uri: request.requestPerson.avatar}}
+        // />
+        <Button
+          onPress={() =>
+            mainNavigation.navigate('Profile', {
+              visitor: true,
+              userInfo: request.requestPerson,
+            })
+          }
+          px={0}
+          py={0}>
+          <Image
+            style={styles.img}
+            source={{uri: request.requestPerson.avatar}}
+          />
+        </Button>
       ) : (
-        <ProgressiveImage
-          loadingType="spinner"
-          resizeMode="cover"
-          style={styles.img}
-          source={{uri: request.item.images[0]}}
-        />
+        <View>
+          <View style={{position: 'absolute', zIndex: 1, top: -20, left: 0}}>
+            <Button
+              onPress={() =>
+                mainNavigation.navigate('Profile', {
+                  visitor: true,
+                  userInfo: request.item.owner,
+                })
+              }
+              px={0}
+              py={0}>
+              <Image
+                style={[styles.img, {width: 40, height: 40}]}
+                source={{uri: request.item.owner.avatar}}
+              />
+            </Button>
+          </View>
+          <Button
+            px={0}
+            py={0}
+            onPress={() =>
+              mainNavigation.navigate('Detail', {
+                item: request.item,
+                wishlist: mySavedItem.some(
+                  (item) => item.id === request.item.id,
+                ),
+              })
+            }>
+            <Image
+              // loadingType="spinner"
+              // resizeMode="cover"
+              style={styles.img}
+              source={{uri: request.item.images[0]}}
+            />
+          </Button>
+        </View>
       )}
       <View style={styles.contentView}>
         {type === 'Person' ? (
           <>
-            <CustomText fontWeight="500">
+            <CustomText fontWeight={notification > 0 ? 'bold' : 'normal'}>
               {request.requestPerson.info.firstName}{' '}
               {request.requestPerson.info.lastName}
+            </CustomText>
+            <CustomText color={textColor(request.status)} fontSize={15}>
+              สถานะคำขอ : {requestStatusNormalized(request.status)}
             </CustomText>
           </>
         ) : (
           <>
             <CustomText fontWeight="bold">{request.item.name}</CustomText>
-            <CustomText>เจ้าของ {request.item.owner.info.firstName}</CustomText>
-            <CustomText
-              color={
-                request.status === 'rejected'
-                  ? Colors._red_500
-                  : request.status === 'requested'
-                  ? Colors._blue_400
-                  : request.status === 'accepted'
-                  ? Colors._green_500
-                  : Colors.black
-              }
-              fontSize={16}>
+            <CustomText fontSize={15}>
+              เจ้าของ {request.item.owner.info.firstName}
+            </CustomText>
+            <CustomText color={textColor(request.status)} fontSize={15}>
               สถานะคำขอ : {requestStatusNormalized(request.status)}
             </CustomText>
           </>
@@ -124,21 +187,30 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
           {latestMsg.from !== '' && latestMsg.msg !== '' ? (
             <CustomText
               fontWeight={notification > 0 ? 'bold' : 'normal'}
-              fontSize={15}
+              fontSize={14}
               color={
                 notification && notification > 0
                   ? Colors.black
                   : 'rgb(75, 85, 99)'
               }>
-              {latestMsg.from === currentUser?.id
-                ? 'คุณ'
-                : type === 'Item'
-                ? request.item.owner.info.firstName
-                : request.requestPerson.info.firstName}
-              {' : '}
-              {latestMsg.msg.length > 14
-                ? latestMsg.msg.substr(0, 14) + '....'
+              {latestMsg.from === currentUser?.id ? 'คุณ : ' : null}
+              {latestMsg.msg.length > 20
+                ? latestMsg.msg.substr(0, 20) + '...'
                 : latestMsg.msg}
+              <CustomText fontSize={12}>
+                {' '}
+                •{' '}
+                {getChatDate(
+                  new Date(
+                    request.chat.data[request.chat.data.length - 1].timestamp,
+                  ),
+                )}{' '}
+                {getTime(
+                  new Date(
+                    request.chat.data[request.chat.data.length - 1].timestamp,
+                  ).getTime(),
+                )}
+              </CustomText>
             </CustomText>
           ) : null}
         </View>
@@ -173,25 +245,39 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
   onPress,
   notification,
 }) => {
+  const mainNavigation = useNavigation<
+    StackNavigationProp<RootStackParamList>
+  >();
   return (
     <TouchableOpacity onPress={onPress} style={styles.chatListCard}>
       {notification > 0 && <Badge height={20} width={20} />}
-      <ProgressiveImage
-        loadingType="spinner"
-        style={styles.img}
-        source={{uri: item.images[0]}}
-      />
+      <Button
+        px={0}
+        py={0}
+        onPress={() =>
+          mainNavigation.navigate('Detail', {
+            item,
+            wishlist: false,
+          })
+        }>
+        <Image
+          // loadingType="spinner"
+          // resizeMode="cover"
+          style={styles.img}
+          source={{uri: item.images[0]}}
+        />
+      </Button>
       <View style={styles.contentView}>
-        <CustomText fontWeight="500">{item.name}</CustomText>
-        <CustomText>ประเภท : {item.category}</CustomText>
-        <CustomText>
+        <CustomText fontWeight="bold">{item.name}</CustomText>
+        <CustomText fontSize={15}>ประเภท : {item.category}</CustomText>
+        <CustomText fontSize={15}>
           สถานะ :{' '}
           {item.status === 'delivered' ? (
-            <CustomText fontWeight="700">
+            <CustomText fontSize={15} fontWeight="bold">
               ได้ส่งต่อให้ {item.acceptedToPerson?.info.firstName}
             </CustomText>
           ) : (
-            item.status
+            itemStatusNormalized(item.status)
           )}
         </CustomText>
       </View>

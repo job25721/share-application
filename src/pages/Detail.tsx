@@ -7,7 +7,7 @@ import {
   DismissKeyboard,
 } from '../components/custom-components';
 import {View, Image, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
-
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import {Colors, PantoneColor} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -46,6 +46,10 @@ const Detail: React.FC<Props> = (props) => {
   const [isAlert, setAlert] = useState<boolean>(false);
   const [shareOpen, setShare] = useState<boolean>(false);
   const userData = useSelector((state: RootState) => state.user.userData);
+  const mySendRequests = useSelector(
+    (state: RootState) => state.request.mySendRequests,
+  );
+
   const onRequestLoading = useSelector(
     (state: RootState) => state.request.onRequestLoading,
   );
@@ -83,13 +87,13 @@ const Detail: React.FC<Props> = (props) => {
         <AlertDialog
           open={isAlert}
           onClosePress={() => {
-            dispatch({type: 'CLEAR_REQUEST_DATA'});
             setAlert(false);
           }}
           onConfirm={() => {
             setAlert(false);
             setModalOpen(false);
             dispatch({type: 'SET_REQUEST_ITEM_ID', payload: item.id});
+            AndroidKeyboardAdjust.setAdjustResize();
             createRequestAction(createRequest, navigation)(dispatch);
           }}
           title="ยืนยันคำขอ"
@@ -100,6 +104,7 @@ const Detail: React.FC<Props> = (props) => {
           isOpen={isModalOpen}
           onClosePress={() => {
             setModalOpen(false);
+            dispatch({type: 'CLEAR_REQUEST_DATA'});
           }}
           onSubmit={() => setAlert(true)}
         />
@@ -119,7 +124,20 @@ const Detail: React.FC<Props> = (props) => {
         <ScrollView>
           <View style={{paddingHorizontal: 20}}>
             <View style={styles.userDetailView}>
-              <Image style={styles.userImg} source={{uri: item.owner.avatar}} />
+              <Button
+                onPress={() =>
+                  navigation.navigate('Profile', {
+                    visitor: item.owner.id !== userData?.id ? true : false,
+                    userInfo: item.owner,
+                  })
+                }
+                px={0}
+                py={0}>
+                <Image
+                  style={styles.userImg}
+                  source={{uri: item.owner.avatar}}
+                />
+              </Button>
               <View style={{paddingHorizontal: 15}}>
                 <CustomText fontWeight="500" fontSize={18}>
                   {item.owner.info.firstName} {item.owner.info.lastName}
@@ -180,7 +198,9 @@ const Detail: React.FC<Props> = (props) => {
             <CustomText fontSize={16}>{item.description}</CustomText>
           </View>
         </ScrollView>
-        {userData && userData.id !== item.owner.id ? (
+        {userData &&
+        userData.id !== item.owner.id &&
+        !mySendRequests.some((req) => req.item.id === item.id) ? (
           <View>
             <Button
               text="ส่งคำขอ"

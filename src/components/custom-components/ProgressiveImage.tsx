@@ -27,7 +27,6 @@ interface ProgressiveImageProps {
 const ProgressiveImage: React.FC<ProgressiveImageProps> = (props) => {
   const [thumbnailAnimated] = useState(new Animated.Value(0));
   const [imageAnimated] = useState(new Animated.Value(0));
-  const [loading, setLoading] = useState<boolean>(true);
 
   const indicatorPath = {
     rolling: require('../../assets/img/loadingIndicator/rolling.gif'),
@@ -76,6 +75,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     top: 0,
+    // backgroundColor: 'red',
   },
   container: {
     // backgroundColor: 'transparent',

@@ -77,8 +77,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: '7%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    // borderTopLeftRadius: 30,
-    // borderTopRightRadius: 30,
     borderRadius: 30,
     shadowColor: Colors.black,
     shadowOpacity: 0.2,
@@ -87,6 +85,8 @@ const styles = StyleSheet.create({
       width: 0,
     },
     elevation: 2,
+    marginBottom: 5,
+    marginHorizontal: 5,
   },
 });
 

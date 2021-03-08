@@ -128,6 +128,8 @@ const RootStackScreen: React.FC = () => {
     getToken();
   }, []);
 
+  useMySendRquestsQuery();
+  useMyReceivingRequestsQuery();
   useChatSubscription();
   useRequestSubscription();
   useMyReceivingRequestsQuery();

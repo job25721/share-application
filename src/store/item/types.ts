@@ -32,6 +32,7 @@ export type ItemActionTypes =
   | {type: 'SET_REFRESH_FEED'; payload: boolean}
   | {type: 'SET_SEARCH_RESULT'; payload: Item[]};
 
+type ItemStatus = 'hidden' | 'available' | 'accepted' | 'delivered';
 export interface Item {
   id: string;
   name: string;
@@ -40,7 +41,7 @@ export interface Item {
   tags: string[];
   ownerId: string;
   images: string[];
-  status: string;
+  status: ItemStatus;
   createdDate: string;
   logId: string;
   owner: User;
@@ -68,3 +69,18 @@ export interface ItemState {
   refreshFeed: boolean;
   searchResult: Item[];
 }
+
+export const itemStatusNormalized = (status: ItemStatus): string => {
+  switch (status) {
+    case 'hidden':
+      return 'เป็นส่วนตัว';
+    case 'available':
+      return 'ยังไม่มีเจ้าของ';
+    case 'delivered':
+      return 'ถูกส่งต่อ';
+    case 'accepted':
+      return 'ได้ยินยอมส่งต่อแล้ว';
+    default:
+      return '';
+  }
+};

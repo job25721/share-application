@@ -11,7 +11,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import {Item} from '../../store/item/types';
 import {useNavigation} from '@react-navigation/native';
-import {getFullDate, getTime} from '../../utils/getTime';
+import {getChatDate, getFullDate, getTime} from '../../utils/getTime';
 import {useMutation} from '@apollo/client';
 import {
   ADD_WISHLIST_ITEM,
@@ -91,7 +91,10 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
         <View style={cardStyles.userInfo}>
           <TouchableOpacity
             onPress={() =>
-              navigate('Profile', {userInfo: owner, visitor: true})
+              navigate('Profile', {
+                userInfo: owner,
+                visitor: owner.id === user?.id ? false : true,
+              })
             }>
             <ProgressiveImage
               loadingType="spinner"
@@ -105,7 +108,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
               {owner.info.firstName} {owner.info.lastName}
             </CustomText>
             <CustomText fontSize={13}>
-              {getFullDate(new Date(createdDate).getTime())}{' '}
+              {getChatDate(new Date(createdDate))}{' '}
               {getTime(new Date(createdDate).getTime())}
             </CustomText>
           </View>

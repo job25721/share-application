@@ -83,17 +83,19 @@ export interface Request {
   requestToPerson: User;
 }
 
-export function requestStatusNormalized(status: RequestStatus): string | null {
+export const requestStatusNormalized = (
+  status: RequestStatus,
+): string | null => {
   switch (status) {
     case 'accepted':
       return 'ได้รับการยินยอมจากเจ้าของแล้ว';
     case 'rejected':
-      return 'คำขอของคุณได้รับการปฏิเสธ';
+      return 'คำขอได้รับการปฏิเสธ';
     case 'requested':
       return 'ส่งคำขอแล้ว';
     case 'delivered':
-      return 'ได้ถูกส่งต่อให้คุณแล้ว';
+      return 'ได้ถูกส่งต่อแล้ว';
     default:
       return null;
   }
-}
+};

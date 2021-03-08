@@ -19,7 +19,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 const Login = () => {
   const {navigate}: StackNavigationProp<RootStackParamList> = useNavigation();
 
-  const [username, setUsername] = useState<string>('guy');
+  const [username, setUsername] = useState<string>('chinawat');
   const [password, setPassword] = useState<string>('1234');
   const [loading, setLoading] = useState<boolean>(false);
   const [login] = useMutation<
@@ -156,7 +156,7 @@ const Login = () => {
           </View>
           <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
         </View> */}
-        {/* <View style={styles.inputContainer}>
+        <View style={styles.inputContainer}>
           <Input
             value={username}
             onChangeText={setUsername}
@@ -181,7 +181,7 @@ const Login = () => {
             my={10}
             onPress={loginAction}
           />
-        </View> */}
+        </View>
       </View>
     </>
   );

@@ -9,7 +9,7 @@ import {
 } from '../../graphql/mutation/chat';
 import {ReuquestMutationReturnType} from '../../graphql/mutation/request';
 import {NewDirectMessage} from '../../graphql/subcription/chat';
-import {getTime} from '../../utils/getTime';
+import {getChatDate, getTime} from '../../utils/getTime';
 import {Request} from '../request/types';
 import {Chat, ChatMessageDisplay, SendMessage} from './types';
 
@@ -125,6 +125,15 @@ export const SendMessageAction = (
   const {from, to, message, timestamp} = messagePayload;
 
   try {
+    dispatch({
+      type: 'ADD_MESSAGE',
+      payload: {
+        pos: 'right',
+        msg: message.split('\n'),
+        time: getTime(new Date(timestamp).getTime()),
+        date: getChatDate(new Date(timestamp)),
+      },
+    });
     const {errors, data} = await sendMessageMutation({
       variables: {
         chatRoomId,
@@ -138,14 +147,6 @@ export const SendMessageAction = (
       throw errors;
     }
     if (data) {
-      dispatch({
-        type: 'ADD_MESSAGE',
-        payload: {
-          pos: 'right',
-          msg: data.sendMessage.message.split('\n'),
-          time: getTime(new Date(data.sendMessage.timestamp).getTime()),
-        },
-      });
       const {itemId, requestId} = updateRequestPayload;
       console.log('sort');
 

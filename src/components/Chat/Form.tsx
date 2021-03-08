@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {Platform, StyleSheet, TextInput, View} from 'react-native';
 import {Button} from '../custom-components';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {Colors} from '../../utils/Colors';
@@ -13,7 +14,11 @@ const ChatForm: React.FC<{
   const {setAlert} = useContext(ModalContext);
 
   return (
-    <View style={chatFromStyles.form}>
+    <View
+      style={[
+        chatFromStyles.form,
+        Platform.OS === 'android' && {marginBottom: 5},
+      ]}>
       <View style={chatFromStyles.chatInputView}>
         <TextInput
           style={chatFromStyles.chatInput}

@@ -36,7 +36,7 @@ const PersonModal: React.FC<Props> = ({navigation, route}) => {
             <Feather name="arrow-left" size={25} />
           </Button>
           <View>
-            <CustomText color={PantoneColor.livingCoral}>
+            <CustomText fontWeight="bold" color={PantoneColor.livingCoral}>
               คนที่กำลังขอรับ
             </CustomText>
             <CustomText>
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 15,
   },
 });
 
