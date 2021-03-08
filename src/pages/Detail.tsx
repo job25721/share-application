@@ -6,7 +6,14 @@ import {
   AlertDialog,
   DismissKeyboard,
 } from '../components/custom-components';
-import {View, Image, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  View,
+  Image,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+  Platform,
+} from 'react-native';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import {Colors, PantoneColor} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -93,7 +100,9 @@ const Detail: React.FC<Props> = (props) => {
             setAlert(false);
             setModalOpen(false);
             dispatch({type: 'SET_REQUEST_ITEM_ID', payload: item.id});
-            AndroidKeyboardAdjust.setAdjustResize();
+            if (Platform.OS === 'android') {
+              AndroidKeyboardAdjust.setAdjustResize();
+            }
             createRequestAction(createRequest, navigation)(dispatch);
           }}
           title="ยืนยันคำขอ"

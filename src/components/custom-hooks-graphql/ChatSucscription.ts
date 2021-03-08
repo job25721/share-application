@@ -24,8 +24,8 @@ export const useChatSubscription = () => {
       newDirect.data &&
       currentUser?.id === newDirect.data.newDirectMessage.to
     ) {
-      console.log('newMessage');
-      console.log(newDirect.data);
+      // console.log('newMessage');
+      // console.log(newDirect.data);
       dispatch({
         type: 'SET_NEW_DIRECT',
         payload: newDirect.data.newDirectMessage,

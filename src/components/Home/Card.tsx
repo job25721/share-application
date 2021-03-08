@@ -58,7 +58,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
       setLoading(false);
     } catch (err) {
       dispatch({type: 'REMOVE_SAVED_ITEM', payload: item.id});
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -77,7 +77,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
       setLoading(false);
     } catch (err) {
       dispatch({type: 'ADD_MY_SAVED_ITEM', payload: item});
-      console.log(err);
+      // console.log(err);
     }
   };
 

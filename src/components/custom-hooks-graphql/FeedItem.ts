@@ -21,7 +21,7 @@ export const useFeedQuery = (): [
 
   useEffect(() => {
     if (query.data) {
-      console.log('query feed item');
+      // console.log('query feed item');
       dispatch({
         type: 'SET_FEED_ITEMS',
         payload: query.data.getFeedItems,

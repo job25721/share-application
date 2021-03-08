@@ -30,7 +30,7 @@ const UploadPhoto: React.FC = () => {
         payload: uploaded.map((img) => img.path),
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -45,7 +45,7 @@ const UploadPhoto: React.FC = () => {
         payload: [snap.path],
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const removeImage = () => {

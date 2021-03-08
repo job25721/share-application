@@ -51,7 +51,7 @@ export const addItemAction = (
         navigation.navigate('Tab', {screen: 'Home'});
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }
 };

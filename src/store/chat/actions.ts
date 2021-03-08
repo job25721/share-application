@@ -57,7 +57,7 @@ export const readChatAction = (
     }
   } catch (err) {
     //do nothing
-    console.log(err);
+    // console.log(err);
   }
 };
 
@@ -67,17 +67,18 @@ export const SubscribeMessageAction = (
   currentUserId: string,
 ) => async (dispatch: Dispatch<StoreEvent>) => {
   if (newDirect && currentUserId === newDirect.to) {
-    console.log('show');
+    // console.log('show');
     dispatch({
       type: 'ADD_MESSAGE',
       payload: {
         pos: 'left',
         msg: newDirect.message.split('\n'),
         time: getTime(new Date(newDirect.timestamp).getTime()),
+        date: getChatDate(new Date(newDirect.timestamp)),
       },
     });
     const {itemId, requestId} = updateRequestPayload;
-    console.log(itemId);
+    // console.log(itemId);
 
     if (!itemId) {
       dispatch({
@@ -148,7 +149,7 @@ export const SendMessageAction = (
     }
     if (data) {
       const {itemId, requestId} = updateRequestPayload;
-      console.log('sort');
+      // console.log('sort');
 
       if (!itemId) {
         dispatch({
@@ -182,7 +183,7 @@ export const SendMessageAction = (
       }
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 };
 
@@ -237,7 +238,7 @@ export const acceptRequestAction = (
       return undefined;
     } catch (err) {
       dispatch({type: 'SET_LOADING_ACTION', payload: false});
-      console.log(err);
+      // console.log(err);
       return err;
     }
   }
@@ -294,7 +295,7 @@ export const acceptDeliveredAction = (
       return undefined;
     } catch (err) {
       dispatch({type: 'SET_LOADING_ACTION', payload: false});
-      console.log(err);
+      // console.log(err);
       return err;
     }
   }
@@ -351,7 +352,7 @@ export const rejectRequestAction = (
       }
       return undefined;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       dispatch({type: 'SET_LOADING_ACTION', payload: false});
       return err;
     }

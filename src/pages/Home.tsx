@@ -35,7 +35,7 @@ const Home: React.FC<Props> = ({navigation}) => {
       await refresh();
     } catch (err) {
       setReload(false);
-      console.log(err);
+      // console.log(err);
     }
 
     // setTimeout(() => {

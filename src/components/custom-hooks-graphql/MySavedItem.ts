@@ -14,7 +14,7 @@ export const useMySavedItemQuery = (): [
 
   useEffect(() => {
     if (query.data?.getMyBookmarks) {
-      console.log('query saved item');
+      // console.log('query saved item');
       dispatch({
         type: 'SET_MY_SAVED_ITEM',
         payload: query.data.getMyBookmarks,
@@ -29,7 +29,7 @@ export const useMySavedItemQuery = (): [
       await query.refetch();
       setRefreshing(false);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }, [query]);
 

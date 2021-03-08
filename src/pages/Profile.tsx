@@ -93,7 +93,7 @@ const Profile: React.FC<Props> = ({navigation, route}) => {
       navigation.navigate('Tab', {screen: 'Home'});
     } catch (err) {
       Alert.alert(err.message);
-      console.log(err);
+      // console.log(err);
     }
   };
 

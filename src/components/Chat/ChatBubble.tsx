@@ -34,10 +34,10 @@ const ChatBubble: React.FC<ChatBubbleProps> = (props) => {
         ))}
       </View>
       <View style={{paddingHorizontal: 5}}>
-        <CustomText fontSize={12} textAlign={pos === 'left' ? 'right' : 'left'}>
+        <CustomText fontSize={10} textAlign={pos}>
           {date}
         </CustomText>
-        <CustomText fontSize={12} textAlign={pos === 'left' ? 'right' : 'left'}>
+        <CustomText fontSize={12} textAlign={pos}>
           {time}
         </CustomText>
       </View>
