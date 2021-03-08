@@ -11,7 +11,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import {Item} from '../../store/item/types';
 import {useNavigation} from '@react-navigation/native';
-import {getChatDate, getFullDate, getTime} from '../../utils/getTime';
+import {getChatDate, getTime} from '../../utils/getTime';
 import {useMutation} from '@apollo/client';
 import {
   ADD_WISHLIST_ITEM,
@@ -155,51 +155,53 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
               <Tag key={i} text={tag} />
             ))}
           </View>
-          <View style={cardStyles.btnOptionsView}>
-            <View style={{display: 'none'}}>
-              <Button px={0} py={0} onPress={() => setliked(!liked)}>
-                {liked ? (
-                  <MaterialCommunityIcons name="heart" size={24} />
-                ) : (
-                  <FeatherIcon name="heart" size={22} />
-                )}
-              </Button>
-            </View>
-
-            {user?.id !== item.owner.id && (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  flex: 1,
-                  // position: 'absolute',
-                  // right: 0,
-                  // top: 10,
-                }}>
-                <CustomText>
-                  {(!saved && !loading && 'Wishlist') ||
-                    (!loading && 'บันทึกแล้ว')}
-                </CustomText>
-                {(!saved && !loading && (
-                  <Button px={0} onPress={addToWishlist}>
-                    <FeatherIcon name="bookmark" size={30} />
-                  </Button>
-                )) ||
-                  (!loading && (
-                    <Button px={0} onPress={removeWishlist}>
-                      <MaterialCommunityIcons name="bookmark" size={31} />
-                    </Button>
-                  ))}
-                {loading ? (
-                  <Image
-                    style={{width: 60, height: 60}}
-                    source={require('../../assets/img/loadingIndicator/ball.gif')}
-                  />
-                ) : null}
+          {user && (
+            <View style={cardStyles.btnOptionsView}>
+              <View style={{display: 'none'}}>
+                <Button px={0} py={0} onPress={() => setliked(!liked)}>
+                  {liked ? (
+                    <MaterialCommunityIcons name="heart" size={24} />
+                  ) : (
+                    <FeatherIcon name="heart" size={22} />
+                  )}
+                </Button>
               </View>
-            )}
-          </View>
+
+              {user?.id !== item.owner.id && (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                    flex: 1,
+                    // position: 'absolute',
+                    // right: 0,
+                    // top: 10,
+                  }}>
+                  <CustomText>
+                    {(!saved && !loading && 'Wishlist') ||
+                      (!loading && 'บันทึกแล้ว')}
+                  </CustomText>
+                  {(!saved && !loading && (
+                    <Button px={0} onPress={addToWishlist}>
+                      <FeatherIcon name="bookmark" size={30} />
+                    </Button>
+                  )) ||
+                    (!loading && (
+                      <Button px={0} onPress={removeWishlist}>
+                        <MaterialCommunityIcons name="bookmark" size={31} />
+                      </Button>
+                    ))}
+                  {loading ? (
+                    <Image
+                      style={{width: 60, height: 60}}
+                      source={require('../../assets/img/loadingIndicator/ball.gif')}
+                    />
+                  ) : null}
+                </View>
+              )}
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     </>
