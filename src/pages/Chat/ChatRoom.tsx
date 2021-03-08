@@ -52,7 +52,7 @@ import {
 } from '../../graphql/mutation/chat';
 
 import {Chat, ChatMessageDisplay} from '../../store/chat/types';
-import {getTime} from '../../utils/getTime';
+import {getChatDate, getFullDate, getTime} from '../../utils/getTime';
 
 type ChatRoomScreenRouteProp = RouteProp<ChatStackParamList, 'ChatRoom'>;
 type ChatRoomScreenNavigationProp = StackNavigationProp<
@@ -163,12 +163,10 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
             pos: currentUser?.id === chatData.from ? 'right' : 'left',
             msg: chatData.message.split('\n'),
             time: getTime(new Date(chatData.timestamp).getTime()),
+            date: getChatDate(new Date(chatData.timestamp)),
           };
         },
       );
-
-      console.log(chat.data);
-
       dispatch({type: 'SET_MESSAGE', payload: chatDisplay});
     }
   };

@@ -15,7 +15,7 @@ import {Item} from '../../store/item/types';
 import {Request, requestStatusNormalized} from '../../store/request/types';
 
 import {Colors, PantoneColor} from '../../utils/Colors';
-import {getTime} from '../../utils/getTime';
+import {getChatDate, getTime} from '../../utils/getTime';
 
 import {Badge, CustomText} from '../custom-components';
 import ProgressiveImage from '../custom-components/ProgressiveImage';
@@ -60,6 +60,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
               pos: currentUser?.id === chatData.from ? 'right' : 'left',
               msg: chatData.message.split('\n'),
               time: getTime(new Date(chatData.timestamp).getTime()),
+              date: getChatDate(new Date(chatData.timestamp)),
             };
           },
         );

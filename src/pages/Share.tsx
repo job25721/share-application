@@ -51,16 +51,18 @@ const Share: React.FC<Props> = ({navigation}) => {
           }}
         />
         {Platform.OS === 'ios' ? <iOSPicker.iOSPickerModal /> : null}
-        <View style={styles.backBtnView}>
-          <Button
-            px={0}
-            onPress={() => {
-              setCancelAlert(true);
-            }}>
-            <FeatherIcon color={Colors._red_600} name="x" size={30} />
-          </Button>
-          <CustomText fontSize={20}>Cancel</CustomText>
-        </View>
+        {!state.onSubmitLoading && (
+          <View style={styles.backBtnView}>
+            <Button
+              px={0}
+              onPress={() => {
+                setCancelAlert(true);
+              }}>
+              <FeatherIcon color={Colors._red_600} name="x" size={30} />
+            </Button>
+            <CustomText fontSize={20}>Cancel</CustomText>
+          </View>
+        )}
         <Form />
       </SafeAreaView>
     </FormContext.Provider>

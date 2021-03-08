@@ -30,6 +30,7 @@ export const GET_MY_ITEM = gql`
       id
       name
       category
+      description
       images
       tags
       owner {

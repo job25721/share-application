@@ -10,7 +10,7 @@ interface ChatBubbleProps {
 }
 
 const ChatBubble: React.FC<ChatBubbleProps> = (props) => {
-  const {msg, pos, time} = props.chatData;
+  const {msg, pos, time, date} = props.chatData;
 
   return msg ? (
     <TouchableOpacity
@@ -34,6 +34,9 @@ const ChatBubble: React.FC<ChatBubbleProps> = (props) => {
         ))}
       </View>
       <View style={{paddingHorizontal: 5}}>
+        <CustomText fontSize={12} textAlign={pos === 'left' ? 'right' : 'left'}>
+          {date}
+        </CustomText>
         <CustomText fontSize={12} textAlign={pos === 'left' ? 'right' : 'left'}>
           {time}
         </CustomText>

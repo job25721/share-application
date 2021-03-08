@@ -135,8 +135,20 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
           images={images}
         />
         <View style={cardStyles.content}>
+          {/* <CustomText>145 Likes</CustomText> */}
+          <View>
+            <CustomText fontWeight="bold" fontSize={20}>
+              {name}
+            </CustomText>
+          </View>
+          <CustomText>ประเภท : {category}</CustomText>
+          <View style={cardStyles.tagContainer}>
+            {tags.map((tag, i) => (
+              <Tag key={i} text={tag} />
+            ))}
+          </View>
           <View style={cardStyles.btnOptionsView}>
-            <View>
+            <View style={{display: 'none'}}>
               <Button px={0} py={0} onPress={() => setliked(!liked)}>
                 {liked ? (
                   <MaterialCommunityIcons name="heart" size={24} />
@@ -179,18 +191,6 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
                 ) : null}
               </View>
             )}
-          </View>
-          {/* <CustomText>145 Likes</CustomText> */}
-          <View>
-            <CustomText fontWeight="bold" fontSize={20}>
-              {name}
-            </CustomText>
-          </View>
-          <CustomText>ประเภท : {category}</CustomText>
-          <View style={cardStyles.tagContainer}>
-            {tags.map((tag, i) => (
-              <Tag key={i} text={tag} />
-            ))}
           </View>
         </View>
       </TouchableOpacity>

@@ -126,9 +126,9 @@ const Detail: React.FC<Props> = (props) => {
                 </CustomText>
               </View>
               <View style={styles.optionsView}>
-                <Button onPress={() => setShare(true)} px={0}>
+                {/* <Button onPress={() => setShare(true)} px={0}>
                   <MaterialCommunityIcons size={30} name="share" />
-                </Button>
+                </Button> */}
                 <Button color={Colors.black} px={0}>
                   {wishlist ? (
                     <MaterialCommunityIcons size={30} name="bookmark" />

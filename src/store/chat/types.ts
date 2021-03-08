@@ -32,6 +32,7 @@ export interface ChatMessageDisplay {
   pos: ChatPositionType;
   msg: string[];
   time: string;
+  date: string;
 }
 
 export interface SendMessage {

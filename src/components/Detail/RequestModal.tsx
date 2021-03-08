@@ -30,7 +30,6 @@ const RequestModal: React.FC<RequestModalProps> = (props) => {
   useEffect(() => {
     if (Platform.OS === 'android') {
       AndroidKeyboardAdjust.setAdjustNothing();
-
       return () => {
         AndroidKeyboardAdjust.setAdjustResize();
       };
@@ -66,7 +65,7 @@ const RequestModal: React.FC<RequestModalProps> = (props) => {
           </View>
           <Input
             textAlignVertical="top"
-            height="40%"
+            height={100}
             placeholder="กรอกเหตุผล..."
             value={reason}
             onChangeText={(value: string) =>
@@ -101,10 +100,14 @@ const RequestModal: React.FC<RequestModalProps> = (props) => {
         </View>
         <View style={styles.submitBtnView}>
           <Button
-            bg={PantoneColor.livingCoral}
+            bg={
+              reason !== ''
+                ? PantoneColor.livingCoral
+                : PantoneColor.veryLivingCoral
+            }
             color={Colors.white}
             text="ส่งคำขอ"
-            onPress={onSubmit}
+            onPress={reason !== '' ? onSubmit : undefined}
           />
           <Button
             bg={PantoneColor.blueDepths}

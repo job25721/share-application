@@ -25,12 +25,10 @@ const AcceptAlert: React.FC<AcceptAlertProps> = ({
   title,
   content,
   onConfirm,
-  onClosePress,
   onReject,
   open,
   confirmText,
   rejectText,
-  cancelText,
   hasReject,
   disabledBtn,
   bindColor,
@@ -52,7 +50,9 @@ const AcceptAlert: React.FC<AcceptAlertProps> = ({
       </CustomText>
       {content ? (
         <View style={styles.contentView}>
-          <CustomText textAlign="center">{content}</CustomText>
+          <CustomText fontSize={16} textAlign="center">
+            {content}
+          </CustomText>
         </View>
       ) : null}
       {disabledBtn ? null : (
