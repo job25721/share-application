@@ -66,7 +66,7 @@ type Props = {
   navigation: ProfileScreenNavigationProp;
 };
 
-const Profile: React.FC<Props> = ({navigation}) => {
+const Profile: React.FC<Props> = ({navigation, route}) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(1);
   const {feedHome} = useContext(RefreshContext);
@@ -78,8 +78,24 @@ const Profile: React.FC<Props> = ({navigation}) => {
     myReceivedItemRefetch,
     myReceivedItemRefreshing,
   ] = useMyReceivedItemQuery();
-  const userData = useSelector((state: RootState) => state.user.userData);
+  // const userData = useSelector((state: RootState) => state.user.userData);
   const mySavedItem = useSelector((state: RootState) => state.user.mySavedItem);
+  const {visitor, userInfo} = route.params;
+  const userData = userInfo;
+  const logout = async () => {
+    try {
+      LoginManager.logOut();
+      await AsyncStorage.removeItem('userToken');
+      await AsyncStorage.removeItem('userInfo');
+      dispatch({type: 'USER_LOGOUT'});
+      await client.cache.reset();
+      await refresh();
+      navigation.navigate('Tab', {screen: 'Home'});
+    } catch (err) {
+      Alert.alert(err.message);
+      console.log(err);
+    }
+  };
 
   const changeProfileTab = async (tabIndex: number) => {
     try {
@@ -114,37 +130,25 @@ const Profile: React.FC<Props> = ({navigation}) => {
               right: 20,
             }}>
             <CustomText>Logout</CustomText>
-            <Button
-              onPress={async () => {
-                try {
-                  LoginManager.logOut();
-                  await AsyncStorage.removeItem('userToken');
-                  await AsyncStorage.removeItem('userInfo');
-                  dispatch({type: 'USER_LOGOUT'});
-                  await client.cache.reset();
-                  await refresh();
-                  navigation.navigate('Tab', {screen: 'Home'});
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-              px={0}>
+            <Button onPress={logout} px={0}>
               <Feather color={Colors._red_500} name="log-out" size={25} />
             </Button>
           </View>
         </View>
-        <ProfileImage user={userData} />
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          {profileTabIcons.map((item) => (
-            <Icontab
-              active={active === item.id ? true : false}
-              key={item.id.toString()}
-              onPress={() => changeProfileTab(item.id)}
-              text={item.text}
-              name={item.name}
-            />
-          ))}
-        </View>
+        <ProfileImage visitor={visitor} user={userData} />
+        {!visitor && (
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            {profileTabIcons.map((item) => (
+              <Icontab
+                active={active === item.id ? true : false}
+                key={item.id.toString()}
+                onPress={() => changeProfileTab(item.id)}
+                text={item.text}
+                name={item.name}
+              />
+            ))}
+          </View>
+        )}
         {active === 0 ? (
           <View
             style={{
@@ -197,17 +201,17 @@ const Profile: React.FC<Props> = ({navigation}) => {
               />
             }
             style={{paddingHorizontal: 20}}>
-            {active === 1
+            {active === 1 && !visitor
               ? myItemQuery.data &&
                 myItemQuery.data.getMyItem.map((item) => (
                   <ItemCard key={item.id} item={item} />
                 ))
-              : active === 2
+              : active === 2 && !visitor
               ? myReceivedItemQuery.data &&
                 myReceivedItemQuery.data.getMyReceivedItem.map((item) => (
                   <ItemCard key={item.id} item={item} />
                 ))
-              : active === 3
+              : active === 3 && !visitor
               ? mySavedItem.map((item) => (
                   <ItemCard key={item.id} item={item} />
                 ))

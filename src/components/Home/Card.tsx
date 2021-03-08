@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Image, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 
 import Tag from './Tag';
 import {Button, CustomText, ProgressiveImage} from '../custom-components';
@@ -22,6 +22,8 @@ import {RootState, useDispatch} from '../../store';
 import {useSelector} from 'react-redux';
 import {SliderBox} from '../react-native-image-slider-box';
 import {PantoneColor} from '../../utils/Colors';
+import {RootStackParamList} from '../../../App';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 interface CardProps {
   item: Item;
@@ -29,7 +31,7 @@ interface CardProps {
 }
 
 export const Card: React.FC<CardProps> = ({item, isSaved}) => {
-  const {navigate} = useNavigation();
+  const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.userData);
   const [AddNewBookmark] = useMutation(ADD_WISHLIST_ITEM);
@@ -87,7 +89,10 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
         style={cardStyles.card}
         onPress={() => navigate('Detail', {item, wishlist: saved})}>
         <View style={cardStyles.userInfo}>
-          <TouchableOpacity onPress={() => Alert.alert(owner.info.firstName)}>
+          <TouchableOpacity
+            onPress={() =>
+              navigate('Profile', {userInfo: owner, visitor: true})
+            }>
             <ProgressiveImage
               loadingType="spinner"
               style={cardStyles.userImg}

@@ -77,7 +77,7 @@ const Search: React.FC<Props> = ({route}) => {
     setOnSearch(false);
   };
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'whitesmoke'}}>
       <DismissKeyboard>
         <View style={styles.container}>
           {!onSearch && searchKey === '' && (
@@ -94,8 +94,9 @@ const Search: React.FC<Props> = ({route}) => {
               marginVertical: 10,
             }}>
             <Input
-              backgroundColor={Colors._gray_500}
+              backgroundColor={Colors.white}
               placeholder="ค้นหา..."
+              focus
               width="80%"
               value={searchKey}
               onChangeText={setSearchKey}

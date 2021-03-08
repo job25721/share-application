@@ -37,7 +37,7 @@ const NavigationBar: React.FC<BottomTabBarProps> = ({
                 ? PantoneColor.livingCoral
                 : Colors.black
             }
-            size={routeName === Routes.home ? 35 : 30}
+            size={routeName === Routes.home ? 30 : 25}
             name="home"
           />
         </Button>
@@ -50,7 +50,7 @@ const NavigationBar: React.FC<BottomTabBarProps> = ({
                   ? PantoneColor.livingCoral
                   : Colors.black
               }
-              size={routeName === Routes.addItem ? 35 : 30}
+              size={routeName === Routes.addItem ? 30 : 25}
             />
           </Button>
         )}
@@ -61,7 +61,7 @@ const NavigationBar: React.FC<BottomTabBarProps> = ({
                 ? PantoneColor.livingCoral
                 : Colors.black
             }
-            size={routeName === Routes.search ? 35 : 30}
+            size={routeName === Routes.search ? 30 : 25}
             name="search"
           />
         </Button>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
       height: 0,
       width: 0,
     },
-    elevation: 1,
+    elevation: 2,
   },
 });
 

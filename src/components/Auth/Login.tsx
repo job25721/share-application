@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
 
 import {View, Image, StyleSheet, Alert} from 'react-native';
@@ -21,14 +22,17 @@ const Login = () => {
   const [username, setUsername] = useState<string>('guy');
   const [password, setPassword] = useState<string>('1234');
   const [loading, setLoading] = useState<boolean>(false);
-  const [login] = useMutation(USER_LOGIN);
+  const [login] = useMutation<
+    {login: string},
+    {username: string; password: string}
+  >(USER_LOGIN);
   const [facebookSign] = useMutation<{facebookSign: string}>(FACEBOOK_LOGIN);
   const user = useQuery<MyInfoQueryType>(GET_MY_INFO);
   const dispatch = useDispatch();
 
   const {savedItem} = useContext(RefreshContext);
 
-  async function setDataAndNavigate(token: string) {
+  const setDataAndNavigate = async (token: string) => {
     dispatch({type: 'SET_TOKEN', payload: token});
     await AsyncStorage.setItem('userToken', token);
     await savedItem.refresh();
@@ -51,22 +55,24 @@ const Login = () => {
       });
       navigate('Tab', {screen: 'Home'});
     }
-  }
+  };
 
   const loginAction = async () => {
     if (username !== '' && password !== '') {
       try {
         setLoading(true);
-        const {data} = await login({
+        const {data, errors} = await login({
           variables: {
             username,
             password,
           },
         });
-        if (data.login === 'Login Failed') {
-          throw new Error(data.login);
+        if (data && data.login !== 'Login Failed') {
+          await setDataAndNavigate(data.login);
         }
-        await setDataAndNavigate(data.login);
+        if (errors || data?.login === 'Login Failed') {
+          throw new Error('have an error occurs');
+        }
       } catch (error) {
         setLoading(false);
         Alert.alert(error.message);
@@ -79,6 +85,7 @@ const Login = () => {
   const fbLogin = async () => {
     try {
       setLoading(true);
+      LoginManager.setLoginBehavior('native_only');
       const res = await LoginManager.logInWithPermissions(['email']);
       if (res.error) {
         throw res.error;
@@ -103,12 +110,11 @@ const Login = () => {
           navigate('Tab', {screen: 'Home'});
         } else {
           setLoading(false);
-          throw new Error('fb token not is undefield');
+          throw new Error('fb token is undefined');
         }
       }
     } catch (err) {
       setLoading(false);
-      console.log(err);
     }
   };
 
@@ -137,7 +143,7 @@ const Login = () => {
             <CustomText color={Colors.white}>ล็อกอินผ่าน Facebook</CustomText>
           </View>
         </Button>
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -146,29 +152,11 @@ const Login = () => {
           }}>
           <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
           <View>
-            <CustomText style={{width: 50, fontSize: 16, textAlign: 'center'}}>
-              OR
-            </CustomText>
+            <CustomText textAlign="center">OR</CustomText>
           </View>
           <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        </View>
-        {/* <Button
-          rounded
-          px={0}
-          py={10}
-          bg={Colors.google}
-          onPress={() => navigate('Tab')}>
-          <View style={styles.rowBtntext}>
-            <FontAwesome
-              style={{paddingHorizontal: 10}}
-              color={Colors.white}
-              size={35}
-              name="google"
-            />
-            <CustomText color={Colors.white}>ล็อกอินผ่าน Google</CustomText>
-          </View>
-        </Button> */}
-        <View style={styles.inputContainer}>
+        </View> */}
+        {/* <View style={styles.inputContainer}>
           <Input
             value={username}
             onChangeText={setUsername}
@@ -193,44 +181,8 @@ const Login = () => {
             my={10}
             onPress={loginAction}
           />
-        </View>
+        </View> */}
       </View>
-
-      {/*       
-      <View
-        style={{
-          alignItems: 'center',
-        }}>
-        <CustomText color="#b5b5b5" fontSize={15}>
-          Or Continute With
-        </CustomText>
-        <View style={styles.socialLogin}>
-          <Button
-            text={
-              <FontAwesomeIcon
-                style={[styles.icon, {color: Colors.facebook}]}
-                name="facebook"
-                size={30}
-              />
-            }
-            px={0}
-            mx={10}
-            onPress={() => Alert.alert('Facebook')}
-          />
-          <Button
-            text={
-              <FontAwesomeIcon
-                style={[styles.icon, {color: Colors.google}]}
-                name="google"
-                size={30}
-              />
-            }
-            px={0}
-            mx={10}
-            onPress={() => Alert.alert('Google')}
-          />
-        </View>
-      </View> */}
     </>
   );
 };

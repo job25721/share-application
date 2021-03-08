@@ -52,7 +52,9 @@ const HomeHeader: React.FC = () => {
       <View style={styles.headerContainer}>
         <Button
           px={0}
-          onPress={() => navigation.navigate('Profile', {userInfo: userData})}>
+          onPress={() =>
+            navigation.navigate('Profile', {userInfo: userData, visitor: false})
+          }>
           <ProgressiveImage
             style={{
               height: 60,

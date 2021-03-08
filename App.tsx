@@ -50,7 +50,7 @@ type TabNestedNavigation =
 export type RootStackParamList = {
   Tab: TabNestedNavigation;
   Auth: undefined;
-  Profile: {userInfo: User};
+  Profile: {userInfo: User; visitor: boolean};
   Detail: {item: Item; wishlist: boolean};
   Share: undefined;
   Chat: ChatNestedNavigation;
@@ -71,7 +71,7 @@ const App: React.FC = () => {
 interface FeedRefresh {
   refresh: () => Promise<void> | undefined;
   refreshing: boolean;
-  itemLoading: boolean;
+  itemLoading: boolean | undefined;
   error: ApolloError | undefined;
 }
 interface SavedItemRefresh {
@@ -146,8 +146,8 @@ const RootStackScreen: React.FC = () => {
         feedHome: {
           refresh: refetchItem,
           refreshing: feedRefreshing,
-          itemLoading: feedQuery.loading,
-          error: feedQuery.error,
+          itemLoading: feedQuery?.loading,
+          error: feedQuery?.error,
         },
         savedItem: {
           refresh: refetchSavedItem,
