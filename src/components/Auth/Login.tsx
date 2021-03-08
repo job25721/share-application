@@ -36,15 +36,15 @@ const Login = () => {
     dispatch({type: 'SET_TOKEN', payload: token});
     await AsyncStorage.setItem('userToken', token);
     await savedItem.refresh();
-    console.log('requerying...');
+    // console.log('requerying...');
     const refetchUser = await user.refetch();
-    console.log(refetchUser);
+    // console.log(refetchUser);
     if (refetchUser.error) {
       throw new Error(refetchUser.error.message);
     }
     if (refetchUser.data) {
-      console.log('complete');
-      console.log(refetchUser.data);
+      // console.log('complete');
+      // console.log(refetchUser.data);
       await AsyncStorage.setItem(
         'userInfo',
         JSON.stringify(refetchUser.data?.getMyInfo),

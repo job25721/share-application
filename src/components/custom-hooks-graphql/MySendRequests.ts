@@ -40,7 +40,7 @@ export const useMySendRquestsQuery = (): [
         await query.refetch();
         setRefreshing(false);
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
   }, [query]);

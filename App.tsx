@@ -107,11 +107,11 @@ const RootStackScreen: React.FC = () => {
   useEffect(() => {
     const getToken = async () => {
       try {
-        console.log('getting token...');
+        // console.log('getting token...');
         const token = await AsyncStorage.getItem('userToken');
         if (token) {
-          console.log('token found!!!');
-          console.log(token);
+          // console.log('token found!!!');
+          // console.log(token);
           dispatch({type: 'SET_TOKEN', payload: token});
           const user = await AsyncStorage.getItem('userInfo');
           if (user) {
@@ -122,7 +122,7 @@ const RootStackScreen: React.FC = () => {
           }
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     };
     getToken();
