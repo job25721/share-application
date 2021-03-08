@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -54,9 +55,13 @@ const NewItemForm = () => {
         isOpen={state.onSubmitLoading}
         swipeToClose={false}
         style={{padding: 10, alignItems: 'center', justifyContent: 'center'}}>
-        <CustomText>Loading...</CustomText>
+        <Image
+          source={require('../../../assets/img/logo.png')}
+          style={{width: 150, height: 150, borderRadius: 100}}
+        />
+        <CustomText fontWeight="bold">โปรดรอสักครู่...</CustomText>
         <CustomText>
-          Uploaded {state.uploadedState}/{state.images.length}
+          กำลังอัพโหลดรูปภาพ {state.uploadedState}/{state.images.length}
         </CustomText>
       </Modal>
       <AlertDialog
