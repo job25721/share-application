@@ -151,8 +151,11 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  position: 'absolute',
-                  right: 0,
+                  justifyContent: 'flex-end',
+                  flex: 1,
+                  // position: 'absolute',
+                  // right: 0,
+                  // top: 10,
                 }}>
                 <CustomText>
                   {(!saved && !loading && 'Wishlist') ||
@@ -177,7 +180,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
               </View>
             )}
           </View>
-          <CustomText>145 Likes</CustomText>
+          {/* <CustomText>145 Likes</CustomText> */}
           <View>
             <CustomText fontWeight="bold" fontSize={20}>
               {name}

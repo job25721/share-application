@@ -120,6 +120,12 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
       (requestNotify.notifyTo === requestPerson.id ||
         requestNotify.notifyTo === item.owner.id)
     ) {
+      console.log(
+        requestNotify.request.chat.data[
+          requestNotify.request.chat.data.length - 1
+        ].message,
+      );
+
       console.log('set notify');
 
       dispatch({
