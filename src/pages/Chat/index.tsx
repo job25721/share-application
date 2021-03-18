@@ -78,9 +78,9 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
 
   return (
     <SafeAreaView style={{backgroundColor: Colors._gray_300, flex: 1}}>
-      {myReceiveQuery?.loading && mySendRequestquery?.loading ? (
+      {/* {myReceiveQuery?.loading && mySendRequestquery?.loading ? (
         <AlertDialog title="กรุณารอสักครู่..." disabledBtn open={true} />
-      ) : null}
+      ) : null} */}
       <View style={styles.header}>
         <Button onPress={() => navigation.goBack()}>
           <Feather name="arrow-left" size={30} />
@@ -129,7 +129,9 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         }
         style={styles.container}>
         {activeIndex === 0 ? (
-          <ReceivingItemChat />
+          <ReceivingItemChat
+            loading={mySendRequestquery?.loading || mySendRequestRefreshing}
+          />
         ) : activeIndex === 1 ? (
           <SendingItemChat />
         ) : null}

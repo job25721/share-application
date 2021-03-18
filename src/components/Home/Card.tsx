@@ -21,27 +21,37 @@ import {
 import {RootState, useDispatch} from '../../store';
 import {useSelector} from 'react-redux';
 import {SliderBox} from '../react-native-image-slider-box';
-import {PantoneColor} from '../../utils/Colors';
+import {Colors, PantoneColor} from '../../utils/Colors';
 import {RootStackParamList} from '../../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 interface CardProps {
   item: Item;
   isSaved: boolean;
+  onRequestClick?: (item: Item) => void;
 }
 
-export const Card: React.FC<CardProps> = ({item, isSaved}) => {
+export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
   const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.userData);
+  const mySendRequests = useSelector(
+    (state: RootState) => state.request.mySendRequests,
+  );
   const [AddNewBookmark] = useMutation(ADD_WISHLIST_ITEM);
   const [RemoveBookmark] = useMutation(REMOVE_WISHLIST_ITEM);
   const [saved, setSaved] = useState<boolean>(false);
-  const [liked, setliked] = useState<boolean>(false);
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [requested, setRequested] = useState<boolean>(false);
   useEffect(() => {
     setSaved(isSaved);
   }, [isSaved]);
+
+  useEffect(() => {
+    const hasRequested = mySendRequests.some((req) => req.item.id === item.id);
+    setRequested(hasRequested);
+  }, [item.id, mySendRequests]);
 
   const addToWishlist = async () => {
     try {
@@ -112,17 +122,44 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
               {getTime(new Date(createdDate).getTime())}
             </CustomText>
           </View>
+          {user && (
+            <View style={cardStyles.btnOptionsView}>
+              {user?.id !== item.owner.id && (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                    flex: 1,
+                    // position: 'absolute',
+                    // right: 0,
+                    // top: 10,
+                  }}>
+                  {/* <CustomText>
+                    {(!saved && !loading && 'Wishlist') ||
+                      (!loading && 'บันทึกแล้ว')}
+                  </CustomText> */}
+                  {(!saved && !loading && (
+                    <Button px={0} onPress={addToWishlist}>
+                      <FeatherIcon name="bookmark" size={30} />
+                    </Button>
+                  )) ||
+                    (!loading && (
+                      <Button px={0} onPress={removeWishlist}>
+                        <MaterialCommunityIcons name="bookmark" size={31} />
+                      </Button>
+                    ))}
+                  {loading ? (
+                    <Image
+                      style={{width: 60, height: 60}}
+                      source={require('../../assets/img/loadingIndicator/ball.gif')}
+                    />
+                  ) : null}
+                </View>
+              )}
+            </View>
+          )}
         </View>
-        {/* <ProgressiveImage
-          style={cardStyles.img}
-          resizeMode="cover"
-          loadingType="loadingMotion"
-          source={
-            images[0] !== ''
-              ? {uri: images[0]}
-              : require('../../assets/img/cat.jpg')
-          }
-        /> */}
         <SliderBox
           dotColor={PantoneColor.livingCoral}
           TouchableHighlight="#fff"
@@ -155,54 +192,21 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
               <Tag key={i} text={tag} />
             ))}
           </View>
-          {user && (
-            <View style={cardStyles.btnOptionsView}>
-              <View style={{display: 'none'}}>
-                <Button px={0} py={0} onPress={() => setliked(!liked)}>
-                  {liked ? (
-                    <MaterialCommunityIcons name="heart" size={24} />
-                  ) : (
-                    <FeatherIcon name="heart" size={22} />
-                  )}
-                </Button>
-              </View>
-
-              {user?.id !== item.owner.id && (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'flex-end',
-                    flex: 1,
-                    // position: 'absolute',
-                    // right: 0,
-                    // top: 10,
-                  }}>
-                  <CustomText>
-                    {(!saved && !loading && 'Wishlist') ||
-                      (!loading && 'บันทึกแล้ว')}
-                  </CustomText>
-                  {(!saved && !loading && (
-                    <Button px={0} onPress={addToWishlist}>
-                      <FeatherIcon name="bookmark" size={30} />
-                    </Button>
-                  )) ||
-                    (!loading && (
-                      <Button px={0} onPress={removeWishlist}>
-                        <MaterialCommunityIcons name="bookmark" size={31} />
-                      </Button>
-                    ))}
-                  {loading ? (
-                    <Image
-                      style={{width: 60, height: 60}}
-                      source={require('../../assets/img/loadingIndicator/ball.gif')}
-                    />
-                  ) : null}
-                </View>
-              )}
-            </View>
-          )}
         </View>
+        {user && user.id !== item.owner.id && (
+          <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            <Button
+              text={!requested ? 'ส่งคำขอ' : 'ส่งคำขอแล้ว'}
+              onPress={
+                onRequestClick && !requested
+                  ? () => onRequestClick(item)
+                  : undefined
+              }
+              bg={!requested ? PantoneColor.blueDepths : '#e6e6e6'}
+              color={Colors.white}
+            />
+          </View>
+        )}
       </TouchableOpacity>
     </>
   );
@@ -211,7 +215,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved}) => {
 export const cardStyles = StyleSheet.create({
   card: {
     width: '100%',
-    height: 570,
+    height: 550,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -243,7 +247,7 @@ export const cardStyles = StyleSheet.create({
   content: {
     paddingHorizontal: 15,
     paddingVertical: 10,
-    height: '55%',
+    // height: '55%',
     // justifyContent: 'space-evenly',
   },
   tagContainer: {
@@ -252,7 +256,6 @@ export const cardStyles = StyleSheet.create({
     marginVertical: 5,
   },
   btnOptionsView: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flex: 1,
   },
 });

@@ -31,6 +31,7 @@ interface ItemChatCardProps {
   latestMsg?: {from: string; msg: string};
   request: Request;
   type: ChatCardType;
+  loading: boolean;
 }
 
 const ItemChatCard: React.FC<ItemChatCardProps> = ({
@@ -38,6 +39,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
   latestMsg = {from: '', msg: ''},
   request,
   type,
+  loading = true,
 }) => {
   const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
   const mainNavigation = useNavigation<
@@ -87,7 +89,13 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
       : requestStatus === 'delivered'
       ? Colors._green_400
       : Colors.black;
-
+  if (loading) {
+    return (
+      <View
+        style={[styles.chatListCard, {height: 140, backgroundColor: '#e6e6e6'}]}
+      />
+    );
+  }
   return (
     <TouchableOpacity
       onPress={openChatRoom}
@@ -135,7 +143,8 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
               }
               px={0}
               py={0}>
-              <Image
+              <ProgressiveImage
+                loadingType="rolling"
                 style={[styles.img, {width: 40, height: 40}]}
                 source={{uri: request.item.owner.avatar}}
               />
@@ -152,8 +161,8 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
                 ),
               })
             }>
-            <Image
-              // loadingType="spinner"
+            <ProgressiveImage
+              loadingType="rolling"
               // resizeMode="cover"
               style={styles.img}
               source={{uri: request.item.images[0]}}

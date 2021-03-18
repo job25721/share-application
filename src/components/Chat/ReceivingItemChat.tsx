@@ -8,22 +8,22 @@ import {ItemChatCard} from './ChatCard';
 import {CustomText} from '../custom-components';
 import {View} from 'react-native';
 
-const ReceivingItemChat = () => {
+const ReceivingItemChat: React.FC<{loading: boolean}> = ({loading}) => {
   const {mySendRequests} = useSelector((state: RootState) => state.request);
   const currentUser = useSelector((state: RootState) => state.user.userData);
 
-  if (mySendRequests.length === 0) {
+  if (mySendRequests.length === 0 && !loading) {
     return (
       <View>
         <CustomText>ไม่มีของที่คุณขอรับ ลองหาของที่คุณอยากได้สิ!</CustomText>
       </View>
     );
   }
-
   return (
     <View style={{padding: 5}}>
       {mySendRequests.map((request) => (
         <ItemChatCard
+          loading={loading}
           key={request.id}
           request={request}
           latestMsg={{
