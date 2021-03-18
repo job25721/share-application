@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   CustomText,
   Button,
@@ -35,6 +35,10 @@ import {useMutation} from '@apollo/client';
 import {createRequestAction} from '../store/request/actions';
 import {useDispatch} from '../store';
 import Modal from 'react-native-modalbox';
+import {
+  ADD_WISHLIST_ITEM,
+  REMOVE_WISHLIST_ITEM,
+} from '../graphql/mutation/user';
 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
 type DetailScreenNavigationProp = StackNavigationProp<
@@ -63,6 +67,56 @@ const Detail: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
   const [createRequest] = useMutation(CREATE_REQUEST);
   const {item, wishlist} = route.params;
+  const [saved, setSaved] = useState<boolean>(wishlist);
+
+  const [AddNewBookmark] = useMutation(ADD_WISHLIST_ITEM);
+  const [RemoveBookmark] = useMutation(REMOVE_WISHLIST_ITEM);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const addToWishlist = async () => {
+    try {
+      setLoading(true);
+      const res = await AddNewBookmark({
+        variables: {
+          itemId: item.id,
+        },
+      });
+      if (res.errors) {
+        throw res.errors;
+      }
+      dispatch({type: 'ADD_MY_SAVED_ITEM', payload: item});
+      setSaved(true);
+      setLoading(false);
+    } catch (err) {
+      setSaved(false);
+
+      dispatch({type: 'REMOVE_SAVED_ITEM', payload: item.id});
+      // console.log(err);
+    }
+  };
+
+  const removeWishlist = async () => {
+    try {
+      setLoading(true);
+      const res = await RemoveBookmark({
+        variables: {
+          itemId: item.id,
+        },
+      });
+      if (res.errors) {
+        throw res.errors;
+      }
+      dispatch({type: 'REMOVE_SAVED_ITEM', payload: item.id});
+      setSaved(false);
+
+      setLoading(false);
+    } catch (err) {
+      setSaved(true);
+
+      dispatch({type: 'ADD_MY_SAVED_ITEM', payload: item});
+      // console.log(err);
+    }
+  };
 
   return (
     <DismissKeyboard>
@@ -157,11 +211,22 @@ const Detail: React.FC<Props> = (props) => {
                   <MaterialCommunityIcons size={30} name="share" />
                 </Button> */}
                 <Button color={Colors.black} px={0}>
-                  {wishlist ? (
-                    <MaterialCommunityIcons size={30} name="bookmark" />
-                  ) : (
-                    <FeatherIcon size={30} name="bookmark" />
-                  )}
+                  {(!saved && !loading && (
+                    <Button px={0} onPress={addToWishlist}>
+                      <FeatherIcon name="bookmark" size={30} />
+                    </Button>
+                  )) ||
+                    (!loading && (
+                      <Button px={0} onPress={removeWishlist}>
+                        <MaterialCommunityIcons name="bookmark" size={31} />
+                      </Button>
+                    ))}
+                  {loading ? (
+                    <Image
+                      style={{width: 60, height: 60}}
+                      source={require('../assets/img/loadingIndicator/ball.gif')}
+                    />
+                  ) : null}
                 </Button>
               </View>
             </View>

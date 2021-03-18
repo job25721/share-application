@@ -4,12 +4,19 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {RootStackParamList} from '../../../App';
 import {Item} from '../../store/item/types';
 import {Colors} from '../../utils/Colors';
+import {CardLoading} from '../Chat/ChatCard';
 import {CustomText, ProgressiveImage} from '../custom-components';
 import Tag from '../Home/Tag';
 
-const ItemCard: React.FC<{item: Item}> = ({item}) => {
+const ItemCard: React.FC<{item: Item; loading: boolean}> = ({
+  item,
+  loading = true,
+}) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+  if (loading) {
+    return <CardLoading />;
+  }
   return (
     <TouchableOpacity
       style={styles.mainView}

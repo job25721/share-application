@@ -78,7 +78,7 @@ const Profile: React.FC<Props> = ({navigation, route}) => {
     myReceivedItemRefetch,
     myReceivedItemRefreshing,
   ] = useMyReceivedItemQuery();
-  // const userData = useSelector((state: RootState) => state.user.userData);
+  const currentLogin = useSelector((state: RootState) => state.user.userData);
   const mySavedItem = useSelector((state: RootState) => state.user.mySavedItem);
   const {visitor, userInfo} = route.params;
   const userData = userInfo;
@@ -129,10 +129,14 @@ const Profile: React.FC<Props> = ({navigation, route}) => {
               position: 'absolute',
               right: 20,
             }}>
-            <CustomText>Logout</CustomText>
-            <Button onPress={logout} px={0}>
-              <Feather color={Colors._red_500} name="log-out" size={25} />
-            </Button>
+            {currentLogin && (
+              <>
+                <CustomText>Logout</CustomText>
+                <Button onPress={logout} px={0}>
+                  <Feather color={Colors._red_500} name="log-out" size={25} />
+                </Button>
+              </>
+            )}
           </View>
         </View>
         <ProfileImage visitor={visitor} user={userData} />
@@ -204,16 +208,26 @@ const Profile: React.FC<Props> = ({navigation, route}) => {
             {active === 1 && !visitor
               ? myItemQuery.data &&
                 myItemQuery.data.getMyItem.map((item) => (
-                  <ItemCard key={item.id} item={item} />
+                  <ItemCard
+                    loading={myItemQuery.loading || myItemRefreshing}
+                    key={item.id}
+                    item={item}
+                  />
                 ))
               : active === 2 && !visitor
               ? myReceivedItemQuery.data &&
                 myReceivedItemQuery.data.getMyReceivedItem.map((item) => (
-                  <ItemCard key={item.id} item={item} />
+                  <ItemCard
+                    loading={
+                      myReceivedItemQuery.loading || myReceivedItemRefreshing
+                    }
+                    key={item.id}
+                    item={item}
+                  />
                 ))
               : active === 3 && !visitor
               ? mySavedItem.map((item) => (
-                  <ItemCard key={item.id} item={item} />
+                  <ItemCard loading={false} key={item.id} item={item} />
                 ))
               : null}
           </ScrollView>

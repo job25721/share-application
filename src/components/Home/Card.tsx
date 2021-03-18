@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 
 import Tag from './Tag';
@@ -22,7 +22,7 @@ import {RootState, useDispatch} from '../../store';
 import {useSelector} from 'react-redux';
 import {SliderBox} from '../react-native-image-slider-box';
 import {Colors, PantoneColor} from '../../utils/Colors';
-import {RootStackParamList} from '../../../App';
+import {RefreshContext, RootStackParamList} from '../../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 interface CardProps {
@@ -38,6 +38,8 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
   const mySendRequests = useSelector(
     (state: RootState) => state.request.mySendRequests,
   );
+
+  const {feedHome} = useContext(RefreshContext);
   const [AddNewBookmark] = useMutation(ADD_WISHLIST_ITEM);
   const [RemoveBookmark] = useMutation(REMOVE_WISHLIST_ITEM);
   const [saved, setSaved] = useState<boolean>(false);
@@ -93,6 +95,42 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
 
   const {name, owner, tags, images, category, createdDate} = item;
 
+  if (feedHome.itemLoading || feedHome.refreshing) {
+    return (
+      <View
+        style={[
+          cardStyles.card,
+          {backgroundColor: '#e6e6e6', height: 350, alignItems: 'center'},
+        ]}>
+        <View style={cardStyles.userInfo}>
+          <View style={[cardStyles.userImg, {backgroundColor: '#cccccc'}]} />
+
+          <View style={{marginLeft: 10, height: 30, width: '80%'}}>
+            {/* <CustomText fontSize={17} fontWeight="500">
+              {owner.info.firstName} {owner.info.lastName}
+            </CustomText> */}
+            <View
+              style={{
+                backgroundColor: '#cccccc',
+                height: 15,
+                marginBottom: 5,
+              }}
+            />
+            <View style={{backgroundColor: '#cccccc', height: 15}} />
+          </View>
+        </View>
+        <View
+          style={{
+            backgroundColor: '#cccccc',
+            height: '60%',
+            width: '90%',
+            borderRadius: 20,
+          }}
+        />
+      </View>
+    );
+  }
+
   return (
     <>
       <TouchableOpacity
@@ -103,7 +141,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
             onPress={() =>
               navigate('Profile', {
                 userInfo: owner,
-                visitor: owner.id === user?.id ? false : true,
+                visitor: user && owner.id === user.id ? false : true,
               })
             }>
             <ProgressiveImage

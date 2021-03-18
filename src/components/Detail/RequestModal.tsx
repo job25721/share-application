@@ -124,7 +124,7 @@ const RequestModal: React.FC<RequestModalProps> = (props) => {
 const styles = StyleSheet.create({
   container: {
     width: '85%',
-    height: '50%',
+    height: '55%',
     borderRadius: 20,
     padding: 20,
   },

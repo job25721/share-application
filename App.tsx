@@ -128,8 +128,6 @@ const RootStackScreen: React.FC = () => {
     getToken();
   }, []);
 
-  // useMySendRquestsQuery();
-  // useMyReceivingRequestsQuery();
   useChatSubscription();
   useRequestSubscription();
   useMyReceivingRequestsQuery();
@@ -158,7 +156,7 @@ const RootStackScreen: React.FC = () => {
           error: savedItemQuery.error,
         },
       }}>
-      <RootStack.Navigator mode="modal">
+      <RootStack.Navigator mode="card">
         <RootStack.Screen
           name="Tab"
           component={TabScreen}

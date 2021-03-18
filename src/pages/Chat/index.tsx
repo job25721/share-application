@@ -133,7 +133,9 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
             loading={mySendRequestquery?.loading || mySendRequestRefreshing}
           />
         ) : activeIndex === 1 ? (
-          <SendingItemChat />
+          <SendingItemChat
+            loading={myReceiveQuery?.loading || myReceiveRefreshing}
+          />
         ) : null}
       </ScrollView>
     </SafeAreaView>

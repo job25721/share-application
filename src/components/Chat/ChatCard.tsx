@@ -34,6 +34,30 @@ interface ItemChatCardProps {
   loading: boolean;
 }
 
+export const CardLoading = () => (
+  <View
+    style={[styles.chatListCard, {height: 140, backgroundColor: '#e6e6e6'}]}>
+    <View
+      // loadingType="spinner"
+      // resizeMode="cover"
+      style={[styles.img, {backgroundColor: '#cccccc'}]}
+    />
+    <View style={styles.contentView}>
+      {[80, 70, 75].map((w, id) => (
+        <View
+          key={id}
+          style={{
+            backgroundColor: '#cccccc',
+            width: w + '%',
+            height: 15,
+            marginBottom: 5,
+          }}
+        />
+      ))}
+    </View>
+  </View>
+);
+
 const ItemChatCard: React.FC<ItemChatCardProps> = ({
   notification = 0,
   latestMsg = {from: '', msg: ''},
@@ -90,11 +114,7 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
       ? Colors._green_400
       : Colors.black;
   if (loading) {
-    return (
-      <View
-        style={[styles.chatListCard, {height: 140, backgroundColor: '#e6e6e6'}]}
-      />
-    );
+    return <CardLoading />;
   }
   return (
     <TouchableOpacity
@@ -246,6 +266,7 @@ interface ItemChatCardAbstractProps {
   item: Item;
   onPress?: () => void;
   notification: number;
+  loading: boolean;
 }
 
 const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
@@ -253,10 +274,15 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
   item,
   onPress,
   notification,
+  loading = true,
 }) => {
   const mainNavigation = useNavigation<
     StackNavigationProp<RootStackParamList>
   >();
+
+  if (loading) {
+    return <CardLoading />;
+  }
   return (
     <TouchableOpacity onPress={onPress} style={styles.chatListCard}>
       {notification > 0 && <Badge height={20} width={20} />}

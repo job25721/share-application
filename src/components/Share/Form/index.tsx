@@ -92,7 +92,7 @@ const NewItemForm = () => {
         color={PantoneColor.blueDepths}
         textAlign="center"
         fontWeight="bold"
-        fontSize={40}>
+        fontSize={30}>
         เพิ่มของชิ้นใหม่
       </CustomText>
       <ScrollView>

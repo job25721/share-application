@@ -10,7 +10,7 @@ import {RootState} from '../../store';
 
 import {CustomText} from '../custom-components';
 
-const SendingItemChat: React.FC = () => {
+const SendingItemChat: React.FC<{loading: boolean}> = ({loading}) => {
   const {myReceiveRequests} = useSelector((state: RootState) => state.request);
   const {userData} = useSelector((state: RootState) => state.user);
 
@@ -22,6 +22,7 @@ const SendingItemChat: React.FC = () => {
       {myReceiveRequests.length > 0 ? (
         myReceiveRequests.map((sending) => (
           <ItemCardAbstract
+            loading={loading}
             key={sending.item.id}
             item={sending.item}
             personRequest={sending.request.length}

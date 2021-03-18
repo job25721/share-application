@@ -52,6 +52,7 @@ const PersonModal: React.FC<Props> = ({navigation, route}) => {
             .find(({item}) => item.id === itemId)
             ?.request.map((request) => (
               <ItemChatCard
+                loading={false}
                 key={request.id}
                 type="Person"
                 request={request}
