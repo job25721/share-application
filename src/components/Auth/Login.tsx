@@ -2,7 +2,7 @@
 import React, {useContext, useState} from 'react';
 
 import {View, Image, StyleSheet, Alert} from 'react-native';
-import {Button, Input, CustomText, AlertDialog} from '../custom-components';
+import {Button, CustomText, AlertDialog} from '../custom-components';
 import {Colors, PantoneColor} from '../../utils/Colors';
 
 import {useNavigation} from '@react-navigation/native';
@@ -36,6 +36,7 @@ const Login = () => {
     dispatch({type: 'SET_TOKEN', payload: token});
     await AsyncStorage.setItem('userToken', token);
     await savedItem.refresh();
+
     // console.log('requerying...');
     const refetchUser = await user.refetch();
     // console.log(refetchUser);
@@ -156,7 +157,7 @@ const Login = () => {
           </View>
           <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
         </View> */}
-        <View style={styles.inputContainer}>
+        {/* <View style={styles.inputContainer}>
           <Input
             value={username}
             onChangeText={setUsername}
@@ -181,7 +182,7 @@ const Login = () => {
             my={10}
             onPress={loginAction}
           />
-        </View>
+        </View> */}
       </View>
     </>
   );

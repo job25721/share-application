@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     borderColor: Colors._gray_900,
     marginVertical: 5,
     fontFamily: Platform.OS === 'ios' ? 'Sukhumvit Set' : 'SukhumvitSet-Medium',
-    borderWidth: 1,
+    borderWidth: 1.5,
     shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
@@ -117,6 +117,6 @@ const styles = StyleSheet.create({
     },
   },
   onFocus: {
-    borderColor: Colors._indigo_400,
+    borderColor: Colors._red_400,
   },
 });

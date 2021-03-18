@@ -4,12 +4,20 @@ export const categories = [
     text: 'เสื้อผ้า',
   },
   {
-    nameIcon: 'chair',
-    text: 'เฟอร์นิเจอร์',
-  },
-  {
     nameIcon: 'book',
     text: 'หนังสือ',
+  },
+  {
+    nameIcon: 'laptop',
+    text: 'ไอที',
+  },
+  {
+    nameIcon: 'home',
+    text: 'ของใช้ในหอพัก',
+  },
+  {
+    nameIcon: 'chair',
+    text: 'เฟอร์นิเจอร์',
   },
   {
     nameIcon: 'pen',
