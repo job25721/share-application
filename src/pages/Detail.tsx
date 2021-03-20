@@ -72,6 +72,13 @@ const Detail: React.FC<Props> = (props) => {
   const [AddNewBookmark] = useMutation(ADD_WISHLIST_ITEM);
   const [RemoveBookmark] = useMutation(REMOVE_WISHLIST_ITEM);
   const [loading, setLoading] = useState<boolean>(false);
+  const [hasRequested, setHasRequetsed] = useState<boolean>(false);
+  useEffect(() => {
+    const requested = mySendRequests.some(
+      (req) => req.item.id === item.id && req.status === 'requested',
+    );
+    setHasRequetsed(requested);
+  }, [mySendRequests, item.id]);
 
   const addToWishlist = async () => {
     try {
@@ -272,14 +279,12 @@ const Detail: React.FC<Props> = (props) => {
             <CustomText fontSize={16}>{item.description}</CustomText>
           </View>
         </ScrollView>
-        {userData &&
-        userData.id !== item.owner.id &&
-        !mySendRequests.some((req) => req.item.id === item.id) ? (
+        {userData && userData.id !== item.owner.id ? (
           <View>
             <Button
-              text="ส่งคำขอ"
-              onPress={() => setModalOpen(true)}
-              bg={PantoneColor.blueDepths}
+              text={!hasRequested ? 'ส่งคำขอ' : 'ส่งคำขอแล้ว'}
+              onPress={!hasRequested ? () => setModalOpen(true) : undefined}
+              bg={!hasRequested ? PantoneColor.blueDepths : '#e6e6e6'}
               color={Colors.white}
             />
           </View>

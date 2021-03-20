@@ -7,12 +7,17 @@ import {ItemChatCard} from './ChatCard';
 
 import {CustomText} from '../custom-components';
 import {View} from 'react-native';
+import {LazyQueryResult} from '@apollo/client';
+import {GetRequestsQueryType} from '../../graphql/query/request';
 
-const ReceivingItemChat: React.FC<{loading: boolean}> = ({loading}) => {
+const ReceivingItemChat: React.FC<{
+  loading: boolean;
+  query: LazyQueryResult<GetRequestsQueryType | undefined, {}>;
+}> = ({loading, query}) => {
   const {mySendRequests} = useSelector((state: RootState) => state.request);
   const currentUser = useSelector((state: RootState) => state.user.userData);
 
-  if (mySendRequests.length === 0 && !loading) {
+  if (mySendRequests.length === 0 && !loading && query && query.data) {
     return (
       <View>
         <CustomText>ไม่มีของที่คุณขอรับ ลองหาของที่คุณอยากได้สิ!</CustomText>

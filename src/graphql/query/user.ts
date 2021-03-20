@@ -34,6 +34,7 @@ export const GET_MY_ITEM = gql`
       images
       tags
       owner {
+        id
         avatar
         info {
           firstName

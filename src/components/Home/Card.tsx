@@ -51,7 +51,9 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
   }, [isSaved]);
 
   useEffect(() => {
-    const hasRequested = mySendRequests.some((req) => req.item.id === item.id);
+    const hasRequested = mySendRequests.some(
+      (req) => req.item.id === item.id && req.status === 'requested',
+    );
     setRequested(hasRequested);
   }, [item.id, mySendRequests]);
 

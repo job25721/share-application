@@ -130,6 +130,7 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         style={styles.container}>
         {activeIndex === 0 ? (
           <ReceivingItemChat
+            query={myReceiveQuery}
             loading={mySendRequestquery?.loading || mySendRequestRefreshing}
           />
         ) : activeIndex === 1 ? (
