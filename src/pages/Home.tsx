@@ -49,6 +49,7 @@ const Home: React.FC<Props> = ({navigation}) => {
   const scrollRef = useRef<ScrollView>(null);
   const [feedItems, setFeedItem] = useState<Item[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [fetching, setFetching] = useState<boolean>(true);
 
   const {data, refetch, error, loading} = useQuery<GetAllItemQueryType>(
     GET_ALL_ITEM,
@@ -63,6 +64,7 @@ const Home: React.FC<Props> = ({navigation}) => {
       }
       if (refetchItem.data) {
         setFeedItem(refetchItem.data.getFeedItems);
+        setFetching(false);
       }
       setRefreshing(false);
     } catch (err) {
@@ -81,12 +83,14 @@ const Home: React.FC<Props> = ({navigation}) => {
             }
             if (refetchData) {
               setFeedItem(refetchData.getFeedItems);
+              setFetching(false);
             }
           } catch (err) {
             console.log(err);
           }
         } else if (data) {
           setFeedItem(data.getFeedItems);
+          setFetching(false);
         }
       };
 
@@ -185,8 +189,9 @@ const Home: React.FC<Props> = ({navigation}) => {
             marginTop: 10,
             paddingHorizontal: 1,
           }}>
-          {data && feedItems.length === 0 && <FetchingSkeletion />}
-          {feedItems.length > 0 ? (
+          {fetching ? (
+            <FetchingSkeletion />
+          ) : !loading && data && data.getFeedItems.length > 0 ? (
             feedItems.map((item) => (
               <Card
                 loading={loading || refreshing}
@@ -198,7 +203,7 @@ const Home: React.FC<Props> = ({navigation}) => {
                 item={item}
               />
             ))
-          ) : !loading && feedItems.length === 0 && !data ? (
+          ) : !loading && data && data.getFeedItems.length === 0 ? (
             <>
               <CustomText fontWeight="bold">
                 ไม่มีของชิ้นใดอยู่ในระบบ
