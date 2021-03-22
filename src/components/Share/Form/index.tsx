@@ -28,7 +28,7 @@ import {FormContext} from '../../../pages/Share';
 import UploadPhoto from './UploadPhoto';
 import TagForm from './Tag/Form';
 import {useSelector} from 'react-redux';
-import {RootState, useDispatch} from '../../../store';
+import {RootState} from '../../../store';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../navigation-types';
@@ -41,7 +41,6 @@ const NewItemForm = () => {
   );
   const [addNewItem] = useMutation<AddItemMutationReturnType>(ADD_NEW_ITEM);
   const [alertMsg, setAlert] = useState<boolean>(false);
-  const storeDispatch = useDispatch();
 
   const navigation = useNavigation<
     StackNavigationProp<RootStackParamList, 'Share'>
@@ -80,7 +79,7 @@ const NewItemForm = () => {
             },
             addNewItem,
             navigation,
-          )(dispatch, storeDispatch);
+          )(dispatch);
         }}
         title="ยืนยันข้อมูล"
         content="ข้อมูลถูกต้องครบถ้วนแล้วใช่หรือไม่"

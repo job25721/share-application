@@ -1,5 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {LazyQueryResult, useLazyQuery} from '@apollo/client';
+import {
+  LazyQueryResult,
+  OperationVariables,
+  useLazyQuery,
+} from '@apollo/client';
 import {useCallback, useEffect, useState} from 'react';
 import {
   GetRequestsQueryType,
@@ -8,7 +12,7 @@ import {
 import {useDispatch} from '../../store';
 
 export const useMySendRquestsQuery = (): [
-  LazyQueryResult<GetRequestsQueryType, {}> | undefined,
+  LazyQueryResult<GetRequestsQueryType, OperationVariables>,
   () => Promise<void>,
   boolean,
 ] => {

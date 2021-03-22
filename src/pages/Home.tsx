@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {
   ScrollView,
@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import {Colors, PantoneColor} from '../utils/Colors';
 import {Button, CustomText} from '../components/custom-components';
-import {RootState, useDispatch} from '../store';
+import {RootState} from '../store';
 import {RouteProp, useFocusEffect} from '@react-navigation/native';
-import {RefreshContext} from '../../App';
+
 import {RootStackParamList} from '../navigation-types';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {categories} from '../utils/category';
@@ -44,16 +44,9 @@ const FetchingSkeletion = () => (
 );
 
 const Home: React.FC<Props> = ({navigation}) => {
-  const dispatch = useDispatch();
-  // const feedItems = useSelector((state: RootState) => state.item.feedItems);
   const savedItems = useSelector((state: RootState) => state.user.mySavedItem);
-
   const [reload, setReload] = useState<boolean>(false);
-
   const scrollRef = useRef<ScrollView>(null);
-
-  // const {feedHome} = useContext(RefreshContext);
-  // const {refresh, refreshing, error} = feedHome;
   const [feedItems, setFeedItem] = useState<Item[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
@@ -64,17 +57,35 @@ const Home: React.FC<Props> = ({navigation}) => {
   const refreshItem = React.useCallback(async () => {
     setRefreshing(true);
     try {
-      await refetch();
+      const refetchItem = await refetch();
+      if (refetchItem.error) {
+        throw refetchItem.error;
+      }
+      if (refetchItem.data) {
+        setFeedItem(refetchItem.data.getFeedItems);
+      }
       setRefreshing(false);
     } catch (err) {
-      throw err;
+      console.log(err);
     }
   }, [refetch]);
 
   useFocusEffect(
     React.useCallback(() => {
       const fetchFeedItem = async () => {
-        if (data) {
+        if (refetch) {
+          try {
+            const {data: refetchData, error: refetchError} = await refetch();
+            if (refetchError) {
+              throw refetchError;
+            }
+            if (refetchData) {
+              setFeedItem(refetchData.getFeedItems);
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        } else if (data) {
           setFeedItem(data.getFeedItems);
         }
       };
@@ -84,7 +95,7 @@ const Home: React.FC<Props> = ({navigation}) => {
       return () => {
         setFeedItem([]);
       };
-    }, [data]),
+    }, [data, refetch]),
   );
 
   async function reloadData() {
@@ -178,6 +189,7 @@ const Home: React.FC<Props> = ({navigation}) => {
           {feedItems.length > 0 ? (
             feedItems.map((item) => (
               <Card
+                loading={loading || refreshing}
                 onRequestClick={(selectedIetm) =>
                   navigation.navigate('RequestItem', {item: selectedIetm})
                 }
