@@ -24,6 +24,7 @@ import {getChatDate, getTime} from '../../utils/getTime';
 import {Badge, Button, CustomText} from '../custom-components';
 import ProgressiveImage from '../custom-components/ProgressiveImage';
 import Feather from 'react-native-vector-icons/Feather';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 export type ChatCardType = 'Person' | 'Item';
 interface ItemChatCardProps {
@@ -31,13 +32,38 @@ interface ItemChatCardProps {
   latestMsg?: {from: string; msg: string};
   request: Request;
   type: ChatCardType;
+  loading: boolean;
 }
+
+export const CardLoading = () => (
+  <View
+    style={[
+      styles.chatListCard,
+      {backgroundColor: '#ffffff', paddingHorizontal: 20, paddingVertical: 30},
+    ]}>
+    <SkeletonPlaceholder>
+      <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
+        <SkeletonPlaceholder.Item width={60} height={60} borderRadius={50} />
+        <SkeletonPlaceholder.Item marginLeft={20}>
+          <SkeletonPlaceholder.Item width={120} height={20} borderRadius={4} />
+          <SkeletonPlaceholder.Item
+            marginTop={6}
+            width={80}
+            height={20}
+            borderRadius={4}
+          />
+        </SkeletonPlaceholder.Item>
+      </SkeletonPlaceholder.Item>
+    </SkeletonPlaceholder>
+  </View>
+);
 
 const ItemChatCard: React.FC<ItemChatCardProps> = ({
   notification = 0,
   latestMsg = {from: '', msg: ''},
   request,
   type,
+  loading = true,
 }) => {
   const {navigate} = useNavigation<StackNavigationProp<ChatStackParamList>>();
   const mainNavigation = useNavigation<
@@ -87,7 +113,9 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
       : requestStatus === 'delivered'
       ? Colors._green_400
       : Colors.black;
-
+  if (loading) {
+    return <CardLoading />;
+  }
   return (
     <TouchableOpacity
       onPress={openChatRoom}
@@ -135,7 +163,8 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
               }
               px={0}
               py={0}>
-              <Image
+              <ProgressiveImage
+                loadingType="rolling"
                 style={[styles.img, {width: 40, height: 40}]}
                 source={{uri: request.item.owner.avatar}}
               />
@@ -152,8 +181,8 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
                 ),
               })
             }>
-            <Image
-              // loadingType="spinner"
+            <ProgressiveImage
+              loadingType="rolling"
               // resizeMode="cover"
               style={styles.img}
               source={{uri: request.item.images[0]}}
@@ -237,6 +266,7 @@ interface ItemChatCardAbstractProps {
   item: Item;
   onPress?: () => void;
   notification: number;
+  loading: boolean;
 }
 
 const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
@@ -244,10 +274,15 @@ const ItemCardAbstract: React.FC<ItemChatCardAbstractProps> = ({
   item,
   onPress,
   notification,
+  loading = true,
 }) => {
   const mainNavigation = useNavigation<
     StackNavigationProp<RootStackParamList>
   >();
+
+  if (loading) {
+    return <CardLoading />;
+  }
   return (
     <TouchableOpacity onPress={onPress} style={styles.chatListCard}>
       {notification > 0 && <Badge height={20} width={20} />}

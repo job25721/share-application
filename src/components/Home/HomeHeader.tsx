@@ -135,7 +135,9 @@ const HomeHeader: React.FC = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    marginBottom: 10,
   },
   chatBadge: {
     width: 20,

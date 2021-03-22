@@ -10,7 +10,7 @@ interface ButtonProps {
   fontSize?: number;
   rounded?: boolean;
   onPress?: any;
-  width?: number;
+  width?: number | string;
   mx?: number;
   my?: number;
   px?: number;

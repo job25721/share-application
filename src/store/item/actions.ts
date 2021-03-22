@@ -6,7 +6,7 @@ import {FormActionTypes} from '../../components/Share/types';
 import storage from '@react-native-firebase/storage';
 import {AddItemMutationReturnType} from '../../graphql/mutation/item';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 export const addItemAction = (
   newItem: Item,
   addItemMutation: MutationFunction<AddItemMutationReturnType>,

@@ -1,40 +1,34 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   CustomText,
   Button,
-  AlertDialog,
   DismissKeyboard,
+  ProgressiveImage,
 } from '../components/custom-components';
-import {
-  View,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  StyleSheet,
-  Platform,
-} from 'react-native';
-import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
+import {View, Image, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
+
 import {Colors, PantoneColor} from '../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {SliderBox} from '../components/react-native-image-slider-box';
 
-import {ShareModal, RequestModal} from '../components/Detail/';
-
-import {CREATE_REQUEST} from '../graphql/mutation/request';
+import {ShareModal} from '../components/Detail/';
 
 import Tag from '../components/Home/Tag';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 
-import {RootStackParamList} from '../../App';
+import {RootStackParamList} from '../navigation-types';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
 import {useMutation} from '@apollo/client';
-import {createRequestAction} from '../store/request/actions';
 import {useDispatch} from '../store';
-import Modal from 'react-native-modalbox';
+
+import {
+  ADD_WISHLIST_ITEM,
+  REMOVE_WISHLIST_ITEM,
+} from '../graphql/mutation/user';
 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
 type DetailScreenNavigationProp = StackNavigationProp<
@@ -49,75 +43,81 @@ type Props = {
 const Detail: React.FC<Props> = (props) => {
   const {navigation, route} = props;
 
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [isAlert, setAlert] = useState<boolean>(false);
   const [shareOpen, setShare] = useState<boolean>(false);
   const userData = useSelector((state: RootState) => state.user.userData);
   const mySendRequests = useSelector(
     (state: RootState) => state.request.mySendRequests,
   );
 
-  const onRequestLoading = useSelector(
-    (state: RootState) => state.request.onRequestLoading,
-  );
   const dispatch = useDispatch();
-  const [createRequest] = useMutation(CREATE_REQUEST);
+
   const {item, wishlist} = route.params;
+  const [saved, setSaved] = useState<boolean>(wishlist);
+
+  const [AddNewBookmark] = useMutation(ADD_WISHLIST_ITEM);
+  const [RemoveBookmark] = useMutation(REMOVE_WISHLIST_ITEM);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [hasRequested, setHasRequetsed] = useState<boolean>(false);
+  useEffect(() => {
+    const requested = mySendRequests.some(
+      (req) =>
+        req.item.id === item.id &&
+        (req.status === 'requested' ||
+          req.status === 'accepted' ||
+          req.status === 'delivered'),
+    );
+    setHasRequetsed(requested);
+  }, [mySendRequests, item.id]);
+
+  const addToWishlist = async () => {
+    try {
+      setLoading(true);
+      const res = await AddNewBookmark({
+        variables: {
+          itemId: item.id,
+        },
+      });
+      if (res.errors) {
+        throw res.errors;
+      }
+      dispatch({type: 'ADD_MY_SAVED_ITEM', payload: item});
+      setSaved(true);
+      setLoading(false);
+    } catch (err) {
+      setSaved(false);
+
+      dispatch({type: 'REMOVE_SAVED_ITEM', payload: item.id});
+      // console.log(err);
+    }
+  };
+
+  const removeWishlist = async () => {
+    try {
+      setLoading(true);
+      const res = await RemoveBookmark({
+        variables: {
+          itemId: item.id,
+        },
+      });
+      if (res.errors) {
+        throw res.errors;
+      }
+      dispatch({type: 'REMOVE_SAVED_ITEM', payload: item.id});
+      setSaved(false);
+
+      setLoading(false);
+    } catch (err) {
+      setSaved(true);
+
+      dispatch({type: 'ADD_MY_SAVED_ITEM', payload: item});
+      // console.log(err);
+    }
+  };
 
   return (
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
         <ShareModal isOpen={shareOpen} onClosed={() => setShare(false)} />
-        <Modal
-          style={{justifyContent: 'center', alignItems: 'center'}}
-          isOpen={onRequestLoading.loading}
-          swipeToClose={false}>
-          <Image
-            source={require('../assets/img/logo.png')}
-            style={{width: 150, height: 150, borderRadius: 100}}
-          />
-          <CustomText textAlign="center">{onRequestLoading.msg}</CustomText>
-          {onRequestLoading.err && (
-            <Button
-              bg={PantoneColor.blueDepths}
-              color={Colors.white}
-              text="ลองใหม่"
-              onPress={() =>
-                dispatch({
-                  type: 'SET_REQUEST_LOADING',
-                  payload: {msg: '', loading: false, err: false},
-                })
-              }
-            />
-          )}
-        </Modal>
-        <AlertDialog
-          open={isAlert}
-          onClosePress={() => {
-            setAlert(false);
-          }}
-          onConfirm={() => {
-            setAlert(false);
-            setModalOpen(false);
-            dispatch({type: 'SET_REQUEST_ITEM_ID', payload: item.id});
-            if (Platform.OS === 'android') {
-              AndroidKeyboardAdjust.setAdjustResize();
-            }
-            createRequestAction(createRequest, navigation)(dispatch);
-          }}
-          title="ยืนยันคำขอ"
-          content="คำขอจะถูกส่งไปหาเจ้าของ และจะทำการสร้างห้องแชทอัตโนมัติ"
-        />
-        <RequestModal
-          name={item.name}
-          isOpen={isModalOpen}
-          onClosePress={() => {
-            setModalOpen(false);
-            dispatch({type: 'CLEAR_REQUEST_DATA'});
-          }}
-          onSubmit={() => setAlert(true)}
-        />
-
         <View style={styles.header}>
           <Button px={0} onPress={() => navigation.goBack()}>
             <View style={styles.backBtnView}>
@@ -142,7 +142,7 @@ const Detail: React.FC<Props> = (props) => {
                 }
                 px={0}
                 py={0}>
-                <Image
+                <ProgressiveImage
                   style={styles.userImg}
                   source={{uri: item.owner.avatar}}
                 />
@@ -156,13 +156,26 @@ const Detail: React.FC<Props> = (props) => {
                 {/* <Button onPress={() => setShare(true)} px={0}>
                   <MaterialCommunityIcons size={30} name="share" />
                 </Button> */}
-                <Button color={Colors.black} px={0}>
-                  {wishlist ? (
-                    <MaterialCommunityIcons size={30} name="bookmark" />
-                  ) : (
-                    <FeatherIcon size={30} name="bookmark" />
-                  )}
-                </Button>
+                {userData && userData.id !== item.owner.id && (
+                  <Button color={Colors.black} px={0}>
+                    {(!saved && !loading && (
+                      <Button px={0} onPress={addToWishlist}>
+                        <FeatherIcon name="bookmark" size={30} />
+                      </Button>
+                    )) ||
+                      (!loading && (
+                        <Button px={0} onPress={removeWishlist}>
+                          <MaterialCommunityIcons name="bookmark" size={31} />
+                        </Button>
+                      ))}
+                    {loading ? (
+                      <Image
+                        style={{width: 60, height: 60}}
+                        source={require('../assets/img/loadingIndicator/ball.gif')}
+                      />
+                    ) : null}
+                  </Button>
+                )}
               </View>
             </View>
 
@@ -179,7 +192,6 @@ const Detail: React.FC<Props> = (props) => {
           </View>
 
           {item.images.length > 0 && item.images[0] !== '' ? (
-            //   <Image source={{uri:route}} />
             <SliderBox
               dotColor={PantoneColor.livingCoral}
               ImageComponentStyle={{
@@ -207,14 +219,16 @@ const Detail: React.FC<Props> = (props) => {
             <CustomText fontSize={16}>{item.description}</CustomText>
           </View>
         </ScrollView>
-        {userData &&
-        userData.id !== item.owner.id &&
-        !mySendRequests.some((req) => req.item.id === item.id) ? (
+        {userData && userData.id !== item.owner.id ? (
           <View>
             <Button
-              text="ส่งคำขอ"
-              onPress={() => setModalOpen(true)}
-              bg={PantoneColor.blueDepths}
+              text={!hasRequested ? 'ส่งคำขอ' : 'ส่งคำขอแล้ว'}
+              onPress={
+                !hasRequested
+                  ? () => navigation.navigate('RequestItem', {item})
+                  : undefined
+              }
+              bg={!hasRequested ? PantoneColor.blueDepths : '#e6e6e6'}
               color={Colors.white}
             />
           </View>

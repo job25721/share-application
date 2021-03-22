@@ -9,6 +9,7 @@ import {
 
 import Carousel, {Pagination} from 'react-native-snap-carousel'; //Thank From distributer(s) of this lib
 import styles from 'react-native-image-slider-box/dist/SliderBox.style';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 // -------------------Props---------------------
 // images
@@ -109,16 +110,16 @@ export class SliderBox extends Component {
           //     alignSelf: 'center',
           //   }}
           // />
-          <Image
-            style={{
-              position: 'absolute',
-              alignSelf: 'center',
-              height: '100%',
+          <SkeletonPlaceholder backgroundColor="#fff">
+            <SkeletonPlaceholder.Item
+              position="absolute"
+              alignSelf="center"
+              height="100%"
               // width: '95%',
-              borderRadius: 20,
-            }}
-            source={require('../../../assets/img/loadingIndicator/loadingMotion.gif')}
-          />
+              borderRadius={20}
+              // source={require('../../../assets/img/loadingIndicator/loadingMotion.gif')}
+            />
+          </SkeletonPlaceholder>
         )}
       </View>
     );

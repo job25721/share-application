@@ -24,6 +24,7 @@ const UploadPhoto: React.FC = () => {
     try {
       const uploaded = await ImageCropPicker.openPicker({
         multiple: true,
+        compressImageQuality: 0.5,
       });
       dispatch({
         type: 'ADD_IMAGE',
@@ -38,6 +39,7 @@ const UploadPhoto: React.FC = () => {
     try {
       const snap = await ImageCropPicker.openCamera({
         cropping: true,
+        compressImageQuality: 0.5,
       });
 
       dispatch({

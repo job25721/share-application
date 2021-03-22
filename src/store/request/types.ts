@@ -7,9 +7,9 @@ const SET_WANTED_RATE = 'SET_WANTED_RATE';
 const SET_REQUEST_ITEM_ID = 'SET_REQUEST_ITEM_ID';
 const CLEAR_REQUEST_DATA = 'CLEAR_REQUEST_DATA';
 export interface OnRequestLoading {
-  loading: boolean;
   err: boolean;
   msg: string;
+  complete: boolean;
 }
 
 export type RequestActionTypes =

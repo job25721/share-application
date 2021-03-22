@@ -2,7 +2,7 @@
 import React, {useContext, useState} from 'react';
 
 import {View, Image, StyleSheet, Alert} from 'react-native';
-import {Button, CustomText, AlertDialog} from '../custom-components';
+import {Button, CustomText, AlertDialog, Input} from '../custom-components';
 import {Colors, PantoneColor} from '../../utils/Colors';
 
 import {useNavigation} from '@react-navigation/native';
@@ -15,11 +15,12 @@ import {RefreshContext, RootStackParamList} from '../../../App';
 import {useDispatch} from '../../store';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import {useMySendRquestsQuery} from '../custom-hooks-graphql/MySendRequests';
 
 const Login = () => {
   const {navigate}: StackNavigationProp<RootStackParamList> = useNavigation();
-
-  const [username, setUsername] = useState<string>('chinawat');
+  const [q, refetch] = useMySendRquestsQuery();
+  const [username, setUsername] = useState<string>('dummy');
   const [password, setPassword] = useState<string>('1234');
   const [loading, setLoading] = useState<boolean>(false);
   const [login] = useMutation<
@@ -36,6 +37,7 @@ const Login = () => {
     dispatch({type: 'SET_TOKEN', payload: token});
     await AsyncStorage.setItem('userToken', token);
     await savedItem.refresh();
+    await refetch();
 
     // console.log('requerying...');
     const refetchUser = await user.refetch();
@@ -144,7 +146,7 @@ const Login = () => {
             <CustomText color={Colors.white}>ล็อกอินผ่าน Facebook</CustomText>
           </View>
         </Button>
-        {/* <View
+        <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -156,8 +158,8 @@ const Login = () => {
             <CustomText textAlign="center">OR</CustomText>
           </View>
           <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        </View> */}
-        {/* <View style={styles.inputContainer}>
+        </View>
+        <View style={styles.inputContainer}>
           <Input
             value={username}
             onChangeText={setUsername}
@@ -182,7 +184,7 @@ const Login = () => {
             my={10}
             onPress={loginAction}
           />
-        </View> */}
+        </View>
       </View>
     </>
   );

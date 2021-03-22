@@ -6,8 +6,10 @@ import {Colors} from '../../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 import {User} from '../../store/user/types';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 interface ProfileImageProps {
   user: User;
@@ -16,6 +18,7 @@ interface ProfileImageProps {
 
 const ProfileImage: React.FC<ProfileImageProps> = ({user, visitor}) => {
   const {navigate}: StackNavigationProp<RootStackParamList> = useNavigation();
+  const {userData} = useSelector((state: RootState) => state.user);
   return (
     <View
       style={{
@@ -51,11 +54,13 @@ const ProfileImage: React.FC<ProfileImageProps> = ({user, visitor}) => {
         )}
       </View>
       <View style={{justifyContent: 'center'}}>
-        <CustomText>
-          {user.info.firstName} {user.info.lastName}
+        <CustomText>{user.info.firstName}</CustomText>
+        <CustomText>{user.info.lastName}</CustomText>
+        <CustomText fontSize={16} color="#C7C7C7">
+          {visitor ? user.email?.split('@')[0] : userData?.email?.split('@')[0]}
         </CustomText>
         <CustomText fontSize={16} color="#C7C7C7">
-          {user.username ? `@${user.username}` : user.email}
+          {visitor ? user.email?.split('@')[1] : userData?.email?.split('@')[1]}
         </CustomText>
       </View>
     </View>
