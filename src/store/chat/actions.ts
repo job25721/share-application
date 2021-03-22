@@ -11,7 +11,7 @@ import {ReuquestMutationReturnType} from '../../graphql/mutation/request';
 import {NewDirectMessage} from '../../graphql/subcription/chat';
 import {getChatDate, getTime} from '../../utils/getTime';
 import {Request} from '../request/types';
-import {Chat, ChatMessageDisplay, SendMessage} from './types';
+import {Chat, SendMessage} from './types';
 
 export interface UpdateRequestPayload {
   requestId: string;
