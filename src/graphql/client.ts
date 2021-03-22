@@ -22,11 +22,11 @@ const apiLink = {
 };
 
 const httpLink = new HttpLink({
-  uri: `http://${apiLink.dev}/graphql`,
+  uri: `http://${apiLink.online}/graphql`,
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${apiLink.dev}/graphql`,
+  uri: `ws://${apiLink.online}/graphql`,
   options: {
     reconnect: true,
   },
@@ -54,19 +54,7 @@ const networkLink = split(
   httpLink,
 );
 
-const cache: ApolloCache<NormalizedCacheObject> = new InMemoryCache({
-  typePolicies: {
-    Agenda: {
-      fields: {
-        tasks: {
-          merge(existing = [], incoming) {
-            return [...existing, ...incoming];
-          },
-        },
-      },
-    },
-  },
-});
+const cache: ApolloCache<NormalizedCacheObject> = new InMemoryCache();
 
 const client = new ApolloClient({
   link: concat(authMiddleware, networkLink),

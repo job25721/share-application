@@ -91,8 +91,8 @@ const Profile: React.FC<Props> = ({navigation, route}) => {
       LoginManager.logOut();
       await AsyncStorage.removeItem('userToken');
       await AsyncStorage.removeItem('userInfo');
-      await client.cache.reset();
       await refresh();
+      // await client.cache.reset();
       navigation.navigate('Tab', {screen: 'Home'});
     } catch (err) {
       Alert.alert(err.message);

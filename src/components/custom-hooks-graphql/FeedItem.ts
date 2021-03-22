@@ -13,14 +13,13 @@ export const useFeedQuery = (): [
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  useEffect(() => {
-    console.log(query.data);
-
-    if (query.data?.getFeedItems) {
-      console.log('feed query');
-      dispatch({type: 'SET_FEED_ITEMS', payload: query.data.getFeedItems});
-    }
-  }, [query.data]);
+  // useEffect(() => {
+  //   if (query.data) {
+  //     console.log('feed query');
+  //     dispatch({type: 'SET_FEED_ITEMS', payload: query.data.getFeedItems});
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [query.data]);
 
   const refetch = useCallback(async () => {
     if (query.refetch) {
