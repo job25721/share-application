@@ -11,7 +11,8 @@ import {useMutation, useQuery} from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GET_MY_INFO, MyInfoQueryType} from '../../graphql/query/user';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RefreshContext, RootStackParamList} from '../../../App';
+import {RefreshContext} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 import {useDispatch} from '../../store';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
@@ -19,7 +20,7 @@ import {useMySendRquestsQuery} from '../custom-hooks-graphql/MySendRequests';
 
 const Login = () => {
   const {navigate}: StackNavigationProp<RootStackParamList> = useNavigation();
-  const [q, refetch] = useMySendRquestsQuery();
+  const [, refetch] = useMySendRquestsQuery();
   const [username, setUsername] = useState<string>('dummy');
   const [password, setPassword] = useState<string>('1234');
   const [loading, setLoading] = useState<boolean>(false);
