@@ -124,6 +124,7 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
           />
         ) : activeIndex === 1 ? (
           <SendingItemChat
+            query={myReceiveQuery}
             loading={myReceiveQuery?.loading || myReceiveRefreshing}
           />
         ) : null}

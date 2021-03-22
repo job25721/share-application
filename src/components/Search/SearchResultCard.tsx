@@ -4,7 +4,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
-import {RootStackParamList} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 import {RootState} from '../../store';
 import {Item} from '../../store/item/types';
 

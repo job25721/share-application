@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import {useMutation} from '@apollo/client';
 import Slider from '@react-native-community/slider';
-import {RouteProp, useNavigation} from '@react-navigation/core';
+import {RouteProp, useFocusEffect, useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackParamList} from '../../navigation-types';
@@ -41,14 +41,19 @@ const RequestItem: React.FC<Props> = ({route}) => {
   const [wantedRate, setWantedrate] = useState<number>(1);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      AndroidKeyboardAdjust.setAdjustNothing();
-      return () => {
-        AndroidKeyboardAdjust.setAdjustResize();
-      };
-    }
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (Platform.OS === 'android') {
+        console.log('mounted');
+        AndroidKeyboardAdjust.setAdjustNothing();
+        return () => {
+          console.log('unmounted');
+
+          AndroidKeyboardAdjust.setAdjustResize();
+        };
+      }
+    }, []),
+  );
 
   return (
     <>

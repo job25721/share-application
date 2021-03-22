@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   KeyboardAvoidingView,
   SafeAreaView,
@@ -9,17 +9,19 @@ import {
   Platform,
   View,
   Image,
-  Alert,
 } from 'react-native';
 
 import {ChatBubble, Form} from '../../components/Chat';
 import {Colors} from '../../utils/Colors';
-import {CustomText, Button} from '../../components/custom-components';
+import {
+  CustomText,
+  Button,
+  AlertDialog,
+} from '../../components/custom-components';
 
 import Feather from 'react-native-vector-icons/Feather';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useFocusEffect} from '@react-navigation/native';
 import {ChatStackParamList} from '../../navigation-types';
-import {RefreshContext} from '../../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
 import {RootState, useDispatch} from '../../store';
@@ -60,10 +62,6 @@ type Props = {
   navigation: ChatRoomScreenNavigationProp;
 };
 
-interface ModalContextType {
-  setAlert: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 const ChatRoom: React.FC<Props> = ({navigation, route}) => {
   const {type} = route.params;
 
@@ -93,8 +91,18 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
     {updateChatToReadAll: Chat},
     {chatRoomid: string}
   >(READ_CHAT);
+
+  const [completeDelivered, setCompleteDelivered] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const {feedHome} = useContext(RefreshContext);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        dispatch({type: 'SET_MESSAGE', payload: []});
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
 
   useEffect(() => {
     if (newDirectMessage && newDirectMessage.to === currentUser?.id) {
@@ -158,6 +166,13 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={chatStyles.container}>
+        <AlertDialog
+          title="กระบวนการ SHARE เสร็จสิ้น"
+          content={'ห้องแชทได้ถูกปิดแล้ว\nขอบพระคุณที่ใช้บริการของเรา'}
+          open={completeDelivered}
+          hasCancel={false}
+          onConfirm={() => setCompleteDelivered(false)}
+        />
         <Modal
           isOpen={loadingAction}
           position="center"
@@ -184,7 +199,6 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
                 type,
               )(dispatch);
               setChat(updatedChat);
-              await feedHome.refresh();
             }}
             onReject={async () => {
               setAlert(false);
@@ -212,11 +226,8 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
                 acceptDelivered,
                 type,
               )(dispatch);
+              setCompleteDelivered(true);
               setChat(updatedChat);
-              Alert.alert(
-                'กระบวนการ SHARE เสร็จสิ้น',
-                'ห้องแชทได้ถูกปิดแล้ว ขอบพระคุณที่ใช้บริการของเรา',
-              );
             }}
             title="ยืนยันการรับ"
             content="ท่านได้รับของที่ท่านร้องของเรียบร้อยแล้ว ?"

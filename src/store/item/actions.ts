@@ -1,6 +1,5 @@
 import {Dispatch} from 'react';
 import {Item} from './types';
-import {StoreEvent} from '../';
 import {MutationFunction} from '@apollo/client';
 import {FormActionTypes} from '../../components/Share/types';
 import storage from '@react-native-firebase/storage';
@@ -11,10 +10,7 @@ export const addItemAction = (
   newItem: Item,
   addItemMutation: MutationFunction<AddItemMutationReturnType>,
   navigation: StackNavigationProp<RootStackParamList, 'Share'>,
-) => async (
-  formDispatch: Dispatch<FormActionTypes>,
-  dispatch: Dispatch<StoreEvent>,
-) => {
+) => async (formDispatch: Dispatch<FormActionTypes>) => {
   const {name, description, category, images, tags, owner} = newItem;
   if (owner) {
     try {
@@ -47,7 +43,6 @@ export const addItemAction = (
         throw errors;
       }
       if (data?.addNewItem) {
-        dispatch({type: 'ADD_ITEM', payload: data.addNewItem});
         navigation.navigate('Tab', {screen: 'Home'});
       }
     } catch (err) {

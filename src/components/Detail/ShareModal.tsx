@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import Modal from 'react-native-modalbox';
 import {Button, CustomText} from '../custom-components';

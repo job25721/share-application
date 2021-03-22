@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import {Button, CustomText, ProgressiveImage} from '../custom-components';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -10,7 +10,7 @@ import {Colors, PantoneColor} from '../../utils/Colors';
 import {useSelector} from 'react-redux';
 import {RootState, useDispatch} from '../../store';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const HomeHeader: React.FC = () => {
@@ -120,14 +120,24 @@ const HomeHeader: React.FC = () => {
   return (
     <View style={[styles.headerContainer, {justifyContent: 'flex-end'}]}>
       <Button
-        text="Login"
         bg={PantoneColor.livingCoral}
-        color={Colors.white}
-        px={20}
+        rounded
+        px={15}
+        py={10}
         onPress={() => {
           navigation.navigate('Auth');
-        }}
-      />
+        }}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <CustomText color={Colors.white} spacing={2}>
+            Login
+          </CustomText>
+          <FeatherIcon
+            color={Colors.white}
+            size={Math.floor(Dimensions.get('screen').width * 0.05)}
+            name="log-in"
+          />
+        </View>
+      </Button>
     </View>
   );
 };

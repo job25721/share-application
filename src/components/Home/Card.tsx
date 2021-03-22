@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 
 import Tag from './Tag';
@@ -22,7 +22,6 @@ import {RootState, useDispatch} from '../../store';
 import {useSelector} from 'react-redux';
 import {SliderBox} from '../react-native-image-slider-box';
 import {Colors, PantoneColor} from '../../utils/Colors';
-import {RefreshContext} from '../../../App';
 import {RootStackParamList} from '../../navigation-types';
 import {StackNavigationProp} from '@react-navigation/stack';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
@@ -31,6 +30,7 @@ interface CardProps {
   item: Item;
   isSaved: boolean;
   onRequestClick?: (item: Item) => void;
+  loading: boolean;
 }
 
 const HomeCardLoading = () => (
@@ -47,7 +47,12 @@ const HomeCardLoading = () => (
     </SkeletonPlaceholder>
   </View>
 );
-export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
+export const Card: React.FC<CardProps> = ({
+  item,
+  isSaved,
+  onRequestClick,
+  loading: itemLoading,
+}) => {
   const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.userData);
@@ -55,7 +60,6 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
     (state: RootState) => state.request.mySendRequests,
   );
 
-  const {feedHome} = useContext(RefreshContext);
   const [AddNewBookmark] = useMutation(ADD_WISHLIST_ITEM);
   const [RemoveBookmark] = useMutation(REMOVE_WISHLIST_ITEM);
   const [saved, setSaved] = useState<boolean>(false);
@@ -115,7 +119,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
 
   const {name, owner, tags, images, category, createdDate} = item;
 
-  if (feedHome.itemLoading || feedHome.refreshing) {
+  if (itemLoading) {
     return <HomeCardLoading />;
   }
 
