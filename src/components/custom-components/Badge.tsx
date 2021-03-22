@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {CustomText} from '.';
+
 import {Colors} from '../../utils/Colors';
+import {CustomText} from './Text';
 
 interface Props {
   noti?: number;

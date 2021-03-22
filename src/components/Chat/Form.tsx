@@ -1,17 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {Platform, StyleSheet, TextInput, View} from 'react-native';
 import {Button} from '../custom-components';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {Colors} from '../../utils/Colors';
-import {ModalContext} from '../../pages/Chat/ChatRoom';
+// import {ModalContext} from '../../pages/Chat/ChatRoom';
 
 const ChatForm: React.FC<{
   hasAcceptBtn: boolean;
   onSendMessage: (msg: string) => void;
-}> = ({hasAcceptBtn, onSendMessage}) => {
+  setAlert: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({hasAcceptBtn, onSendMessage, setAlert}) => {
   const [msg, setMsg] = useState<string>('');
-  const {setAlert} = useContext(ModalContext);
+  // const {setAlert} = useContext(ModalContext);
 
   return (
     <View

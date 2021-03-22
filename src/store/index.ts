@@ -30,6 +30,11 @@ export type StoreEvent =
 export const useDispatch = () => {
   const dispatch = _useDispatch();
   return (event: StoreEvent) => {
+    // if (event.type === 'SET_REQUEST_LOADING') {
+    //   console.log('dispatching...');
+    //   console.log(event.payload);
+    // }
+
     dispatch(event);
   };
 };

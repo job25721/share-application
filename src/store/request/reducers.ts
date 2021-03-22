@@ -8,10 +8,11 @@ const initialState: RequestState = {
   reason: '',
   wantedRate: 1,
   requestItemId: '',
+
   onRequestLoading: {
     msg: '',
-    loading: false,
     err: false,
+    complete: false,
   },
   mySendRequests: [],
   myReceiveRequests: [],

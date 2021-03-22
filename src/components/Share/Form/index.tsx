@@ -13,8 +13,8 @@ import {Button, Input, CustomText, AlertDialog} from '../../custom-components';
 
 import {Colors, PantoneColor} from '../../../utils/Colors';
 
-import {Picker, iOSPicker} from '../';
-
+import Picker from '../TypePicker/';
+import iOSPickerInput from '../TypePicker/IOS/TypePickerInput';
 import Modal from 'react-native-modalbox';
 import {useMutation} from '@apollo/client';
 import {
@@ -31,8 +31,8 @@ import {useSelector} from 'react-redux';
 import {RootState, useDispatch} from '../../../store';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../../../App';
-
+import {RootStackParamList} from '../../../navigation-types';
+const iOSPicker = {iOSPickerInput};
 const NewItemForm = () => {
   const {state, dispatch} = useContext(FormContext);
   const {itemName, selectedType, description, images, tags} = state;

@@ -123,14 +123,15 @@ const RequestModal: React.FC<RequestModalProps> = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '85%',
-    height: '55%',
-    borderRadius: 20,
+    width: '100%',
+    height: '100%',
+    // borderRadius: 20,
+    justifyContent: 'center',
     padding: 20,
   },
   form: {
     marginVertical: 10,
-    flex: 1,
+    // flex: 1,
   },
   submitBtnView: {
     flexDirection: 'row',

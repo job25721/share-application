@@ -5,7 +5,7 @@ import {Button, CustomText, AlertDialog} from '../components/custom-components';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {Colors} from '../utils/Colors';
 import {RouteProp} from '@react-navigation/native';
-import {RootStackParamList} from '../../App';
+import {RootStackParamList} from '../navigation-types';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import {iOSPicker, Form} from '../components/Share';

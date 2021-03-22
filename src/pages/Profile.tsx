@@ -19,7 +19,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {RouteProp} from '@react-navigation/native';
 
-import {RefreshContext, RootStackParamList} from '../../App';
+import {RefreshContext} from '../../App';
+import {RootStackParamList} from '../navigation-types';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootState, useDispatch} from '../store';
 import {useSelector} from 'react-redux';

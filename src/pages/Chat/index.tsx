@@ -9,16 +9,11 @@ import {
 } from 'react-native';
 
 import {Colors, PantoneColor} from '../../utils/Colors';
-import {
-  CustomText,
-  Button,
-  AlertDialog,
-  Badge,
-} from '../../components/custom-components';
+import {CustomText, Button, Badge} from '../../components/custom-components';
 
 import Feather from 'react-native-vector-icons/Feather';
 import {RouteProp} from '@react-navigation/native';
-import {ChatStackParamList} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ReceivingItemChat, SendingItemChat} from '../../components/Chat';
 
@@ -29,11 +24,8 @@ import PersonModal from './PersonModal';
 import {useMySendRquestsQuery} from '../../components/custom-hooks-graphql/MySendRequests';
 import {useMyReceivingRequestsQuery} from '../../components/custom-hooks-graphql/MyReceivingRequests';
 
-type ChatIndexScreenRouteProp = RouteProp<ChatStackParamList, 'Index'>;
-type ChatIndexScreenNavigationProp = StackNavigationProp<
-  ChatStackParamList,
-  'Index'
->;
+type ChatIndexScreenRouteProp = RouteProp<RootStackParamList, 'Chat'>;
+type ChatIndexScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
 type Props = {
   route: ChatIndexScreenRouteProp;
@@ -82,7 +74,7 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         <AlertDialog title="กรุณารอสักครู่..." disabledBtn open={true} />
       ) : null} */}
       <View style={styles.header}>
-        <Button onPress={() => navigation.goBack()}>
+        <Button onPress={() => navigation.navigate('Tab', {screen: 'Home'})}>
           <Feather name="arrow-left" size={30} />
         </Button>
 
@@ -130,7 +122,7 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
         style={styles.container}>
         {activeIndex === 0 ? (
           <ReceivingItemChat
-            query={myReceiveQuery}
+            query={mySendRequestquery}
             loading={mySendRequestquery?.loading || mySendRequestRefreshing}
           />
         ) : activeIndex === 1 ? (

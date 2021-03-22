@@ -12,12 +12,12 @@ import {GetRequestsQueryType} from '../../graphql/query/request';
 
 const ReceivingItemChat: React.FC<{
   loading: boolean;
-  query: LazyQueryResult<GetRequestsQueryType | undefined, {}>;
+  query: LazyQueryResult<GetRequestsQueryType, {}> | undefined;
 }> = ({loading, query}) => {
   const {mySendRequests} = useSelector((state: RootState) => state.request);
   const currentUser = useSelector((state: RootState) => state.user.userData);
 
-  if (mySendRequests.length === 0 && !loading && query && query.data) {
+  if (!loading && mySendRequests.length === 0) {
     return (
       <View>
         <CustomText>ไม่มีของที่คุณขอรับ ลองหาของที่คุณอยากได้สิ!</CustomText>

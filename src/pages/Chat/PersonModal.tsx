@@ -7,7 +7,7 @@ import {CustomText, Button} from '../../components/custom-components';
 import Feather from 'react-native-vector-icons/Feather';
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ChatStackParamList} from '../../../App';
+import {ChatStackParamList} from '../../navigation-types';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 

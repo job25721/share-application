@@ -24,13 +24,28 @@ import {SliderBox} from '../react-native-image-slider-box';
 import {Colors, PantoneColor} from '../../utils/Colors';
 import {RefreshContext, RootStackParamList} from '../../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
-
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+const {Item: PItem} = SkeletonPlaceholder;
 interface CardProps {
   item: Item;
   isSaved: boolean;
   onRequestClick?: (item: Item) => void;
 }
 
+const HomeCardLoading = () => (
+  <View style={[cardStyles.card, {height: 375}]}>
+    <SkeletonPlaceholder>
+      <PItem padding={20} flexDirection="row">
+        <PItem width={45} height={45} borderRadius={50} />
+        <PItem paddingHorizontal={10} width="100%">
+          <PItem width="60%" height={20} />
+          <PItem marginTop={6} width="50%" height={20} />
+        </PItem>
+      </PItem>
+      <PItem borderRadius={20} height={300} width="100%" />
+    </SkeletonPlaceholder>
+  </View>
+);
 export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
   const {navigate} = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
@@ -98,39 +113,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
   const {name, owner, tags, images, category, createdDate} = item;
 
   if (feedHome.itemLoading || feedHome.refreshing) {
-    return (
-      <View
-        style={[
-          cardStyles.card,
-          {backgroundColor: '#e6e6e6', height: 350, alignItems: 'center'},
-        ]}>
-        <View style={cardStyles.userInfo}>
-          <View style={[cardStyles.userImg, {backgroundColor: '#cccccc'}]} />
-
-          <View style={{marginLeft: 10, height: 30, width: '80%'}}>
-            {/* <CustomText fontSize={17} fontWeight="500">
-              {owner.info.firstName} {owner.info.lastName}
-            </CustomText> */}
-            <View
-              style={{
-                backgroundColor: '#cccccc',
-                height: 15,
-                marginBottom: 5,
-              }}
-            />
-            <View style={{backgroundColor: '#cccccc', height: 15}} />
-          </View>
-        </View>
-        <View
-          style={{
-            backgroundColor: '#cccccc',
-            height: '60%',
-            width: '90%',
-            borderRadius: 20,
-          }}
-        />
-      </View>
-    );
+    return <HomeCardLoading />;
   }
 
   return (

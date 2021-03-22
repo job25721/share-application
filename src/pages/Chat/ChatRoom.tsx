@@ -1,11 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   KeyboardAvoidingView,
   SafeAreaView,
@@ -24,7 +18,8 @@ import {CustomText, Button} from '../../components/custom-components';
 
 import Feather from 'react-native-vector-icons/Feather';
 import {RouteProp} from '@react-navigation/native';
-import {ChatStackParamList, RefreshContext} from '../../../App';
+import {ChatStackParamList} from '../../navigation-types';
+import {RefreshContext} from '../../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
 import {RootState, useDispatch} from '../../store';
@@ -69,9 +64,6 @@ interface ModalContextType {
   setAlert: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ModalContext = createContext<ModalContextType>({
-  setAlert: () => null,
-});
 const ChatRoom: React.FC<Props> = ({navigation, route}) => {
   const {type} = route.params;
 
@@ -277,38 +269,36 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
               <ChatBubble chatData={data} key={i.toString()} />
             ))}
           </ScrollView>
-          <ModalContext.Provider value={{setAlert}}>
-            {chat.active ? (
-              <Form
-                onSendMessage={(message) =>
-                  SendMessageAction(
-                    sendMessage,
-                    {
-                      chatRoomId: chat.id,
-                      messagePayload: {
-                        from: currentUser ? currentUser.id : '',
-                        to: chatWith.id,
-                        message,
-                        timestamp: new Date(),
-                      },
+
+          {chat.active ? (
+            <Form
+              setAlert={setAlert}
+              onSendMessage={(message) =>
+                SendMessageAction(
+                  sendMessage,
+                  {
+                    chatRoomId: chat.id,
+                    messagePayload: {
+                      from: currentUser ? currentUser.id : '',
+                      to: chatWith.id,
+                      message,
+                      timestamp: new Date(),
                     },
-                    {
-                      requestId: id,
-                      itemId: type === 'Item' ? undefined : item.id,
-                    },
-                  )(dispatch)
-                }
-                hasAcceptBtn={
-                  (status === 'requested' &&
-                    currentUser?.id === item.owner.id) ||
-                  (status === 'accepted' &&
-                    currentUser?.id === requestPerson.id)
-                    ? true
-                    : false
-                }
-              />
-            ) : null}
-          </ModalContext.Provider>
+                  },
+                  {
+                    requestId: id,
+                    itemId: type === 'Item' ? undefined : item.id,
+                  },
+                )(dispatch)
+              }
+              hasAcceptBtn={
+                (status === 'requested' && currentUser?.id === item.owner.id) ||
+                (status === 'accepted' && currentUser?.id === requestPerson.id)
+                  ? true
+                  : false
+              }
+            />
+          ) : null}
         </SafeAreaView>
       </KeyboardAvoidingView>
     );

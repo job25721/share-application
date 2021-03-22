@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {createContext, useEffect} from 'react';
-import {NavigationContainer, ParamListBase} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import 'react-native-gesture-handler';
@@ -9,52 +9,28 @@ import store, {useDispatch} from './src/store';
 
 import {ApolloError, ApolloProvider} from '@apollo/client';
 import client from './src/graphql/client';
-import {Item} from './src/store/item/types';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import {User} from './src/store/user/types';
 
 import 'react-native-gesture-handler';
 
 import {useFeedQuery} from './src/components/custom-hooks-graphql/FeedItem';
 import {useMySavedItemQuery} from './src/components/custom-hooks-graphql/MySavedItem';
 
-import TabScreen, {TabParamList} from './src/pages';
+import TabScreen from './src/pages';
 import Auth from './src/pages/Auth';
 import Share from './src/pages/Share';
 import Detail from './src/pages/Detail';
 import Profile from './src/pages/Profile';
 import ChatIndex, {ChatRoom, PersonModal} from './src/pages/Chat';
-import {ChatCardType} from './src/components/Chat/ChatCard';
 import {useChatSubscription} from './src/components/custom-hooks-graphql/ChatSucscription';
 import {useMySendRquestsQuery} from './src/components/custom-hooks-graphql/MySendRequests';
 import {useMyReceivingRequestsQuery} from './src/components/custom-hooks-graphql/MyReceivingRequests';
 import {useRequestSubscription} from './src/components/custom-hooks-graphql/RequestSubscription';
+import RequestItem from './src/pages/RequestItem';
+import RequestLoading from './src/pages/RequestItem/Loading';
 
 const RootStack = createStackNavigator();
-
-interface ISubNavigator<T extends ParamListBase, K extends keyof T> {
-  screen: K;
-  params?: T[K];
-}
-
-type ChatNestedNavigation =
-  | ISubNavigator<ChatStackParamList, 'Index'>
-  | ISubNavigator<ChatStackParamList, 'Person'>;
-
-type TabNestedNavigation =
-  | ISubNavigator<TabParamList, 'Home'>
-  | ISubNavigator<TabParamList, 'Search'>;
-
-export type RootStackParamList = {
-  Tab: TabNestedNavigation;
-  Auth: undefined;
-  Profile: {userInfo: User; visitor: boolean};
-  Detail: {item: Item; wishlist: boolean};
-  Share: undefined;
-  Chat: ChatNestedNavigation;
-};
 
 const App: React.FC = () => {
   return (
@@ -173,6 +149,16 @@ const RootStackScreen: React.FC = () => {
           options={{headerShown: false}}
         />
         <RootStack.Screen
+          name="RequestItem"
+          options={{headerShown: false}}
+          component={RequestItem}
+        />
+        <RootStack.Screen
+          name="RequestLoading"
+          component={RequestLoading}
+          options={{headerShown: false}}
+        />
+        <RootStack.Screen
           name="Share"
           component={Share}
           options={{headerShown: false}}
@@ -193,12 +179,6 @@ const RootStackScreen: React.FC = () => {
 };
 
 const ChatStack = createStackNavigator();
-
-export type ChatStackParamList = {
-  Index: undefined;
-  Person: {itemId: string; itemName: string};
-  ChatRoom: {type: ChatCardType};
-};
 
 const ChatStackScreen: React.FC = () => (
   <ChatStack.Navigator mode="card">

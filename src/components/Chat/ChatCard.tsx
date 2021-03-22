@@ -24,6 +24,7 @@ import {getChatDate, getTime} from '../../utils/getTime';
 import {Badge, Button, CustomText} from '../custom-components';
 import ProgressiveImage from '../custom-components/ProgressiveImage';
 import Feather from 'react-native-vector-icons/Feather';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 export type ChatCardType = 'Person' | 'Item';
 interface ItemChatCardProps {
@@ -36,25 +37,24 @@ interface ItemChatCardProps {
 
 export const CardLoading = () => (
   <View
-    style={[styles.chatListCard, {height: 140, backgroundColor: '#e6e6e6'}]}>
-    <View
-      // loadingType="spinner"
-      // resizeMode="cover"
-      style={[styles.img, {backgroundColor: '#cccccc'}]}
-    />
-    <View style={styles.contentView}>
-      {[80, 70, 75].map((w, id) => (
-        <View
-          key={id}
-          style={{
-            backgroundColor: '#cccccc',
-            width: w + '%',
-            height: 15,
-            marginBottom: 5,
-          }}
-        />
-      ))}
-    </View>
+    style={[
+      styles.chatListCard,
+      {backgroundColor: '#ffffff', paddingHorizontal: 20, paddingVertical: 30},
+    ]}>
+    <SkeletonPlaceholder>
+      <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
+        <SkeletonPlaceholder.Item width={60} height={60} borderRadius={50} />
+        <SkeletonPlaceholder.Item marginLeft={20}>
+          <SkeletonPlaceholder.Item width={120} height={20} borderRadius={4} />
+          <SkeletonPlaceholder.Item
+            marginTop={6}
+            width={80}
+            height={20}
+            borderRadius={4}
+          />
+        </SkeletonPlaceholder.Item>
+      </SkeletonPlaceholder.Item>
+    </SkeletonPlaceholder>
   </View>
 );
 

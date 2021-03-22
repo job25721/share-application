@@ -5,6 +5,7 @@ import {
   Button,
   AlertDialog,
   DismissKeyboard,
+  ProgressiveImage,
 } from '../components/custom-components';
 import {
   View,
@@ -129,7 +130,7 @@ const Detail: React.FC<Props> = (props) => {
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
         <ShareModal isOpen={shareOpen} onClosed={() => setShare(false)} />
-        <Modal
+        {/* <Modal
           style={{justifyContent: 'center', alignItems: 'center'}}
           isOpen={onRequestLoading.loading}
           swipeToClose={false}>
@@ -151,8 +152,8 @@ const Detail: React.FC<Props> = (props) => {
               }
             />
           )}
-        </Modal>
-        <AlertDialog
+        </Modal> */}
+        {/* <AlertDialog
           open={isAlert}
           onClosePress={() => {
             setAlert(false);
@@ -168,8 +169,8 @@ const Detail: React.FC<Props> = (props) => {
           }}
           title="ยืนยันคำขอ"
           content="คำขอจะถูกส่งไปหาเจ้าของ และจะทำการสร้างห้องแชทอัตโนมัติ"
-        />
-        <RequestModal
+        /> */}
+        {/* <RequestModal
           name={item.name}
           isOpen={isModalOpen}
           onClosePress={() => {
@@ -177,7 +178,7 @@ const Detail: React.FC<Props> = (props) => {
             dispatch({type: 'CLEAR_REQUEST_DATA'});
           }}
           onSubmit={() => setAlert(true)}
-        />
+        /> */}
 
         <View style={styles.header}>
           <Button px={0} onPress={() => navigation.goBack()}>
@@ -203,7 +204,7 @@ const Detail: React.FC<Props> = (props) => {
                 }
                 px={0}
                 py={0}>
-                <Image
+                <ProgressiveImage
                   style={styles.userImg}
                   source={{uri: item.owner.avatar}}
                 />

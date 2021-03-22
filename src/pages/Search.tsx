@@ -24,7 +24,7 @@ import {RootState, useDispatch} from '../store';
 import {useQuery} from '@apollo/client';
 import {GET_TREANDING_TAG, TrendingTagQueryResult} from '../graphql/query/item';
 import {RouteProp} from '@react-navigation/native';
-import {TabParamList} from '.';
+import {TabParamList} from './index';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 
 type SearchScreenRouteProp = RouteProp<TabParamList, 'Search'>;
