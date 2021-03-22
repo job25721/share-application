@@ -1,7 +1,7 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import {RootStackParamList} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 import {Item} from '../../store/item/types';
 import {Colors} from '../../utils/Colors';
 import {CardLoading} from '../Chat/ChatCard';

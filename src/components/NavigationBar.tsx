@@ -19,7 +19,9 @@ const NavigationBar: React.FC<BottomTabBarProps> = ({
   descriptors,
   navigation,
 }) => {
-  const {token: storeToken} = useSelector((state: RootState) => state.user);
+  const {token: storeToken} = useSelector(
+    (reduxState: RootState) => reduxState.user,
+  );
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const routeName = state.routeNames[state.index];
 

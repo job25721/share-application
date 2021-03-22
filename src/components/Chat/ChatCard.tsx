@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {View, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {useSelector} from 'react-redux';
-import {ChatStackParamList, RootStackParamList} from '../../../App';
+import {ChatStackParamList, RootStackParamList} from '../../navigation-types';
 import {READ_CHAT} from '../../graphql/mutation/chat';
 import {RootState, useDispatch} from '../../store';
 import {readChatAction} from '../../store/chat/actions';
@@ -132,11 +132,6 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
           : null,
       ]}>
       {type === 'Person' ? (
-        // <ProgressiveImage
-        //   loadingType="rolling"
-        //   style={styles.img}
-        //   source={{uri: request.requestPerson.avatar}}
-        // />
         <Button
           onPress={() =>
             mainNavigation.navigate('Profile', {
@@ -164,7 +159,6 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
               px={0}
               py={0}>
               <ProgressiveImage
-                loadingType="rolling"
                 style={[styles.img, {width: 40, height: 40}]}
                 source={{uri: request.item.owner.avatar}}
               />
@@ -182,8 +176,6 @@ const ItemChatCard: React.FC<ItemChatCardProps> = ({
               })
             }>
             <ProgressiveImage
-              loadingType="rolling"
-              // resizeMode="cover"
               style={styles.img}
               source={{uri: request.item.images[0]}}
             />

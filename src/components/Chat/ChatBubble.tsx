@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, View, Platform, TouchableOpacity} from 'react-native';
 import {Colors, PantoneColor} from '../../utils/Colors';

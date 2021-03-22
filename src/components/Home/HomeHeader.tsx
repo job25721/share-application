@@ -10,7 +10,7 @@ import {Colors, PantoneColor} from '../../utils/Colors';
 import {useSelector} from 'react-redux';
 import {RootState, useDispatch} from '../../store';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const HomeHeader: React.FC = () => {
