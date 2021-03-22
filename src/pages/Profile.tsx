@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   ScrollView,
@@ -19,12 +19,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {RouteProp} from '@react-navigation/native';
 
-import {RefreshContext} from '../../App';
 import {RootStackParamList} from '../navigation-types';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootState, useDispatch} from '../store';
 import {useSelector} from 'react-redux';
-import client from '../graphql/client';
 
 import {useMyItemQuery} from '../components/custom-hooks-graphql/MyItem';
 import {useMyReceivedItemQuery} from '../components/custom-hooks-graphql/MyReceivedItem';
@@ -70,8 +68,6 @@ type Props = {
 const Profile: React.FC<Props> = ({navigation, route}) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(1);
-  const {feedHome} = useContext(RefreshContext);
-  const {refresh} = feedHome;
 
   const [myItemQuery, myItemRefetch, myItemRefreshing] = useMyItemQuery();
   const [
@@ -91,8 +87,6 @@ const Profile: React.FC<Props> = ({navigation, route}) => {
       LoginManager.logOut();
       await AsyncStorage.removeItem('userToken');
       await AsyncStorage.removeItem('userInfo');
-      await refresh();
-      // await client.cache.reset();
       navigation.navigate('Tab', {screen: 'Home'});
     } catch (err) {
       Alert.alert(err.message);

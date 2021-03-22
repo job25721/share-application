@@ -22,11 +22,11 @@ const apiLink = {
 };
 
 const httpLink = new HttpLink({
-  uri: `http://${apiLink.online}/graphql`,
+  uri: `http://${apiLink.dev}/graphql`,
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${apiLink.online}/graphql`,
+  uri: `ws://${apiLink.dev}/graphql`,
   options: {
     reconnect: true,
   },

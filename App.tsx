@@ -14,7 +14,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import 'react-native-gesture-handler';
 
-import {useFeedQuery} from './src/components/custom-hooks-graphql/FeedItem';
 import {useMySavedItemQuery} from './src/components/custom-hooks-graphql/MySavedItem';
 
 import TabScreen from './src/pages';
@@ -58,17 +57,10 @@ interface SavedItemRefresh {
 }
 
 type RefreshContext = {
-  feedHome: FeedRefresh;
   savedItem: SavedItemRefresh;
 };
 
 export const RefreshContext = createContext<RefreshContext>({
-  feedHome: {
-    refresh: () => undefined,
-    refreshing: false,
-    itemLoading: false,
-    error: undefined,
-  },
   savedItem: {
     refresh: () => undefined,
     refreshing: false,
@@ -109,8 +101,6 @@ const RootStackScreen: React.FC = () => {
   useMyReceivingRequestsQuery();
   useMySendRquestsQuery();
 
-  const [feedQuery, refetchItem, feedRefreshing] = useFeedQuery();
-
   const [
     savedItemQuery,
     refetchSavedItem,
@@ -120,12 +110,6 @@ const RootStackScreen: React.FC = () => {
   return (
     <RefreshContext.Provider
       value={{
-        feedHome: {
-          refresh: refetchItem,
-          refreshing: feedRefreshing,
-          itemLoading: feedQuery?.loading,
-          error: feedQuery?.error,
-        },
         savedItem: {
           refresh: refetchSavedItem,
           refreshing: savedItemRefreshing,
