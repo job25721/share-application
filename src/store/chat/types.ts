@@ -61,7 +61,7 @@ export type ChatActionTypes =
   | {type: 'SET_CHAT_WITH'; payload: User | null}
   | {type: 'SET_CURRENT_PROCESS_REQUEST'; payload: Request | null}
   | {type: 'SET_LOADING_ACTION'; payload: boolean}
-  | {type: 'SET_NEW_DIRECT'; payload: NewDirectMessage}
+  | {type: 'SET_NEW_DIRECT'; payload: NewDirectMessage | undefined}
   | {type: 'SET_CHAT_NOTIFICATION'; payload: number}
   | {type: 'ADD_CHAT_NOTIFICATION'}
   | {type: 'SET_REQUEST_NOTIFY'; payload: RequestUpdatedNotify | undefined};
