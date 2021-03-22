@@ -22,7 +22,8 @@ import {RootState, useDispatch} from '../../store';
 import {useSelector} from 'react-redux';
 import {SliderBox} from '../react-native-image-slider-box';
 import {Colors, PantoneColor} from '../../utils/Colors';
-import {RefreshContext, RootStackParamList} from '../../../App';
+import {RefreshContext} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 import {StackNavigationProp} from '@react-navigation/stack';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 const {Item: PItem} = SkeletonPlaceholder;
@@ -67,7 +68,11 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
 
   useEffect(() => {
     const hasRequested = mySendRequests.some(
-      (req) => req.item.id === item.id && req.status === 'requested',
+      (req) =>
+        req.item.id === item.id &&
+        (req.status === 'requested' ||
+          req.status === 'accepted' ||
+          req.status === 'delivered'),
     );
     setRequested(hasRequested);
   }, [item.id, mySendRequests]);
@@ -87,7 +92,6 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
       setLoading(false);
     } catch (err) {
       dispatch({type: 'REMOVE_SAVED_ITEM', payload: item.id});
-      // console.log(err);
     }
   };
 
@@ -106,7 +110,6 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
       setLoading(false);
     } catch (err) {
       dispatch({type: 'ADD_MY_SAVED_ITEM', payload: item});
-      // console.log(err);
     }
   };
 
@@ -154,14 +157,7 @@ export const Card: React.FC<CardProps> = ({item, isSaved, onRequestClick}) => {
                     alignItems: 'center',
                     justifyContent: 'flex-end',
                     flex: 1,
-                    // position: 'absolute',
-                    // right: 0,
-                    // top: 10,
                   }}>
-                  {/* <CustomText>
-                    {(!saved && !loading && 'Wishlist') ||
-                      (!loading && 'บันทึกแล้ว')}
-                  </CustomText> */}
                   {(!saved && !loading && (
                     <Button px={0} onPress={addToWishlist}>
                       <FeatherIcon name="bookmark" size={30} />
@@ -253,9 +249,6 @@ export const cardStyles = StyleSheet.create({
   },
   img: {
     width: '100%',
-    // height: 300,
-    // borderTopLeftRadius: 15,
-    // borderTopRightRadius: 15,
   },
   userImg: {
     width: 45,
@@ -270,8 +263,6 @@ export const cardStyles = StyleSheet.create({
   content: {
     paddingHorizontal: 15,
     paddingVertical: 10,
-    // height: '55%',
-    // justifyContent: 'space-evenly',
   },
   tagContainer: {
     flexDirection: 'row',

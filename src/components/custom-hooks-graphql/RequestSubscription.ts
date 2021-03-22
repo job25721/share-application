@@ -24,7 +24,6 @@ export const useRequestSubscription = () => {
       newRequest.data &&
       newRequest.data.newRequest.item.owner.id === currentUser?.id
     ) {
-      // console.log('in new');
       dispatch({
         type: 'ADD_MY_RECEIVE_REQUETS',
         payload: newRequest.data.newRequest,

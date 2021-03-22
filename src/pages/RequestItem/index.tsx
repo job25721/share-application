@@ -3,10 +3,9 @@ import {useMutation} from '@apollo/client';
 import Slider from '@react-native-community/slider';
 import {RouteProp, useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useState} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useSelector} from 'react-redux';
 import {RootStackParamList} from '../../navigation-types';
 import {
   AlertDialog,
@@ -17,9 +16,10 @@ import {
   ProgressiveImage,
 } from '../../components/custom-components';
 import {CREATE_REQUEST} from '../../graphql/mutation/request';
-import {RootState, useDispatch} from '../../store';
+import {useDispatch} from '../../store';
 import {createRequestAction} from '../../store/request/actions';
 import {Colors, PantoneColor} from '../../utils/Colors';
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 
 type RequestScreenRouteProp = RouteProp<RootStackParamList, 'RequestItem'>;
 type RequestScreenNavigationProp = StackNavigationProp<
@@ -35,18 +35,25 @@ type Props = {
 const RequestItem: React.FC<Props> = ({route}) => {
   const {item} = route.params;
   const [isAlert, setAlert] = useState<boolean>(false);
-  const {onRequestLoading} = useSelector((state: RootState) => state.request);
   const dispatch = useDispatch();
   const [createRequest] = useMutation(CREATE_REQUEST);
   const [reason, setReason] = useState<string>('');
   const [wantedRate, setWantedrate] = useState<number>(1);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      AndroidKeyboardAdjust.setAdjustNothing();
+      return () => {
+        AndroidKeyboardAdjust.setAdjustResize();
+      };
+    }
+  }, []);
+
   return (
     <>
       <AlertDialog
         open={isAlert}
-        // open={true}
         onClosePress={() => {
           setAlert(false);
         }}
@@ -94,10 +101,7 @@ const RequestItem: React.FC<Props> = ({route}) => {
               height={250}
               placeholder="กรอกเหตุผล..."
               value={reason}
-              onChangeText={(value: string) =>
-                // dispatch({type: 'SET_REASON', payload: value})
-                setReason(value)
-              }
+              onChangeText={(value: string) => setReason(value)}
               multiline
               backgroundColor={Colors.white}
             />
@@ -118,7 +122,6 @@ const RequestItem: React.FC<Props> = ({route}) => {
                   value={wantedRate}
                   style={{width: '90%'}}
                   onValueChange={(value: number) => {
-                    // dispatch({type: 'SET_WANTED_RATE', payload: value});
                     setWantedrate(value);
                   }}
                 />
@@ -138,17 +141,7 @@ const RequestItem: React.FC<Props> = ({route}) => {
               color={Colors.white}
               width="50%"
               text="ส่งคำขอ"
-              onPress={() => setAlert(true)}
-              // onPress={() =>
-              //   dispatch({
-              //     type: 'SET_REQUEST_LOADING',
-              //     payload: {
-              //       ...onRequestLoading,
-              //       loading: true,
-              //       msg: 'tests222',
-              //     },
-              //   })
-              // }
+              onPress={reason !== '' ? () => setAlert(true) : undefined}
             />
             <Button
               bg={PantoneColor.blueDepths}

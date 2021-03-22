@@ -6,7 +6,7 @@ import {Colors} from '../../utils/Colors';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../../App';
+import {RootStackParamList} from '../../navigation-types';
 import {User} from '../../store/user/types';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
@@ -60,9 +60,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({user, visitor}) => {
           {visitor ? user.email?.split('@')[0] : userData?.email?.split('@')[0]}
         </CustomText>
         <CustomText fontSize={16} color="#C7C7C7">
-          {visitor
-            ? '@' + user.email?.split('@')[1]
-            : '@' + userData?.email?.split('@')[1]}
+          {visitor ? user.email?.split('@')[1] : userData?.email?.split('@')[1]}
         </CustomText>
       </View>
     </View>

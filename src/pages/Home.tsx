@@ -65,8 +65,7 @@ const Home: React.FC<Props> = ({navigation}) => {
               onPress={reloadData}
             />
           </>
-        ) : // <AlertDialog title="กำลังโหลด..." disabledBtn open={reload} />
-        null}
+        ) : null}
       </SafeAreaView>
     );
   }

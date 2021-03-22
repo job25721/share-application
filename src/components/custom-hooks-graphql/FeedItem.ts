@@ -1,33 +1,26 @@
-import {LazyQueryResult, useLazyQuery} from '@apollo/client';
+import {QueryResult, useQuery} from '@apollo/client';
 import {useCallback, useEffect, useState} from 'react';
 import {GetAllItemQueryType, GET_ALL_ITEM} from '../../graphql/query/item';
 import {useDispatch} from '../../store';
 
 export const useFeedQuery = (): [
-  LazyQueryResult<GetAllItemQueryType, {}> | undefined,
+  QueryResult<GetAllItemQueryType, {}> | undefined,
   () => Promise<void>,
   boolean,
 ] => {
   const dispatch = useDispatch();
-  const [loadItem, query] = useLazyQuery<GetAllItemQueryType>(GET_ALL_ITEM, {
-    fetchPolicy: 'network-only',
-  });
+  const query = useQuery<GetAllItemQueryType>(GET_ALL_ITEM);
+
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
-    loadItem();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    console.log(query.data);
 
-  useEffect(() => {
-    if (query.data) {
-      // console.log('query feed item');
-      dispatch({
-        type: 'SET_FEED_ITEMS',
-        payload: query.data.getFeedItems,
-      });
+    if (query.data?.getFeedItems) {
+      console.log('feed query');
+      dispatch({type: 'SET_FEED_ITEMS', payload: query.data.getFeedItems});
     }
-  }, [dispatch, query.data]);
+  }, [query.data]);
 
   const refetch = useCallback(async () => {
     if (query.refetch) {

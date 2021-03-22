@@ -70,9 +70,6 @@ const ChatIndex: React.FC<Props> = ({navigation}) => {
 
   return (
     <SafeAreaView style={{backgroundColor: Colors._gray_300, flex: 1}}>
-      {/* {myReceiveQuery?.loading && mySendRequestquery?.loading ? (
-        <AlertDialog title="กรุณารอสักครู่..." disabledBtn open={true} />
-      ) : null} */}
       <View style={styles.header}>
         <Button onPress={() => navigation.navigate('Tab', {screen: 'Home'})}>
           <Feather name="arrow-left" size={30} />

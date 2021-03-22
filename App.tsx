@@ -110,6 +110,7 @@ const RootStackScreen: React.FC = () => {
   useMySendRquestsQuery();
 
   const [feedQuery, refetchItem, feedRefreshing] = useFeedQuery();
+
   const [
     savedItemQuery,
     refetchSavedItem,

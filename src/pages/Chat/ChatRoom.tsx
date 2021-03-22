@@ -80,9 +80,7 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
     loadingAction,
     requestNotify,
   } = useSelector((state: RootState) => state.chat);
-  // const {mySendRequests, myReceiveRequests} = useSelector(
-  //   (state: RootState) => state.request,
-  // );
+
   const {item, status, requestPerson, chat, id} = currentProcessRequest;
 
   const [acceptRequest] = useMutation(ACCEPT_REQUEST);
@@ -112,14 +110,6 @@ const ChatRoom: React.FC<Props> = ({navigation, route}) => {
       (requestNotify.notifyTo === requestPerson.id ||
         requestNotify.notifyTo === item.owner.id)
     ) {
-      // console.log(
-      //   requestNotify.request.chat.data[
-      //     requestNotify.request.chat.data.length - 1
-      //   ].message,
-      // );
-
-      // console.log('set notify');
-
       dispatch({
         type: 'SET_CURRENT_PROCESS_REQUEST',
         payload: requestNotify.request,
